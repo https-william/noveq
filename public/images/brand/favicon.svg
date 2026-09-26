@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" fill="#0A0A0A" rx="4" />
+  <text x="32" y="44" font-family="'Instrument Serif', Georgia, serif" font-size="40" font-weight="400" fill="#FAF8F4" text-anchor="middle">n</text>
+  <line x1="16" y1="52" x2="48" y2="52" stroke="#FAF8F4" stroke-width="1.5" stroke-opacity="0.8" />
+</svg>

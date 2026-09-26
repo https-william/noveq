@@ -1,0 +1,303 @@
+import { Product, Collection } from '@/types/commerce';
+
+export const DROP_001_PRODUCTS: Product[] = [
+  {
+    name: 'The Twist Slide Pam',
+    slug: 'the-cut-slide-pam-black', // Aliased with The Cut to preserve legacy routes while showcasing The Twist
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Oxblood Burnished Calf',
+    colourHex: '#5A2028',
+    stock: 4,
+    material: 'Full-grain Nigerian cowhide with hand-beveled edges, sculptural twist vamp, molded arch support, and durable low-profile outsole.',
+    care: 'Wipe with a soft dry cotton cloth after wear. Apply a light neutral wax conditioner monthly to preserve suppleness. Avoid submersion in water.',
+    dimensions_weight: 'Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.',
+    description: 'A modern take on the classic pam, the Twist blends effortless comfort with a sculptural detail that sets it apart. Minimal, refined and made to move with you.',
+    design_note: '“The Twist” features an organic crossing leather vamp that distributes stride pressure across the natural arch of the foot without pinching.',
+    charm_option: {
+      supported: true,
+      enabledByDefault: false,
+      charmType: 'heart',
+      supportsEngraving: true,
+      maxEngravingLength: 10,
+    },
+    publish_status: 'published',
+    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
+    shipping_notes: 'Ships within 24–48 hours from Lagos. Tracked nationwide delivery arrives in 2–4 business days.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: true, stockCount: 1 },
+      { size: 'EU 40', available: true, stockCount: 1 },
+      { size: 'EU 41', available: false, stockCount: 0 },
+    ],
+    images: [
+      {
+        src: '/images/products/the-twist.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in rich oxblood burnished full-grain leather on stone plinth',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/models/the-twist-model.jpg',
+        alt: 'NOVEQ The Twist Slide Pam on model in sunlit modernist Lagos interior with bone linen trousers',
+        viewType: 'foot',
+      },
+      {
+        src: '/images/products/realstic twist.jpg',
+        alt: 'NOVEQ The Twist Slide Pam top perspective showing contrast white artisan stitching',
+        viewType: 'top',
+      },
+      {
+        src: '/images/brand/packaging.jpg',
+        alt: 'NOVEQ luxury rigid chocolate kraft box presentation with tissue paper and care card',
+        viewType: 'packaging',
+      },
+    ],
+  },
+  {
+    name: 'The Bar Slide Pam',
+    slug: 'the-bar-slide-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Oxblood & Solid Brass',
+    colourHex: '#5A2028',
+    stock: 3,
+    material: 'Rich oxblood vegetable-tanned calfskin, anchored by a solid brushed brass bar accent across the vamp, tempered leather footbed.',
+    care: 'Brush lightly to remove daily dust. Apply natural leather balm every few weeks. Buff brass gently with dry microfiber.',
+    dimensions_weight: 'Weight: ~390g per pair. Sole profile: 10mm uniform comfort base.',
+    description: 'One detail, enough. A contemporary leather slide pam anchored by a solid brass bar accent along the upper vamp for quiet, architectural presence.',
+    design_note: 'Curved brass bar is ergonomically contoured to sit flush against the leather vamp, adding structural stability with zero instep pressure.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'Runs true to size. Built with a contoured instep that allows natural toe splay.',
+    shipping_notes: 'Ships within 24–48 hours from Lagos. Tracked courier with delivery confirmation.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: true, stockCount: 1 },
+      { size: 'EU 40', available: false, stockCount: 0 },
+      { size: 'EU 41', available: false, stockCount: 0 },
+    ],
+    images: [
+      {
+        src: '/images/products/the-bar.jpg',
+        alt: 'NOVEQ The Bar Slide Pam in rich oxblood leather with solid brass bar detail',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/models/the-bar-model.jpg',
+        alt: 'NOVEQ The Bar Slide Pam on model seated on travertine bench in sunlit Lagos courtyard',
+        viewType: 'foot',
+      },
+      {
+        src: '/images/brand/packaging.jpg',
+        alt: 'NOVEQ luxury unboxing suite: chocolate box, care card, shopping bag',
+        viewType: 'packaging',
+      },
+    ],
+  },
+  {
+    name: 'The Double Skin Pam',
+    slug: 'the-double-skin-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Warm Chocolate & Charcoal',
+    colourHex: '#3D281D',
+    stock: 3,
+    material: 'Dual-layered full-grain Nigerian cowhide, debossed cushioned footbed, flexible multi-layer durable sole.',
+    care: 'Gently buff with a soft microfiber cloth. Condition occasionally with wax paste to deepen the natural grain patina.',
+    dimensions_weight: 'Weight: ~385g per pair. 12mm low-profile sole.',
+    description: 'One form, two layers. Layered full-grain leather upper with a subtle second tone peeking through. Understated depth with lasting structure.',
+    design_note: 'The layered upper reinforces the instep against stretch while creating clean architectural shadow lines.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'Standard European sizing. Accommodates medium to wide arches comfortably.',
+    shipping_notes: 'Prepared and inspected individually in Lagos. Tracked nationwide delivery.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: true, stockCount: 1 },
+      { size: 'EU 40', available: true, stockCount: 0 },
+    ],
+    images: [
+      {
+        src: '/images/products/the-double-skin.jpg',
+        alt: 'NOVEQ The Double Skin Pam showing layered leather construction and debossed footbed',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/models/the-doubleskin-model.jpg',
+        alt: 'NOVEQ The Double Skin Pam on model on stone step with dual-layered chocolate strap',
+        viewType: 'foot',
+      },
+      {
+        src: '/images/brand/packaging.jpg',
+        alt: 'NOVEQ presentation packaging with custom branded shopping bag and care card',
+        viewType: 'packaging',
+      },
+    ],
+  },
+  {
+    name: 'The Loop Pam',
+    slug: 'the-loop-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Chocolate Calfskin',
+    colourHex: '#2A1B15',
+    stock: 2,
+    material: 'Supple chocolate brown calfskin, seamless wrapped toe loop, cushioned memory insole, non-slip rubber tread.',
+    care: 'Wipe with damp cloth after wear. Apply neutral conditioner monthly.',
+    dimensions_weight: 'Weight: ~350g per pair. 10mm low profile.',
+    description: 'A familiar form, re-cut. Contemporary toe-loop slide pam designed with restrained geometry and barefoot comfort in mind.',
+    design_note: 'The toe loop is hand-beveled on both inner edges to eliminate friction during full stride.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'True to size. Soft leather toe ring breaks in immediately upon first wear.',
+    shipping_notes: 'Dispatched within 24–48 hours nationwide.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: false, stockCount: 0 },
+      { size: 'EU 40', available: true, stockCount: 1 },
+    ],
+    images: [
+      {
+        src: '/images/products/the-loop.jpg',
+        alt: 'NOVEQ The Loop Pam in rich chocolate leather on dark stone',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/models/the-loop-model.jpg',
+        alt: 'NOVEQ The Loop Pam on model in mid-stride along sunlit Lagos gallery',
+        viewType: 'foot',
+      },
+      {
+        src: '/images/brand/packaging.jpg',
+        alt: 'NOVEQ unboxing suite with rigid box and tissue',
+        viewType: 'packaging',
+      },
+    ],
+  },
+  {
+    name: 'The Pleat Slide Pam',
+    slug: 'the-pleat-slide-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Deep Espresso Pleated',
+    colourHex: '#1F1410',
+    stock: 3,
+    material: 'Hand-ruched full-grain leather upper, modern square-toe sole bed, embossed brand logo.',
+    care: 'Dust gently along the pleats with a soft dry brush. Condition lightly with balm.',
+    dimensions_weight: 'Weight: ~370g per pair. 12mm layered heel.',
+    description: 'Soft form, strong presence. Hand-pleated leather wraps gently across the instep, combining tactile softness with a crisp square-toe outline.',
+    design_note: 'Each pleat is shaped by hand in our Lagos workshop, ensuring unique organic drapery across every individual pair.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'Accommodating fit. The gathered leather expands easily across high insteps.',
+    shipping_notes: 'Ships in 24–48 hours nationwide.',
+    sizes: [
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: true, stockCount: 1 },
+      { size: 'EU 40', available: true, stockCount: 1 },
+    ],
+    images: [
+      {
+        src: '/images/products/the-pleat.jpg',
+        alt: 'NOVEQ The Pleat Slide Pam in hand-ruched deep espresso leather',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/models/the-pleat-model.jpg',
+        alt: 'NOVEQ The Pleat Slide Pam on model seated on walnut chair in Lagos atelier',
+        viewType: 'foot',
+      },
+      {
+        src: '/images/brand/packaging.jpg',
+        alt: 'NOVEQ unboxing presentation',
+        viewType: 'packaging',
+      },
+    ],
+  },
+  {
+    name: 'The Braid Slide Pam',
+    slug: 'the-braid-slide-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Mahogany Woven Calfskin',
+    colourHex: '#4A1C16',
+    stock: 2,
+    material: 'Intricately hand-woven leather strips, beveled square toe, low-profile flex sole.',
+    care: 'Wipe with a soft cotton cloth. Store flat in a dry space away from direct sun.',
+    dimensions_weight: 'Weight: ~380g per pair. 10mm sole profile.',
+    description: 'Woven into the everyday. Multiple interlocking leather strands create a tactile, flexible upper that moves effortlessly with your stride.',
+    design_note: 'Interlocking weave allows continuous natural ventilation while maintaining firm instep hold.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'True to standard size. Woven leather provides gentle give to mirror foot contours.',
+    shipping_notes: 'Prepared and dispatched in 24–48 hours from Lagos.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: false, stockCount: 0 },
+      { size: 'EU 40', available: false, stockCount: 0 },
+    ],
+    images: [
+      {
+        src: '/images/products/the-braid.jpg',
+        alt: 'NOVEQ The Braid Slide Pam showing hand-woven leather craftsmanship on natural stone',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/models/the-braid-model.jpg',
+        alt: 'NOVEQ The Braid Slide Pam on model standing poised by concrete pillar in Lagos atrium',
+        viewType: 'foot',
+      },
+      {
+        src: '/images/brand/packaging.jpg',
+        alt: 'NOVEQ luxury box and unboxing presentation',
+        viewType: 'packaging',
+      },
+    ],
+  },
+];
+
+export const DROP_001_COLLECTION: Collection = {
+  name: 'Drop 001',
+  slug: 'drop-001',
+  title: 'Drop 001 — Women’s Leather Pams',
+  short_intro: 'Drop 001 introduces NOVEQ through a small release of women’s leather pams.',
+  products: DROP_001_PRODUCTS,
+  editorial_copy: 'Our first commercial release is intentionally small: Drop 001 begins with six distinct silhouettes produced by our shoemaker partner in Lagos. Built around everyday movement, refined form, and honest craftsmanship.',
+  publish_date: '2026-09-25',
+  publish_status: 'published',
+};
+
+export function getProductBySlug(slug: string): Product | undefined {
+  return DROP_001_PRODUCTS.find((p) => p.slug === slug);
+}
+
+export function getAllProducts(): Product[] {
+  return DROP_001_PRODUCTS;
+}

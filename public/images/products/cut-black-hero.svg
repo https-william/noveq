@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF8F4" />
+      <stop offset="100%" stop-color="#F4F1EA" />
+    </linearGradient>
+    <radialGradient id="shadowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2A1B15" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#2A1B15" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+
+  <!-- Subtle framing border -->
+  <rect x="24" y="24" width="752" height="552" fill="none" stroke="#5B4033" stroke-width="1" stroke-opacity="0.25" rx="4" />
+
+  <!-- Technical / Editorial Header Marks -->
+  <text x="50" y="65" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" letter-spacing="3" fill="#5B4033" font-weight="600">NOVEQ ATELIER</text>
+  <text x="750" y="65" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" letter-spacing="3" fill="#A99B90" font-weight="500">DROP 001 // HERO</text>
+
+  <!-- Soft Ground Shadow -->
+  <ellipse cx="400" cy="450" rx="260" ry="24" fill="url(#shadowGrad)" />
+
+  <!-- Footwear Silhouette Rendering -->
+  <g transform="translate(400, 310)">
+    <!-- Sole Foundation -->
+    <path d="M-220,95 C-190,92 -100,85 0,85 C100,85 190,92 220,95 C235,97 245,108 240,120 C235,130 220,135 180,135 C-20,135 -140,135 -200,135 C-230,135 -245,128 -240,115 C-235,105 -230,96 -220,95 Z" fill="#2A1B15" />
+    <path d="M-215,92 C-185,90 -95,83 0,83 C95,83 185,90 215,92 C230,94 238,102 235,110 C230,118 215,122 175,122 C-20,122 -140,122 -195,122 C-225,122 -238,116 -235,105 C-232,98 -225,93 -215,92 Z" fill="#F4F1EA" stroke="#5B4033" stroke-width="1.5" stroke-opacity="0.4" />
+
+    <!-- Leather Footbed Insole -->
+    <path d="M-200,80 C-120,74 -20,74 60,76 C130,78 180,84 200,88 C215,91 210,105 180,105 C-40,105 -140,104 -180,104 C-210,104 -215,88 -200,80 Z" fill="#F4F1EA" />
+    <text x="30" y="97" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" letter-spacing="3" fill="#5B4033" font-weight="700" opacity="0.6">noveq</text>
+
+    <!-- Upper Leather Vamp / Pam Strap -->
+    <path d="M-130,85 C-140,20 -110,-40 -20,-75 C50,-100 120,-85 145,-15 C155,25 150,70 140,88 C115,88 75,70 40,65 C-20,55 -90,75 -130,85 Z" fill="#0A0A0A" stroke="#5B4033" stroke-width="1.5" stroke-opacity="0.3" />
+
+    <!-- Leather Grain Highlight / Strap Fold -->
+    <path d="M-115,75 C-125,25 -95,-30 -15,-60 C45,-80 105,-68 125,-10 C135,25 130,62 120,78" fill="none" stroke="#FAF8F4" stroke-width="2.5" stroke-opacity="0.2" />
+
+    <!-- Beveled Edge Stitching Line -->
+    <path d="M-122,80 C-132,22 -102,-35 -18,-68 C48,-92 112,-78 135,-12 C145,26 140,68 130,82" fill="none" stroke="#FAF8F4" stroke-width="1" stroke-dasharray="4,4" stroke-opacity="0.3" />
+
+    
+  </g>
+
+  <!-- Typography & Model Label -->
+  <text x="50" y="520" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" fill="#0A0A0A" font-weight="700">The Cut Slide Pam</text>
+  <text x="50" y="542" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#A99B90" font-weight="400">Ink Black Full-Grain Cowhide</text>
+</svg>

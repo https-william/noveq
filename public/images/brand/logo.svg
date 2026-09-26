@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 80" width="280" height="80">
+  <style>
+    .wordmark {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 38px;
+      letter-spacing: 10px;
+      fill: #FAF8F4;
+      font-weight: 400;
+    }
+    .rule {
+      stroke: #FAF8F4;
+      stroke-width: 1.2;
+      stroke-opacity: 0.85;
+    }
+  </style>
+  <text x="50%" y="46" text-anchor="middle" class="wordmark">noveq</text>
+  <line x1="38" y1="58" x2="238" y2="58" class="rule" />
+</svg>
