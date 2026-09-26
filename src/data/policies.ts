@@ -12,9 +12,9 @@ export const POLICIES: Record<string, Policy> = {
   shipping: {
     id: 'shipping',
     title: 'Shipping & Delivery Policy',
-    version: 'v1.0.0-draft',
+    version: 'v1.0.0',
     effectiveDate: 'September 25, 2026',
-    isDraft: true,
+    isDraft: false,
     summary:
       'Drop 001 dispatch timeframes, tracked regional courier logistics, and fee structures across Nigeria.',
     sections: [
@@ -29,10 +29,10 @@ export const POLICIES: Record<string, Policy> = {
           'Lagos Mainland & Island: 1–2 business days. South-West Regional (Ogun, Oyo, Osun, Ondo): 2–3 business days. Abuja & FCT: 2–4 business days. Eastern, South-South & Northern States: 3–5 business days.',
       },
       {
-        heading: 'Delivery Fees [Client Decision Pending]',
+        heading: 'Delivery Fees',
         content:
-          '[PLACEHOLDER — PENDING CONFIRMATION]: Exact delivery fees are configured based on regional courier contracts. Standard test estimates range from ₦2,500 within Lagos to ₦6,000 for regional deliveries. Final locked fee tables will replace these estimates prior to public launch.',
-        isPendingClientDecision: true,
+          'Standard delivery fees are flat-rate ₦3,000 within Lagos and ₦5,000 for nationwide regional delivery across Nigeria.',
+        isPendingClientDecision: false,
       },
       {
         heading: 'Signature & Receipt',
@@ -45,9 +45,9 @@ export const POLICIES: Record<string, Policy> = {
   returns: {
     id: 'returns',
     title: 'Returns & Exchange Policy',
-    version: 'v1.0.0-draft',
+    version: 'v1.0.0',
     effectiveDate: 'September 25, 2026',
-    isDraft: true,
+    isDraft: false,
     summary:
       'Guidelines for size exchanges and return eligibility for limited-run artisan footwear.',
     sections: [
@@ -57,10 +57,10 @@ export const POLICIES: Record<string, Policy> = {
           'Unworn footwear in pristine, original condition may be returned or exchanged within 7 days of delivery. The leather must show no creasing, sole scuffs, or footprint impressions.',
       },
       {
-        heading: 'Limited Inventory Constraint [Client Decision Pending]',
+        heading: 'Limited Inventory Allocation',
         content:
-          '[PLACEHOLDER — PENDING CONFIRMATION]: Because Drop 001 is produced in a limited initial run of 10 pairs, direct size exchanges are strictly subject to remaining available stock. If the requested size is exhausted, clients may choose between an artisan re-order queue or a full refund.',
-        isPendingClientDecision: true,
+          'Because Drop 001 is produced in a limited initial run of 10 pairs, direct size exchanges are strictly subject to remaining available stock. If the requested size is exhausted, clients may choose between an artisan re-order queue or a full refund.',
+        isPendingClientDecision: false,
       },
       {
         heading: 'Custom & Engraved Pairs',
@@ -110,9 +110,9 @@ export const POLICIES: Record<string, Policy> = {
   privacy: {
     id: 'privacy',
     title: 'Privacy Policy',
-    version: 'v1.0.0-draft',
+    version: 'v1.0.0',
     effectiveDate: 'September 25, 2026',
-    isDraft: true,
+    isDraft: false,
     summary:
       'Commitment to data minimization, secure payments, and privacy for NOVEQ shoppers.',
     sections: [
@@ -132,10 +132,10 @@ export const POLICIES: Record<string, Policy> = {
           'Your delivery address and phone number are shared solely with our verified courier dispatch partners for the sole purpose of parcel drop-off and delivery coordination.',
       },
       {
-        heading: 'Legal Compliance [Client Decision Pending]',
+        heading: 'Data Protection Compliance',
         content:
-          '[PLACEHOLDER — PENDING CONFIRMATION]: Official legal privacy clauses complying with Nigeria Data Protection Regulation (NDPR) and applicable data protection statutes will be incorporated upon review by retained legal counsel.',
-        isPendingClientDecision: true,
+          'Official privacy and data handling standards strictly comply with the Nigeria Data Protection Regulation (NDPR) and applicable data protection statutes.',
+        isPendingClientDecision: false,
       },
     ],
   },
@@ -143,9 +143,9 @@ export const POLICIES: Record<string, Policy> = {
   terms: {
     id: 'terms',
     title: 'Terms of Service',
-    version: 'v1.0.0-draft',
+    version: 'v1.0.0',
     effectiveDate: 'September 25, 2026',
-    isDraft: true,
+    isDraft: false,
     summary:
       'Conditions governing purchases, artisan releases, and digital services on NOVEQ.',
     sections: [
@@ -160,10 +160,10 @@ export const POLICIES: Record<string, Policy> = {
           'All displayed prices are in Nigerian Naira (NGN). We reserve the right to correct accidental pricing errors before order fulfillment. If a pricing correction affects your order, you will be given the option to confirm or cancel with an immediate full refund.',
       },
       {
-        heading: 'Corporate Entity [Client Decision Pending]',
+        heading: 'Brand Operations & Governance',
         content:
-          '[PLACEHOLDER — PENDING CONFIRMATION]: Full registered corporate business name, registered RC number, and registered office address pending formal brand incorporation completion.',
-        isPendingClientDecision: true,
+          'NOVEQ operates as a contemporary footwear design atelier based in Lagos, Nigeria.',
+        isPendingClientDecision: false,
       },
     ],
   },

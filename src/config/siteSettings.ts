@@ -10,26 +10,26 @@ import { DELIVERY_ZONES } from '@/config/deliveryZones';
 
 export const SITE_SETTINGS: SiteSettings = {
   brandName: 'NOVEQ',
-  legalEntityName: '[Legal Entity Name Pending Official RC Confirmation]',
+  legalEntityName: 'NOVEQ',
   slogan: 'Crafted to move.',
   supportingTheme: 'Same purpose. A new perspective.',
   currency: 'NGN',
   currencySymbol: '₦',
 
-  // Support channel abstraction (Update here to change across Contact, PDP, and Order Confirmation)
+  // Support channel abstraction
   supportContact: {
     primaryChannel: 'whatsapp',
-    email: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'concierge@noveq.com',
-    phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || '2348000000000',
-    displayPhone: process.env.NEXT_PUBLIC_SUPPORT_DISPLAY_PHONE || '+234 800 000 0000',
+    email: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'noveqthebrand@gmail.com',
+    phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || '2349038555997',
+    displayPhone: process.env.NEXT_PUBLIC_SUPPORT_DISPLAY_PHONE || '+234 903 855 5997',
     operatingHours: 'Monday – Saturday: 9:00 AM – 6:00 PM WAT',
     conciergePrompt: 'Hello NOVEQ Concierge, I have an inquiry regarding Drop 001 footwear.',
-    isPendingClientConfirmation: true, // Needs decision item from client handoff
+    isPendingClientConfirmation: false,
   },
 
   socialLinks: {
-    instagram: 'https://instagram.com',
-    instagramHandle: '@noveq',
+    instagram: 'https://instagram.com/noveqthebrand',
+    instagramHandle: '@noveqthebrand',
   },
 
   announcement: {
@@ -41,7 +41,7 @@ export const SITE_SETTINGS: SiteSettings = {
   },
 
   seo: {
-    baseUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://noveq.com',
+    baseUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://noveq.com.ng',
     defaultTitle: 'NOVEQ | Contemporary Leather Footwear',
     titleTemplate: '%s | NOVEQ',
     defaultDescription:
@@ -57,26 +57,25 @@ export const SITE_SETTINGS: SiteSettings = {
     ],
   },
 
-  // Asset slot registry & explicit documentation of asset gap
+  // Asset slot registry
   assets: {
     logoSvgPath: '/images/brand/logo.svg',
     logoPngPath: '/images/brand/logo.png',
     faviconPath: '/images/brand/favicon.svg',
-    isMasterLogoSupplied: false, // Flagged per section 20 of handoff
-    isMasterFaviconSupplied: false,
-    assetGapNotice:
-      'Approved master NOVEQ vector SVG/PNG logo files and master favicon have not yet been supplied by brand assets. Structured placeholder slots are configured.',
+    isMasterLogoSupplied: true,
+    isMasterFaviconSupplied: true,
+    assetGapNotice: '',
   },
 
-  // Social proof configuration (honest architecture: NO fake reviews, toggleable press mentions)
+  // Social proof configuration
   socialProof: {
-    instagramHandle: '@noveq',
-    instagramUrl: 'https://instagram.com',
-    pressMentionsEnabled: false, // OFF by default; turns on only when confirmed press links are added
+    instagramHandle: '@noveqthebrand',
+    instagramUrl: 'https://instagram.com/noveqthebrand',
+    pressMentionsEnabled: false, // OFF by default; turns on when press features are confirmed
     pressMentions: [],
-    customerProofEnabled: false, // OFF for launch; activates when verified customer testimonials arrive
+    customerProofEnabled: false, // OFF for launch; activates when verified customer reviews arrive
     customerProofPlaceholderText:
-      'Drop 001 is on its way to its first owners. Tag @noveq to be featured.',
+      'Drop 001 is on its way to its first owners. Tag @noveqthebrand to be featured.',
   },
 
   // Launch sequence & campaign state (Config-driven toggle: 'live' | 'pre-launch' | 'reveal' | 'sold-out')
