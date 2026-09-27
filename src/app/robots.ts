@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/private/', '/api/'],
+      disallow: ['/private/', '/api/', '/admin/', '/admin'],
     },
-    sitemap: 'https://noveq.com/sitemap.xml',
+    sitemap: 'https://noveq.com.ng/sitemap.xml',
   };
 }

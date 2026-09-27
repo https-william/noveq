@@ -3,10 +3,10 @@ import { getAllProducts } from '@/data/products';
 import { getAllPublishedArticles } from '@/data/journal';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://noveq.com';
+  const baseUrl = 'https://noveq.com.ng';
   const currentDate = new Date();
 
-  // Core static routes
+  // Core static routes (admin excluded)
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
