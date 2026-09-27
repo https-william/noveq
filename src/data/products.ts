@@ -40,8 +40,8 @@ export const DROP_001_PRODUCTS: Product[] = [
         viewType: 'hero',
       },
       {
-        src: '/images/models/the-twist-model.jpg',
-        alt: 'NOVEQ The Twist Slide Pam on model in sunlit modernist Lagos interior with bone linen trousers',
+        src: '/images/models/the-cut-feet-on-model.jpg',
+        alt: 'Close-up shot of model feet wearing NOVEQ oxblood leather pam with contrast stitching',
         viewType: 'foot',
       },
       {
