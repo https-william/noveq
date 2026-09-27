@@ -641,7 +641,7 @@ export default function AdminDashboardPage() {
                   <div key={idx} className="flex items-center gap-3 p-3 bg-bone/30 border border-cocoa/15 rounded-xs">
                     <div className="relative w-12 h-12 bg-bone border border-cocoa/20 shrink-0 overflow-hidden">
                       <Image
-                        src={item.product.images[0]}
+                        src={item.product.images[0].src}
                         alt={item.product.name}
                         fill
                         className="object-cover"
@@ -659,7 +659,7 @@ export default function AdminDashboardPage() {
                       )}
                     </div>
                     <div className="font-mono font-bold text-ink-black">
-                      ₦{(item.price * item.quantity).toLocaleString()}
+                      ₦{(item.product.price * item.quantity).toLocaleString()}
                     </div>
                   </div>
                 ))}
