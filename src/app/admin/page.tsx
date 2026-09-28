@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 import { Order } from '@/types/commerce';
 
-const ADMIN_PASSWORD = 'oskpolor';
+const ADMIN_PASSWORD = 'noveqthebrand!';
 
 export default function AdminDashboardPage() {
   // Authentication State
