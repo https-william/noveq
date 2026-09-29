@@ -181,53 +181,25 @@ function HomeClientInner() {
                 )}
                 {campaignState === 'live' && (
                   <>
-                    <span className="font-semibold text-warm-white">DROP 001 NOW LIVE</span>
+                    <span className="font-semibold text-warm-white">DROP 001</span>
                     <span className="w-1 h-1 rounded-full bg-cocoa" />
-                    <span>Lagos Atelier Release</span>
+                    <span>Handcrafted in Nigeria</span>
                   </>
                 )}
               </div>
 
               {/* Editorial Launch Headline */}
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-warm-white leading-[1.08]">
-                {campaignState === 'pre-launch' && (
-                  <>
-                    Ten pairs.{' '}
-                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
-                      Crafted for the everyday stride.
-                    </span>
-                  </>
-                )}
-                {campaignState === 'sold-out' && (
-                  <>
-                    Drop 001 is claimed.{' '}
-                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
-                      Preparing the next sequence.
-                    </span>
-                  </>
-                )}
-                {campaignState === 'reveal' && (
-                  <>
-                    Drop 001.{' '}
-                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
-                      Quiet form, considered detail.
-                    </span>
-                  </>
-                )}
-                {campaignState === 'live' && (
-                  <>
-                    Same purpose.{' '}
-                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
-                      A new perspective.
-                    </span>
-                  </>
-                )}
+              <h1 className="font-rayleigh text-5xl sm:text-7xl lg:text-8xl font-normal tracking-tight text-warm-white leading-[1.02]">
+                {campaignState === 'pre-launch' && 'The first release is almost here.'}
+                {campaignState === 'sold-out' && 'Ten pairs claimed.'}
+                {campaignState === 'reveal' && 'A quiet debut.'}
+                {campaignState === 'live' && 'Crafted to move.'}
               </h1>
 
               {/* Subheading */}
               <p className="text-base sm:text-lg text-muted-taupe-on-dark max-w-xl font-normal leading-relaxed">
                 {campaignState === 'pre-launch' &&
-                  'Drop 001 enters final artisan finishing in Lagos. Ten pairs of contemporary leather footwear, made for everyday movement.'}
+                  'Drop 001 enters final artisan finishing in Nigeria. Ten pairs of contemporary leather footwear, made for everyday movement.'}
                 {campaignState === 'sold-out' &&
                   'All ten pairs of Drop 001 have been allocated. Join the private register to receive priority access to Drop 002 when leather tempering completes.'}
                 {campaignState === 'reveal' &&
@@ -313,9 +285,11 @@ function HomeClientInner() {
 
               {/* Provenance Footer Badges */}
               <div className="pt-4 flex flex-wrap items-center gap-4 text-xs text-muted-taupe-on-dark font-mono">
-                <span>Handmade in Lagos</span>
+                <span>Handcrafted in Nigeria</span>
                 <span>•</span>
-                <span>Full-Grain Nigerian Leather</span>
+                <span>Contemporary Leather Footwear</span>
+                <span>•</span>
+                <span>Full-Grain Leather</span>
                 {campaignState === 'pre-launch' && (
                   <>
                     <span>•</span>
@@ -335,12 +309,13 @@ function HomeClientInner() {
 
             {/* Right Column: Hero Editorial Visual */}
             <div className="lg:col-span-5">
-              <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-2xl group">
+              <div className="relative aspect-[3/4] sm:aspect-[4/3] lg:aspect-[3/4] bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-2xl group">
                 <Image
-                  src="/images/editorial/campaign-model.jpg"
-                  alt="NOVEQ high-fashion editorial campaign — Nigerian model wearing handcrafted leather pams in sunlit Lagos atelier"
+                  src="/images/models/the-twist-model.jpg"
+                  alt="NOVEQ contemporary leather footwear on model — Handcrafted in Nigeria"
                   fill
                   priority
+                  quality={90}
                   loading="eager"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -439,11 +414,11 @@ function HomeClientInner() {
                 01 / Atelier Origin
               </span>
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black leading-tight">
-                Crafted in Lagos. Built for the rhythm of the city.
+                Handcrafted in Nigeria. Built for modern movement.
               </h2>
               <div className="space-y-4 text-xs sm:text-sm text-ink-black/80 leading-relaxed">
                 <p>
-                  Every pair of NOVEQ footwear is built in direct collaboration with our master shoemaker partner in Lagos. We don’t outsource to anonymous industrial production lines across continents.
+                  Every pair of NOVEQ footwear is shaped in direct partnership with master artisans in Nigeria. We reject industrial mass assembly in favor of meticulous benchcraft.
                 </p>
                 <p>
                   We select thick, vegetable-tanned cowhide, shape the asymmetric straps by hand, and temper the sole profile for walking comfort across sun-baked asphalt and polished marble alike.
@@ -454,7 +429,7 @@ function HomeClientInner() {
                   href="/story"
                   className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-cocoa hover:text-ink-black underline underline-offset-4 focus-dark min-h-[44px]"
                 >
-                  <span>Read our full origin narrative</span>
+                  <span>Read our origin story</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -463,71 +438,7 @@ function HomeClientInner() {
         </div>
       </section>
 
-      {/* ── 5. CRAFT SPECIFICATION & MATERIAL PROVENANCE ── */}
-      <ScrollReveal className="py-20 sm:py-28 bg-warm-white border-b border-cocoa/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mb-12">
-            <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
-              02 / Anatomy & Precision
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black leading-tight">
-              Anatomy of Drop 001
-            </h2>
-            <p className="mt-4 text-xs sm:text-sm text-muted-taupe leading-relaxed">
-              Every detail is intentional. We spent six months balancing arch contours, strap width, and hardware tolerances.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-6 bg-bone border border-cocoa/25 rounded-xs space-y-3">
-              <span className="text-xs font-mono text-cocoa uppercase tracking-widest block">
-                01 / UPPER STRAP
-              </span>
-              <h3 className="text-base font-semibold text-ink-black">
-                Full-Grain Nigerian Cowhide
-              </h3>
-              <p className="text-xs text-ink-black/75 leading-relaxed">
-                2.2mm thickness provides natural structure without rigid pinching. Unlined edges are hand-beveled to eliminate blistering during initial break-in.
-              </p>
-              <div className="pt-2 text-[11px] font-mono text-muted-taupe">
-                Origin: Kano / Finished: Lagos
-              </div>
-            </div>
-
-            <div className="p-6 bg-bone border border-cocoa/25 rounded-xs space-y-3">
-              <span className="text-xs font-mono text-cocoa uppercase tracking-widest block">
-                02 / FOOTBED
-              </span>
-              <h3 className="text-base font-semibold text-ink-black">
-                Molded Arch Cushioning
-              </h3>
-              <p className="text-xs text-ink-black/75 leading-relaxed">
-                Tempered high-density latex memory base laminated under supple split-leather lining. Conforms to the natural footprint within five wears.
-              </p>
-              <div className="pt-2 text-[11px] font-mono text-muted-taupe">
-                Profile: 12mm Low Heel Ergonomics
-              </div>
-            </div>
-
-            <div className="p-6 bg-bone border border-cocoa/25 rounded-xs space-y-3">
-              <span className="text-xs font-mono text-cocoa uppercase tracking-widest block">
-                03 / SOLE & HARDWARE
-              </span>
-              <h3 className="text-base font-semibold text-ink-black">
-                Durable Low-Profile Tread
-              </h3>
-              <p className="text-xs text-ink-black/75 leading-relaxed">
-                Ribbed non-marking rubber outsoles anchored with reinforced perimeter stitching. Resists moisture absorption and pavement abrasion.
-              </p>
-              <div className="pt-2 text-[11px] font-mono text-muted-taupe">
-                Hand-Beveled & Saddle-Stitched
-              </div>
-            </div>
-          </div>
-        </div>
-      </ScrollReveal>
-
-      {/* ── 6. EDITORIAL CAMPAIGN SHOWCASE (THE RING & THE WEAVE) ──
+      {/* ── 5. EDITORIAL CAMPAIGN SHOWCASE (THE RING & THE WEAVE) ──
           Featuring authentic feet-on-model editorial photography and campaign posters.
           Straight-Line Persuasion (/wolf): "Sell the reason to want them" — Feature → Benefit → Lifestyle Outcome. */}
       <section className="py-20 sm:py-28 bg-espresso text-warm-white border-b border-cocoa/30">
@@ -606,7 +517,7 @@ function HomeClientInner() {
               {/* Feature → Benefit → Lifestyle Outcome Cards */}
               <div className="space-y-2.5 pt-2">
                 <span className="text-[10px] uppercase tracking-widest text-muted-taupe-on-dark block font-semibold">
-                  Anatomy & Lifestyle Outcome
+                  Considered Design & Daily Fit
                 </span>
                 {currentCampaign.featureOutcome.map((fo, i) => (
                   <div key={i} className="p-3 bg-ink-black/30 border border-cocoa/30 rounded-xs space-y-1">

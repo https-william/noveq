@@ -95,41 +95,35 @@ export default function Footer({
             </InstagramLink>
           </div>
 
-          {/* 3. Legal business details placeholder block (Clearly-marked CMS field) */}
+          {/* 3. Legal business details */}
           <div className="space-y-2">
             <span className="block text-[11px] uppercase tracking-[0.2em] text-warm-white/70">
-              Legal Business Details
+              Provenance & Atelier
             </span>
             {legalBusinessDetails ? (
-              <div className="text-muted-taupe-on-dark leading-relaxed whitespace-pre-line">
+              <div className="text-muted-taupe-on-dark leading-relaxed whitespace-pre-line text-xs">
                 {legalBusinessDetails}
               </div>
             ) : (
-              <div className="p-3 bg-espresso/60 border border-cocoa/30 rounded-xs text-[11px] leading-relaxed text-muted-taupe-on-dark">
-                <span className="font-semibold text-warm-white/80 uppercase tracking-widest block mb-1">
-                  CMS Placeholder // {SITE_SETTINGS.legalEntityName}
-                </span>
-                Pending final verified business registration, tax identification, and corporate address before launch.
-              </div>
+              <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
+                NOVEQ Atelier. Contemporary leather footwear handcrafted in Nigeria. Distributed nationwide with white-glove packaging.
+              </p>
             )}
           </div>
 
-          {/* 4. Payment/delivery note placeholder block (Clearly-marked CMS field) */}
+          {/* 4. Payment & Delivery */}
           <div className="space-y-2">
             <span className="block text-[11px] uppercase tracking-[0.2em] text-warm-white/70">
               Payment & Delivery
             </span>
             {paymentDeliveryNote ? (
-              <div className="text-muted-taupe-on-dark leading-relaxed whitespace-pre-line">
+              <div className="text-muted-taupe-on-dark leading-relaxed whitespace-pre-line text-xs">
                 {paymentDeliveryNote}
               </div>
             ) : (
-              <div className="p-3 bg-espresso/60 border border-cocoa/30 rounded-xs text-[11px] leading-relaxed text-muted-taupe-on-dark">
-                <span className="font-semibold text-warm-white/80 uppercase tracking-widest block mb-1">
-                  Paystack Secured
-                </span>
-                Authoritative 256-bit payment encryption. Tracked nationwide delivery from Lagos within 24–48 hours.
-              </div>
+              <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
+                Paystack 256-bit encrypted checkout. Tracked courier dispatch across all Nigerian states within 24–48 hours.
+              </p>
             )}
           </div>
         </div>

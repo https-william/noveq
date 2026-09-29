@@ -130,28 +130,30 @@ export default function AdminDashboardPage() {
     if (isAuthenticated) {
       fetchAdminData();
 
-      // Listen to Realtime database changes if Supabase tables exist
-      const channel = supabase
-        .channel('admin-live-updates')
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'orders' },
-          () => {
-            fetchAdminData();
-          }
-        )
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'subscribers' },
-          () => {
-            fetchAdminData();
-          }
-        )
-        .subscribe();
+      // Listen to Realtime database changes if Supabase credentials exist
+      if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        const channel = supabase
+          .channel('admin-live-updates')
+          .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'orders' },
+            () => {
+              fetchAdminData();
+            }
+          )
+          .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'subscribers' },
+            () => {
+              fetchAdminData();
+            }
+          )
+          .subscribe();
 
-      return () => {
-        supabase.removeChannel(channel);
-      };
+        return () => {
+          supabase.removeChannel(channel);
+        };
+      }
     }
   }, [isAuthenticated, fetchAdminData]);
 

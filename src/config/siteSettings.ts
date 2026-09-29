@@ -34,8 +34,8 @@ export const SITE_SETTINGS: SiteSettings = {
 
   announcement: {
     enabled: true,
-    text: 'DROP 001 IS LIVE — WOMEN’S LEATHER PAMS IN LIMITED RUN',
-    linkText: 'Discover Drop 001',
+    text: 'DROP 001 IS LIVE — LIMITED RUN OF LEATHER PAMS',
+    linkText: 'Discover',
     linkHref: '/shop',
     dismissible: true,
   },

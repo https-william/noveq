@@ -118,22 +118,22 @@ export function CustomerProofSection({
   // Launch state (Standalone section for Homepage or Community page)
   return (
     <div
-      className={`max-w-2xl mx-auto text-center border border-dashed border-cocoa/30 p-8 sm:p-12 rounded-xs bg-warm-white/70 space-y-4 ${className}`}
+      className={`max-w-2xl mx-auto text-center border border-cocoa/20 p-8 sm:p-12 rounded-xs bg-warm-white/70 space-y-4 ${className}`}
     >
       <div className="w-10 h-10 mx-auto rounded-full bg-bone border border-cocoa/30 flex items-center justify-center text-cocoa">
         <Sparkles className="w-4 h-4" />
       </div>
 
       <span className="text-[11px] uppercase tracking-[0.2em] text-cocoa block font-medium">
-        Honest Launch Architecture
+        Patron Reflections
       </span>
 
       <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-ink-black">
-        Drop 001 is on its way to its first owners.
+        Drop 001 in Daily Movement
       </h3>
 
       <p className="text-xs sm:text-sm text-muted-taupe leading-relaxed max-w-md mx-auto">
-        We refuse to fabricate synthetic reviews, dummy five-star ratings, or artificial press badges. As the first ten pairs reach patrons, verified owner reflections and worn-in photography will be featured here.
+        Share your daily styling with @noveqthebrand on Instagram. Selected patron moments and wear reflections are featured across our seasonal journal.
       </p>
 
       <div className="pt-2">

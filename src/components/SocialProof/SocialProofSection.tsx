@@ -28,8 +28,8 @@ export function SocialProofSection({
         {/* Instagram Strip */}
         {showInstagramStrip && <InstagramStrip />}
 
-        {/* Customer Proof / Launch Invite */}
-        {showCustomerProof && (
+        {/* Customer Proof / Testimonials (active when reviews exist) */}
+        {showCustomerProof && testimonials && testimonials.length > 0 && (
           <CustomerProofSection testimonials={testimonials} />
         )}
 

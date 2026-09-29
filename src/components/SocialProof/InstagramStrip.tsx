@@ -21,21 +21,21 @@ const CURATED_POSTS: InstagramPostItem[] = [
   },
   {
     id: 'post-2',
-    image: '/images/editorial/campaign-model.jpg',
-    alt: 'NOVEQ editorial model wearing Drop 001 leather footwear in architectural Lagos sunlight',
-    caption: 'In movement. Raw unlined edges, quiet geometry, made for the modern silhouette.',
+    image: '/images/models/the-bar-model.jpg',
+    alt: 'NOVEQ The Bar Slide Pam on model in sunlit architectural setting',
+    caption: 'Drop 001: The Bar. Polished brass bar accentuating a refined low-profile sole.',
   },
   {
     id: 'post-3',
     image: '/images/editorial/artisan-workshop.jpg',
-    alt: 'Artisan workbench in Lagos with hand-beveled leather soles and brass calipers',
+    alt: 'Artisan workbench in Nigeria with hand-beveled leather soles and brass calipers',
     caption: 'Workbench notes: hand-beveled 45° edges, vegetal oils, and tempered arch balance.',
   },
   {
     id: 'post-4',
-    image: '/images/brand/customer-dm-praise.png',
-    alt: 'Customer direct message praising NOVEQ website design, ease of navigation, and ordering experience',
-    caption: '“Ur website is very good it was so easy to navigate through.” Organic client reception.',
+    image: '/images/models/the-doubleskin-model.jpg',
+    alt: 'NOVEQ The Double Skin Slide Pam styled with tailored linen on model',
+    caption: 'Drop 001: The Double Skin. Minimalist dual-strap geometry contoured for everyday movement.',
   },
 ];
 
