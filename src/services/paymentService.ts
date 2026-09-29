@@ -111,27 +111,39 @@ export class PaymentService {
             amount: data.data.amount / 100,
             paidAt: data.data.paid_at,
           };
-        } else if (data.data?.status === 'failed') {
+        } else if (data.data?.status === 'abandoned') {
+          return {
+            status: 'cancelled',
+            reference,
+            amount: data.data?.amount ? data.data.amount / 100 : 0,
+            errorMessage: 'Customer did not complete checkout window.',
+          };
+        } else {
           return {
             status: 'failed',
             reference,
-            amount: data.data.amount / 100,
-            errorMessage: data.data.gateway_response || 'Transaction failed.',
+            amount: data.data?.amount ? data.data.amount / 100 : 0,
+            errorMessage: data.data?.gateway_response || data.message || 'Transaction could not be verified.',
           };
         }
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('Paystack verification error:', err);
+        return {
+          status: 'failed',
+          reference,
+          amount: 0,
+          errorMessage: 'Could not connect to Paystack verification endpoint.',
+        };
       }
     }
 
-    // Sandbox Verification logic (for test/preview flow)
-    // The server checks if reference is marked in test simulation
+    // Default fallback if no gateway credentials exist
     return {
-      status: 'success',
+      status: 'failed',
       reference,
       amount: 0,
-      paidAt: new Date().toISOString(),
+      errorMessage: 'No active payment gateway configured.',
     };
   }
 

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import InstagramIcon from '@/components/icons/InstagramIcon';
 import { InstagramLink } from '@/components/Analytics/InstagramLink';
 import { SITE_SETTINGS } from '@/config/siteSettings';
+import { FooterNewsletter } from './FooterNewsletter';
 
 interface FooterProps {
   /** Optional override for legal business block when populated from CMS */
@@ -63,8 +64,19 @@ export default function Footer({
           </nav>
         </div>
 
-        {/* Row 2: Instagram link/icon + CMS Placeholders */}
-        <div className="py-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-xs text-muted-taupe-on-dark border-b border-cocoa/20">
+        {/* Row 2: Community, VIP Register, & CMS Details */}
+        <div className="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-xs text-muted-taupe-on-dark border-b border-cocoa/20">
+          {/* 1. VIP Register / Email Retention */}
+          <div className="space-y-3">
+            <span className="block text-[11px] uppercase tracking-[0.2em] text-warm-white/70">
+              Drop Priority Register
+            </span>
+            <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
+              Receive private reservation links and allocation alerts for upcoming drops.
+            </p>
+            <FooterNewsletter />
+          </div>
+
           {/* 2. Instagram link/icon */}
           <div className="space-y-3">
             <span className="block text-[11px] uppercase tracking-[0.2em] text-warm-white/70">
@@ -114,9 +126,9 @@ export default function Footer({
             ) : (
               <div className="p-3 bg-espresso/60 border border-cocoa/30 rounded-xs text-[11px] leading-relaxed text-muted-taupe-on-dark">
                 <span className="font-semibold text-warm-white/80 uppercase tracking-widest block mb-1">
-                  CMS Placeholder
+                  Paystack Secured
                 </span>
-                Pending payment gateway confirmation and regional shipping dispatch schedule for Drop 001.
+                Authoritative 256-bit payment encryption. Tracked nationwide delivery from Lagos within 24–48 hours.
               </div>
             )}
           </div>

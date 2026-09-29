@@ -97,7 +97,7 @@ export default function StoryPage() {
               Ten pairs. Considered from sole to strap.
             </h2>
             <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
-              Discover The Cut Slide Pam and The Minimalist Pam in small-batch runs. Handmade in Lagos with full-grain leather, delivered in our custom kraft unboxing packaging.
+              Discover Drop 001 in small-batch runs. Handmade in Lagos with full-grain leather, delivered nationwide with tracked dispatch.
             </p>
           </div>
 

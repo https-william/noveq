@@ -3,6 +3,7 @@ import { CartItem, CustomerDetails, Order } from '@/types/commerce';
 import { getProductBySlug } from '@/data/products';
 import { getDeliveryZoneById } from '@/config/deliveryZones';
 import { saveOrder } from '@/lib/orders';
+import { saveSubscriber } from '@/lib/subscribers';
 import { PaymentService } from '@/services/paymentService';
 
 export async function POST(request: Request) {
@@ -92,6 +93,16 @@ export async function POST(request: Request) {
 
     // Save order in authoritative store
     saveOrder(newOrder);
+
+    // Save customer email to subscriber retention database
+    try {
+      saveSubscriber(customer.email, 'checkout', {
+        name: customer.fullName,
+        tags: ['customer', 'drop-001-checkout'],
+      });
+    } catch (subErr) {
+      // Non-blocking for order flow
+    }
 
     return NextResponse.json({
       success: true,

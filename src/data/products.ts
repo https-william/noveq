@@ -2,6 +2,98 @@ import { Product, Collection } from '@/types/commerce';
 
 export const DROP_001_PRODUCTS: Product[] = [
   {
+    name: 'The Ring Slide Pam',
+    slug: 'the-ring-slide-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Warm Tan & Polished Gold',
+    colourHex: '#7C3F1D',
+    stock: 4,
+    material: 'Hand-selected Nigerian calfskin, anchored with a polished solid gold-toned statement ring. Molded ergonomic footbed with hand-beveled edges and durable low-heel sole.',
+    care: 'Wipe with a soft dry cotton cloth after wear. Apply a light neutral wax balm monthly to maintain rich suppleness. Buff hardware gently with dry microfiber.',
+    dimensions_weight: 'Weight: ~375g per pair. Low heel elevation: 12mm heel, 8mm forefoot.',
+    description: 'A clean cut design with a statement ring. Modern, chic, and refined. You know those outfits where the clothes are simple but the footwear completely changes the look? That’s what we designed this for.',
+    design_note: 'Feature → Benefit → Outcome: The contoured gold statement ring anchors the upper strap without instep pressure, giving simple linen or denim an intentional, editorial finish.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
+    shipping_notes: 'Ships within 24–48 hours from Lagos. Tracked nationwide delivery arrives in 2–4 business days.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: true, stockCount: 1 },
+      { size: 'EU 40', available: true, stockCount: 1 },
+      { size: 'EU 41', available: false, stockCount: 0 },
+    ],
+    images: [
+      {
+        src: '/images/models/the-ring-editorial-spec.jpg',
+        alt: 'NOVEQ The Ring Slide Pam on model feet with gold anklet on sunlit stone pavement',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/campaign/the-ring-campaign-poster.png',
+        alt: 'NOVEQ The Ring Campaign Poster — Modern. Chic. Refined.',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-bar.jpg',
+        alt: 'NOVEQ The Ring Slide Pam studio perspective showing clean leather cuts and metallic focal point',
+        viewType: 'top',
+      },
+    ],
+  },
+  {
+    name: 'The Weave Slide Pam',
+    slug: 'the-weave-slide-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 22000,
+    currency: 'NGN',
+    colour: 'Deep Noir Woven Calfskin',
+    colourHex: '#141414',
+    stock: 4,
+    material: 'Interlocking multi-strap braided Nigerian cowhide, beveled square-toe footbed, flexible non-slip low heel sole.',
+    care: 'Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.',
+    dimensions_weight: 'Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.',
+    description: 'Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, elevated look.',
+    design_note: 'Feature → Benefit → Outcome: Handcrafted braided strap architecture flexes naturally with every step, distributing stride pressure across the arch while adding rich tactile dimension to your wardrobe.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'True to standard size. Woven leather provides gentle give to mirror foot contours.',
+    shipping_notes: 'Ships within 24–48 hours from Lagos. Tracked nationwide delivery.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: true, stockCount: 1 },
+      { size: 'EU 40', available: true, stockCount: 1 },
+      { size: 'EU 41', available: false, stockCount: 0 },
+    ],
+    images: [
+      {
+        src: '/images/models/the-weave-editorial-spec.jpg',
+        alt: 'NOVEQ The Weave Slide Pam on model feet on stone pavement',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/campaign/the-weave-campaign-poster.png',
+        alt: 'NOVEQ The Weave Campaign Poster — Now in more colours',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-braid.jpg',
+        alt: 'NOVEQ The Weave Slide Pam handcrafted braided strap detail on natural stone',
+        viewType: 'top',
+      },
+    ],
+  },
+  {
     name: 'The Twist Slide Pam',
     slug: 'the-cut-slide-pam-black', // Aliased with The Cut to preserve legacy routes while showcasing The Twist
     collection: 'Drop 001',
@@ -49,11 +141,6 @@ export const DROP_001_PRODUCTS: Product[] = [
         alt: 'NOVEQ The Twist Slide Pam top perspective showing contrast white artisan stitching',
         viewType: 'top',
       },
-      {
-        src: '/images/brand/packaging.jpg',
-        alt: 'NOVEQ luxury rigid chocolate kraft box presentation with tissue paper and care card',
-        viewType: 'packaging',
-      },
     ],
   },
   {
@@ -94,11 +181,6 @@ export const DROP_001_PRODUCTS: Product[] = [
         src: '/images/models/the-bar-model.jpg',
         alt: 'NOVEQ The Bar Slide Pam on model seated on travertine bench in sunlit Lagos courtyard',
         viewType: 'foot',
-      },
-      {
-        src: '/images/brand/packaging.jpg',
-        alt: 'NOVEQ luxury unboxing suite: chocolate box, care card, shopping bag',
-        viewType: 'packaging',
       },
     ],
   },
@@ -141,9 +223,9 @@ export const DROP_001_PRODUCTS: Product[] = [
         viewType: 'foot',
       },
       {
-        src: '/images/brand/packaging.jpg',
-        alt: 'NOVEQ presentation packaging with custom branded shopping bag and care card',
-        viewType: 'packaging',
+        src: '/images/products/the-double-skin-spec.jpg',
+        alt: 'NOVEQ The Double Skin Pam studio specification perspective',
+        viewType: 'detail',
       },
     ],
   },
@@ -185,11 +267,6 @@ export const DROP_001_PRODUCTS: Product[] = [
         alt: 'NOVEQ The Loop Pam on model in mid-stride along sunlit Lagos gallery',
         viewType: 'foot',
       },
-      {
-        src: '/images/brand/packaging.jpg',
-        alt: 'NOVEQ unboxing suite with rigid box and tissue',
-        viewType: 'packaging',
-      },
     ],
   },
   {
@@ -229,56 +306,6 @@ export const DROP_001_PRODUCTS: Product[] = [
         alt: 'NOVEQ The Pleat Slide Pam on model seated on walnut chair in Lagos atelier',
         viewType: 'foot',
       },
-      {
-        src: '/images/brand/packaging.jpg',
-        alt: 'NOVEQ unboxing presentation',
-        viewType: 'packaging',
-      },
-    ],
-  },
-  {
-    name: 'The Braid Slide Pam',
-    slug: 'the-braid-slide-pam',
-    collection: 'Drop 001',
-    price: 20000,
-    compare_at_price: 22000,
-    currency: 'NGN',
-    colour: 'Mahogany Woven Calfskin',
-    colourHex: '#4A1C16',
-    stock: 2,
-    material: 'Intricately hand-woven leather strips, beveled square toe, low-profile flex sole.',
-    care: 'Wipe with a soft cotton cloth. Store flat in a dry space away from direct sun.',
-    dimensions_weight: 'Weight: ~380g per pair. 10mm sole profile.',
-    description: 'Woven into the everyday. Multiple interlocking leather strands create a tactile, flexible upper that moves effortlessly with your stride.',
-    design_note: 'Interlocking weave allows continuous natural ventilation while maintaining firm instep hold.',
-    charm_option: {
-      supported: false,
-    },
-    publish_status: 'published',
-    fit_notes: 'True to standard size. Woven leather provides gentle give to mirror foot contours.',
-    shipping_notes: 'Prepared and dispatched in 24–48 hours from Lagos.',
-    sizes: [
-      { size: 'EU 37', available: true, stockCount: 1 },
-      { size: 'EU 38', available: true, stockCount: 1 },
-      { size: 'EU 39', available: false, stockCount: 0 },
-      { size: 'EU 40', available: false, stockCount: 0 },
-    ],
-    images: [
-      {
-        src: '/images/products/the-braid.jpg',
-        alt: 'NOVEQ The Braid Slide Pam showing hand-woven leather craftsmanship on natural stone',
-        viewType: 'hero',
-      },
-      {
-        src: '/images/models/the-braid-model.jpg',
-        alt: 'NOVEQ The Braid Slide Pam on model standing poised by concrete pillar in Lagos atrium',
-        viewType: 'foot',
-      },
-      {
-        src: '/images/brand/packaging.jpg',
-        alt: 'NOVEQ luxury box and unboxing presentation',
-        viewType: 'packaging',
-      },
     ],
   },
 ];
@@ -289,12 +316,15 @@ export const DROP_001_COLLECTION: Collection = {
   title: 'Drop 001 — Women’s Leather Pams',
   short_intro: 'Drop 001 introduces NOVEQ through a small release of women’s leather pams.',
   products: DROP_001_PRODUCTS,
-  editorial_copy: 'Our first commercial release is intentionally small: Drop 001 begins with six distinct silhouettes produced by our shoemaker partner in Lagos. Built around everyday movement, refined form, and honest craftsmanship.',
+  editorial_copy: 'Our first commercial release is intentionally small: Drop 001 showcases silhouettes crafted by our shoemaker partner in Lagos. Built around everyday movement, refined form, and honest craftsmanship.',
   publish_date: '2026-09-25',
   publish_status: 'published',
 };
 
 export function getProductBySlug(slug: string): Product | undefined {
+  if (slug === 'the-braid-slide-pam') {
+    return DROP_001_PRODUCTS.find((p) => p.slug === 'the-weave-slide-pam') || DROP_001_PRODUCTS[1];
+  }
   return DROP_001_PRODUCTS.find((p) => p.slug === slug);
 }
 

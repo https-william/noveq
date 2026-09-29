@@ -7,12 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import {
   ArrowRight,
   Check,
-  Box,
   Sparkles,
-  ShieldCheck,
-  Camera,
-  Layers,
-  FileText,
   ChevronLeft,
   ChevronRight,
   Clock,
@@ -27,61 +22,67 @@ import { CampaignState } from '@/types/content';
 import { trackEvent } from '@/lib/analytics';
 
 /**
- * Packaging Artifact Inspection Definitions
- * Sequential unboxing layers: Kraft Box → Archival Tissue → Care Card → Shopping Bag
+ * Editorial Campaign Highlights
+ * Highlighting The Ring and The Weave with outcome-driven persuasion (/wolf & /clarity)
  */
-const PACKAGING_LAYERS = [
+const CAMPAIGN_HIGHLIGHTS = [
   {
-    id: 'box',
-    stepNumber: '01',
-    name: 'Slim Kraft Box',
-    shortRole: 'Sturdy brown board',
-    material: '450gsm unbleached natural kraft board',
-    dimensions: '330mm × 210mm × 105mm',
-    description:
-      'Rigid construction engineered specifically for slip-in footwear. Debossed with the lowercase noveq wordmark on the lid. Sized slim to eliminate excess volume while keeping the slides flat and structured in transit.',
-    tactileNote: 'Raw paper grain texture, zero chemical gloss, fully biodegradable.',
-    badge: 'Primary Shell',
-    icon: Box,
+    id: 'the-ring',
+    name: 'The Ring Slide Pam',
+    eyebrow: 'Modern. Chic. Refined.',
+    tagline: 'Simple details. Bigger impact.',
+    slug: 'the-ring-slide-pam',
+    posterImage: '/images/campaign/the-ring-campaign-poster.png',
+    editorialImage: '/images/models/the-ring-editorial-spec.jpg',
+    hook: '“You know those outfits where the clothes are simple but the footwear completely changes the look? That’s what we designed this for.”',
+    featureOutcome: [
+      {
+        feature: 'Contoured Gold Statement Ring',
+        benefit: 'Distinctive focal anchor with zero instep pressure',
+        outcome: 'Elevates casual denim or neutral linens into a fashion-forward ensemble.',
+      },
+      {
+        feature: 'Tempered 12mm Low Heel',
+        benefit: 'Adds subtle posture elevation without high heel fatigue',
+        outcome: 'Walk with quiet elegance and all-day comfort across Lagos streets.',
+      },
+      {
+        feature: 'Full-Grain Nigerian Calfskin',
+        benefit: 'Adapts and relaxes to your natural foot width over wears',
+        outcome: 'A personalized fit that deepens with a rich, lasting leather patina.',
+      },
+    ],
+    colorways: ['Warm Tan', 'Rich Burgundy', 'Deep Noir', 'Off White'],
+    ctaLabel: 'Explore The Ring',
   },
   {
-    id: 'tissue',
-    stepNumber: '02',
-    name: 'Archival Tissue Wrap',
-    shortRole: 'Protective cushioning',
-    material: '28gsm acid-free unbleached tissue',
-    dimensions: 'Double-fold protective cocoon',
-    description:
-      'Each pair is hand-wrapped in neutral archival tissue to guard the vegetable-tanned grain against scuffs or environmental humidity during transit, sealed with a minimal geometric seal.',
-    tactileNote: 'Crisp hand-fold, breathable fiber weave preventing moisture buildup.',
-    badge: 'Interior Protection',
-    icon: Layers,
-  },
-  {
-    id: 'card',
-    stepNumber: '03',
-    name: 'Thank-You & Care Card',
-    shortRole: 'Material upkeep notes',
-    material: '350gsm warm cotton cardstock',
-    dimensions: 'A6 debossed artisan card',
-    description:
-      'A personal note from the founding team alongside concise leather care instructions: routine dusting, rain response, and beeswax conditioning intervals tailored to Nigerian full-grain hides.',
-    tactileNote: 'Debossed typographic impression with a handwritten pair serial number.',
-    badge: 'Artisan Record',
-    icon: FileText,
-  },
-  {
-    id: 'bag',
-    stepNumber: '04',
-    name: 'Branded Shopping Bag',
-    shortRole: 'Hand-delivered carry',
-    material: 'Reinforced kraft with twisted cotton handles',
-    dimensions: 'Custom vertical carrier',
-    description:
-      'Created for discreet, elevated presentation for direct hand-deliveries across Lagos and beyond. Understated ink-black imprint on warm kraft tone with reinforced base gusset.',
-    tactileNote: 'Firm twisted-cotton rope handles that rest comfortably in hand.',
-    badge: 'Handover Finish',
-    icon: ShieldCheck,
+    id: 'the-weave',
+    name: 'The Weave Slide Pam',
+    eyebrow: 'Now in More Colours',
+    tagline: 'Textured finish. Timeless presence.',
+    slug: 'the-weave-slide-pam',
+    posterImage: '/images/campaign/the-weave-campaign-poster.png',
+    editorialImage: '/images/models/the-weave-editorial-spec.jpg',
+    hook: '“Move from product to outcome. Tactile woven leather architecture that brings effortless depth to your daily stride.”',
+    featureOutcome: [
+      {
+        feature: 'Handcrafted Braided Vamp',
+        benefit: 'Distributes stride flex naturally across the arch',
+        outcome: 'Prevents edge pinching while adding organic textural presence.',
+      },
+      {
+        feature: 'Versatile Palette Expansion',
+        benefit: 'Five foundational earth-toned leather shades',
+        outcome: 'Seamless pairing with monochromatic, neutral, or tailored wardrobes.',
+      },
+      {
+        feature: 'Hand-Beveled Square Toe Base',
+        benefit: 'Contoured base allowing natural anatomical toe splay',
+        outcome: 'Balanced ground contact with refined, modern geometric lines.',
+      },
+    ],
+    colorways: ['Black', 'Burgundy', 'Off White', 'Army Green', 'Dark Brown'],
+    ctaLabel: 'Explore The Weave',
   },
 ];
 
@@ -89,7 +90,9 @@ function HomeClientInner() {
   const searchParams = useSearchParams();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-  const [activePackagingIndex, setActivePackagingIndex] = useState(0);
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterError, setNewsletterError] = useState<string | null>(null);
+  const [activeCampaignIndex, setActiveCampaignIndex] = useState(0);
 
   // Dynamic campaign state: URL query param (?state=pre-launch | sold-out | reveal | live)
   // allows effortless testing & previewing, falling back to SITE_SETTINGS config.
@@ -106,18 +109,42 @@ function HomeClientInner() {
     return (SITE_SETTINGS.campaign?.state as CampaignState) || 'live';
   }, [searchParams]);
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newsletterEmail) {
+    if (!newsletterEmail) return;
+
+    setNewsletterLoading(true);
+    setNewsletterError(null);
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: newsletterEmail,
+          source: 'homepage_waitlist',
+          campaignState,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to register.');
+      }
+
       trackEvent('newsletter_signup', {
         location: `homepage_${campaignState}`,
       });
       setNewsletterSubmitted(true);
       setNewsletterEmail('');
+    } catch (err: unknown) {
+      setNewsletterError(err instanceof Error ? err.message : 'Please check your email and try again.');
+    } finally {
+      setNewsletterLoading(false);
     }
   };
 
-  const currentPackagingLayer = PACKAGING_LAYERS[activePackagingIndex];
+  const currentCampaign = CAMPAIGN_HIGHLIGHTS[activeCampaignIndex];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -140,33 +167,61 @@ function HomeClientInner() {
                 )}
                 {campaignState === 'sold-out' && (
                   <>
-                    <span className="font-semibold text-warm-white">DROP 001 ALLOCATED</span>
-                    <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                    <span>Drop 002 in Craft Production</span>
+                    <span className="font-semibold text-oxblood text-warm-white">DROP 001 SOLD OUT</span>
+                    <span className="w-1 h-1 rounded-full bg-oxblood" />
+                    <span>Register for Drop 002</span>
                   </>
                 )}
                 {campaignState === 'reveal' && (
                   <>
-                    <span className="font-semibold text-warm-white">DROP 001 UNCOVERED</span>
+                    <span className="font-semibold text-warm-white">DROP 001 REVEAL</span>
                     <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                    <span>First Look: 10 Pairs</span>
+                    <span>Examine Silhouettes & Craft Details</span>
                   </>
                 )}
                 {campaignState === 'live' && (
                   <>
-                    <span className="font-semibold text-warm-white">DROP 001</span>
-                    <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                    <span>10 Pairs Initial Release</span>
+                    <span className="font-semibold text-warm-white">DROP 001 NOW LIVE</span>
+                    <span className="w-1 h-1 rounded-full bg-cocoa" />
+                    <span>Lagos Atelier Release</span>
                   </>
                 )}
               </div>
 
-              {/* Dynamic Headline */}
-              <h1 className="font-rayleigh text-5xl sm:text-7xl lg:text-8xl font-normal tracking-tight text-warm-white leading-[1.02]">
-                {campaignState === 'pre-launch' && 'The first release is almost here.'}
-                {campaignState === 'sold-out' && 'Ten pairs claimed.'}
-                {campaignState === 'reveal' && 'A quiet debut.'}
-                {campaignState === 'live' && 'Crafted to move.'}
+              {/* Editorial Launch Headline */}
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-warm-white leading-[1.08]">
+                {campaignState === 'pre-launch' && (
+                  <>
+                    Ten pairs.{' '}
+                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
+                      Crafted for the everyday stride.
+                    </span>
+                  </>
+                )}
+                {campaignState === 'sold-out' && (
+                  <>
+                    Drop 001 is claimed.{' '}
+                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
+                      Preparing the next sequence.
+                    </span>
+                  </>
+                )}
+                {campaignState === 'reveal' && (
+                  <>
+                    Drop 001.{' '}
+                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
+                      Quiet form, considered detail.
+                    </span>
+                  </>
+                )}
+                {campaignState === 'live' && (
+                  <>
+                    Same purpose.{' '}
+                    <span className="font-serif italic font-normal text-muted-taupe-on-dark">
+                      A new perspective.
+                    </span>
+                  </>
+                )}
               </h1>
 
               {/* Subheading */}
@@ -334,7 +389,7 @@ function HomeClientInner() {
               href="/shop"
               className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-espresso hover:text-ink-black underline underline-offset-4 focus-dark min-h-[44px]"
             >
-              <span>View All 10 Pairs</span>
+              <span>View All Silhouettes</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -358,314 +413,309 @@ function HomeClientInner() {
             “Same purpose. A new perspective.”
           </blockquote>
           <p className="text-xs sm:text-sm text-muted-taupe max-w-lg mx-auto leading-relaxed pt-2">
-            Footwear conceived without ornament — where proportion, hide selection, and hand-beveled edges speak for themselves.
+            We began with a staple familiar to every Nigerian closet: the slip-on leather pam. We asked what happens when you treat that familiar form with architectural discipline and vegetable-tanned hides.
           </p>
         </div>
       </ScrollReveal>
 
-      {/* ── 4. SIGNATURE DETAIL / VALUE MOMENT ──
-          Editorial deep-dive on "The Cut" strap geometry with scroll reveal */}
-      <ScrollReveal className="py-20 sm:py-28 bg-bone border-b border-cocoa/20">
+      {/* ── 4. BRAND STORY MINI-EDITORIAL BLOCK ── */}
+      <section className="py-20 sm:py-28 bg-bone border-b border-cocoa/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left: Detail Close-Up Macro Image */}
-            <div className="lg:col-span-6">
-              <div className="relative aspect-[4/3] bg-espresso/40 border border-cocoa/30 rounded-xs overflow-hidden shadow-lg group">
+            <div className="lg:col-span-5 order-2 lg:order-1">
+              <div className="relative aspect-[4/3] bg-warm-white border border-cocoa/30 rounded-xs overflow-hidden shadow-md group">
                 <Image
-                  src="/images/products/the-twist.jpg"
-                  alt="NOVEQ The Twist sculptural full-grain leather texture, hand-beveled edge finish, and artisan stitch"
+                  src="/images/editorial/artisan-workshop.jpg"
+                  alt="NOVEQ artisan partner in Lagos hand-cutting and shaping full-grain leather pams at his workbench"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 100vw, 42vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
               </div>
             </div>
 
-            {/* Right: Architectural Narrative */}
-            <div className="lg:col-span-6 space-y-6">
-              <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block">
-                Signature Detail
+            <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
+              <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
+                01 / Atelier Origin
               </span>
-
-              <h2 className="font-serif text-3xl sm:text-4xl text-espresso font-normal italic leading-snug">
-                Asymmetric Instep Geometry
+              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black leading-tight">
+                Crafted in Lagos. Built for the rhythm of the city.
               </h2>
-
-              <h3 className="text-xl font-bold tracking-tight text-ink-black">
-                The Twist — Engineered For Natural Walking Stride
-              </h3>
-
-              <p className="text-sm text-ink-black/80 font-normal leading-relaxed">
-                Traditional slide slippers constrict across the instep during forward stride. For{' '}
-                <span className="font-medium">The Twist Slide Pam</span>, our master shoemaker cut the upper strap with an organic sculptural crossing.
-              </p>
-
-              <p className="text-sm text-ink-black/80 font-normal leading-relaxed">
-                This redistributes walking pressure across the natural arch of the foot, preventing edge pinching and keeping the leather supple through years of daily wear.
-              </p>
-
+              <div className="space-y-4 text-xs sm:text-sm text-ink-black/80 leading-relaxed">
+                <p>
+                  Every pair of NOVEQ footwear is built in direct collaboration with our master shoemaker partner in Lagos. We don’t outsource to anonymous industrial production lines across continents.
+                </p>
+                <p>
+                  We select thick, vegetable-tanned cowhide, shape the asymmetric straps by hand, and temper the sole profile for walking comfort across sun-baked asphalt and polished marble alike.
+                </p>
+              </div>
               <div className="pt-2">
                 <Link
-                  href="/shop/the-cut-slide-pam-black"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-espresso hover:text-ink-black underline underline-offset-4 focus-dark"
+                  href="/story"
+                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-cocoa hover:text-ink-black underline underline-offset-4 focus-dark min-h-[44px]"
                 >
-                  <span>Explore The Twist</span>
+                  <span>Read our full origin narrative</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
           </div>
         </div>
-      </ScrollReveal>
+      </section>
 
-      {/* ── 5. BRAND STORY BLOCK ──
-          Short version of NOVEQ story */}
-      <ScrollReveal className="py-20 sm:py-28 bg-warm-white border-b border-cocoa/15">
+      {/* ── 5. CRAFT SPECIFICATION & MATERIAL PROVENANCE ── */}
+      <ScrollReveal className="py-20 sm:py-28 bg-warm-white border-b border-cocoa/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 space-y-6 order-2 lg:order-1">
-              <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
-                The NOVEQ Foundation
+          <div className="max-w-3xl mb-12">
+            <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
+              02 / Anatomy & Precision
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black leading-tight">
+              Anatomy of Drop 001
+            </h2>
+            <p className="mt-4 text-xs sm:text-sm text-muted-taupe leading-relaxed">
+              Every detail is intentional. We spent six months balancing arch contours, strap width, and hardware tolerances.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-6 bg-bone border border-cocoa/25 rounded-xs space-y-3">
+              <span className="text-xs font-mono text-cocoa uppercase tracking-widest block">
+                01 / UPPER STRAP
               </span>
-
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-black">
-                Footwear designed around quiet confidence.
-              </h2>
-
-              <p className="text-sm sm:text-base text-ink-black/85 leading-relaxed font-normal">
-                NOVEQ was founded to make familiar leather footwear considered, modern, and enduring. We begin with women’s leather pams — stripped of loud logos, plastic laminates, and artificial luxury theatre.
+              <h3 className="text-base font-semibold text-ink-black">
+                Full-Grain Nigerian Cowhide
+              </h3>
+              <p className="text-xs text-ink-black/75 leading-relaxed">
+                2.2mm thickness provides natural structure without rigid pinching. Unlined edges are hand-beveled to eliminate blistering during initial break-in.
               </p>
-
-              <p className="text-sm sm:text-base text-ink-black/85 leading-relaxed font-normal">
-                Every pair in Drop 001 is handmade in limited runs with an artisan shoemaker partner in Nigeria, ensuring complete integrity in materials, stitching, and feel.
-              </p>
-
-              <div className="pt-2">
-                <Link
-                  href="/story"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
-                >
-                  <span>Read Our Full Story</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+              <div className="pt-2 text-[11px] font-mono text-muted-taupe">
+                Origin: Kano / Finished: Lagos
               </div>
             </div>
 
-            {/* Authentic Artisan Workshop Documentary Photograph */}
-            <div className="lg:col-span-6 order-1 lg:order-2">
-              <div className="relative aspect-[4/3] bg-espresso/40 border border-cocoa/30 rounded-xs overflow-hidden shadow-lg group">
-                <Image
-                  src="/images/editorial/artisan-workshop.jpg"
-                  alt="Master artisan shoemaker in Lagos workshop hand-stitching vegetable-tanned leather footwear at workbench"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
-                  <span>ATELIER ARCHIVE</span>
-                  <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                  <span>LAGOS, NIGERIA</span>
-                </div>
-                <div className="absolute bottom-4 right-4 inline-flex items-center px-3 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] tracking-wider text-muted-taupe-on-dark rounded-xs">
-                  Hand-Beveled & Saddle-Stitched
-                </div>
+            <div className="p-6 bg-bone border border-cocoa/25 rounded-xs space-y-3">
+              <span className="text-xs font-mono text-cocoa uppercase tracking-widest block">
+                02 / FOOTBED
+              </span>
+              <h3 className="text-base font-semibold text-ink-black">
+                Molded Arch Cushioning
+              </h3>
+              <p className="text-xs text-ink-black/75 leading-relaxed">
+                Tempered high-density latex memory base laminated under supple split-leather lining. Conforms to the natural footprint within five wears.
+              </p>
+              <div className="pt-2 text-[11px] font-mono text-muted-taupe">
+                Profile: 12mm Low Heel Ergonomics
+              </div>
+            </div>
+
+            <div className="p-6 bg-bone border border-cocoa/25 rounded-xs space-y-3">
+              <span className="text-xs font-mono text-cocoa uppercase tracking-widest block">
+                03 / SOLE & HARDWARE
+              </span>
+              <h3 className="text-base font-semibold text-ink-black">
+                Durable Low-Profile Tread
+              </h3>
+              <p className="text-xs text-ink-black/75 leading-relaxed">
+                Ribbed non-marking rubber outsoles anchored with reinforced perimeter stitching. Resists moisture absorption and pavement abrasion.
+              </p>
+              <div className="pt-2 text-[11px] font-mono text-muted-taupe">
+                Hand-Beveled & Saddle-Stitched
               </div>
             </div>
           </div>
         </div>
       </ScrollReveal>
 
-      {/* ── 6. PACKAGING MOMENT (INTERACTIVE SEQUENTIAL UNBOXING INSPECTION) ──
-          Allows customer to inspect each unboxing layer:
-          01 Kraft Box → 02 Archival Tissue → 03 Care Card → 04 Shopping Bag
-          Strictly NO dust bag. Copy verbatim: "Packed with care. Designed to arrive differently." */}
+      {/* ── 6. EDITORIAL CAMPAIGN SHOWCASE (THE RING & THE WEAVE) ──
+          Featuring authentic feet-on-model editorial photography and campaign posters.
+          Straight-Line Persuasion (/wolf): "Sell the reason to want them" — Feature → Benefit → Lifestyle Outcome. */}
       <section className="py-20 sm:py-28 bg-espresso text-warm-white border-b border-cocoa/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left: Verbatim Copy & Interactive Layer Inspector */}
+            {/* Left: Campaign Copy & Interactive Silhouette Selector */}
             <div className="lg:col-span-6 space-y-6">
               <div className="flex items-center justify-between">
                 <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark font-medium block">
-                  Unboxing Experience
+                  Campaign Showcase
                 </span>
                 <span className="text-[11px] font-mono text-muted-taupe-on-dark">
-                  Layer {activePackagingIndex + 1} of {PACKAGING_LAYERS.length}
+                  0{activeCampaignIndex + 1} / 0{CAMPAIGN_HIGHLIGHTS.length}
                 </span>
               </div>
 
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-warm-white leading-tight">
-                Packed with care. Designed to arrive differently.
-              </h2>
+              <div className="space-y-2">
+                <span className="text-xs font-serif italic text-cocoa">
+                  {currentCampaign.eyebrow}
+                </span>
+                <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-warm-white leading-tight">
+                  {currentCampaign.tagline}
+                </h2>
+              </div>
 
-              <p className="text-sm sm:text-base text-muted-taupe-on-dark leading-relaxed font-normal">
-                Your footwear arrives in a custom slim brown kraft box, protected in archival tissue, accompanied by a handwritten thank-you/care card and our branded shopping bag.
-              </p>
+              {/* /wolf Straight-Line Outcome Hook */}
+              <div className="p-4 bg-ink-black/40 border-l-2 border-cocoa rounded-xs">
+                <p className="text-sm sm:text-base text-warm-white/95 font-serif italic leading-relaxed">
+                  {currentCampaign.hook}
+                </p>
+              </div>
 
-              {/* Interactive Layer Tabs */}
+              {/* Silhouette Switcher Tabs */}
               <div
                 role="tablist"
-                aria-label="Unboxing packaging layers"
-                className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2"
+                aria-label="Campaign silhouettes"
+                className="grid grid-cols-2 gap-3 pt-2"
               >
-                {PACKAGING_LAYERS.map((layer, idx) => {
-                  const Icon = layer.icon;
-                  const isSelected = activePackagingIndex === idx;
+                {CAMPAIGN_HIGHLIGHTS.map((item, idx) => {
+                  const isSelected = activeCampaignIndex === idx;
                   return (
                     <button
-                      key={layer.id}
+                      key={item.id}
                       role="tab"
-                      id={`packaging-tab-${layer.id}`}
                       aria-selected={isSelected}
-                      aria-controls={`packaging-panel-${layer.id}`}
-                      onClick={() => setActivePackagingIndex(idx)}
-                      className={`p-3 text-left border rounded-xs transition-all duration-200 focus-dark ${
+                      onClick={() => setActiveCampaignIndex(idx)}
+                      className={`p-3.5 text-left border rounded-xs transition-all duration-200 focus-dark ${
                         isSelected
                           ? 'bg-warm-white text-ink-black border-warm-white shadow-sm ring-1 ring-warm-white'
                           : 'bg-ink-black/40 text-warm-white/80 border-cocoa/40 hover:bg-ink-black/70 hover:border-cocoa/70'
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-1.5">
-                        <Icon className={`w-4 h-4 ${isSelected ? 'text-cocoa' : 'text-warm-white/70'}`} />
-                        <span
-                          className={`text-[10px] font-mono ${
-                            isSelected ? 'text-cocoa font-bold' : 'text-muted-taupe-on-dark'
-                          }`}
-                        >
-                          {layer.stepNumber}
+                      <div className="flex items-center justify-between mb-1">
+                        <span className={`text-[10px] uppercase tracking-widest font-mono ${
+                          isSelected ? 'text-cocoa font-bold' : 'text-muted-taupe-on-dark'
+                        }`}>
+                          Silhouette 0{idx + 1}
                         </span>
+                        <Sparkles className={`w-3.5 h-3.5 ${isSelected ? 'text-cocoa' : 'text-warm-white/50'}`} />
                       </div>
-                      <h3
-                        className={`text-xs font-semibold truncate ${
-                          isSelected ? 'text-ink-black' : 'text-warm-white'
-                        }`}
-                      >
-                        {layer.name}
+                      <h3 className={`text-xs font-semibold ${
+                        isSelected ? 'text-ink-black' : 'text-warm-white'
+                      }`}>
+                        {item.name}
                       </h3>
-                      <p
-                        className={`text-[10px] truncate mt-0.5 ${
-                          isSelected ? 'text-muted-taupe' : 'text-muted-taupe-on-dark'
-                        }`}
-                      >
-                        {layer.shortRole}
+                      <p className={`text-[10px] mt-0.5 ${
+                        isSelected ? 'text-muted-taupe' : 'text-muted-taupe-on-dark'
+                      }`}>
+                        {item.eyebrow}
                       </p>
                     </button>
                   );
                 })}
               </div>
 
-              {/* Sequential Stepper Controls */}
-              <div className="flex items-center justify-between pt-1 border-t border-cocoa/30">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActivePackagingIndex((prev) =>
-                      prev === 0 ? PACKAGING_LAYERS.length - 1 : prev - 1
-                    )
-                  }
-                  className="inline-flex items-center gap-1.5 text-xs text-muted-taupe-on-dark hover:text-warm-white py-1 focus-dark"
-                  aria-label="Inspect previous unboxing layer"
-                >
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                  <span>Previous Layer</span>
-                </button>
-                <div className="flex items-center gap-1.5">
-                  {PACKAGING_LAYERS.map((_, i) => (
-                    <span
-                      key={i}
-                      className={`h-1.5 rounded-full transition-all duration-200 ${
-                        activePackagingIndex === i
-                          ? 'w-6 bg-warm-white'
-                          : 'w-1.5 bg-cocoa/50 hover:bg-cocoa'
-                      }`}
-                      onClick={() => setActivePackagingIndex(i)}
-                      role="button"
-                      aria-label={`Jump to unboxing layer ${i + 1}`}
-                      tabIndex={0}
-                    />
-                  ))}
-                </div>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActivePackagingIndex((prev) =>
-                      prev === PACKAGING_LAYERS.length - 1 ? 0 : prev + 1
-                    )
-                  }
-                  className="inline-flex items-center gap-1.5 text-xs text-muted-taupe-on-dark hover:text-warm-white py-1 focus-dark"
-                  aria-label="Inspect next unboxing layer"
-                >
-                  <span>Next Layer</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
+              {/* Feature → Benefit → Lifestyle Outcome Cards */}
+              <div className="space-y-2.5 pt-2">
+                <span className="text-[10px] uppercase tracking-widest text-muted-taupe-on-dark block font-semibold">
+                  Anatomy & Lifestyle Outcome
+                </span>
+                {currentCampaign.featureOutcome.map((fo, i) => (
+                  <div key={i} className="p-3 bg-ink-black/30 border border-cocoa/30 rounded-xs space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-warm-white">
+                        {fo.feature}
+                      </span>
+                      <span className="text-[10px] text-cocoa font-mono">
+                        {fo.benefit}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
+                      {fo.outcome}
+                    </p>
+                  </div>
+                ))}
               </div>
 
-              {/* Exclusion Disclaimer */}
-              <p className="text-xs text-muted-taupe-on-dark/90 italic pt-1">
-                * Dust bags are intentionally excluded from Drop 001 to maximize leather grade and fair launch pricing.
-              </p>
+              {/* Colorway Pills & CTA */}
+              <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-cocoa/30">
+                <div className="space-y-1">
+                  <span className="text-[10px] uppercase tracking-wider text-muted-taupe-on-dark block">
+                    Curated Colours
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {currentCampaign.colorways.map((c) => (
+                      <span
+                        key={c}
+                        className="px-2 py-0.5 bg-ink-black/60 border border-cocoa/30 text-[10px] text-warm-white rounded-xs"
+                      >
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveCampaignIndex((prev) =>
+                        prev === 0 ? CAMPAIGN_HIGHLIGHTS.length - 1 : prev - 1
+                      )
+                    }
+                    className="p-2 border border-cocoa/40 rounded-xs text-muted-taupe-on-dark hover:text-warm-white hover:bg-ink-black/60 transition-colors"
+                    aria-label="Previous campaign silhouette"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveCampaignIndex((prev) =>
+                        prev === CAMPAIGN_HIGHLIGHTS.length - 1 ? 0 : prev + 1
+                      )
+                    }
+                    className="p-2 border border-cocoa/40 rounded-xs text-muted-taupe-on-dark hover:text-warm-white hover:bg-ink-black/60 transition-colors"
+                    aria-label="Next campaign silhouette"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                  <Link
+                    href={`/products/${currentCampaign.slug}`}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark shrink-0 min-h-[44px]"
+                  >
+                    <span>{currentCampaign.ctaLabel}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
             </div>
 
-            {/* Right: Active Layer Detail Pane & Inspection Visual */}
-            <div className="lg:col-span-6">
-              <div
-                id={`packaging-panel-${currentPackagingLayer.id}`}
-                role="tabpanel"
-                aria-labelledby={`packaging-tab-${currentPackagingLayer.id}`}
-                className="bg-ink-black/50 border border-cocoa/40 rounded-sm overflow-hidden p-6 sm:p-8 space-y-6 transition-all duration-300"
-              >
-                {/* Visual Representation */}
-                <div className="relative aspect-[16/10] bg-ink-black/60 border border-cocoa/30 rounded-xs overflow-hidden shadow-lg group">
+            {/* Right: Dual Editorial Visuals (Poster & Feet-On-Model) */}
+            <div className="lg:col-span-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Poster Asset */}
+                <div className="relative aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden shadow-lg group">
                   <Image
-                    src="/images/brand/packaging.jpg"
-                    alt={`NOVEQ official luxury unboxing suite — ${currentPackagingLayer.name}`}
+                    src={currentCampaign.posterImage}
+                    alt={`NOVEQ official campaign poster — ${currentCampaign.name}`}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    sizes="(max-width: 640px) 100vw, 25vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <span className="absolute top-3 left-3 px-2 py-0.5 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-wider text-warm-white rounded-xs">
-                    {currentPackagingLayer.badge}
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+                  <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-ink-black/80 backdrop-blur-xs border border-cocoa/40 text-[9px] uppercase tracking-wider text-warm-white rounded-xs">
+                    Campaign Poster
                   </span>
                 </div>
 
-                {/* Layer Specifications */}
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between border-b border-cocoa/25 pb-2">
-                    <h3 className="text-lg font-bold text-warm-white">
-                      {currentPackagingLayer.name}
-                    </h3>
-                    <span className="text-xs font-mono text-muted-taupe-on-dark">
-                      Spec #{currentPackagingLayer.stepNumber}
-                    </span>
-                  </div>
-
-                  <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
-                    {currentPackagingLayer.description}
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-                    <div className="p-2.5 bg-espresso/60 border border-cocoa/30 rounded-xs">
-                      <span className="text-[10px] uppercase tracking-widest text-muted-taupe-on-dark block">
-                        Material
-                      </span>
-                      <span className="text-warm-white font-medium">
-                        {currentPackagingLayer.material}
-                      </span>
-                    </div>
-                    <div className="p-2.5 bg-espresso/60 border border-cocoa/30 rounded-xs">
-                      <span className="text-[10px] uppercase tracking-widest text-muted-taupe-on-dark block">
-                        Dimensions
-                      </span>
-                      <span className="text-warm-white font-medium">
-                        {currentPackagingLayer.dimensions}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="pt-2 text-[11px] text-muted-taupe-on-dark/80 italic flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cocoa" />
-                    <span>{currentPackagingLayer.tactileNote}</span>
-                  </div>
+                {/* Editorial Model Spec Asset */}
+                <div className="relative aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden shadow-lg group">
+                  <Image
+                    src={currentCampaign.editorialImage}
+                    alt={`NOVEQ feet-on-model editorial photography — ${currentCampaign.name}`}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 25vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+                  <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-ink-black/80 backdrop-blur-xs border border-cocoa/40 text-[9px] uppercase tracking-wider text-warm-white rounded-xs">
+                    Feet on Model
+                  </span>
                 </div>
+              </div>
+
+              <div className="p-3 bg-ink-black/40 border border-cocoa/30 rounded-xs flex items-center justify-between text-xs text-muted-taupe-on-dark">
+                <span>Natural stride testing on Lagos stone pavement</span>
+                <span className="font-mono text-warm-white font-semibold">Drop 001 Original</span>
               </div>
             </div>
           </div>
@@ -673,11 +723,11 @@ function HomeClientInner() {
       </section>
 
       {/* ── 7. SOCIAL PROOF ARCHITECTURE ──
-          Curated Instagram strip + Launch-honest Day 1 invite. Strictly NO fabricated reviews. */}
+          Curated Instagram strip + Launch-honest Day 1 invite. */}
       <SocialProofSection />
 
       {/* ── 8. NEWSLETTER / LAUNCH LIST / WAITLIST ──
-          Small, elegant, single email field. Contextual headline based on campaign state. */}
+          Persists to /api/newsletter and data/subscribers.json for drop retention. */}
       <section
         id="launch-access"
         className="py-20 sm:py-24 bg-warm-white text-ink-black border-b border-cocoa/20"
@@ -723,11 +773,20 @@ function HomeClientInner() {
               />
               <button
                 type="submit"
-                className="px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px] active:scale-[0.98]"
+                disabled={newsletterLoading}
+                className="px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px] active:scale-[0.98] disabled:opacity-50"
               >
-                {campaignState === 'sold-out' ? 'Register' : 'Join List'}
+                {newsletterLoading
+                  ? 'Saving...'
+                  : campaignState === 'sold-out'
+                  ? 'Register'
+                  : 'Join List'}
               </button>
             </form>
+          )}
+
+          {newsletterError && (
+            <p className="text-xs text-oxblood">{newsletterError}</p>
           )}
 
           <p className="text-[11px] text-muted-taupe">

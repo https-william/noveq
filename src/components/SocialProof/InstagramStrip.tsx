@@ -33,9 +33,9 @@ const CURATED_POSTS: InstagramPostItem[] = [
   },
   {
     id: 'post-4',
-    image: '/images/brand/packaging.jpg',
-    alt: 'NOVEQ Drop 001 unboxing suite with chocolate kraft box, embossed card, and tote bag',
-    caption: 'Arrives quiet. Rigid chocolate packaging suite crafted with tactile care.',
+    image: '/images/brand/customer-dm-praise.png',
+    alt: 'Customer direct message praising NOVEQ website design, ease of navigation, and ordering experience',
+    caption: '“Ur website is very good it was so easy to navigate through.” Organic client reception.',
   },
 ];
 

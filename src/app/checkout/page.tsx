@@ -98,7 +98,11 @@ export default function CheckoutPage() {
 
       // Navigate to payment authorization URL
       if (data.authorizationUrl) {
-        router.push(data.authorizationUrl);
+        if (data.authorizationUrl.startsWith('http')) {
+          window.location.href = data.authorizationUrl;
+        } else {
+          router.push(data.authorizationUrl);
+        }
       } else {
         router.push(`/checkout/payment?orderId=${data.orderId}`);
       }

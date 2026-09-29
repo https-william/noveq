@@ -68,9 +68,9 @@ export const POLICIES: Record<string, Policy> = {
           'Products ordered with optional engraved heart charms (personalized text) cannot be returned or exchanged due to custom hardware alterations, unless there is a verifiable craftsmanship defect.',
       },
       {
-        heading: 'Return Packaging Standard',
+        heading: 'Return Condition Standard',
         content:
-          'Returns must include the original slim brown kraft box, protective tissue, care card, and shopping bag. Footwear returned without original protective boxing will be rejected by our intake team.',
+          'Footwear must be in unworn, uncreased condition with all tags intact and outsoles completely unmarked. Items showing outdoor scuffs or footbed imprints will be returned to the sender.',
       },
     ],
   },

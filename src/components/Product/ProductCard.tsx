@@ -18,7 +18,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
   const [quickAddLoading, setQuickAddLoading] = useState(false);
 
   const primaryImage = product.images[0] || {
-    src: '/images/brand/packaging.jpg',
+    src: '/images/products/the-twist.jpg',
     alt: product.name,
   };
   const secondaryImage = product.images[1] || primaryImage;

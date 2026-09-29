@@ -112,6 +112,7 @@ export interface Order {
     errorMessage?: string;
   };
   deliveryExpectation: string;
+  notes?: string;
 }
 
 export interface PaymentInitResponse {

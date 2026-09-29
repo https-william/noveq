@@ -92,7 +92,7 @@ export default function ShopCatalogClient({
             <span>•</span>
             <span>Vegetable-Tanned Nigerian Hide</span>
             <span>•</span>
-            <span>Discreet Kraft Unboxing</span>
+            <span>Pair-by-Pair Inspected</span>
             <span>•</span>
             <span className="font-semibold text-cocoa">Direct Buy Active</span>
           </div>

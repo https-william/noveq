@@ -6,7 +6,6 @@ import Link from 'next/link';
 import {
   Heart,
   ChevronDown,
-  Box,
   Truck,
   ShieldCheck,
   RotateCcw,
@@ -475,15 +474,15 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </div>
           </div>
 
-          {/* ── 4. PACKAGING BLOCK ──
-              Verbatim adapted from brief. Strictly NO dust bag. */}
+          {/* ── 4. CRAFT & MATERIAL ASSURANCE ──
+              Highlighting genuine leather integrity, comfort balance, and pair-by-pair inspection. */}
           <div className="p-4 bg-warm-white border border-cocoa/25 rounded-xs flex items-start gap-3">
-            <Box className="w-5 h-5 text-cocoa shrink-0 mt-0.5" aria-hidden="true" />
+            <ShieldCheck className="w-5 h-5 text-cocoa shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs leading-relaxed text-ink-black/85">
               <span className="font-semibold block uppercase tracking-wider text-[10px] text-cocoa mb-0.5">
-                Packaging Presentation
+                Material & Atelier Integrity
               </span>
-              Arrives in a NOVEQ box with tissue, a thank-you/care card and branded shopping bag.
+              Handcrafted from full-grain Nigerian leather with tempered arch support. Individually inspected pair-by-pair in our Lagos studio before dispatch.
             </div>
           </div>
 
@@ -605,7 +604,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-2">
                   <p><strong>When will it arrive:</strong> {product.shipping_notes}</p>
                   <p>
-                    <strong>What happens if it doesn’t work:</strong> Because Drop 001 is a small run of ten pairs, size exchanges are accommodated subject to remaining pairs. Unworn footwear with original packaging may be returned or exchanged within 7 days.
+                    <strong>What happens if it doesn’t work:</strong> Because Drop 001 is a small run of ten pairs, size exchanges are accommodated subject to remaining pairs. Unworn footwear with tags intact and unmarked outsoles may be returned or exchanged within 7 days.
                   </p>
                 </div>
               )}

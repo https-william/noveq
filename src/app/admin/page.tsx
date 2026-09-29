@@ -1,35 +1,31 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
   DollarSign,
   ShoppingBag,
   Clock,
-  CheckCircle2,
-  Truck,
-  MessageCircle,
   ExternalLink,
-  ShieldCheck,
   RefreshCw,
   Search,
-  Filter,
   Send,
   Lock,
-  Key,
   Copy,
   Check,
   Eye,
   X,
   LogOut,
-  ChevronRight,
   TrendingUp,
-  SlidersHorizontal,
+  Users,
+  Mail,
+  Download,
 } from 'lucide-react';
 import { Order } from '@/types/commerce';
-
-const ADMIN_PASSWORD = 'noveqthebrand!';
+import { Subscriber } from '@/lib/subscribers';
+import { SITE_SETTINGS } from '@/config/siteSettings';
+import { supabase } from '@/lib/supabase';
 
 export default function AdminDashboardPage() {
   // Authentication State
@@ -38,7 +34,10 @@ export default function AdminDashboardPage() {
   const [authError, setAuthError] = useState<string | null>(null);
   const [isAuthChecking, setIsAuthChecking] = useState<boolean>(true);
 
-  // Data & Dashboard State
+  // Active View Tab: 'orders' | 'subscribers'
+  const [activeTab, setActiveTab] = useState<'orders' | 'subscribers'>('orders');
+
+  // Orders State
   const [orders, setOrders] = useState<Order[]>([]);
   const [metrics, setMetrics] = useState({
     totalRevenue: 0,
@@ -53,9 +52,16 @@ export default function AdminDashboardPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
+  // Subscribers State
+  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [subscribersSearch, setSubscribersSearch] = useState('');
+  const [copiedAllEmails, setCopiedAllEmails] = useState(false);
+
+  // Check persistent session
   useEffect(() => {
     const sessionAuth = sessionStorage.getItem('noveq_admin_auth');
-    if (sessionAuth === 'true') {
+    const localAuth = localStorage.getItem('noveq_admin_auth');
+    if (sessionAuth === 'true' || localAuth === 'true') {
       setIsAuthenticated(true);
     }
     setIsAuthChecking(false);
@@ -63,30 +69,54 @@ export default function AdminDashboardPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordInput === ADMIN_PASSWORD) {
+    const clean = passwordInput.trim();
+
+    // Accepted executive keys: current password, unpunctuated variation, or legacy pass
+    if (
+      clean === 'noveqthebrand!' ||
+      clean === 'noveqthebrand' ||
+      clean === 'oskpolor'
+    ) {
       sessionStorage.setItem('noveq_admin_auth', 'true');
+      localStorage.setItem('noveq_admin_auth', 'true');
       setIsAuthenticated(true);
       setAuthError(null);
     } else {
-      setAuthError('Incorrect executive access key. Please try again.');
+      setAuthError('Incorrect executive access key. Please verify your password.');
     }
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem('noveq_admin_auth');
+    localStorage.removeItem('noveq_admin_auth');
     setIsAuthenticated(false);
     setPasswordInput('');
   };
 
-  const fetchAdminData = async () => {
-    if (!isAuthenticated) return;
+  const fetchAdminData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/orders');
-      const data = await res.json();
-      if (data.success) {
-        setOrders(data.orders);
-        setMetrics(data.metrics);
+      const [ordersRes, subsRes] = await Promise.all([
+        fetch('/api/admin/orders'),
+        fetch('/api/newsletter'),
+      ]);
+
+      const ordersData = await ordersRes.json();
+      if (ordersData.success) {
+        setOrders(ordersData.orders || []);
+        setMetrics(
+          ordersData.metrics || {
+            totalRevenue: 0,
+            totalOrdersCount: 0,
+            pendingFulfillmentsCount: 0,
+            currency: 'NGN',
+          }
+        );
+      }
+
+      const subsData = await subsRes.json();
+      if (subsData.subscribers) {
+        setSubscribers(subsData.subscribers);
       }
     } catch (err) {
       // eslint-disable-next-line no-console
@@ -94,13 +124,36 @@ export default function AdminDashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (isAuthenticated) {
       fetchAdminData();
+
+      // Listen to Realtime database changes if Supabase tables exist
+      const channel = supabase
+        .channel('admin-live-updates')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'orders' },
+          () => {
+            fetchAdminData();
+          }
+        )
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'subscribers' },
+          () => {
+            fetchAdminData();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, fetchAdminData]);
 
   const handleStatusChange = async (orderId: string, newStatus: Order['status']) => {
     setUpdatingOrderId(orderId);
@@ -133,6 +186,31 @@ export default function AdminDashboardPage() {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
+  const copyAllSubscribers = () => {
+    const emails = subscribers.map((s) => s.email).join(', ');
+    navigator.clipboard.writeText(emails);
+    setCopiedAllEmails(true);
+    setTimeout(() => setCopiedAllEmails(false), 2500);
+  };
+
+  const exportSubscribersCSV = () => {
+    const headers = 'Email,Name,Source,SubscribedAt,Tags\n';
+    const rows = subscribers
+      .map(
+        (s) =>
+          `"${s.email}","${s.name || ''}","${s.source}","${s.subscribedAt}","${s.tags.join(';')}"`
+      )
+      .join('\n');
+    const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `noveq-subscribers-${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const filteredOrders = orders.filter((order) => {
     const matchesStatus =
       filterStatus === 'all' ||
@@ -147,6 +225,15 @@ export default function AdminDashboardPage() {
       order.items.some((i) => i.product.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     return matchesStatus && matchesSearch;
+  });
+
+  const filteredSubscribers = subscribers.filter((sub) => {
+    const q = subscribersSearch.toLowerCase();
+    return (
+      sub.email.toLowerCase().includes(q) ||
+      (sub.name && sub.name.toLowerCase().includes(q)) ||
+      sub.source.toLowerCase().includes(q)
+    );
   });
 
   const generateCustomerWhatsAppUrl = (order: Order) => {
@@ -167,7 +254,8 @@ export default function AdminDashboardPage() {
     const msg = encodeURIComponent(
       `🚨 *NOVEQ DIRECT ORDER ALERT*\n\nOrder ID: *${order.id}*\nCustomer: *${order.customer.fullName}*\nPhone: *${order.customer.phone}*\nItems: ${itemsList}\nTotal: ₦${order.total.toLocaleString()}\nAddress: ${order.customer.address}, ${order.customer.city}, ${order.customer.state}`
     );
-    return `https://wa.me/2349038555997?text=${msg}`;
+    const supportPhone = SITE_SETTINGS.supportContact.phone;
+    return `https://wa.me/${supportPhone}?text=${msg}`;
   };
 
   if (isAuthChecking) {
@@ -187,23 +275,26 @@ export default function AdminDashboardPage() {
             <div className="inline-flex items-center justify-center w-12 h-12 bg-espresso/5 border border-espresso/20 rounded-full mb-2">
               <Lock className="w-5 h-5 text-espresso" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-ink-black uppercase">
-              NOVEQ Executive Access
+            <h1 className="text-2xl font-bold tracking-tight text-ink-black uppercase font-serif">
+              NOVEQ Executive Portal
             </h1>
             <p className="text-xs text-muted-taupe">
-              Restricted portal. Please enter your executive key to continue.
+              Restricted executive console. Enter your key to manage orders and drop retention.
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4 text-left">
             <div>
-              <label htmlFor="admin-pass" className="block text-[11px] uppercase tracking-wider font-semibold text-cocoa mb-1.5">
+              <label
+                htmlFor="admin-pass"
+                className="block text-[11px] uppercase tracking-wider font-semibold text-cocoa mb-1.5"
+              >
                 Access Password
               </label>
               <input
                 id="admin-pass"
                 type="password"
-                placeholder="Enter password..."
+                placeholder="Enter executive password..."
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
                 className="w-full px-4 py-3 text-sm bg-bone border border-cocoa/30 rounded-xs focus-dark font-mono text-ink-black"
@@ -219,14 +310,14 @@ export default function AdminDashboardPage() {
 
             <button
               type="submit"
-              className="w-full py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-widest font-semibold rounded-xs hover:bg-espresso active:scale-[0.98] transition-all focus-dark shadow-xs"
+              className="w-full py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px] shadow-sm"
             >
-              Authenticate Portal
+              Authenticate & Unlock
             </button>
           </form>
 
-          <div className="pt-4 border-t border-cocoa/15 text-[11px] text-muted-taupe">
-            NOVEQ Brand Operations · Executive Back-Office
+          <div className="text-[11px] text-muted-taupe border-t border-cocoa/15 pt-4">
+            NOVEQ Atelier Management · Lagos, Nigeria
           </div>
         </div>
       </div>
@@ -234,25 +325,26 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bone text-ink-black py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
-      {/* Executive Command Header */}
+    <div className="min-h-screen bg-bone text-ink-black py-8 sm:py-12 px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* Top Navigation & Executive Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cocoa/20 pb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-espresso text-warm-white text-[10px] uppercase tracking-widest font-semibold rounded-xs mb-2">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>Executive Command</span>
-            <span>•</span>
-            <span>Authenticated</span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-serif italic text-cocoa">Atelier Back Office</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[10px] uppercase font-mono tracking-wider text-emerald-800">
+              Live Realtime Sync
+            </span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-black">
-            NOVEQ Back-Office
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink-black uppercase font-serif">
+            Executive Operations Console
           </h1>
           <p className="text-xs sm:text-sm text-muted-taupe mt-1">
-            Real-time fulfillment, order dispatches, and sales performance.
+            Realtime dispatch ledger, verified Paystack transactions, and VIP drop database.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 flex-wrap">
           <button
             type="button"
             onClick={fetchAdminData}
@@ -261,7 +353,16 @@ export default function AdminDashboardPage() {
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
           </button>
-          
+
+          <Link
+            href="/shop"
+            target="_blank"
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-widest font-semibold rounded-xs hover:bg-espresso transition-colors focus-dark active:scale-[0.98]"
+          >
+            <span>Live Store</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </Link>
+
           <button
             type="button"
             onClick={handleLogout}
@@ -270,14 +371,6 @@ export default function AdminDashboardPage() {
             <LogOut className="w-3.5 h-3.5" />
             <span>Lock Portal</span>
           </button>
-
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-widest font-semibold rounded-xs hover:bg-espresso transition-colors focus-dark active:scale-[0.98]"
-          >
-            <span>Storefront</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </Link>
         </div>
       </div>
 
@@ -286,7 +379,7 @@ export default function AdminDashboardPage() {
         {/* Total Revenue */}
         <div className="p-5 bg-warm-white border border-cocoa/20 rounded-xs space-y-2 shadow-xs hover:border-cocoa/40 transition-colors">
           <div className="flex items-center justify-between text-xs text-cocoa font-medium uppercase tracking-wider">
-            <span>Total Gross Sales</span>
+            <span>Verified Gross Sales</span>
             <DollarSign className="w-4 h-4 text-espresso" />
           </div>
           <div className="text-3xl font-bold font-mono tracking-tight tabular-nums text-ink-black">
@@ -294,7 +387,7 @@ export default function AdminDashboardPage() {
           </div>
           <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 font-medium">
             <TrendingUp className="w-3.5 h-3.5" />
-            <span>Drop 001 Launch Revenue</span>
+            <span>Settled via Paystack</span>
           </div>
         </div>
 
@@ -307,7 +400,7 @@ export default function AdminDashboardPage() {
           <div className="text-3xl font-bold font-mono tracking-tight tabular-nums text-ink-black">
             {metrics.totalOrdersCount}
           </div>
-          <p className="text-[11px] text-muted-taupe">Total transactions recorded</p>
+          <p className="text-[11px] text-muted-taupe">Drop 001 client transactions</p>
         </div>
 
         {/* Pending Dispatch */}
@@ -319,280 +412,423 @@ export default function AdminDashboardPage() {
           <div className="text-3xl font-bold font-mono tracking-tight tabular-nums text-oxblood">
             {metrics.pendingFulfillmentsCount}
           </div>
-          <p className="text-[11px] text-muted-taupe">Orders needing courier delivery</p>
+          <p className="text-[11px] text-muted-taupe">Orders requiring courier handover</p>
         </div>
 
-        {/* CEO Direct Contact Line */}
+        {/* VIP Retention Database */}
         <div className="p-5 bg-warm-white border border-cocoa/20 rounded-xs space-y-2 shadow-xs hover:border-cocoa/40 transition-colors">
           <div className="flex items-center justify-between text-xs text-cocoa font-medium uppercase tracking-wider">
-            <span>Direct Concierge</span>
-            <MessageCircle className="w-4 h-4 text-emerald-600" />
+            <span>VIP Email Register</span>
+            <Users className="w-4 h-4 text-cocoa" />
           </div>
-          <div className="text-base font-bold font-mono text-ink-black">
-            +234 903 855 5997
+          <div className="text-3xl font-bold font-mono tracking-tight tabular-nums text-ink-black">
+            {subscribers.length}
           </div>
-          <p className="text-[11px] text-muted-taupe">noveqthebrand@gmail.com</p>
+          <p className="text-[11px] text-muted-taupe">Waitlist & drop drop retention</p>
         </div>
       </div>
 
-      {/* Paystack Setup Helper */}
-      <div className="p-5 bg-espresso text-warm-white border border-cocoa/40 rounded-xs space-y-3">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2">
-            <Key className="w-4 h-4 text-amber-300" />
-            <h2 className="text-xs uppercase tracking-widest font-bold text-warm-white">
-              Paystack Live Payment Gateway Integration
-            </h2>
-          </div>
-          <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] uppercase font-mono tracking-wider rounded-xs">
-            Ready for Live Keys
-          </span>
-        </div>
-        <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
-          Paystack integration is active. Paste your Live API Keys into Vercel Environment Variables to receive payments straight into your bank account:
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono bg-ink-black/80 p-3 rounded-xs border border-cocoa/30">
-          <div>
-            <span className="text-muted-taupe-on-dark block text-[10px] uppercase font-sans">
-              Client Public Key
-            </span>
-            <span className="text-warm-white font-bold">NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY</span>
-          </div>
-          <div>
-            <span className="text-muted-taupe-on-dark block text-[10px] uppercase font-sans">
-              Server Secret Key
-            </span>
-            <span className="text-warm-white font-bold">PAYSTACK_SECRET_KEY</span>
-          </div>
-        </div>
+      {/* Main Tab Navigation */}
+      <div className="flex items-center gap-2 border-b border-cocoa/20">
+        <button
+          type="button"
+          onClick={() => setActiveTab('orders')}
+          className={`px-6 py-3 text-xs uppercase tracking-[0.2em] font-bold border-b-2 transition-colors ${
+            activeTab === 'orders'
+              ? 'border-ink-black text-ink-black bg-warm-white/60'
+              : 'border-transparent text-muted-taupe hover:text-ink-black'
+          }`}
+        >
+          Customer Orders ({orders.length})
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('subscribers')}
+          className={`px-6 py-3 text-xs uppercase tracking-[0.2em] font-bold border-b-2 transition-colors ${
+            activeTab === 'subscribers'
+              ? 'border-ink-black text-ink-black bg-warm-white/60'
+              : 'border-transparent text-muted-taupe hover:text-ink-black'
+          }`}
+        >
+          VIP Subscribers ({subscribers.length})
+        </button>
       </div>
 
-      {/* Orders Console Table */}
-      <div className="bg-warm-white border border-cocoa/20 rounded-xs overflow-hidden shadow-xs space-y-4 p-6">
-        {/* Table Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
-          <div>
-            <h2 className="text-xl font-bold text-ink-black">Orders & Customer Dispatch</h2>
-            <p className="text-xs text-muted-taupe">
-              Track status changes and trigger direct 1-click WhatsApp alerts.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center gap-3">
-            {/* Search */}
-            <div className="relative w-full sm:w-64">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-cocoa" />
-              <input
-                type="text"
-                placeholder="Search orders, names, phones..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-bone border border-cocoa/30 rounded-xs focus-dark text-ink-black font-medium"
-              />
+      {/* TAB 1: ORDERS CONSOLE */}
+      {activeTab === 'orders' && (
+        <div className="bg-warm-white border border-cocoa/20 rounded-xs overflow-hidden shadow-xs space-y-4 p-6">
+          {/* Table Controls */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
+            <div>
+              <h2 className="text-xl font-bold text-ink-black">Orders & Fulfillment Dispatch</h2>
+              <p className="text-xs text-muted-taupe mt-0.5">
+                Authoritative orders received through Paystack. Click customer actions to dispatch on WhatsApp.
+              </p>
             </div>
 
-            {/* Filter Tabs */}
-            <div className="flex items-center gap-1 bg-bone p-1 border border-cocoa/20 rounded-xs w-full sm:w-auto overflow-x-auto">
-              {[
-                { id: 'all', label: `All (${orders.length})` },
-                {
-                  id: 'pending',
-                  label: `Pending (${orders.filter((o) => o.status === 'paid' || o.status === 'processing').length})`,
-                },
-                { id: 'shipped', label: `Shipped (${orders.filter((o) => o.status === 'shipped').length})` },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setFilterStatus(tab.id)}
-                  className={`px-3 py-1.5 text-xs font-semibold rounded-xs whitespace-nowrap transition-colors ${
-                    filterStatus === tab.id
-                      ? 'bg-ink-black text-warm-white shadow-xs'
-                      : 'text-cocoa hover:text-ink-black hover:bg-warm-white'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              {/* Search */}
+              <div className="relative w-full sm:w-64">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-cocoa" />
+                <input
+                  type="text"
+                  placeholder="Search orders, customers, phone..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 text-xs bg-bone border border-cocoa/30 rounded-xs focus-dark text-ink-black font-medium"
+                />
+              </div>
+
+              {/* Filter Tabs */}
+              <div className="flex items-center gap-1 bg-bone p-1 border border-cocoa/20 rounded-xs w-full sm:w-auto overflow-x-auto">
+                {[
+                  { id: 'all', label: `All (${orders.length})` },
+                  {
+                    id: 'pending',
+                    label: `Pending (${
+                      orders.filter((o) => o.status === 'paid' || o.status === 'processing').length
+                    })`,
+                  },
+                  {
+                    id: 'shipped',
+                    label: `Shipped (${orders.filter((o) => o.status === 'shipped').length})`,
+                  },
+                ].map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => setFilterStatus(tab.id)}
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-xs whitespace-nowrap transition-colors ${
+                      filterStatus === tab.id
+                        ? 'bg-ink-black text-warm-white shadow-xs'
+                        : 'text-cocoa hover:text-ink-black hover:bg-warm-white'
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Table Rendering */}
-        {loading ? (
-          <div className="py-12 text-center text-xs text-muted-taupe flex flex-col items-center gap-2">
-            <RefreshCw className="w-5 h-5 text-espresso animate-spin" />
-            <span>Fetching order records...</span>
-          </div>
-        ) : filteredOrders.length === 0 ? (
-          <div className="py-12 text-center text-xs text-muted-taupe">
-            No order records matching your search query.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="border-b border-cocoa/20 text-cocoa uppercase tracking-wider text-[10px] bg-bone/50">
-                  <th className="p-3">Order ID & Date</th>
-                  <th className="p-3">Customer Info</th>
-                  <th className="p-3">Footwear Items</th>
-                  <th className="p-3">Delivery Address</th>
-                  <th className="p-3">Total (NGN)</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-cocoa/15">
-                {filteredOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-bone/40 transition-colors">
-                    {/* Order ID & Date */}
-                    <td className="p-3 align-top font-mono">
-                      <div className="font-bold text-ink-black flex items-center gap-1">
-                        <span>{order.id}</span>
+          {/* Table Rendering */}
+          {loading ? (
+            <div className="py-16 text-center text-xs text-muted-taupe flex flex-col items-center gap-2">
+              <RefreshCw className="w-5 h-5 text-espresso animate-spin" />
+              <span>Loading authoritative order ledger...</span>
+            </div>
+          ) : filteredOrders.length === 0 ? (
+            <div className="py-16 text-center text-xs text-muted-taupe space-y-2">
+              <p className="font-semibold text-ink-black text-sm">No order records yet</p>
+              <p>
+                When clients check out via Paystack, transactions will authoritatively appear here with full customer delivery addresses and direct WhatsApp dispatch triggers.
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-cocoa/20 text-cocoa uppercase tracking-wider text-[10px] bg-bone/50">
+                    <th className="p-3">Order ID & Date</th>
+                    <th className="p-3">Customer Info</th>
+                    <th className="p-3">Footwear Items</th>
+                    <th className="p-3">Delivery Address</th>
+                    <th className="p-3">Total (NGN)</th>
+                    <th className="p-3">Status</th>
+                    <th className="p-3">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-cocoa/15">
+                  {filteredOrders.map((order) => (
+                    <tr key={order.id} className="hover:bg-bone/40 transition-colors">
+                      {/* Order ID & Date */}
+                      <td className="p-3 align-top font-mono">
+                        <div className="font-bold text-ink-black flex items-center gap-1">
+                          <span>{order.id}</span>
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard(order.id, order.id)}
+                            className="text-cocoa hover:text-ink-black p-0.5"
+                            title="Copy Order ID"
+                          >
+                            {copiedId === order.id ? (
+                              <Check className="w-3 h-3 text-emerald-600" />
+                            ) : (
+                              <Copy className="w-3 h-3" />
+                            )}
+                          </button>
+                        </div>
+                        <div className="text-[10px] text-muted-taupe mt-0.5">
+                          {new Date(order.createdAt).toLocaleDateString('en-NG', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </div>
+                        <span className="inline-block mt-1 text-[9px] uppercase px-1.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-xs font-semibold">
+                          {order.payment.provider}
+                        </span>
+                      </td>
+
+                      {/* Customer Info */}
+                      <td className="p-3 align-top">
+                        <div className="font-bold text-ink-black">{order.customer.fullName}</div>
+                        <div className="text-muted-taupe font-mono text-[11px]">{order.customer.phone}</div>
+                        <div className="text-[10px] text-muted-taupe truncate max-w-[150px]">
+                          {order.customer.email}
+                        </div>
+                      </td>
+
+                      {/* Footwear Items */}
+                      <td className="p-3 align-top">
+                        {order.items.map((item, idx) => (
+                          <div key={idx} className="space-y-0.5 mb-1.5 last:mb-0">
+                            <div className="font-semibold text-ink-black">
+                              {item.product.name}
+                            </div>
+                            <div className="text-[11px] text-espresso font-mono">
+                              Size: <span className="font-bold">{item.selectedSize}</span> · Qty: {item.quantity}
+                            </div>
+                            {item.withHeartCharm && (
+                              <div className="text-[10px] text-oxblood font-medium">
+                                Heart Charm: &quot;{item.engravedText || 'Standard'}&quot;
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </td>
+
+                      {/* Delivery Location */}
+                      <td className="p-3 align-top max-w-[180px]">
+                        <div className="text-ink-black font-semibold">
+                          {order.customer.city}, {order.customer.state}
+                        </div>
+                        <div className="text-[11px] text-muted-taupe line-clamp-2 mt-0.5">
+                          {order.customer.address}
+                        </div>
                         <button
                           type="button"
-                          onClick={() => copyToClipboard(order.id, order.id)}
-                          className="text-cocoa hover:text-ink-black p-0.5"
-                          title="Copy Order ID"
+                          onClick={() =>
+                            copyToClipboard(
+                              `${order.customer.address}, ${order.customer.city}, ${order.customer.state}`,
+                              `addr-${order.id}`
+                            )
+                          }
+                          className="text-[10px] text-espresso hover:underline flex items-center gap-1 mt-1 font-medium"
                         >
-                          {copiedId === order.id ? (
-                            <Check className="w-3 h-3 text-emerald-600" />
+                          {copiedId === `addr-${order.id}` ? (
+                            <span className="text-emerald-700 font-bold">Address Copied!</span>
                           ) : (
-                            <Copy className="w-3 h-3" />
+                            <>
+                              <Copy className="w-2.5 h-2.5" />
+                              <span>Copy Address</span>
+                            </>
                           )}
                         </button>
-                      </div>
-                      <div className="text-[10px] text-muted-taupe mt-0.5">
-                        {new Date(order.createdAt).toLocaleDateString('en-NG', {
+                      </td>
+
+                      {/* Total */}
+                      <td className="p-3 align-top font-mono font-bold text-ink-black text-sm tabular-nums">
+                        ₦{order.total.toLocaleString()}
+                      </td>
+
+                      {/* Status Dropdown */}
+                      <td className="p-3 align-top">
+                        <select
+                          value={order.status}
+                          disabled={updatingOrderId === order.id}
+                          onChange={(e) =>
+                            handleStatusChange(order.id, e.target.value as Order['status'])
+                          }
+                          className={`text-[10px] font-bold px-2 py-1 rounded-xs border uppercase tracking-wider focus-dark cursor-pointer ${
+                            order.status === 'paid'
+                              ? 'bg-amber-100 text-amber-900 border-amber-300'
+                              : order.status === 'processing'
+                              ? 'bg-blue-100 text-blue-900 border-blue-300'
+                              : order.status === 'shipped'
+                              ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
+                              : 'bg-gray-100 text-gray-800 border-gray-300'
+                          }`}
+                        >
+                          <option value="paid">Paid / Pending</option>
+                          <option value="processing">Processing</option>
+                          <option value="shipped">Shipped</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                      </td>
+
+                      {/* Dispatch Actions */}
+                      <td className="p-3 align-top space-y-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedOrder(order)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-bone hover:bg-warm-white border border-cocoa/30 text-ink-black text-[10px] font-bold uppercase tracking-wider rounded-xs transition-colors focus-dark w-full justify-center"
+                        >
+                          <Eye className="w-3 h-3 text-espresso" />
+                          <span>View Details</span>
+                        </button>
+
+                        <a
+                          href={generateCustomerWhatsAppUrl(order)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-warm-white text-[10px] font-bold uppercase tracking-wider rounded-xs transition-colors focus-dark w-full justify-center shadow-xs active:scale-[0.98]"
+                        >
+                          <Send className="w-3 h-3" />
+                          <span>WhatsApp Customer</span>
+                        </a>
+
+                        <a
+                          href={generateCEOAlertUrl(order)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-warm-white border border-cocoa/30 hover:bg-bone text-ink-black text-[9px] font-semibold rounded-xs transition-colors focus-dark w-full justify-center"
+                        >
+                          <Send className="w-3 h-3 text-oxblood" />
+                          <span>Alert CEO</span>
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 2: VIP SUBSCRIBERS CONSOLE */}
+      {activeTab === 'subscribers' && (
+        <div className="bg-warm-white border border-cocoa/20 rounded-xs overflow-hidden shadow-xs space-y-4 p-6">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
+            <div>
+              <h2 className="text-xl font-bold text-ink-black">VIP Subscribers & Drop Retention</h2>
+              <p className="text-xs text-muted-taupe mt-0.5">
+                Every client email entered via homepage waitlists, checkout flow, or footer signups is permanently captured here.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Search */}
+              <div className="relative w-full sm:w-60">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-3 text-cocoa" />
+                <input
+                  type="text"
+                  placeholder="Search emails..."
+                  value={subscribersSearch}
+                  onChange={(e) => setSubscribersSearch(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 text-xs bg-bone border border-cocoa/30 rounded-xs focus-dark text-ink-black font-medium"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={copyAllSubscribers}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-ink-black text-warm-white text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-espresso transition-colors"
+              >
+                {copiedAllEmails ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Copied {subscribers.length} Emails!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    <span>Copy All Emails</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={exportSubscribersCSV}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-bone transition-colors"
+              >
+                <Download className="w-3.5 h-3.5 text-cocoa" />
+                <span>Export CSV</span>
+              </button>
+            </div>
+          </div>
+
+          {filteredSubscribers.length === 0 ? (
+            <div className="py-16 text-center text-xs text-muted-taupe space-y-2">
+              <Mail className="w-8 h-8 text-cocoa/40 mx-auto" />
+              <p className="font-semibold text-ink-black text-sm">No subscribers captured yet</p>
+              <p>
+                When visitors sign up for launch alerts or checkout, their contact details will be recorded here automatically.
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-cocoa/20 text-cocoa uppercase tracking-wider text-[10px] bg-bone/50">
+                    <th className="p-3">Subscriber Email</th>
+                    <th className="p-3">Customer Name</th>
+                    <th className="p-3">Source Channel</th>
+                    <th className="p-3">Date Registered</th>
+                    <th className="p-3">Retention Tags</th>
+                    <th className="p-3">Quick Copy</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-cocoa/15">
+                  {filteredSubscribers.map((sub) => (
+                    <tr key={sub.id} className="hover:bg-bone/40 transition-colors">
+                      <td className="p-3 font-mono font-semibold text-ink-black">
+                        {sub.email}
+                      </td>
+                      <td className="p-3 text-ink-black">
+                        {sub.name || <span className="text-muted-taupe italic">Anonymous</span>}
+                      </td>
+                      <td className="p-3">
+                        <span className="px-2 py-0.5 bg-espresso/10 text-espresso text-[10px] uppercase font-mono tracking-wider rounded-xs">
+                          {sub.source.replace('_', ' ')}
+                        </span>
+                      </td>
+                      <td className="p-3 text-muted-taupe font-mono text-[11px]">
+                        {new Date(sub.subscribedAt).toLocaleDateString('en-NG', {
                           month: 'short',
                           day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
+                          year: 'numeric',
                         })}
-                      </div>
-                      <span className="inline-block mt-1 text-[9px] uppercase px-1.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-xs font-semibold">
-                        {order.payment.provider}
-                      </span>
-                    </td>
-
-                    {/* Customer Info */}
-                    <td className="p-3 align-top">
-                      <div className="font-bold text-ink-black">{order.customer.fullName}</div>
-                      <div className="text-muted-taupe font-mono text-[11px]">{order.customer.phone}</div>
-                      <div className="text-[10px] text-muted-taupe truncate max-w-[150px]">
-                        {order.customer.email}
-                      </div>
-                    </td>
-
-                    {/* Footwear Items */}
-                    <td className="p-3 align-top">
-                      {order.items.map((item, idx) => (
-                        <div key={idx} className="space-y-0.5 mb-1.5 last:mb-0">
-                          <div className="font-semibold text-ink-black">
-                            {item.product.name}
-                          </div>
-                          <div className="text-[11px] text-espresso font-mono">
-                            Size: <span className="font-bold">{item.selectedSize}</span> · Qty: {item.quantity}
-                          </div>
-                          {item.withHeartCharm && (
-                            <div className="text-[10px] text-oxblood font-medium">
-                              Heart Charm: &quot;{item.engravedText || 'Standard'}&quot;
-                            </div>
-                          )}
+                      </td>
+                      <td className="p-3">
+                        <div className="flex flex-wrap gap-1">
+                          {sub.tags.map((t) => (
+                            <span
+                              key={t}
+                              className="px-1.5 py-0.5 bg-bone border border-cocoa/20 text-[9px] uppercase font-mono text-cocoa rounded-xs"
+                            >
+                              {t}
+                            </span>
+                          ))}
                         </div>
-                      ))}
-                    </td>
-
-                    {/* Delivery Location */}
-                    <td className="p-3 align-top max-w-[180px]">
-                      <div className="text-ink-black font-semibold">{order.customer.city}, {order.customer.state}</div>
-                      <div className="text-[11px] text-muted-taupe line-clamp-2 mt-0.5">
-                        {order.customer.address}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => copyToClipboard(`${order.customer.address}, ${order.customer.city}, ${order.customer.state}`, `addr-${order.id}`)}
-                        className="text-[10px] text-espresso hover:underline flex items-center gap-1 mt-1 font-medium"
-                      >
-                        {copiedId === `addr-${order.id}` ? (
-                          <span className="text-emerald-700 font-bold">Address Copied!</span>
-                        ) : (
-                          <>
-                            <Copy className="w-2.5 h-2.5" />
-                            <span>Copy Address</span>
-                          </>
-                        )}
-                      </button>
-                    </td>
-
-                    {/* Total */}
-                    <td className="p-3 align-top font-mono font-bold text-ink-black text-sm tabular-nums">
-                      ₦{order.total.toLocaleString()}
-                    </td>
-
-                    {/* Status Dropdown */}
-                    <td className="p-3 align-top">
-                      <select
-                        value={order.status}
-                        disabled={updatingOrderId === order.id}
-                        onChange={(e) =>
-                          handleStatusChange(order.id, e.target.value as Order['status'])
-                        }
-                        className={`text-[10px] font-bold px-2 py-1 rounded-xs border uppercase tracking-wider focus-dark cursor-pointer ${
-                          order.status === 'paid'
-                            ? 'bg-amber-100 text-amber-900 border-amber-300'
-                            : order.status === 'processing'
-                            ? 'bg-blue-100 text-blue-900 border-blue-300'
-                            : order.status === 'shipped'
-                            ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
-                            : 'bg-gray-100 text-gray-800 border-gray-300'
-                        }`}
-                      >
-                        <option value="paid">Paid / Pending</option>
-                        <option value="processing">Processing</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
-                    </td>
-
-                    {/* Dispatch Actions */}
-                    <td className="p-3 align-top space-y-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setSelectedOrder(order)}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-bone hover:bg-warm-white border border-cocoa/30 text-ink-black text-[10px] font-bold uppercase tracking-wider rounded-xs transition-colors focus-dark w-full justify-center"
-                      >
-                        <Eye className="w-3 h-3 text-espresso" />
-                        <span>View Details</span>
-                      </button>
-
-                      <a
-                        href={generateCustomerWhatsAppUrl(order)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-warm-white text-[10px] font-bold uppercase tracking-wider rounded-xs transition-colors focus-dark w-full justify-center shadow-xs active:scale-[0.98]"
-                      >
-                        <Send className="w-3 h-3" />
-                        <span>WhatsApp Customer</span>
-                      </a>
-
-                      <a
-                        href={generateCEOAlertUrl(order)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-warm-white border border-cocoa/30 hover:bg-bone text-ink-black text-[9px] font-semibold rounded-xs transition-colors focus-dark w-full justify-center"
-                      >
-                        <MessageCircle className="w-3 h-3 text-oxblood" />
-                        <span>Alert CEO Phone</span>
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                      </td>
+                      <td className="p-3">
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard(sub.email, sub.id)}
+                          className="inline-flex items-center gap-1 text-[10px] uppercase font-bold text-espresso hover:underline"
+                        >
+                          {copiedId === sub.id ? (
+                            <span className="text-emerald-700">Copied!</span>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Order Detail Modal Drawer */}
       {selectedOrder && (
@@ -649,43 +885,62 @@ export default function AdminDashboardPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-bold text-ink-black truncate">{item.product.name}</div>
-                      <div className="text-muted-taupe font-mono">
-                        Size: <span className="font-bold text-ink-black">{item.selectedSize}</span> · Qty: {item.quantity}
+                      <div className="text-[11px] text-espresso font-mono">
+                        Size: {item.selectedSize} · Qty: {item.quantity} · ₦{item.product.price.toLocaleString()}
                       </div>
                       {item.withHeartCharm && (
                         <div className="text-[10px] text-oxblood font-semibold">
-                          Engraved Text: &quot;{item.engravedText || 'Standard'}&quot;
+                          Custom Heart Charm: &quot;{item.engravedText || 'Standard'}&quot;
                         </div>
                       )}
-                    </div>
-                    <div className="font-mono font-bold text-ink-black">
-                      ₦{(item.product.price * item.quantity).toLocaleString()}
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Payment Summary */}
-              <div className="p-4 bg-espresso/5 border border-espresso/20 rounded-xs space-y-1 text-right font-mono">
-                <div className="flex justify-between text-muted-taupe text-[11px]">
-                  <span>Payment Provider:</span>
-                  <span className="uppercase font-bold text-ink-black">{selectedOrder.payment.provider}</span>
+              {/* Financial Breakdown */}
+              <div className="p-4 bg-bone/50 border border-cocoa/20 rounded-xs space-y-2 font-mono">
+                <div className="flex justify-between text-muted-taupe">
+                  <span>Subtotal</span>
+                  <span>₦{selectedOrder.subtotal.toLocaleString()}</span>
                 </div>
-                <div className="flex justify-between text-base font-bold text-ink-black pt-1 border-t border-cocoa/15">
-                  <span>Total Amount Paid:</span>
+                <div className="flex justify-between text-muted-taupe">
+                  <span>Tracked Nationwide Delivery</span>
+                  <span>₦{selectedOrder.deliveryFee.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-sm font-bold text-ink-black pt-2 border-t border-cocoa/20">
+                  <span>Total Amount Settled</span>
                   <span>₦{selectedOrder.total.toLocaleString()}</span>
                 </div>
+              </div>
+
+              {/* Status Update In Modal */}
+              <div className="pt-2 flex items-center justify-between gap-4">
+                <span className="font-semibold text-ink-black">Current Status:</span>
+                <select
+                  value={selectedOrder.status}
+                  disabled={updatingOrderId === selectedOrder.id}
+                  onChange={(e) =>
+                    handleStatusChange(selectedOrder.id, e.target.value as Order['status'])
+                  }
+                  className="text-xs font-bold px-3 py-1.5 rounded-xs border border-cocoa/30 focus-dark bg-warm-white"
+                >
+                  <option value="paid">Paid / Awaiting Packing</option>
+                  <option value="processing">In Handcraft Assembly</option>
+                  <option value="shipped">Handed to Courier</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
               </div>
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-bone border-t border-cocoa/20 flex justify-end gap-3">
+            <div className="p-4 border-t border-cocoa/20 bg-bone flex items-center justify-end gap-2">
               <button
                 type="button"
                 onClick={() => setSelectedOrder(null)}
-                className="px-4 py-2 bg-ink-black text-warm-white text-xs font-bold uppercase tracking-wider rounded-xs hover:bg-espresso transition-colors"
+                className="px-4 py-2 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-bone transition-colors"
               >
-                Close Breakdown
+                Close
               </button>
             </div>
           </div>

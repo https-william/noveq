@@ -1,26 +1,95 @@
+import fs from 'fs';
+import path from 'path';
 import { Order, PaymentStatus } from '@/types/commerce';
+import { supabaseAdmin } from './supabase';
 
 /**
  * Authoritative Server-Side Order Repository
  * 
- * Supports real-time back-office management, Paystack webhooks,
- * and instant CEO dispatch notifications.
+ * Synchronizes with Supabase Postgres table `orders` and provides
+ * local disk persistence `data/orders.json` and in-memory caching.
  */
+
+const DATA_DIR = path.join(process.cwd(), 'data');
+const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
 
 declare global {
   // eslint-disable-next-line no-var
   var __noveq_orders: Map<string, Order> | undefined;
 }
 
+function loadInitialOrders(): Map<string, Order> {
+  const map = new Map<string, Order>();
+  try {
+    if (fs.existsSync(ORDERS_FILE)) {
+      const data = fs.readFileSync(ORDERS_FILE, 'utf-8');
+      const list: Order[] = JSON.parse(data);
+      for (const item of list) {
+        map.set(item.id, item);
+      }
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to load orders from disk:', err);
+  }
+  return map;
+}
+
 const ordersStore: Map<string, Order> =
-  global.__noveq_orders ?? new Map<string, Order>();
+  global.__noveq_orders ?? loadInitialOrders();
 
 if (process.env.NODE_ENV !== 'production') {
   global.__noveq_orders = ordersStore;
 }
 
+function persistOrdersToFile() {
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    const list = Array.from(ordersStore.values()).sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    fs.writeFileSync(ORDERS_FILE, JSON.stringify(list, null, 2), 'utf-8');
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to persist orders to disk:', err);
+  }
+}
+
+function syncOrderToSupabase(order: Order) {
+  try {
+    supabaseAdmin
+      .from('orders')
+      .upsert({
+        id: order.id,
+        created_at: order.createdAt,
+        status: order.status,
+        customer: order.customer,
+        items: order.items,
+        subtotal: order.subtotal,
+        delivery_fee: order.deliveryFee,
+        total: order.total,
+        currency: order.currency,
+        delivery_expectation: order.deliveryExpectation,
+        payment: order.payment,
+        notes: order.notes || null,
+      })
+      .then(({ error }) => {
+        if (error && !error.message?.includes('schema cache')) {
+          // eslint-disable-next-line no-console
+          console.error('Supabase order sync error:', error.message);
+        }
+      });
+  } catch {
+    // Non-blocking for commerce execution
+  }
+}
+
 export function saveOrder(order: Order): Order {
   ordersStore.set(order.id, order);
+  persistOrdersToFile();
+  syncOrderToSupabase(order);
   return order;
 }
 
@@ -51,6 +120,8 @@ export function updateOrderStatus(
   if (!order) return undefined;
   order.status = status;
   ordersStore.set(orderId, order);
+  persistOrdersToFile();
+  syncOrderToSupabase(order);
   return order;
 }
 
@@ -75,5 +146,7 @@ export function updateOrderPayment(
   }
 
   ordersStore.set(orderId, order);
+  persistOrdersToFile();
+  syncOrderToSupabase(order);
   return order;
 }
