@@ -8,8 +8,6 @@ import {
   ArrowRight,
   Check,
   Sparkles,
-  ChevronLeft,
-  ChevronRight,
   Clock,
   Archive,
 } from 'lucide-react';
@@ -21,78 +19,12 @@ import { SITE_SETTINGS } from '@/config/siteSettings';
 import { CampaignState } from '@/types/content';
 import { trackEvent } from '@/lib/analytics';
 
-/**
- * Editorial Campaign Highlights
- * Highlighting The Ring and The Weave with outcome-driven persuasion (/wolf & /clarity)
- */
-const CAMPAIGN_HIGHLIGHTS = [
-  {
-    id: 'the-ring',
-    name: 'The Ring Slide Pam',
-    eyebrow: 'Modern. Chic. Refined.',
-    tagline: 'Simple details. Bigger impact.',
-    slug: 'the-ring-slide-pam',
-    posterImage: '/images/campaign/the-ring-campaign-poster.png',
-    editorialImage: '/images/models/the-ring-editorial-spec.jpg',
-    hook: '“You know those outfits where the clothes are simple but the footwear completely changes the look? That’s what we designed this for.”',
-    featureOutcome: [
-      {
-        feature: 'Contoured Gold Statement Ring',
-        benefit: 'Distinctive focal anchor with zero instep pressure',
-        outcome: 'Elevates casual denim or neutral linens into a fashion-forward ensemble.',
-      },
-      {
-        feature: 'Tempered 12mm Low Heel',
-        benefit: 'Adds subtle posture elevation without high heel fatigue',
-        outcome: 'Walk with quiet elegance and all-day comfort across Lagos streets.',
-      },
-      {
-        feature: 'Full-Grain Nigerian Calfskin',
-        benefit: 'Adapts and relaxes to your natural foot width over wears',
-        outcome: 'A personalized fit that deepens with a rich, lasting leather patina.',
-      },
-    ],
-    colorways: ['Warm Tan', 'Rich Burgundy', 'Deep Noir', 'Off White'],
-    ctaLabel: 'Explore The Ring',
-  },
-  {
-    id: 'the-weave',
-    name: 'The Weave Slide Pam',
-    eyebrow: 'Now in More Colours',
-    tagline: 'Textured finish. Timeless presence.',
-    slug: 'the-weave-slide-pam',
-    posterImage: '/images/campaign/the-weave-campaign-poster.png',
-    editorialImage: '/images/models/the-weave-editorial-spec.jpg',
-    hook: '“Move from product to outcome. Tactile woven leather architecture that brings effortless depth to your daily stride.”',
-    featureOutcome: [
-      {
-        feature: 'Handcrafted Braided Vamp',
-        benefit: 'Distributes stride flex naturally across the arch',
-        outcome: 'Prevents edge pinching while adding organic textural presence.',
-      },
-      {
-        feature: 'Versatile Palette Expansion',
-        benefit: 'Five foundational earth-toned leather shades',
-        outcome: 'Seamless pairing with monochromatic, neutral, or tailored wardrobes.',
-      },
-      {
-        feature: 'Hand-Beveled Square Toe Base',
-        benefit: 'Contoured base allowing natural anatomical toe splay',
-        outcome: 'Balanced ground contact with refined, modern geometric lines.',
-      },
-    ],
-    colorways: ['Black', 'Burgundy', 'Off White', 'Army Green', 'Dark Brown'],
-    ctaLabel: 'Explore The Weave',
-  },
-];
-
 function HomeClientInner() {
   const searchParams = useSearchParams();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const [newsletterLoading, setNewsletterLoading] = useState(false);
   const [newsletterError, setNewsletterError] = useState<string | null>(null);
-  const [activeCampaignIndex, setActiveCampaignIndex] = useState(0);
 
   // Dynamic campaign state: URL query param (?state=pre-launch | sold-out | reveal | live)
   // allows effortless testing & previewing, falling back to SITE_SETTINGS config.
@@ -144,8 +76,6 @@ function HomeClientInner() {
     }
   };
 
-  const currentCampaign = CAMPAIGN_HIGHLIGHTS[activeCampaignIndex];
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* ── 1. HERO SECTION (SWAPPABLE LAUNCH SEQUENCE STATES) ──
@@ -176,7 +106,7 @@ function HomeClientInner() {
                   <>
                     <span className="font-semibold text-warm-white">DROP 001 REVEAL</span>
                     <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                    <span>Examine Silhouettes & Craft Details</span>
+                    <span>Examine Designs & Craft Details</span>
                   </>
                 )}
                 {campaignState === 'live' && (
@@ -203,7 +133,7 @@ function HomeClientInner() {
                 {campaignState === 'sold-out' &&
                   'All ten pairs of Drop 001 have been allocated. Join the private register to receive priority access to Drop 002 when leather tempering completes.'}
                 {campaignState === 'reveal' &&
-                  'Explore the silhouettes, asymmetric straps, and full-grain Nigerian hides before the purchase window opens.'}
+                  'Explore the designs, refined straps, and full-grain Nigerian hides before the purchase window opens.'}
                 {campaignState === 'live' &&
                   'Contemporary leather footwear, thoughtfully made for everyday movement.'}
               </p>
@@ -270,7 +200,7 @@ function HomeClientInner() {
                       href="#drop-001-grid"
                       className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[48px] active:scale-[0.99]"
                     >
-                      <span>Preview Silhouettes</span>
+                      <span>Preview Designs</span>
                       <ArrowRight className="w-4 h-4" />
                     </a>
                     <a
@@ -311,8 +241,8 @@ function HomeClientInner() {
             <div className="lg:col-span-5">
               <div className="relative aspect-[3/4] sm:aspect-[4/3] lg:aspect-[3/4] bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-2xl group">
                 <Image
-                  src="/images/models/the-twist-model.jpg"
-                  alt="NOVEQ contemporary leather footwear on model — Handcrafted in Nigeria"
+                  src="/images/models/the-ring-hero-model.jpg"
+                  alt="NOVEQ The Ring Slide Pam on model feet — Handcrafted in Nigeria"
                   fill
                   priority
                   quality={90}
@@ -346,8 +276,8 @@ function HomeClientInner() {
         </div>
       </section>
 
-      {/* ── 2. FEATURED DROP 001 SECTION ──
-          Preview of the 10-pair initial run with clear stock signals */}
+      {/* ── 2. FEATURED NOVEQ COLLECTION ──
+          Highlighting The Ring and The Weave with clear stock signals */}
       <section id="drop-001-grid" className="py-20 sm:py-28 bg-bone border-b border-cocoa/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
@@ -355,8 +285,8 @@ function HomeClientInner() {
               <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
                 Launch Release
               </span>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-black">
-                Drop 001 — The First Ten Pairs
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-black lowercase font-serif">
+                noveq collection
               </h2>
             </div>
 
@@ -364,12 +294,12 @@ function HomeClientInner() {
               href="/shop"
               className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-espresso hover:text-ink-black underline underline-offset-4 focus-dark min-h-[44px]"
             >
-              <span>View All Silhouettes</span>
+              <span>View Collection</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {DROP_001_PRODUCTS.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}
@@ -438,195 +368,104 @@ function HomeClientInner() {
         </div>
       </section>
 
-      {/* ── 5. EDITORIAL CAMPAIGN SHOWCASE (THE RING & THE WEAVE) ──
-          Featuring authentic feet-on-model editorial photography and campaign posters.
-          Straight-Line Persuasion (/wolf): "Sell the reason to want them" — Feature → Benefit → Lifestyle Outcome. */}
+      {/* ── 5. EDITORIAL CAMPAIGN SPOTLIGHT (THE RING & THE WEAVE) ──
+          Clean, serene dual presentation of NOVEQ's foundational designs */}
       <section className="py-20 sm:py-28 bg-espresso text-warm-white border-b border-cocoa/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left: Campaign Copy & Interactive Silhouette Selector */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark font-medium block">
-                  Campaign Showcase
-                </span>
-                <span className="text-[11px] font-mono text-muted-taupe-on-dark">
-                  0{activeCampaignIndex + 1} / 0{CAMPAIGN_HIGHLIGHTS.length}
-                </span>
-              </div>
+          <div className="max-w-2xl mb-12 sm:mb-16">
+            <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark font-medium block mb-2">
+              Featured Designs
+            </span>
+            <h2 className="font-rayleigh text-3xl sm:text-5xl font-normal tracking-tight text-warm-white leading-tight">
+              Two Designs. Considered Form.
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
+              Handcrafted in Nigeria from full-grain calfskin. Built around everyday movement.
+            </p>
+          </div>
 
-              <div className="space-y-2">
-                <span className="text-xs font-serif italic text-cocoa">
-                  {currentCampaign.eyebrow}
-                </span>
-                <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-warm-white leading-tight">
-                  {currentCampaign.tagline}
-                </h2>
-              </div>
-
-              {/* /wolf Straight-Line Outcome Hook */}
-              <div className="p-4 bg-ink-black/40 border-l-2 border-cocoa rounded-xs">
-                <p className="text-sm sm:text-base text-warm-white/95 font-serif italic leading-relaxed">
-                  {currentCampaign.hook}
-                </p>
-              </div>
-
-              {/* Silhouette Switcher Tabs */}
-              <div
-                role="tablist"
-                aria-label="Campaign silhouettes"
-                className="grid grid-cols-2 gap-3 pt-2"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            {/* Card 1: The Ring */}
+            <div className="group space-y-4">
+              <Link
+                href="/shop/the-ring-slide-pam"
+                className="relative block aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden focus-dark"
               >
-                {CAMPAIGN_HIGHLIGHTS.map((item, idx) => {
-                  const isSelected = activeCampaignIndex === idx;
-                  return (
-                    <button
-                      key={item.id}
-                      role="tab"
-                      aria-selected={isSelected}
-                      onClick={() => setActiveCampaignIndex(idx)}
-                      className={`p-3.5 text-left border rounded-xs transition-all duration-200 focus-dark ${
-                        isSelected
-                          ? 'bg-warm-white text-ink-black border-warm-white shadow-sm ring-1 ring-warm-white'
-                          : 'bg-ink-black/40 text-warm-white/80 border-cocoa/40 hover:bg-ink-black/70 hover:border-cocoa/70'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className={`text-[10px] uppercase tracking-widest font-mono ${
-                          isSelected ? 'text-cocoa font-bold' : 'text-muted-taupe-on-dark'
-                        }`}>
-                          Silhouette 0{idx + 1}
-                        </span>
-                        <Sparkles className={`w-3.5 h-3.5 ${isSelected ? 'text-cocoa' : 'text-warm-white/50'}`} />
-                      </div>
-                      <h3 className={`text-xs font-semibold ${
-                        isSelected ? 'text-ink-black' : 'text-warm-white'
-                      }`}>
-                        {item.name}
-                      </h3>
-                      <p className={`text-[10px] mt-0.5 ${
-                        isSelected ? 'text-muted-taupe' : 'text-muted-taupe-on-dark'
-                      }`}>
-                        {item.eyebrow}
-                      </p>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Feature → Benefit → Lifestyle Outcome Cards */}
-              <div className="space-y-2.5 pt-2">
-                <span className="text-[10px] uppercase tracking-widest text-muted-taupe-on-dark block font-semibold">
-                  Considered Design & Daily Fit
+                <Image
+                  src="/images/models/the-ring-hero-model.jpg"
+                  alt="NOVEQ The Ring Slide Pam on model"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
+                  The Ring · Warm Cognac
                 </span>
-                {currentCampaign.featureOutcome.map((fo, i) => (
-                  <div key={i} className="p-3 bg-ink-black/30 border border-cocoa/30 rounded-xs space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-medium text-warm-white">
-                        {fo.feature}
-                      </span>
-                      <span className="text-[10px] text-cocoa font-mono">
-                        {fo.benefit}
-                      </span>
-                    </div>
-                    <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
-                      {fo.outcome}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              </Link>
 
-              {/* Colorway Pills & CTA */}
-              <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-cocoa/30">
-                <div className="space-y-1">
-                  <span className="text-[10px] uppercase tracking-wider text-muted-taupe-on-dark block">
-                    Curated Colours
+              <div className="space-y-2 pt-2">
+                <div className="flex items-baseline justify-between">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
+                    The Ring Slide Pam
+                  </h3>
+                  <span className="font-mono text-xs sm:text-sm text-cocoa font-medium">
+                    ₦20,000
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {currentCampaign.colorways.map((c) => (
-                      <span
-                        key={c}
-                        className="px-2 py-0.5 bg-ink-black/60 border border-cocoa/30 text-[10px] text-warm-white rounded-xs"
-                      >
-                        {c}
-                      </span>
-                    ))}
-                  </div>
                 </div>
-
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setActiveCampaignIndex((prev) =>
-                        prev === 0 ? CAMPAIGN_HIGHLIGHTS.length - 1 : prev - 1
-                      )
-                    }
-                    className="p-2 border border-cocoa/40 rounded-xs text-muted-taupe-on-dark hover:text-warm-white hover:bg-ink-black/60 transition-colors"
-                    aria-label="Previous campaign silhouette"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setActiveCampaignIndex((prev) =>
-                        prev === CAMPAIGN_HIGHLIGHTS.length - 1 ? 0 : prev + 1
-                      )
-                    }
-                    className="p-2 border border-cocoa/40 rounded-xs text-muted-taupe-on-dark hover:text-warm-white hover:bg-ink-black/60 transition-colors"
-                    aria-label="Next campaign silhouette"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
+                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
+                  A clean cut design anchored with a polished gold statement ring. Simple details, bigger impact.
+                </p>
+                <div className="pt-2">
                   <Link
-                    href={`/products/${currentCampaign.slug}`}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark shrink-0 min-h-[44px]"
+                    href="/shop/the-ring-slide-pam"
+                    className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-warm-white hover:text-bone underline underline-offset-4 focus-dark min-h-[44px]"
                   >
-                    <span>{currentCampaign.ctaLabel}</span>
+                    <span>Explore The Ring</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
             </div>
 
-            {/* Right: Dual Editorial Visuals (Poster & Feet-On-Model) */}
-            <div className="lg:col-span-6 space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Poster Asset */}
-                <div className="relative aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden shadow-lg group">
-                  <Image
-                    src={currentCampaign.posterImage}
-                    alt={`NOVEQ official campaign poster — ${currentCampaign.name}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 25vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60 pointer-events-none" />
-                  <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-ink-black/80 backdrop-blur-xs border border-cocoa/40 text-[9px] uppercase tracking-wider text-warm-white rounded-xs">
-                    Campaign Poster
+            {/* Card 2: The Weave */}
+            <div className="group space-y-4">
+              <Link
+                href="/shop/the-weave-slide-pam"
+                className="relative block aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden focus-dark"
+              >
+                <Image
+                  src="/images/models/the-weave-hero-model.jpg"
+                  alt="NOVEQ The Weave Slide Pam on model"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
+                  The Weave · Deep Noir
+                </span>
+              </Link>
+
+              <div className="space-y-2 pt-2">
+                <div className="flex items-baseline justify-between">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
+                    The Weave Slide Pam
+                  </h3>
+                  <span className="font-mono text-xs sm:text-sm text-cocoa font-medium">
+                    ₦20,000
                   </span>
                 </div>
-
-                {/* Editorial Model Spec Asset */}
-                <div className="relative aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden shadow-lg group">
-                  <Image
-                    src={currentCampaign.editorialImage}
-                    alt={`NOVEQ feet-on-model editorial photography — ${currentCampaign.name}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 25vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60 pointer-events-none" />
-                  <span className="absolute bottom-3 left-3 px-2 py-0.5 bg-ink-black/80 backdrop-blur-xs border border-cocoa/40 text-[9px] uppercase tracking-wider text-warm-white rounded-xs">
-                    Feet on Model
-                  </span>
+                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
+                  Braided leather straps for a textured finish. Interlocking architecture that flexes naturally across the arch.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/shop/the-weave-slide-pam"
+                    className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-warm-white hover:text-bone underline underline-offset-4 focus-dark min-h-[44px]"
+                  >
+                    <span>Explore The Weave</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
-              </div>
-
-              <div className="p-3 bg-ink-black/40 border border-cocoa/30 rounded-xs flex items-center justify-between text-xs text-muted-taupe-on-dark">
-                <span>Natural stride testing on Lagos stone pavement</span>
-                <span className="font-mono text-warm-white font-semibold">Drop 001 Original</span>
               </div>
             </div>
           </div>

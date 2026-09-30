@@ -75,20 +75,20 @@ export default function ShopCatalogClient({
             <span>DROP 001</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-ink-black leading-tight">
-            Drop 001 — The First Ten Pairs
+          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-ink-black leading-tight lowercase font-serif">
+            noveq collection
           </h1>
 
           <p className="font-serif text-2xl sm:text-3xl text-espresso italic font-normal">
-            “Same purpose. A new perspective.”
+            “Crafted to move.”
           </p>
 
           <p className="text-sm sm:text-base text-ink-black/85 max-w-2xl leading-relaxed">
-            The inaugural release from NOVEQ: ten pairs of contemporary women’s leather pams handcrafted in Lagos. Available for immediate allocation below.
+            The inaugural release from NOVEQ: contemporary women’s leather pams handcrafted in Nigeria. Available for immediate allocation below.
           </p>
 
           <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-taupe pt-2">
-            <span>Handmade in Lagos</span>
+            <span>Handcrafted in Nigeria</span>
             <span>•</span>
             <span>Vegetable-Tanned Nigerian Hide</span>
             <span>•</span>

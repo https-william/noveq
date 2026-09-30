@@ -2,9 +2,9 @@ import { Metadata } from 'next';
 import ShopCatalogClient from '@/components/Shop/ShopCatalogClient';
 
 export const metadata: Metadata = {
-  title: 'Drop 001 — The First Ten Pairs | NOVEQ',
+  title: 'Drop 001 — noveq collection | NOVEQ',
   description:
-    'The inaugural 10-pair limited release of contemporary women’s leather pams, handmade in Lagos, Nigeria.',
+    'The inaugural release of contemporary women’s leather pams, handcrafted in Nigeria.',
   alternates: {
     canonical: '/shop',
   },
