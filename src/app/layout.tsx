@@ -76,6 +76,8 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${instrumentSerif.variable} ${rayleighGlamour.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
     >
       <head>
         <script
@@ -85,7 +87,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-bone text-ink-black">
+      <body
+        className="min-h-full flex flex-col bg-bone text-ink-black"
+        suppressHydrationWarning
+      >
         <Providers>
           {/* Skip to main content link for keyboard accessibility */}
           <a
