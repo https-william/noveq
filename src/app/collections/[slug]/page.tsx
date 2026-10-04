@@ -2,6 +2,9 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ShopCatalogClient from '@/components/Shop/ShopCatalogClient';
 import { getCollectionBySlug, NOVEQ_COLLECTIONS } from '@/data/collections';
+import { getStorefrontProducts } from '@/lib/productStore';
+
+export const dynamic = 'force-dynamic';
 
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;
@@ -33,11 +36,15 @@ export default async function CollectionDetailPage({ params }: CollectionPagePro
     notFound();
   }
 
+  const products = getStorefrontProducts(false);
+
   return (
     <ShopCatalogClient
+      initialProducts={products}
       eyebrow={`Collection // ${collection.name}`}
       title={collection.title}
       intro={collection.short_intro}
     />
   );
 }
+

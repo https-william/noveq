@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
 import ShopCatalogClient from '@/components/Shop/ShopCatalogClient';
+import { getStorefrontProducts } from '@/lib/productStore';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Drop 001 — noveq collection | NOVEQ',
@@ -15,5 +18,7 @@ export const metadata: Metadata = {
  * Reuses the central, robust Shop/Product system without template divergence.
  */
 export default function Drop001Page() {
-  return <ShopCatalogClient isDropCampaign={true} />;
+  const products = getStorefrontProducts(false);
+  return <ShopCatalogClient initialProducts={products} isDropCampaign={true} />;
 }
+

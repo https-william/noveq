@@ -1,14 +1,16 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getProductBySlug, getAllProducts } from '@/data/products';
+import { getProductBySlug, getStorefrontProducts } from '@/lib/productStore';
 import ProductDetailClient from '@/components/Product/ProductDetailClient';
+
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const products = getAllProducts();
+  const products = getStorefrontProducts(true);
   return products.map((product) => ({
     slug: product.slug,
   }));

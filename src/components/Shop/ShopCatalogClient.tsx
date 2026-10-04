@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import ProductCard from '@/components/Product/ProductCard';
 import { DROP_001_PRODUCTS } from '@/data/products';
+import { Product } from '@/types/commerce';
 import { SlidersHorizontal, RotateCcw } from 'lucide-react';
 
 interface ShopCatalogClientProps {
@@ -10,6 +11,7 @@ interface ShopCatalogClientProps {
   title?: string;
   intro?: string;
   isDropCampaign?: boolean;
+  initialProducts?: Product[];
 }
 
 export default function ShopCatalogClient({
@@ -17,26 +19,42 @@ export default function ShopCatalogClient({
   title,
   intro,
   isDropCampaign = false,
+  initialProducts,
 }: ShopCatalogClientProps) {
+  const [products, setProducts] = useState<Product[]>(
+    initialProducts && initialProducts.length > 0 ? initialProducts : DROP_001_PRODUCTS
+  );
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.success && Array.isArray(data.products) && data.products.length > 0) {
+          setProducts(data.products);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedColour, setSelectedColour] = useState<string>('all');
   const [onlyAvailable, setOnlyAvailable] = useState<boolean>(false);
 
-  // Extract unique filter options from 10-pair catalog
+  // Extract unique filter options from catalog
   const sizes = useMemo(() => {
     const set = new Set<string>();
-    DROP_001_PRODUCTS.forEach((p) => p.sizes.forEach((s) => set.add(s.size)));
+    products.forEach((p) => p.sizes.forEach((s) => set.add(s.size)));
     return Array.from(set).sort();
-  }, []);
+  }, [products]);
 
   const colours = useMemo(() => {
-    const list = DROP_001_PRODUCTS.map((p) => p.colour);
+    const list = products.map((p) => p.colour);
     return Array.from(new Set(list));
-  }, []);
+  }, [products]);
 
   // Filter products based strictly on active filters
   const filteredProducts = useMemo(() => {
-    return DROP_001_PRODUCTS.filter((product) => {
+    return products.filter((product) => {
       // Availability filter
       if (onlyAvailable && product.stock <= 0) return false;
 
@@ -53,7 +71,8 @@ export default function ShopCatalogClient({
 
       return true;
     });
-  }, [selectedSize, selectedColour, onlyAvailable]);
+  }, [products, selectedSize, selectedColour, onlyAvailable]);
+
 
   const hasActiveFilters =
     selectedSize !== 'all' || selectedColour !== 'all' || onlyAvailable;

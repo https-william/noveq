@@ -4,7 +4,9 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Clock, Calendar } from 'lucide-react';
 import { getJournalArticleBySlug, getAllPublishedArticles } from '@/data/journal';
-import { getProductBySlug } from '@/data/products';
+import { getProductBySlug } from '@/lib/productStore';
+
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ slug: string }>;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, Suspense } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -15,11 +15,50 @@ import ProductCard from '@/components/Product/ProductCard';
 import { SocialProofSection } from '@/components/SocialProof/SocialProofSection';
 import { ScrollReveal } from '@/components/Editorial/ScrollReveal';
 import { DROP_001_PRODUCTS } from '@/data/products';
+import { Product } from '@/types/commerce';
 import { SITE_SETTINGS } from '@/config/siteSettings';
 import { CampaignState } from '@/types/content';
 import { trackEvent } from '@/lib/analytics';
 
-function HomeClientInner() {
+interface HomeClientProps {
+  initialProducts?: Product[];
+}
+
+function HomeClientInner({ initialProducts }: HomeClientProps) {
+  const [products, setProducts] = useState<Product[]>(
+    initialProducts && initialProducts.length > 0 ? initialProducts : DROP_001_PRODUCTS
+  );
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.success && Array.isArray(data.products) && data.products.length > 0) {
+          setProducts(data.products);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const ringProduct = products.find((p) => p.slug === 'the-ring-slide-pam') || products[0];
+  const weaveProduct = products.find((p) => p.slug === 'the-weave-slide-pam') || products[1];
+
+  const formattedRingPrice = ringProduct
+    ? new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: ringProduct.currency,
+        maximumFractionDigits: 0,
+      }).format(ringProduct.price)
+    : '₦25,000';
+
+  const formattedWeavePrice = weaveProduct
+    ? new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: weaveProduct.currency,
+        maximumFractionDigits: 0,
+      }).format(weaveProduct.price)
+    : '₦25,000';
+
   const searchParams = useSearchParams();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
@@ -300,7 +339,7 @@ function HomeClientInner() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {DROP_001_PRODUCTS.map((product) => (
+            {products.map((product) => (
               <ProductCard key={product.slug} product={product} />
             ))}
           </div>
@@ -409,7 +448,7 @@ function HomeClientInner() {
                     The Ring Slide Pam
                   </h3>
                   <span className="font-mono text-xs sm:text-sm text-cocoa font-medium">
-                    ₦20,000
+                    {formattedRingPrice}
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
@@ -451,7 +490,7 @@ function HomeClientInner() {
                     The Weave Slide Pam
                   </h3>
                   <span className="font-mono text-xs sm:text-sm text-cocoa font-medium">
-                    ₦20,000
+                    {formattedWeavePrice}
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
@@ -548,10 +587,10 @@ function HomeClientInner() {
   );
 }
 
-export default function HomeClient() {
+export default function HomeClient({ initialProducts }: HomeClientProps = {}) {
   return (
     <Suspense fallback={<div className="min-h-screen bg-ink-black" />}>
-      <HomeClientInner />
+      <HomeClientInner initialProducts={initialProducts} />
     </Suspense>
   );
 }

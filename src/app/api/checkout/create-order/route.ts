@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { CartItem, CustomerDetails, Order } from '@/types/commerce';
-import { getProductBySlug } from '@/data/products';
+import { getProductBySlug } from '@/lib/productStore';
 import { getDeliveryZoneById } from '@/config/deliveryZones';
 import { saveOrder } from '@/lib/orders';
 import { saveSubscriber } from '@/lib/subscribers';

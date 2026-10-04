@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllOrders, saveOrder, updateOrderStatus, deleteOrder } from '@/lib/orders';
-import { getProductBySlug } from '@/data/products';
+import { getProductBySlug } from '@/lib/productStore';
 import { Order } from '@/types/commerce';
 import { saveSubscriber } from '@/lib/subscribers';
 import { syncOrderToGoogleSheets } from '@/services/googleSheetsService';

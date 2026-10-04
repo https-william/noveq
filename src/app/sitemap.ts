@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getAllProducts } from '@/data/products';
+import { getStorefrontProducts } from '@/lib/productStore';
 import { getAllPublishedArticles } from '@/data/journal';
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -47,7 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Dynamic product routes
-  const productRoutes: MetadataRoute.Sitemap = getAllProducts().map((product) => ({
+  const productRoutes: MetadataRoute.Sitemap = getStorefrontProducts(false).map((product) => ({
     url: `${baseUrl}/shop/${product.slug}`,
     lastModified: currentDate,
     changeFrequency: 'weekly',

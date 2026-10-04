@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
 import ShopCatalogClient from '@/components/Shop/ShopCatalogClient';
+import { getStorefrontProducts } from '@/lib/productStore';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "NOVEQ Drop 001 | Contemporary Women's Leather Pams",
@@ -34,5 +37,7 @@ export const metadata: Metadata = {
 };
 
 export default function ShopPage() {
-  return <ShopCatalogClient />;
+  const products = getStorefrontProducts(false);
+  return <ShopCatalogClient initialProducts={products} />;
 }
+

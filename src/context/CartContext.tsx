@@ -33,7 +33,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lastRemovedItem, setLastRemovedItem] = useState<CartItem | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Load from local storage if available
+  // Load from local storage if available and refresh live product prices
   useEffect(() => {
     try {
       const stored = localStorage.getItem('noveq_cart');
@@ -43,6 +43,35 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // Ignore storage errors
     }
+
+    // Refresh pricing and availability against authoritative endpoint
+    fetch('/api/products')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.success && Array.isArray(data.products) && data.products.length > 0) {
+          const liveMap = new Map<string, Product>();
+          data.products.forEach((p: Product) => liveMap.set(p.slug, p));
+
+          setCartItems((prev) =>
+            prev.map((item) => {
+              const live = liveMap.get(item.product.slug);
+              if (live) {
+                return {
+                  ...item,
+                  product: {
+                    ...item.product,
+                    price: live.price,
+                    compare_at_price: live.compare_at_price,
+                    stock: live.stock,
+                  },
+                };
+              }
+              return item;
+            })
+          );
+        }
+      })
+      .catch(() => {});
   }, []);
 
   // Save to local storage on change

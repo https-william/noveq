@@ -1,5 +1,8 @@
 import { Metadata } from 'next';
 import HomeClient from '@/components/Home/HomeClient';
+import { getStorefrontProducts } from '@/lib/productStore';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "NOVEQ | Contemporary Women's Leather Pams — Crafted to Move",
@@ -34,5 +37,7 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <HomeClient />;
+  const products = getStorefrontProducts(false);
+  return <HomeClient initialProducts={products} />;
 }
+
