@@ -11,7 +11,8 @@ const GOOGLE_SHEET_URL =
  */
 export async function sendTelegramOrderNotification(order: Order): Promise<boolean> {
   const token = process.env.TELEGRAM_BOT_TOKEN || BOT_TOKEN;
-  const rawChatIds = process.env.TELEGRAM_CHAT_IDS || process.env.TELEGRAM_CHAT_ID || '7924266517';
+  const rawChatIds =
+    process.env.TELEGRAM_CHAT_IDS || process.env.TELEGRAM_CHAT_ID || '-5565319867';
 
   if (!token || !rawChatIds) {
     return false;
