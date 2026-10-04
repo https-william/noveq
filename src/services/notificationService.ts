@@ -1,6 +1,7 @@
 import { Order } from '@/types/commerce';
 import { SITE_SETTINGS } from '@/config/siteSettings';
 import { syncOrderToGoogleSheets } from '@/services/googleSheetsService';
+import { sendTelegramOrderNotification } from '@/services/telegramService';
 
 /**
  * NOVEQ Post-Purchase Notification Service
@@ -54,6 +55,12 @@ export async function dispatchOrderConfirmation(order: Order): Promise<Notificat
   syncOrderToGoogleSheets(order).catch((err) => {
     // eslint-disable-next-line no-console
     console.error('Failed to sync order to Google Sheets:', err);
+  });
+
+  // Trigger real-time Telegram alert to founding team (non-blocking)
+  sendTelegramOrderNotification(order).catch((err) => {
+    // eslint-disable-next-line no-console
+    console.error('Failed to send Telegram alert:', err);
   });
 
   // Check environment for live API tokens (e.g. RESEND_API_KEY, WHATSAPP_API_TOKEN)
