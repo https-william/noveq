@@ -95,8 +95,8 @@ export const DROP_001_PRODUCTS: Product[] = [
     name: 'The Weave Slide Pam',
     slug: 'the-weave-slide-pam',
     collection: 'Drop 001',
-    price: 25000,
-    compare_at_price: 29000,
+    price: 20000,
+    compare_at_price: 25000,
     currency: 'NGN',
     colour: 'Black',
     colourHex: '#141414',
@@ -189,6 +189,84 @@ export const DROP_001_PRODUCTS: Product[] = [
       },
     ],
   },
+  {
+    name: 'The Twist Slide Pam',
+    slug: 'the-twist-slide-pam',
+    collection: 'Drop 001',
+    price: 25000,
+    compare_at_price: 27000,
+    currency: 'NGN',
+    colour: 'Burgundy',
+    colourHex: '#5B1E28',
+    colours: [
+      {
+        name: 'Burgundy',
+        hex: '#5B1E28',
+        imageSrc: '/images/products/the-twist-burgundy.jpg',
+      },
+      {
+        name: 'Black',
+        hex: '#141414',
+        imageSrc: '/images/products/the-twist-black.jpg',
+      },
+      {
+        name: 'Warm Cognac',
+        hex: '#7C3F1D',
+        imageSrc: '/images/products/the-twist-warm-cognac.jpg',
+      },
+      {
+        name: 'Off White',
+        hex: '#EFE9DF',
+        imageSrc: '/images/models/the-twist-hero-model.jpg',
+      },
+    ],
+    stock: 5,
+    material: 'Full-grain Nigerian calfskin, sculptural gathered twist strap architecture, molded ergonomic footbed with beveled edges and low-profile non-slip sole.',
+    care: 'Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.',
+    dimensions_weight: 'Weight: ~370g per pair. Low heel elevation: 12mm heel, 8mm forefoot.',
+    description: 'A modern take on the classic pam, the Twist blends effortless comfort with a sculptural detail that sets it apart. Minimal, refined, and made to move with you.',
+    design_note: 'The gathered, sculptural twist strap flexes naturally with every step while giving simple linen or denim an intentional, editorial finish.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
+    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.',
+    sizes: [
+      { size: 'EU 37', available: true, stockCount: 1 },
+      { size: 'EU 38', available: true, stockCount: 1 },
+      { size: 'EU 39', available: true, stockCount: 1 },
+      { size: 'EU 40', available: true, stockCount: 1 },
+      { size: 'EU 41', available: true, stockCount: 1 },
+    ],
+    images: [
+      {
+        src: '/images/products/the-twist-burgundy.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in Burgundy sculptural leather',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/models/the-twist-hero-model.jpg',
+        alt: 'NOVEQ The Twist Slide Pam on model feet in sunlit interior',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-twist-black.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in Noir Black leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-twist-warm-cognac.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in Warm Cognac leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-twist.jpg',
+        alt: 'NOVEQ The Twist editorial specification and colourways',
+        viewType: 'top',
+      },
+    ],
+  },
 ];
 
 export const DROP_001_COLLECTION: Collection = {
@@ -211,6 +289,9 @@ export function getProductBySlug(slug: string): Product | undefined {
   if (directMatch) return directMatch;
   if (slug.includes('weave') || slug.includes('braid') || slug.includes('loop')) {
     return DROP_001_PRODUCTS[1];
+  }
+  if (slug.includes('twist')) {
+    return DROP_001_PRODUCTS[2];
   }
   return DROP_001_PRODUCTS[0];
 }

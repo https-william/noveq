@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import fs from 'fs';
-import path from 'path';
 
 /**
  * Image Upload Route for Product Management
- * 
+ *
  * Receives the client-side pre-resized (max 800px square) WebP file,
  * uploads to Supabase Storage bucket 'products', and returns the public CDN URL.
  */
@@ -22,6 +20,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json(
+        { success: false, error: 'Storage not configured. Set Supabase env vars.' },
+        { status: 500 }
+      );
+    }
+
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -32,49 +37,25 @@ export async function POST(req: NextRequest) {
     const filename = `${cleanBaseName}-${timestamp}.webp`;
     const storagePath = `catalog/${filename}`;
 
-    let publicUrl = '';
+    const { error: uploadError } = await supabaseAdmin.storage
+      .from('products')
+      .upload(storagePath, buffer, {
+        contentType: 'image/webp',
+        upsert: true,
+      });
 
-    // Attempt Supabase Storage Upload
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      try {
-        const { error: uploadError } = await supabaseAdmin.storage
-          .from('products')
-          .upload(storagePath, buffer, {
-            contentType: 'image/webp',
-            upsert: true,
-          });
-
-        if (!uploadError) {
-          const { data } = supabaseAdmin.storage
-            .from('products')
-            .getPublicUrl(storagePath);
-          if (data?.publicUrl) {
-            publicUrl = data.publicUrl;
-          }
-        } else {
-          // eslint-disable-next-line no-console
-          console.warn('Supabase Storage upload warning:', uploadError.message);
-        }
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('Supabase storage exception:', err);
-      }
+    if (uploadError) {
+      return NextResponse.json(
+        { success: false, error: `Storage upload failed: ${uploadError.message}` },
+        { status: 500 }
+      );
     }
 
-    // Fallback: local disk storage in public/uploads/
-    if (!publicUrl) {
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
-      const localFilePath = path.join(uploadDir, filename);
-      fs.writeFileSync(localFilePath, buffer);
-      publicUrl = `/uploads/${filename}`;
-    }
+    const { data } = supabaseAdmin.storage.from('products').getPublicUrl(storagePath);
 
     return NextResponse.json({
       success: true,
-      url: publicUrl,
+      url: data.publicUrl,
       filename,
       size: buffer.length,
       format: 'image/webp',
