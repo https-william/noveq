@@ -30,14 +30,14 @@ export async function dispatchOrderConfirmation(order: Order): Promise<Notificat
 
   const formattedTotal = `₦${order.total.toLocaleString()}`;
 
-  // WhatsApp concierge prefilled message
+  // WhatsApp support prefilled message
   const whatsAppMessage = encodeURIComponent(
-    `Hello NOVEQ Concierge,\n\nI just placed order *${order.id}* for Drop 001.\n\nSummary:\n${itemsSummary}\n\nTotal Paid: ${formattedTotal}\nDelivery to: ${order.customer.city}, ${order.customer.state}\n\nPlease confirm dispatch schedule. Thank you!`
+    `Hello NOVEQ team,\n\nI just placed order *${order.id}* for Drop 001.\n\nSummary:\n${itemsSummary}\n\nTotal Paid: ${formattedTotal}\nDelivery to: ${order.customer.city}, ${order.customer.state}\n\nPlease confirm dispatch schedule. Thank you!`
   );
 
   // In production, point to real brand phone number from site settings
-  const conciergePhone = SITE_SETTINGS.supportContact.phone;
-  const whatsAppDirectUrl = `https://wa.me/${conciergePhone}?text=${whatsAppMessage}`;
+  const supportPhone = SITE_SETTINGS.supportContact.phone;
+  const whatsAppDirectUrl = `https://wa.me/${supportPhone}?text=${whatsAppMessage}`;
 
   // Server-side logging for confirmation verification
   // eslint-disable-next-line no-console

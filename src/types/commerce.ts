@@ -23,6 +23,12 @@ export interface CharmOption {
   maxEngravingLength?: number;
 }
 
+export interface ProductColour {
+  name: string;
+  hex: string;
+  imageSrc?: string;
+}
+
 export interface Product {
   name: string;
   slug: string;
@@ -33,6 +39,7 @@ export interface Product {
   images: ProductImage[];
   colour: string;
   colourHex?: string;
+  colours?: ProductColour[];
   sizes: ProductSize[];
   stock: number; // Real remaining inventory (e.g. 2, 4)
   material: string;
@@ -61,6 +68,7 @@ export interface Collection {
 export interface CartItem {
   product: Product;
   selectedSize: string;
+  selectedColour?: string;
   quantity: number;
   engravedText?: string;
   withHeartCharm?: boolean;

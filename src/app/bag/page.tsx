@@ -106,12 +106,12 @@ export default function BagPage() {
           <div className="lg:col-span-8 bg-warm-white border border-cocoa/20 rounded-sm divide-y divide-cocoa/15">
             {cartItems.map((item) => (
               <div
-                key={`${item.product.slug}-${item.selectedSize}`}
+                key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                 className="p-6 flex flex-col sm:flex-row gap-5 items-start"
               >
                 <div className="relative w-24 h-24 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
                   <Image
-                    src={item.product.images[0]?.src || '/images/products/packaging-box.svg'}
+                    src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
                     alt={item.product.name}
                     fill
                     className="object-contain p-2"
@@ -125,13 +125,13 @@ export default function BagPage() {
                         {item.product.name}
                       </h2>
                       <p className="text-xs text-muted-taupe">
-                        {item.product.colour} · Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span>
+                        Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span> · Colour: <span className="font-semibold text-ink-black">{item.selectedColour || item.product.colour}</span>
                       </p>
                     </div>
 
                     <button
                       type="button"
-                      onClick={() => removeFromCart(item.product.slug, item.selectedSize)}
+                      onClick={() => removeFromCart(item.product.slug, item.selectedSize, item.selectedColour)}
                       aria-label={`Remove ${item.product.name} from bag`}
                       className="text-muted-taupe hover:text-oxblood transition-colors p-1"
                     >
@@ -156,7 +156,8 @@ export default function BagPage() {
                           updateQuantity(
                             item.product.slug,
                             item.selectedSize,
-                            item.quantity - 1
+                            item.quantity - 1,
+                            item.selectedColour
                           )
                         }
                         aria-label="Decrease quantity"
@@ -173,7 +174,8 @@ export default function BagPage() {
                           updateQuantity(
                             item.product.slug,
                             item.selectedSize,
-                            item.quantity + 1
+                            item.quantity + 1,
+                            item.selectedColour
                           )
                         }
                         aria-label="Increase quantity"
@@ -206,11 +208,11 @@ export default function BagPage() {
 
               <div className="flex justify-between text-muted-taupe">
                 <span>Delivery</span>
-                <span className="text-cocoa font-medium">Calculated next step</span>
+                <span className="text-cocoa font-medium">Pay rider on delivery</span>
               </div>
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between text-sm">
-                <span className="font-bold text-ink-black">Subtotal</span>
+                <span className="font-bold text-ink-black">Total (Online)</span>
                 <span className="font-bold text-ink-black">{formattedSubtotal}</span>
               </div>
             </div>

@@ -103,7 +103,7 @@ function PaymentContent() {
         }
       } catch {
         setPaymentStatus('failed');
-        setStatusMessage('Network interruption during gateway verification. Please contact concierge.');
+        setStatusMessage('Network interruption during gateway verification. Please message our support team on WhatsApp.');
       }
     },
     [clearCart, router]
@@ -311,14 +311,14 @@ function PaymentContent() {
                 <p className="text-xs text-muted-taupe">Prefer direct bank transfer?</p>
                 <a
                   href={`https://wa.me/${SITE_SETTINGS.supportContact.phone}?text=${encodeURIComponent(
-                    `Hello NOVEQ Concierge, I would like to complete my order (${orderId}) via direct bank transfer.`
+                    `Hello NOVEQ team, I would like to complete my order (${orderId}) via direct bank transfer.`
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-xs text-cocoa hover:text-ink-black font-medium underline underline-offset-4"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Chat with Concierge on WhatsApp</span>
+                  <span>Chat with our team on WhatsApp</span>
                   <ArrowRight className="w-3 h-3" />
                 </a>
               </div>

@@ -101,9 +101,9 @@ export default function SizeGuideModal({
             </p>
             <div className="p-3 bg-warm-white border border-cocoa/20 rounded-xs text-[11px] text-muted-taupe leading-relaxed">
               <span className="font-semibold text-cocoa block uppercase tracking-wider text-[10px] mb-0.5">
-                Client Decision Pending
+                Fit Advisory
               </span>
-              [PLACEHOLDER]: Final fit classification ([True to Size / Runs Small / Runs Large]) will be locked following wear-testing feedback across Drop 001 pairs. If you have broad feet or high arches, contact our concierge for fit confirmation before ordering.
+              Our footwear runs true to standard European sizing. If you typically wear a half size or have wider feet, we suggest taking the next size up, or messaging our team on WhatsApp for quick advice before ordering.
             </div>
           </div>
 

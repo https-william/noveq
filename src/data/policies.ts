@@ -31,13 +31,13 @@ export const POLICIES: Record<string, Policy> = {
       {
         heading: 'Delivery Fees',
         content:
-          'Standard delivery fees are flat-rate ₦3,000 within Lagos and ₦5,000 for nationwide regional delivery across Nigeria.',
+          'Delivery fees are paid directly to your dispatch courier upon arrival. NOVEQ charges ₦0 delivery fee during website checkout.',
         isPendingClientDecision: false,
       },
       {
         heading: 'Signature & Receipt',
         content:
-          'All shipments require phone contact upon arrival. The courier will request confirmation from the recipient or authorized front-desk concierge before releasing the parcel.',
+          'All shipments require phone contact upon arrival. The courier will request confirmation from the recipient or authorized representative before releasing the parcel.',
       },
     ],
   },

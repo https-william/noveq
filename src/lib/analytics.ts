@@ -15,6 +15,7 @@
 export type AnalyticsEventName =
   | 'view_item'
   | 'select_size'
+  | 'select_colour'
   | 'add_to_cart'
   | 'view_cart'
   | 'begin_checkout'
@@ -41,6 +42,7 @@ export interface AnalyticsPayload {
   item_id?: string;
   item_name?: string;
   size?: string;
+  colour?: string;
   order_id?: string;
   payment_method?: string;
   search_term?: string;

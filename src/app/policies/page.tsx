@@ -128,13 +128,13 @@ export default function PoliciesPage() {
       <div className="mt-16 p-8 bg-espresso text-warm-white rounded-sm border border-cocoa/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div className="space-y-1">
           <span className="text-[11px] uppercase tracking-[0.2em] text-muted-taupe-on-dark block font-medium">
-            Personal Concierge Support
+            Customer Support
           </span>
           <h3 className="text-lg font-bold text-warm-white">
             Have questions about fit, care, or delivery?
           </h3>
           <p className="text-xs text-muted-taupe-on-dark max-w-md">
-            Our client services team assists with sizing confirmations and dispatch status directly.
+            Our team assists with sizing confirmations and dispatch status directly.
           </p>
         </div>
 
@@ -142,7 +142,7 @@ export default function PoliciesPage() {
           href="/contact"
           className="inline-flex items-center gap-2 px-6 py-3 bg-warm-white text-ink-black text-xs uppercase tracking-[0.18em] font-semibold rounded-xs hover:bg-bone transition-colors shrink-0"
         >
-          <span>Contact Concierge</span>
+          <span>Contact Support</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>

@@ -192,7 +192,7 @@ export default async function JournalArticlePage({ params }: Props) {
           <div className="p-6 bg-warm-white border border-cocoa/25 rounded-xs flex flex-col sm:flex-row items-center gap-6">
             <div className="relative w-28 h-28 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
               <Image
-                src={relatedProduct.images[0]?.src || '/images/products/packaging-box.svg'}
+                src={relatedProduct.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                 alt={relatedProduct.name}
                 fill
                 className="object-contain p-2"

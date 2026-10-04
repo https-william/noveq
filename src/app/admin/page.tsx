@@ -243,7 +243,7 @@ export default function AdminDashboardPage() {
       .map((i) => `${i.product.name} (Size ${i.selectedSize})`)
       .join(', ');
     const msg = encodeURIComponent(
-      `Hello ${order.customer.fullName},\n\nThis is NOVEQ Concierge. We have confirmed your Drop 001 order *${order.id}* (${itemsList}).\n\nYour order is currently being prepared for dispatch to ${order.customer.city}.\n\nThank you for choosing NOVEQ.`
+      `Hello ${order.customer.fullName},\n\nThis is NOVEQ. We have confirmed your Drop 001 order *${order.id}* (${itemsList}).\n\nYour order is currently being prepared for dispatch to ${order.customer.city}.\n\nThank you for choosing NOVEQ.`
     );
     const cleanPhone = order.customer.phone.replace(/[^0-9]/g, '');
     return `https://wa.me/${cleanPhone}?text=${msg}`;

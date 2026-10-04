@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const formattedPrice = `₦${product.price.toLocaleString()}`;
   const canonicalTitle = `NOVEQ ${product.name} Women's Leather Pam, ${product.colour}`;
-  const canonicalDesc = `${product.description} Handcrafted in Lagos, Nigeria from full-grain leather. Available in Drop 001 for ${formattedPrice}.`;
-  const heroImage = product.images[0]?.src || '/images/products/packaging-box.svg';
+  const canonicalDesc = `${product.description} Handcrafted in Nigeria from full-grain leather. Available in Drop 001 for ${formattedPrice}.`;
+  const heroImage = product.images[0]?.src || '/images/products/the-ring-burgundy.jpg';
 
   return {
     title: canonicalTitle,

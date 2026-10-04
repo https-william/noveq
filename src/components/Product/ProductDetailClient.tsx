@@ -33,6 +33,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
 
+  // Colour selection state
+  const initialColour = product.colours?.[0]?.name || product.colour;
+  const [selectedColour, setSelectedColour] = useState<string>(initialColour);
+
   // Size selection & validation state
   const initialSize = product.sizes.find((s) => s.available)?.size || '';
   const [selectedSize, setSelectedSize] = useState<string>(initialSize);
@@ -54,12 +58,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   useEffect(() => {
     trackEvent('view_item', {
       item_id: product.slug,
-      item_name: `NOVEQ ${product.name} Women's Leather Pam, ${product.colour}`,
+      item_name: `NOVEQ ${product.name} Women's Leather Pam`,
       price: product.price,
       currency: product.currency,
       item_category: product.collection,
     });
-  }, [product.slug, product.name, product.price, product.currency, product.collection, product.colour]);
+  }, [product.slug, product.name, product.price, product.currency, product.collection]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStartX(e.touches[0].clientX);
@@ -81,13 +85,29 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     setTouchStartX(null);
   };
 
+  const handleSelectColour = (colourName: string, imageSrc?: string) => {
+    setSelectedColour(colourName);
+    if (imageSrc) {
+      const matchIndex = product.images.findIndex((img) => img.src === imageSrc);
+      if (matchIndex > -1) {
+        setActiveImageIndex(matchIndex);
+      }
+    }
+    trackEvent('select_colour', {
+      item_id: product.slug,
+      item_name: product.name,
+      colour: colourName,
+    });
+  };
+
   const handleSelectSize = (size: string) => {
     setSelectedSize(size);
     setSizeError(null);
     trackEvent('select_size', {
       item_id: product.slug,
-      item_name: `NOVEQ ${product.name} Women's Leather Pam, ${product.colour}`,
+      item_name: `NOVEQ ${product.name} Women's Leather Pam`,
       size,
+      colour: selectedColour,
     });
   };
 
@@ -128,17 +148,18 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
       addToCart(product, selectedSize, 1, {
         withHeartCharm: charmActive,
         engravedText: charmActive && engravedName ? engravedName.trim() : undefined,
+        selectedColour,
       });
 
       // Instrument add_to_cart event (safe parameters, no PII)
       trackEvent('add_to_cart', {
         item_id: product.slug,
-        item_name: `NOVEQ ${product.name} Women's Leather Pam, ${product.colour}`,
+        item_name: `NOVEQ ${product.name} Women's Leather Pam`,
         price: product.price,
         currency: product.currency,
         quantity: 1,
         size: selectedSize,
-        item_variant: product.colour,
+        item_variant: `${selectedSize} - ${selectedColour}`,
       });
 
       setButtonState('success');
@@ -273,7 +294,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </div>
 
             <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink-black">
-              NOVEQ {product.name} Women&apos;s Leather Pam, {product.colour}
+              NOVEQ {product.name}
             </h1>
 
             {/* Price (Never hidden or hover-gated) */}
@@ -297,22 +318,51 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </p>
           </div>
 
-          {/* Colour Indicator */}
-          <div className="space-y-2">
+          {/* Interactive Colour Selector */}
+          <div id="colour-selector-section" className="space-y-3">
             <div className="flex items-center justify-between text-xs">
               <span className="uppercase tracking-[0.16em] text-muted-taupe font-medium">
-                Colour
+                Select Colour
               </span>
-              <span className="font-semibold text-ink-black">{product.colour}</span>
+              <span className="font-semibold text-ink-black">{selectedColour}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span
-                className="w-6 h-6 rounded-full border border-cocoa/40 shadow-xs"
-                style={{ backgroundColor: product.colourHex || '#0A0A0A' }}
-                aria-label={`Colour: ${product.colour}`}
-              />
-              <span className="text-xs text-muted-taupe">Natural dyed leather</span>
+
+            {/* Colour Swatch Options */}
+            <div className="flex flex-wrap items-center gap-2.5" role="radiogroup" aria-label="Available shoe colours">
+              {(product.colours && product.colours.length > 0
+                ? product.colours
+                : [{ name: product.colour, hex: product.colourHex || '#141414', imageSrc: product.images[0]?.src }]
+              ).map((c) => {
+                const isSelected = selectedColour === c.name;
+                return (
+                  <button
+                    key={c.name}
+                    type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    onClick={() => handleSelectColour(c.name, c.imageSrc)}
+                    className={`group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-xs border text-xs font-medium transition-all duration-150 min-h-[44px] focus-dark ${
+                      isSelected
+                        ? 'border-ink-black bg-warm-white text-ink-black ring-1 ring-ink-black shadow-xs font-semibold'
+                        : 'border-cocoa/30 bg-bone/40 text-ink-black/80 hover:border-cocoa/70 hover:bg-warm-white'
+                    }`}
+                  >
+                    <span
+                      className={`w-4 h-4 rounded-full border border-cocoa/40 shadow-xs shrink-0 transition-transform ${
+                        isSelected ? 'scale-110 ring-1 ring-ink-black ring-offset-1' : 'group-hover:scale-105'
+                      }`}
+                      style={{ backgroundColor: c.hex }}
+                      aria-hidden="true"
+                    />
+                    <span>{c.name}</span>
+                    {isSelected && <Check className="w-3.5 h-3.5 text-cocoa ml-0.5 shrink-0" />}
+                  </button>
+                );
+              })}
             </div>
+            <p className="text-[11px] text-muted-taupe">
+              Handcrafted in small batches with genuine Nigerian full-grain leather.
+            </p>
           </div>
 
           {/* Size Selector — MUST be explicit tap/click buttons showing states */}
@@ -536,13 +586,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   <p>
                     Built with a contoured instep that allows natural toe splay. If you require half-sizes or have broad arches, we advise reaching our{' '}
                     <a
-                      href={`https://wa.me/${SITE_SETTINGS.supportContact.phone}?text=${encodeURIComponent(`Hello NOVEQ, I have a sizing question about ${product.name} (${product.colour}).`)}`}
+                      href={`https://wa.me/${SITE_SETTINGS.supportContact.phone}?text=${encodeURIComponent(`Hello NOVEQ, I have a sizing question about ${product.name} (${selectedColour}).`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() => trackEvent('click_whatsapp', { placement: 'pdp_sizing_concierge' })}
+                      onClick={() => trackEvent('click_whatsapp', { placement: 'pdp_sizing_support' })}
                       className="font-semibold text-cocoa hover:text-ink-black underline focus-dark"
                     >
-                      concierge on WhatsApp
+                      team on WhatsApp
                     </a>{' '}
                     before ordering.
                   </p>
@@ -637,18 +687,24 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               {formattedPrice}
             </span>
           </div>
-          <div className="text-[11px] text-muted-taupe flex items-center gap-1.5 mt-0.5">
-            <span>Size:</span>
-            <button
-              type="button"
-              onClick={() => {
-                const el = document.getElementById('size-selector-section');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }}
-              className="font-semibold text-ink-black underline underline-offset-2"
-            >
-              {selectedSize || 'Select Size'}
-            </button>
+          <div className="text-[11px] text-muted-taupe flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
+            <span>
+              Colour: <span className="font-semibold text-ink-black">{selectedColour}</span>
+            </span>
+            <span>·</span>
+            <span>
+              Size:{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('size-selector-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }}
+                className="font-semibold text-ink-black underline underline-offset-2"
+              >
+                {selectedSize || 'Select Size'}
+              </button>
+            </span>
           </div>
         </div>
 
@@ -661,7 +717,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               ? 'Select a size to add to bag'
               : !isSelectedSizeAvailable
               ? 'Size currently unavailable'
-              : `Add ${product.name} in size ${selectedSize} to bag`
+              : `Add ${product.name} (${selectedColour}, size ${selectedSize}) to bag`
           }
           className={`py-3 px-5 text-xs uppercase tracking-wider font-semibold rounded-xs transition-colors min-h-[44px] shrink-0 flex items-center justify-center gap-1.5 focus-dark ${
             !selectedSize

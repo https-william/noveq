@@ -6,25 +6,25 @@ import { WhatsAppLink } from '@/components/Analytics/WhatsAppLink';
 import { InstagramLink } from '@/components/Analytics/InstagramLink';
 
 export const metadata: Metadata = {
-  title: 'Contact Concierge — Sizing, Inquiries & Dispatch',
+  title: 'Contact Support — Sizing, Inquiries & Dispatch',
   description:
-    'Direct inquiries, concierge sizing assistance, and Drop 001 dispatch updates from the NOVEQ atelier team.',
+    'Direct inquiries, sizing assistance, and Drop 001 dispatch updates from the NOVEQ team.',
   alternates: {
     canonical: '/contact',
   },
   openGraph: {
-    title: 'Contact Concierge | NOVEQ Contemporary Leather Footwear',
+    title: 'Contact Support | NOVEQ Contemporary Leather Footwear',
     description:
-      'Direct inquiries, concierge sizing assistance, and Drop 001 dispatch updates from the NOVEQ atelier team.',
+      'Direct inquiries, sizing assistance, and Drop 001 dispatch updates from the NOVEQ team.',
     url: '/contact',
     siteName: 'NOVEQ',
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: 'Contact Concierge | NOVEQ',
+    title: 'Contact Support | NOVEQ',
     description:
-      'Direct inquiries, concierge sizing assistance, and Drop 001 dispatch updates from the NOVEQ atelier team.',
+      'Direct inquiries, sizing assistance, and Drop 001 dispatch updates from the NOVEQ team.',
   },
 };
 
@@ -32,7 +32,7 @@ export default function ContactPage() {
   const { supportContact, socialLinks } = SITE_SETTINGS;
 
   const whatsAppHref = `https://wa.me/${supportContact.phone}?text=${encodeURIComponent(
-    supportContact.conciergePrompt
+    supportContact.supportPrompt || supportContact.conciergePrompt || 'Hello NOVEQ team'
   )}`;
 
   return (
@@ -40,13 +40,13 @@ export default function ContactPage() {
       {/* Header */}
       <div className="pb-8 border-b border-cocoa/20">
         <span className="text-xs uppercase tracking-[0.2em] text-cocoa block mb-2 font-medium">
-          Client Services
+          Customer Care
         </span>
         <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black">
-          Contact Concierge
+          Contact Support
         </h1>
         <p className="mt-3 text-sm sm:text-base text-muted-taupe leading-relaxed">
-          For sizing guidance, Drop 001 reservations, or leather care recommendations, reach our atelier team directly.
+          For sizing guidance, Drop 001 reservations, or leather care recommendations, reach our team directly.
         </p>
       </div>
 
@@ -57,7 +57,7 @@ export default function ContactPage() {
           <div>
             <MessageCircle className="w-5 h-5 text-espresso mb-3" />
             <h2 className="text-sm font-bold text-ink-black uppercase tracking-wider mb-1">
-              WhatsApp Concierge
+              WhatsApp Support
             </h2>
             <p className="text-xs text-muted-taupe mb-4 leading-relaxed">
               Direct chat for sizing consultations, leather close-ups, and dispatch tracking.

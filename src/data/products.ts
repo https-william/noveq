@@ -15,8 +15,30 @@ export const DROP_001_PRODUCTS: Product[] = [
     price: 20000,
     compare_at_price: 22000,
     currency: 'NGN',
-    colour: 'Warm Cognac & Polished Gold',
+    colour: 'Warm Cognac',
     colourHex: '#7C3F1D',
+    colours: [
+      {
+        name: 'Warm Cognac',
+        hex: '#7C3F1D',
+        imageSrc: '/images/models/the-ring-hero-model.jpg',
+      },
+      {
+        name: 'Burgundy',
+        hex: '#5B1E28',
+        imageSrc: '/images/products/the-ring-burgundy.jpg',
+      },
+      {
+        name: 'Black',
+        hex: '#141414',
+        imageSrc: '/images/products/the-ring-black.jpg',
+      },
+      {
+        name: 'Off White',
+        hex: '#EFE9DF',
+        imageSrc: '/images/products/the-ring-off-white.jpg',
+      },
+    ],
     stock: 5,
     material: 'Hand-selected Nigerian calfskin, anchored with a polished solid gold-toned statement ring. Molded ergonomic footbed with hand-beveled edges and durable low-heel sole.',
     care: 'Wipe with a soft dry cotton cloth after wear. Apply a light neutral wax balm monthly to maintain rich suppleness. Buff hardware gently with dry microfiber.',
@@ -28,7 +50,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     },
     publish_status: 'published',
     fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
-    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery confirmation.',
+    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.',
     sizes: [
       { size: 'EU 37', available: true, stockCount: 1 },
       { size: 'EU 38', available: true, stockCount: 1 },
@@ -41,6 +63,21 @@ export const DROP_001_PRODUCTS: Product[] = [
         src: '/images/models/the-ring-hero-model.jpg',
         alt: 'NOVEQ The Ring Slide Pam on model feet with gold anklet on sunlit stone pavement',
         viewType: 'hero',
+      },
+      {
+        src: '/images/products/the-ring-burgundy.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Burgundy full-grain leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-ring-black.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Noir Black full-grain leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-ring-off-white.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Off White cream leather',
+        viewType: 'detail',
       },
       {
         src: '/images/campaign/the-ring-campaign-poster.png',
@@ -61,8 +98,35 @@ export const DROP_001_PRODUCTS: Product[] = [
     price: 20000,
     compare_at_price: 22000,
     currency: 'NGN',
-    colour: 'Deep Noir Woven Calfskin',
+    colour: 'Black',
     colourHex: '#141414',
+    colours: [
+      {
+        name: 'Black',
+        hex: '#141414',
+        imageSrc: '/images/products/the-weave-black.jpg',
+      },
+      {
+        name: 'Burgundy',
+        hex: '#5B1E28',
+        imageSrc: '/images/products/the-weave-burgundy.jpg',
+      },
+      {
+        name: 'Off White',
+        hex: '#EFE9DF',
+        imageSrc: '/images/products/the-weave-off-white.jpg',
+      },
+      {
+        name: 'Army Green',
+        hex: '#4B5320',
+        imageSrc: '/images/products/the-weave-army-green.jpg',
+      },
+      {
+        name: 'Dark Brown',
+        hex: '#3B2219',
+        imageSrc: '/images/products/the-weave-dark-brown.jpg',
+      },
+    ],
     stock: 5,
     material: 'Interlocking multi-strap braided Nigerian cowhide, beveled square-toe footbed, flexible non-slip low heel sole.',
     care: 'Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.',
@@ -74,7 +138,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     },
     publish_status: 'published',
     fit_notes: 'True to standard size. Woven leather provides gentle give to mirror foot contours.',
-    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery confirmation.',
+    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.',
     sizes: [
       { size: 'EU 37', available: true, stockCount: 1 },
       { size: 'EU 38', available: true, stockCount: 1 },
@@ -87,6 +151,31 @@ export const DROP_001_PRODUCTS: Product[] = [
         src: '/images/models/the-weave-hero-model.jpg',
         alt: 'NOVEQ The Weave Slide Pam on model feet on sunlit stone pavement',
         viewType: 'hero',
+      },
+      {
+        src: '/images/products/the-weave-black.jpg',
+        alt: 'NOVEQ The Weave Slide Pam in Deep Noir woven leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-weave-burgundy.jpg',
+        alt: 'NOVEQ The Weave Slide Pam in Burgundy woven leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-weave-off-white.jpg',
+        alt: 'NOVEQ The Weave Slide Pam in Off White woven leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-weave-army-green.jpg',
+        alt: 'NOVEQ The Weave Slide Pam in Army Green woven leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-weave-dark-brown.jpg',
+        alt: 'NOVEQ The Weave Slide Pam in Dark Brown woven leather',
+        viewType: 'detail',
       },
       {
         src: '/images/campaign/the-weave-campaign-poster.png',

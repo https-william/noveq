@@ -153,13 +153,13 @@ export default function CartDrawer() {
           ) : (
             cartItems.map((item) => (
               <div
-                key={`${item.product.slug}-${item.selectedSize}`}
+                key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                 className="py-4 flex gap-4 items-start"
               >
                 {/* Thumbnail */}
                 <div className="relative w-20 h-20 bg-espresso/30 border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
                   <Image
-                    src={item.product.images[0]?.src || '/images/brand/packaging.jpg'}
+                    src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
                     alt={item.product.name}
                     fill
                     className={item.product.images[0]?.src?.endsWith('.svg') ? 'object-contain p-1' : 'object-cover'}
@@ -174,7 +174,7 @@ export default function CartDrawer() {
                     </h3>
                     <button
                       type="button"
-                      onClick={() => removeFromCart(item.product.slug, item.selectedSize)}
+                      onClick={() => removeFromCart(item.product.slug, item.selectedSize, item.selectedColour)}
                       aria-label={`Remove ${item.product.name} from bag`}
                       className="text-muted-taupe hover:text-oxblood transition-colors p-1"
                     >
@@ -183,7 +183,7 @@ export default function CartDrawer() {
                   </div>
 
                   <p className="text-xs text-muted-taupe mt-0.5">
-                    Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span> · {item.product.colour}
+                    Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span> · Colour: <span className="font-semibold text-ink-black">{item.selectedColour || item.product.colour}</span>
                   </p>
 
                   {/* Line Item Charm / Personalisation Display */}
@@ -205,7 +205,8 @@ export default function CartDrawer() {
                           updateQuantity(
                             item.product.slug,
                             item.selectedSize,
-                            item.quantity - 1
+                            item.quantity - 1,
+                            item.selectedColour
                           )
                         }
                         aria-label={`Decrease quantity of ${item.product.name} size ${item.selectedSize}`}
@@ -222,7 +223,8 @@ export default function CartDrawer() {
                           updateQuantity(
                             item.product.slug,
                             item.selectedSize,
-                            item.quantity + 1
+                            item.quantity + 1,
+                            item.selectedColour
                           )
                         }
                         aria-label={`Increase quantity of ${item.product.name} size ${item.selectedSize}`}
@@ -255,7 +257,7 @@ export default function CartDrawer() {
             </div>
 
             <p className="text-[11px] text-muted-taupe leading-tight">
-              Delivery zones and courier estimates calculated at the next step before payment.
+              Delivery fee is paid directly to the dispatch rider upon delivery.
             </p>
 
             <div className="space-y-2 pt-2">

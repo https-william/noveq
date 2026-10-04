@@ -252,7 +252,7 @@ export default function CheckoutPage() {
                 >
                   {DELIVERY_ZONES.map((zone) => (
                     <option key={zone.id} value={zone.id}>
-                      {zone.name} — ₦{zone.fee.toLocaleString()} ({zone.estimatedDays})
+                      {zone.name} — Pay rider on arrival ({zone.estimatedDays})
                     </option>
                   ))}
                 </select>
@@ -370,12 +370,12 @@ export default function CheckoutPage() {
             <div className="divide-y divide-cocoa/15 max-h-[360px] overflow-y-auto pr-1">
               {cartItems.map((item) => (
                 <div
-                  key={`${item.product.slug}-${item.selectedSize}`}
+                  key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                   className="py-3 flex gap-3 items-start"
                 >
                   <div className="relative w-14 h-14 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
                     <Image
-                      src={item.product.images[0]?.src || '/images/products/packaging-box.svg'}
+                      src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
                       alt={item.product.name}
                       fill
                       className="object-contain p-1"
@@ -393,7 +393,7 @@ export default function CheckoutPage() {
                     </div>
 
                     <p className="text-[11px] text-muted-taupe">
-                      Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span> · Qty: {item.quantity}
+                      Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span> · Colour: <span className="font-semibold text-ink-black">{item.selectedColour || item.product.colour}</span> · Qty: {item.quantity}
                     </p>
 
                     {item.withHeartCharm && (
@@ -418,23 +418,23 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
-              {/* Delivery Fee — Prominently Shown Before Payment */}
+              {/* Delivery Fee Notice — Pay Rider Directly */}
               <div className="flex justify-between items-baseline text-muted-taupe">
                 <div>
                   <span>Delivery ({selectedZone.name})</span>
                   <span className="block text-[10px] text-cocoa">
-                    {selectedZone.estimatedDays}
+                    Pay delivery rider on arrival
                   </span>
                 </div>
                 <span className="font-semibold text-ink-black">
-                  ₦{deliveryFee.toLocaleString()}
+                  Pay on delivery
                 </span>
               </div>
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between items-baseline text-sm">
-                <span className="font-bold text-ink-black">Total to Pay</span>
+                <span className="font-bold text-ink-black">Total to Pay Online</span>
                 <span className="text-base font-bold text-ink-black">
-                  ₦{totalAmount.toLocaleString()}
+                  ₦{subtotal.toLocaleString()}
                 </span>
               </div>
             </div>
@@ -443,7 +443,7 @@ export default function CheckoutPage() {
             <div className="p-3 bg-bone border border-cocoa/20 rounded-xs flex items-start gap-2.5 text-[11px] text-ink-black/80">
               <Truck className="w-4 h-4 text-cocoa shrink-0 mt-0.5" />
               <span>
-                Drop 001 dispatch arrives in our signature slim kraft box with protective tissue, thank-you care card, and shopping bag.
+                Dispatched nationwide within 24–48 hours. You pay your delivery rider directly upon delivery.
               </span>
             </div>
           </div>

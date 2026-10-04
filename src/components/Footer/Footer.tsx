@@ -106,7 +106,7 @@ export default function Footer({
               </div>
             ) : (
               <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
-                NOVEQ Atelier. Contemporary leather footwear handcrafted in Nigeria. Distributed nationwide with white-glove packaging.
+                NOVEQ Atelier. Contemporary leather footwear handcrafted in Nigeria. Distributed nationwide with tracked courier dispatch.
               </p>
             )}
           </div>

@@ -87,7 +87,8 @@ export interface SupportContactConfig {
   phone: string; // E.164 formatted without plus, e.g. "2348000000000"
   displayPhone: string; // Human-friendly display, e.g. "+234 800 000 0000"
   operatingHours: string;
-  conciergePrompt: string;
+  supportPrompt: string;
+  conciergePrompt?: string;
   isPendingClientConfirmation: boolean;
 }
 

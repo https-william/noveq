@@ -4,19 +4,20 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, CartItem } from '@/types/commerce';
 import { trackEvent } from '@/lib/analytics';
 
-interface AddToCartOptions {
+export interface AddToCartOptions {
   engravedText?: string;
   withHeartCharm?: boolean;
+  selectedColour?: string;
 }
 
 interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product, size: string, quantity?: number, options?: AddToCartOptions) => void;
-  removeFromCart: (slug: string, size: string) => void;
+  removeFromCart: (slug: string, size: string, colour?: string) => void;
   restoreLastRemoved: () => void;
   lastRemovedItem: CartItem | null;
   dismissUndo: () => void;
-  updateQuantity: (slug: string, size: string, quantity: number) => void;
+  updateQuantity: (slug: string, size: string, quantity: number, colour?: string) => void;
   clearCart: () => void;
   totalItems: number;
   subtotal: number;
@@ -59,9 +60,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     quantity = 1,
     options?: AddToCartOptions
   ) => {
+    const chosenColour = options?.selectedColour || product.colour;
+
     setCartItems((prev) => {
       const existingIndex = prev.findIndex(
-        (item) => item.product.slug === product.slug && item.selectedSize === size
+        (item) =>
+          item.product.slug === product.slug &&
+          item.selectedSize === size &&
+          (item.selectedColour === chosenColour || (!item.selectedColour && chosenColour === product.colour))
       );
 
       if (existingIndex > -1) {
@@ -80,6 +86,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         {
           product,
           selectedSize: size,
+          selectedColour: chosenColour,
           quantity,
           engravedText: options?.engravedText,
           withHeartCharm: options?.withHeartCharm,
@@ -100,7 +107,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           item_name: product.name,
           price: product.price,
           quantity,
-          item_variant: `${size} - ${product.colour}`,
+          item_variant: `${size} - ${chosenColour}`,
         },
       ],
     });
@@ -109,18 +116,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setIsDrawerOpen(true);
   };
 
-  const removeFromCart = (slug: string, size: string) => {
+  const removeFromCart = (slug: string, size: string, colour?: string) => {
     const itemToRemove = cartItems.find(
-      (item) => item.product.slug === slug && item.selectedSize === size
+      (item) =>
+        item.product.slug === slug &&
+        item.selectedSize === size &&
+        (!colour || item.selectedColour === colour || (!item.selectedColour && colour === item.product.colour))
     );
 
     if (itemToRemove) {
       setLastRemovedItem(itemToRemove);
-      setCartItems((prev) =>
-        prev.filter(
-          (item) => !(item.product.slug === slug && item.selectedSize === size)
-        )
-      );
+      setCartItems((prev) => prev.filter((item) => item !== itemToRemove));
     }
   };
 
@@ -134,14 +140,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setLastRemovedItem(null);
   };
 
-  const updateQuantity = (slug: string, size: string, quantity: number) => {
+  const updateQuantity = (slug: string, size: string, quantity: number, colour?: string) => {
     if (quantity <= 0) {
-      removeFromCart(slug, size);
+      removeFromCart(slug, size, colour);
       return;
     }
     setCartItems((prev) =>
       prev.map((item) => {
-        if (item.product.slug === slug && item.selectedSize === size) {
+        if (
+          item.product.slug === slug &&
+          item.selectedSize === size &&
+          (!colour || item.selectedColour === colour || (!item.selectedColour && colour === item.product.colour))
+        ) {
           return { ...item, quantity };
         }
         return item;

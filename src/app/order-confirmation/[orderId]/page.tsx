@@ -42,9 +42,9 @@ export default async function OrderConfirmationPage({ params }: Props) {
   const formattedDelivery = `₦${order.deliveryFee.toLocaleString()}`;
   const formattedTotal = `₦${order.total.toLocaleString()}`;
 
-  // WhatsApp concierge direct link with prefilled order context
+  // WhatsApp direct link with prefilled order context
   const whatsAppText = encodeURIComponent(
-    `Hello NOVEQ Concierge,\n\nI just completed payment for order *${order.id}*.\nName: ${order.customer.fullName}\nTotal Paid: ${formattedTotal}\nAddress: ${order.customer.address}, ${order.customer.city}, ${order.customer.state}\n\nPlease update me on dispatch tracking. Thank you!`
+    `Hello NOVEQ team,\n\nI just completed payment for order *${order.id}*.\nName: ${order.customer.fullName}\nTotal Paid: ${formattedTotal}\nAddress: ${order.customer.address}, ${order.customer.city}, ${order.customer.state}\n\nPlease update me on dispatch tracking. Thank you!`
   );
   const whatsAppUrl = `https://wa.me/${SITE_SETTINGS.supportContact.phone}?text=${whatsAppText}`;
 
@@ -89,7 +89,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
                 Delivery Expectation
               </span>
               <span className="text-muted-taupe">
-                Courier dispatch scheduled within {order.deliveryExpectation} to {order.customer.city}, {order.customer.state}.
+                Courier dispatch scheduled within {order.deliveryExpectation} to {order.customer.city}, {order.customer.state}. (Delivery fee paid directly to rider on arrival).
               </span>
             </div>
           </div>
@@ -108,12 +108,12 @@ export default async function OrderConfirmationPage({ params }: Props) {
           <div className="border border-cocoa/20 rounded-xs divide-y divide-cocoa/15 bg-bone/30">
             {order.items.map((item) => (
               <div
-                key={`${item.product.slug}-${item.selectedSize}`}
+                key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                 className="p-4 flex gap-4 items-center"
               >
                 <div className="relative w-16 h-16 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
                   <Image
-                    src={item.product.images[0]?.src || '/images/products/packaging-box.svg'}
+                    src={item.product.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                     alt={item.product.name}
                     fill
                     className="object-contain p-1"
@@ -131,7 +131,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
                   </div>
 
                   <p className="text-xs text-muted-taupe">
-                    {item.product.colour} · Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span> · Qty: {item.quantity}
+                    Color: <span className="font-semibold text-ink-black">{item.selectedColour || item.product.colour}</span> · Size: <span className="font-semibold text-ink-black">{item.selectedSize}</span> · Qty: {item.quantity}
                   </p>
 
                   {item.withHeartCharm && (
@@ -156,12 +156,12 @@ export default async function OrderConfirmationPage({ params }: Props) {
           </div>
 
           <div className="flex justify-between text-muted-taupe">
-            <span>Tracked Regional Courier Delivery</span>
-            <span className="font-semibold text-ink-black">{formattedDelivery}</span>
+            <span>Delivery Fee</span>
+            <span className="font-semibold text-cocoa">Pay rider on delivery</span>
           </div>
 
           <div className="pt-2 border-t border-cocoa/20 flex justify-between items-baseline text-sm">
-            <span className="font-bold text-ink-black">Total Paid in Full</span>
+            <span className="font-bold text-ink-black">Total Paid Online</span>
             <div className="text-right">
               <span className="font-bold text-ink-black text-base">{formattedTotal}</span>
               <span className="block text-[10px] uppercase tracking-wider text-cocoa font-medium">
@@ -171,7 +171,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
           </div>
         </div>
 
-        {/* Delivery Destination & Unboxing Notice */}
+        {/* Delivery Destination & Quality Assurance */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           {/* Customer Address Details */}
           <div className="p-4 bg-bone/30 border border-cocoa/20 rounded-xs space-y-1.5 text-xs text-ink-black/85">
@@ -190,13 +190,13 @@ export default async function OrderConfirmationPage({ params }: Props) {
             )}
           </div>
 
-          {/* Unboxing Standard Notice */}
+          {/* Quality Assurance Notice */}
           <div className="p-4 bg-bone/30 border border-cocoa/20 rounded-xs space-y-2 text-xs text-ink-black/85">
             <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-semibold block mb-1">
-              What Arrives in the Box
+              Craftsmanship Assurance
             </span>
             <p className="text-xs text-muted-taupe leading-relaxed">
-              Arrives in our custom slim brown kraft box with protective archival tissue, handwritten care card, and branded shopping bag.
+              Every single pair is hand-checked, conditioned, and polished by our craftsmen before dispatch to ensure absolute comfort and structural durability.
             </p>
             <div className="flex items-center gap-1.5 text-[11px] text-cocoa pt-2 font-medium">
               <ShieldCheck className="w-3.5 h-3.5" />
@@ -212,7 +212,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
               Questions or Delivery Updates?
             </h2>
             <p className="text-xs text-muted-taupe">
-              Our concierge team is available directly to track dispatch or answer care questions.
+              Our support team is available directly to track dispatch or answer care questions.
             </p>
           </div>
 
@@ -221,12 +221,12 @@ export default async function OrderConfirmationPage({ params }: Props) {
               href={whatsAppUrl}
               target="_blank"
               rel="noopener noreferrer"
-              placement="order_confirmation_concierge"
+              placement="order_confirmation_support"
               orderId={order.id}
               className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-espresso text-warm-white text-xs uppercase tracking-[0.16em] font-semibold hover:bg-ink-black transition-colors rounded-xs focus-dark min-h-[44px]"
             >
               <MessageCircle className="w-4 h-4 text-warm-white" />
-              <span>Connect on WhatsApp Concierge</span>
+              <span>Message Support on WhatsApp</span>
             </WhatsAppLink>
 
             <a
@@ -234,7 +234,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
               className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-warm-white border border-cocoa/40 text-ink-black text-xs uppercase tracking-[0.16em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[44px]"
             >
               <Mail className="w-4 h-4 text-cocoa" />
-              <span>Email Client Support</span>
+              <span>Email Support</span>
             </a>
           </div>
         </div>

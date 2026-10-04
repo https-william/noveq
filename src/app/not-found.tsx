@@ -54,7 +54,7 @@ export default function NotFound() {
           <div className="p-4 bg-warm-white border border-cocoa/25 rounded-xs flex items-center gap-4 text-left">
             <div className="relative w-20 h-20 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
               <Image
-                src={featuredProduct.images[0]?.src || '/images/brand/packaging.jpg'}
+                src={featuredProduct.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                 alt={featuredProduct.name}
                 fill
                 className="object-cover"
@@ -90,7 +90,7 @@ export default function NotFound() {
         </Link>
         <span>·</span>
         <Link href="/contact" className="hover:text-ink-black underline focus-dark">
-          Contact Concierge
+          Contact Support
         </Link>
       </div>
     </div>

@@ -23,7 +23,8 @@ export const SITE_SETTINGS: SiteSettings = {
     phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || '2349038555997',
     displayPhone: process.env.NEXT_PUBLIC_SUPPORT_DISPLAY_PHONE || '+234 903 855 5997',
     operatingHours: 'Monday – Saturday: 9:00 AM – 6:00 PM WAT',
-    conciergePrompt: 'Hello NOVEQ Concierge, I have an inquiry regarding Drop 001 footwear.',
+    supportPrompt: 'Hello NOVEQ team, I have an inquiry regarding Drop 001 footwear.',
+    conciergePrompt: 'Hello NOVEQ team, I have an inquiry regarding Drop 001 footwear.',
     isPendingClientConfirmation: false,
   },
 
