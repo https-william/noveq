@@ -162,6 +162,7 @@ export default function CartDrawer() {
                     src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
                     alt={item.product.name}
                     fill
+                    sizes="80px"
                     className={item.product.images[0]?.src?.endsWith('.svg') ? 'object-contain p-1' : 'object-cover'}
                   />
                 </div>

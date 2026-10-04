@@ -114,6 +114,7 @@ export default function BagPage() {
                     src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
                     alt={item.product.name}
                     fill
+                    sizes="96px"
                     className="object-contain p-2"
                   />
                 </div>

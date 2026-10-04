@@ -116,6 +116,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
                     src={item.product.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                     alt={item.product.name}
                     fill
+                    sizes="64px"
                     className="object-contain p-1"
                   />
                 </div>
