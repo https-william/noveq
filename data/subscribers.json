@@ -1,16 +1,5 @@
 [
   {
-    "id": "SUB_1791117433784_2X8J",
-    "email": "chidinma@example.com",
-    "name": "Chidinma Okafor",
-    "source": "checkout",
-    "subscribedAt": "2026-10-04T12:37:13.784Z",
-    "tags": [
-      "offline-customer",
-      "direct-bank-transfer"
-    ]
-  },
-  {
     "id": "SUB_1791078564034_DNN9",
     "email": "popoolaariseoluwa@gmail.com",
     "source": "homepage_waitlist",
