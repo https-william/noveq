@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { saveSubscriber, getAllSubscribers, getSubscriberCount } from '@/lib/subscribers';
+import { saveSubscriber, getAllSubscribers, getSubscriberCount, Subscriber } from '@/lib/subscribers';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export async function POST(request: Request) {
   try {
@@ -31,8 +32,8 @@ export async function POST(request: Request) {
       success: true,
       isNew: result.isNew,
       message: result.isNew
-        ? 'Thank you for registering. You are on the private priority allocation list.'
-        : 'Welcome back. Your priority status is already confirmed.',
+        ? 'Thank you for subscribing. You will receive private drop releases and updates.'
+        : 'Welcome back. Your subscription is active.',
     });
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -45,10 +46,43 @@ export async function POST(request: Request) {
 }
 
 export async function GET() {
+  try {
+    // 1. Fetch from Supabase first
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const { data: supaSubs, error } = await supabaseAdmin
+        .from('subscribers')
+        .select('*')
+        .order('subscribed_at', { ascending: false });
+
+      if (!error && supaSubs && supaSubs.length > 0) {
+        const mapped: Subscriber[] = supaSubs.map((s) => ({
+          id: s.id || `SUB_${s.email}`,
+          email: s.email,
+          name: s.name || undefined,
+          source: s.source || 'website',
+          campaignState: s.campaign_state || undefined,
+          subscribedAt: s.subscribed_at,
+          tags: Array.isArray(s.tags) ? s.tags : [],
+        }));
+
+        return NextResponse.json({
+          subscribers: mapped,
+          total: mapped.length,
+          source: 'supabase',
+        });
+      }
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('Supabase subscribers fetch fallback:', err);
+  }
+
+  // 2. Fallback to local store
   const subscribers = getAllSubscribers();
   const total = getSubscriberCount();
   return NextResponse.json({
     subscribers,
     total,
+    source: 'local',
   });
 }

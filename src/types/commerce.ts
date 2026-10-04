@@ -111,11 +111,11 @@ export interface Order {
   deliveryFee: number;
   total: number;
   currency: 'NGN';
-  status: 'pending_payment' | 'paid' | 'processing' | 'shipped' | 'cancelled';
+  status: 'pending_payment' | 'paid' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   payment: {
     status: PaymentStatus;
     reference: string;
-    provider: 'paystack_mock' | 'paystack' | 'flutterwave';
+    provider: 'paystack_mock' | 'paystack' | 'flutterwave' | 'bank_transfer' | 'cash_on_delivery' | 'manual';
     paidAt?: string;
     errorMessage?: string;
   };
