@@ -34,7 +34,7 @@ import {
   DollarSign,
   Layers,
   Sparkles,
-  ArrowRight,
+  Trash2,
 } from 'lucide-react';
 import { Order, Product, ProductSize } from '@/types/commerce';
 import { Subscriber } from '@/lib/subscribers';
@@ -170,6 +170,12 @@ export default function AdminDashboardPage() {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [subscribersSearch, setSubscribersSearch] = useState('');
   const [copiedAllEmails, setCopiedAllEmails] = useState(false);
+
+  // Deletion Confirmation States
+  const [orderToDelete, setOrderToDelete] = useState<Order | null>(null);
+  const [subscriberToDelete, setSubscriberToDelete] = useState<Subscriber | null>(null);
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   // Check persistent session
   useEffect(() => {
@@ -325,6 +331,102 @@ export default function AdminDashboardPage() {
           return next;
         });
       }, 2500);
+    }
+  };
+
+  // Delete Order with Confirmation
+  const handleDeleteOrder = async () => {
+    if (!orderToDelete) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/admin/orders?orderId=${encodeURIComponent(orderToDelete.id)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success) {
+        setOrders((prev) => prev.filter((o) => o.id !== orderToDelete.id));
+        setMetrics((prev) => ({
+          ...prev,
+          totalOrdersCount: Math.max(0, prev.totalOrdersCount - 1),
+          totalRevenue: Math.max(
+            0,
+            prev.totalRevenue - (orderToDelete.payment.status === 'success' ? orderToDelete.total : 0)
+          ),
+          pendingFulfillmentsCount: Math.max(
+            0,
+            prev.pendingFulfillmentsCount -
+              (orderToDelete.status === 'paid' ||
+              orderToDelete.status === 'sourcing' ||
+              orderToDelete.status === 'out for delivery' ||
+              orderToDelete.status === 'processing' ||
+              orderToDelete.status === 'shipped'
+                ? 1
+                : 0)
+          ),
+        }));
+        if (selectedOrderModal && selectedOrderModal.id === orderToDelete.id) {
+          setSelectedOrderModal(null);
+        }
+        setOrderToDelete(null);
+      } else {
+        alert(data.error || 'Failed to delete order.');
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Delete order error:', err);
+      alert('Network error while deleting order.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Delete Subscriber with Confirmation
+  const handleDeleteSubscriber = async () => {
+    if (!subscriberToDelete) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/newsletter?email=${encodeURIComponent(subscriberToDelete.email)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubscribers((prev) =>
+          prev.filter((s) => s.email.toLowerCase() !== subscriberToDelete.email.toLowerCase())
+        );
+        setSubscriberToDelete(null);
+      } else {
+        alert(data.error || 'Failed to delete subscriber.');
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Delete subscriber error:', err);
+      alert('Network error while deleting subscriber.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Delete Product with Confirmation
+  const handleDeleteProduct = async () => {
+    if (!productToDelete) return;
+    setIsDeleting(true);
+    try {
+      const res = await fetch(`/api/admin/products?slug=${encodeURIComponent(productToDelete.slug)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success) {
+        setProducts((prev) => prev.filter((p) => p.slug !== productToDelete.slug));
+        setProductToDelete(null);
+      } else {
+        alert(data.error || 'Failed to delete product.');
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('Delete product error:', err);
+      alert('Network error while deleting product.');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -1244,6 +1346,16 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                               <Eye className="w-3.5 h-3.5 text-espresso" />
                               <span>Full Card</span>
                             </button>
+
+                            <button
+                              type="button"
+                              onClick={() => setOrderToDelete(order)}
+                              className="inline-flex items-center gap-1.5 px-3 py-2.5 bg-bone border border-oxblood/30 hover:bg-oxblood/10 text-oxblood text-xs font-semibold rounded-xs transition-colors min-h-[44px]"
+                              title="Delete this order"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                              <span>Delete</span>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -1380,7 +1492,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                     </div>
 
                     {/* Bottom: Action Buttons */}
-                    <div className="grid grid-cols-3 gap-2 pt-1 border-t border-cocoa/15">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 border-t border-cocoa/15">
                       {/* Hide / Unhide Button */}
                       <button
                         type="button"
@@ -1422,6 +1534,17 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                         <span>Edit Product</span>
+                      </button>
+
+                      {/* Delete Product */}
+                      <button
+                        type="button"
+                        onClick={() => setProductToDelete(product)}
+                        className="py-2 px-2 bg-warm-white border border-oxblood/30 hover:bg-oxblood/10 text-oxblood text-xs font-semibold rounded-xs transition-colors flex items-center justify-center gap-1.5 min-h-[40px] cursor-pointer"
+                        title="Delete product"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Delete</span>
                       </button>
                     </div>
                   </div>
@@ -1826,20 +1949,32 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                         </div>
                       </td>
                       <td className="p-3">
-                        <button
-                          type="button"
-                          onClick={() => copyToClipboard(sub.email, sub.id)}
-                          className="inline-flex items-center gap-1 text-[10px] uppercase font-bold text-espresso hover:underline min-h-[30px]"
-                        >
-                          {copiedId === sub.id ? (
-                            <span className="text-emerald-700">Copied!</span>
-                          ) : (
-                            <>
-                              <Copy className="w-3 h-3" />
-                              <span>Copy</span>
-                            </>
-                          )}
-                        </button>
+                        <div className="flex items-center gap-3">
+                          <button
+                            type="button"
+                            onClick={() => copyToClipboard(sub.email, sub.id)}
+                            className="inline-flex items-center gap-1 text-[10px] uppercase font-bold text-espresso hover:underline min-h-[30px]"
+                          >
+                            {copiedId === sub.id ? (
+                              <span className="text-emerald-700">Copied!</span>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setSubscriberToDelete(sub)}
+                            className="inline-flex items-center gap-1 text-[10px] uppercase font-bold text-oxblood/80 hover:text-oxblood hover:underline min-h-[30px]"
+                            title="Delete subscriber"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                            <span>Delete</span>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -2405,13 +2540,181 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
               </div>
             </div>
 
-            <div className="p-4 border-t border-cocoa/20 bg-bone flex items-center justify-end">
+            <div className="p-4 border-t border-cocoa/20 bg-bone flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setOrderToDelete(selectedOrderModal)}
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-warm-white border border-oxblood/30 text-oxblood text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-oxblood/10 transition-colors min-h-[44px]"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Order</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setSelectedOrderModal(null)}
                 className="px-5 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-espresso transition-colors min-h-[44px]"
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ORDER DELETE CONFIRMATION MODAL */}
+      {orderToDelete && (
+        <div className="fixed inset-0 z-50 bg-ink-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150">
+          <div className="bg-warm-white border border-cocoa/30 max-w-md w-full rounded-xs shadow-2xl p-6 space-y-4">
+            <div className="flex items-center gap-3 text-oxblood">
+              <div className="w-10 h-10 rounded-full bg-oxblood/10 border border-oxblood/20 flex items-center justify-center shrink-0">
+                <Trash2 className="w-5 h-5 text-oxblood" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-ink-black">Delete Order Record</h3>
+                <p className="text-xs text-muted-taupe">Permanent removal from store ledger.</p>
+              </div>
+            </div>
+
+            <div className="p-3 bg-bone border border-cocoa/20 rounded-xs space-y-1.5 text-xs">
+              <div className="flex justify-between">
+                <span className="text-muted-taupe">Order Reference:</span>
+                <span className="font-mono font-bold text-ink-black">{orderToDelete.id}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-taupe">Customer:</span>
+                <span className="font-bold text-ink-black">{orderToDelete.customer.fullName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-taupe">Amount:</span>
+                <span className="font-mono font-bold text-ink-black">₦{orderToDelete.total.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-taupe">Status:</span>
+                <span className="uppercase font-bold text-cocoa">{orderToDelete.status}</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-oxblood leading-relaxed">
+              Are you sure you want to permanently delete this order? This will remove the transaction record from your database and cannot be undone.
+            </p>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setOrderToDelete(null)}
+                className="flex-1 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-bone transition-colors min-h-[44px]"
+              >
+                Keep Order
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleDeleteOrder}
+                className="flex-1 py-2.5 bg-oxblood text-warm-white text-xs uppercase tracking-wider font-bold rounded-xs hover:bg-oxblood/90 transition-colors disabled:opacity-50 min-h-[44px]"
+              >
+                {isDeleting ? 'Deleting...' : 'Yes, Delete Order'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* SUBSCRIBER DELETE CONFIRMATION MODAL */}
+      {subscriberToDelete && (
+        <div className="fixed inset-0 z-50 bg-ink-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150">
+          <div className="bg-warm-white border border-cocoa/30 max-w-md w-full rounded-xs shadow-2xl p-6 space-y-4">
+            <div className="flex items-center gap-3 text-oxblood">
+              <div className="w-10 h-10 rounded-full bg-oxblood/10 border border-oxblood/20 flex items-center justify-center shrink-0">
+                <Trash2 className="w-5 h-5 text-oxblood" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-ink-black">Remove Subscriber</h3>
+                <p className="text-xs text-muted-taupe">Delete email from subscriber records.</p>
+              </div>
+            </div>
+
+            <div className="p-3 bg-bone border border-cocoa/20 rounded-xs space-y-1.5 text-xs">
+              <div>
+                <span className="text-muted-taupe">Email: </span>
+                <span className="font-mono font-bold text-ink-black">{subscriberToDelete.email}</span>
+              </div>
+              {subscriberToDelete.name && (
+                <div>
+                  <span className="text-muted-taupe">Name: </span>
+                  <span className="font-medium text-ink-black">{subscriberToDelete.name}</span>
+                </div>
+              )}
+            </div>
+
+            <p className="text-xs text-muted-taupe leading-relaxed">
+              Are you sure you want to remove this contact from your email list and Supabase records?
+            </p>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setSubscriberToDelete(null)}
+                className="flex-1 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-bone transition-colors min-h-[44px]"
+              >
+                Keep Contact
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleDeleteSubscriber}
+                className="flex-1 py-2.5 bg-oxblood text-warm-white text-xs uppercase tracking-wider font-bold rounded-xs hover:bg-oxblood/90 transition-colors disabled:opacity-50 min-h-[44px]"
+              >
+                {isDeleting ? 'Deleting...' : 'Yes, Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PRODUCT DELETE CONFIRMATION MODAL */}
+      {productToDelete && (
+        <div className="fixed inset-0 z-50 bg-ink-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150">
+          <div className="bg-warm-white border border-cocoa/30 max-w-md w-full rounded-xs shadow-2xl p-6 space-y-4">
+            <div className="flex items-center gap-3 text-oxblood">
+              <div className="w-10 h-10 rounded-full bg-oxblood/10 border border-oxblood/20 flex items-center justify-center shrink-0">
+                <Trash2 className="w-5 h-5 text-oxblood" />
+              </div>
+              <div>
+                <h3 className="text-base font-bold text-ink-black">Delete Product</h3>
+                <p className="text-xs text-muted-taupe">Remove footwear style from catalog.</p>
+              </div>
+            </div>
+
+            <div className="p-3 bg-bone border border-cocoa/20 rounded-xs space-y-1 text-xs">
+              <div className="font-bold text-ink-black text-sm">{productToDelete.name}</div>
+              <div className="text-muted-taupe font-mono">
+                /{productToDelete.slug} · ₦{productToDelete.price.toLocaleString()}
+              </div>
+            </div>
+
+            <p className="text-xs text-oxblood leading-relaxed">
+              Warning: This will permanently remove this footwear style from your store inventory. (Tip: You can also use &quot;Hide&quot; to keep it in your archive without customers seeing it).
+            </p>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={() => setProductToDelete(null)}
+                className="flex-1 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-bone transition-colors min-h-[44px]"
+              >
+                Keep Product
+              </button>
+              <button
+                type="button"
+                disabled={isDeleting}
+                onClick={handleDeleteProduct}
+                className="flex-1 py-2.5 bg-oxblood text-warm-white text-xs uppercase tracking-wider font-bold rounded-xs hover:bg-oxblood/90 transition-colors disabled:opacity-50 min-h-[44px]"
+              >
+                {isDeleting ? 'Deleting...' : 'Yes, Delete Style'}
               </button>
             </div>
           </div>

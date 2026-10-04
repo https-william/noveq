@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllOrders, saveOrder, updateOrderStatus } from '@/lib/orders';
+import { getAllOrders, saveOrder, updateOrderStatus, deleteOrder } from '@/lib/orders';
 import { getProductBySlug } from '@/data/products';
 import { Order } from '@/types/commerce';
 import { saveSubscriber } from '@/lib/subscribers';
@@ -177,3 +177,31 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const orderId = searchParams.get('orderId');
+
+    if (!orderId) {
+      return NextResponse.json(
+        { success: false, error: 'orderId parameter is required.' },
+        { status: 400 }
+      );
+    }
+
+    const removed = deleteOrder(orderId);
+    if (!removed) {
+      return NextResponse.json(
+        { success: false, error: 'Order not found or already deleted.' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, deletedOrderId: orderId });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to delete order';
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
+}
+

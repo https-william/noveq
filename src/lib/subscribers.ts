@@ -139,3 +139,24 @@ export function getAllSubscribers(): Subscriber[] {
 export function getSubscriberCount(): number {
   return subscribersStore.size;
 }
+
+export function deleteSubscriber(email: string): boolean {
+  const normalizedEmail = email.toLowerCase().trim();
+  const deleted = subscribersStore.delete(normalizedEmail);
+  if (deleted) {
+    persistToFile();
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      try {
+        supabaseAdmin
+          .from('subscribers')
+          .delete()
+          .eq('email', normalizedEmail)
+          .then(() => {});
+      } catch {
+        // Non-blocking
+      }
+    }
+  }
+  return deleted;
+}
+

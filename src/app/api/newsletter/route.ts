@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { saveSubscriber, getAllSubscribers, getSubscriberCount, Subscriber } from '@/lib/subscribers';
+import { saveSubscriber, getAllSubscribers, getSubscriberCount, deleteSubscriber, Subscriber } from '@/lib/subscribers';
 import { supabaseAdmin } from '@/lib/supabase';
 
 export async function POST(request: Request) {
@@ -86,3 +86,31 @@ export async function GET() {
     source: 'local',
   });
 }
+
+export async function DELETE(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get('email');
+
+    if (!email) {
+      return NextResponse.json(
+        { success: false, error: 'email parameter is required.' },
+        { status: 400 }
+      );
+    }
+
+    const removed = deleteSubscriber(email);
+    if (!removed) {
+      return NextResponse.json(
+        { success: false, error: 'Subscriber not found or already deleted.' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, removedEmail: email });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Failed to delete subscriber';
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
+}
+

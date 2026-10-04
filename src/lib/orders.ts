@@ -153,3 +153,19 @@ export function updateOrderPayment(
   syncOrderToSupabase(order);
   return order;
 }
+
+export function deleteOrder(orderId: string): boolean {
+  const removed = ordersStore.delete(orderId);
+  if (removed) {
+    persistOrdersToFile();
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      try {
+        supabaseAdmin.from('orders').delete().eq('id', orderId).then(() => {});
+      } catch {
+        // Non-blocking
+      }
+    }
+  }
+  return removed;
+}
+
