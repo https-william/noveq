@@ -1,5 +1,6 @@
 import { Order } from '@/types/commerce';
 import { SITE_SETTINGS } from '@/config/siteSettings';
+import { syncOrderToGoogleSheets } from '@/services/googleSheetsService';
 
 /**
  * NOVEQ Post-Purchase Notification Service
@@ -47,6 +48,12 @@ export async function dispatchOrderConfirmation(order: Order): Promise<Notificat
     phone: order.customer.phone,
     total: formattedTotal,
     deliveryExpectation: order.deliveryExpectation,
+  });
+
+  // Trigger real-time Google Sheets sync (non-blocking)
+  syncOrderToGoogleSheets(order).catch((err) => {
+    // eslint-disable-next-line no-console
+    console.error('Failed to sync order to Google Sheets:', err);
   });
 
   // Check environment for live API tokens (e.g. RESEND_API_KEY, WHATSAPP_API_TOKEN)
