@@ -1,0 +1,154 @@
+[
+  {
+    "id": "NOV-OFF-33779",
+    "createdAt": "2026-10-04T12:37:13.779Z",
+    "status": "paid",
+    "customer": {
+      "fullName": "Chidinma Okafor",
+      "phone": "+234 812 345 6789",
+      "email": "chidinma@example.com",
+      "address": "Plot 8 Admiralty Way, Lekki Phase 1",
+      "city": "Lagos",
+      "state": "Lagos",
+      "zoneId": "lagos-metro",
+      "deliveryNotes": "Customer paid via GTBank transfer. Please dispatch before 2pm."
+    },
+    "items": [
+      {
+        "product": {
+          "name": "The Weave Slide Pam",
+          "slug": "the-weave-slide-pam",
+          "collection": "Drop 001",
+          "price": 20000,
+          "compare_at_price": 22000,
+          "currency": "NGN",
+          "colour": "Black",
+          "colourHex": "#141414",
+          "colours": [
+            {
+              "name": "Black",
+              "hex": "#141414",
+              "imageSrc": "/images/products/the-weave-black.jpg"
+            },
+            {
+              "name": "Burgundy",
+              "hex": "#5B1E28",
+              "imageSrc": "/images/products/the-weave-burgundy.jpg"
+            },
+            {
+              "name": "Off White",
+              "hex": "#EFE9DF",
+              "imageSrc": "/images/products/the-weave-off-white.jpg"
+            },
+            {
+              "name": "Army Green",
+              "hex": "#4B5320",
+              "imageSrc": "/images/products/the-weave-army-green.jpg"
+            },
+            {
+              "name": "Dark Brown",
+              "hex": "#3B2219",
+              "imageSrc": "/images/products/the-weave-dark-brown.jpg"
+            }
+          ],
+          "stock": 5,
+          "material": "Interlocking multi-strap braided Nigerian cowhide, beveled square-toe footbed, flexible non-slip low heel sole.",
+          "care": "Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.",
+          "dimensions_weight": "Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.",
+          "description": "Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, elevated look.",
+          "design_note": "Handcrafted braided strap architecture flexes naturally with every step, distributing stride pressure across the arch while adding rich tactile dimension to your wardrobe.",
+          "charm_option": {
+            "supported": false
+          },
+          "publish_status": "published",
+          "fit_notes": "True to standard size. Woven leather provides gentle give to mirror foot contours.",
+          "shipping_notes": "Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.",
+          "sizes": [
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
+          ],
+          "images": [
+            {
+              "src": "/images/models/the-weave-hero-model.jpg",
+              "alt": "NOVEQ The Weave Slide Pam on model feet on sunlit stone pavement",
+              "viewType": "hero"
+            },
+            {
+              "src": "/images/products/the-weave-black.jpg",
+              "alt": "NOVEQ The Weave Slide Pam in Deep Noir woven leather",
+              "viewType": "detail"
+            },
+            {
+              "src": "/images/products/the-weave-burgundy.jpg",
+              "alt": "NOVEQ The Weave Slide Pam in Burgundy woven leather",
+              "viewType": "detail"
+            },
+            {
+              "src": "/images/products/the-weave-off-white.jpg",
+              "alt": "NOVEQ The Weave Slide Pam in Off White woven leather",
+              "viewType": "detail"
+            },
+            {
+              "src": "/images/products/the-weave-army-green.jpg",
+              "alt": "NOVEQ The Weave Slide Pam in Army Green woven leather",
+              "viewType": "detail"
+            },
+            {
+              "src": "/images/products/the-weave-dark-brown.jpg",
+              "alt": "NOVEQ The Weave Slide Pam in Dark Brown woven leather",
+              "viewType": "detail"
+            },
+            {
+              "src": "/images/campaign/the-weave-campaign-poster.png",
+              "alt": "NOVEQ The Weave Campaign Poster — Now in more colours",
+              "viewType": "detail"
+            },
+            {
+              "src": "/images/models/the-weave-editorial-spec.jpg",
+              "alt": "NOVEQ The Weave Slide Pam editorial specification and colourways",
+              "viewType": "top"
+            }
+          ]
+        },
+        "selectedSize": "EU 39",
+        "selectedColour": "Burgundy",
+        "quantity": 1
+      }
+    ],
+    "subtotal": 20000,
+    "deliveryFee": 0,
+    "total": 20000,
+    "currency": "NGN",
+    "deliveryExpectation": "24–48 hours nationwide courier",
+    "payment": {
+      "provider": "bank_transfer",
+      "status": "success",
+      "reference": "OFF-433780",
+      "paidAt": "2026-10-04T12:37:13.780Z"
+    },
+    "notes": "Offline sale logged via Admin Console (Direct Bank Transfer)"
+  }
+]

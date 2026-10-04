@@ -1,0 +1,225 @@
+[
+  {
+    "name": "The Ring Slide Pam",
+    "slug": "the-ring-slide-pam",
+    "collection": "Drop 001",
+    "price": 20000,
+    "compare_at_price": 22000,
+    "currency": "NGN",
+    "colour": "Warm Cognac",
+    "colourHex": "#7C3F1D",
+    "colours": [
+      {
+        "name": "Warm Cognac",
+        "hex": "#7C3F1D",
+        "imageSrc": "/images/models/the-ring-hero-model.jpg"
+      },
+      {
+        "name": "Burgundy",
+        "hex": "#5B1E28",
+        "imageSrc": "/images/products/the-ring-burgundy.jpg"
+      },
+      {
+        "name": "Black",
+        "hex": "#141414",
+        "imageSrc": "/images/products/the-ring-black.jpg"
+      },
+      {
+        "name": "Off White",
+        "hex": "#EFE9DF",
+        "imageSrc": "/images/products/the-ring-off-white.jpg"
+      }
+    ],
+    "stock": 5,
+    "material": "Hand-selected Nigerian calfskin, anchored with a polished solid gold-toned statement ring. Molded ergonomic footbed with hand-beveled edges and durable low-heel sole.",
+    "care": "Wipe with a soft dry cotton cloth after wear. Apply a light neutral wax balm monthly to maintain rich suppleness. Buff hardware gently with dry microfiber.",
+    "dimensions_weight": "Weight: ~375g per pair. Low heel elevation: 12mm heel, 8mm forefoot.",
+    "description": "A clean cut design with a statement ring. Modern, chic, and refined. You know those outfits where the clothes are simple but the footwear completely changes the look? That’s what we designed this for.",
+    "design_note": "The contoured gold statement ring anchors the upper strap without instep pressure, giving simple linen or denim an intentional, editorial finish.",
+    "charm_option": {
+      "supported": false
+    },
+    "publish_status": "published",
+    "fit_notes": "True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.",
+    "shipping_notes": "Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.",
+    "sizes": [
+      {
+        "size": "EU 37",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 38",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 39",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 40",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 41",
+        "available": true,
+        "stockCount": 1
+      }
+    ],
+    "images": [
+      {
+        "src": "/images/models/the-ring-hero-model.jpg",
+        "alt": "NOVEQ The Ring Slide Pam on model feet with gold anklet on sunlit stone pavement",
+        "viewType": "hero"
+      },
+      {
+        "src": "/images/products/the-ring-burgundy.jpg",
+        "alt": "NOVEQ The Ring Slide Pam in Burgundy full-grain leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/products/the-ring-black.jpg",
+        "alt": "NOVEQ The Ring Slide Pam in Noir Black full-grain leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/products/the-ring-off-white.jpg",
+        "alt": "NOVEQ The Ring Slide Pam in Off White cream leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/campaign/the-ring-campaign-poster.png",
+        "alt": "NOVEQ The Ring Campaign Poster — Modern. Chic. Refined.",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/models/the-ring-editorial-spec.jpg",
+        "alt": "NOVEQ The Ring Slide Pam editorial specification and colourways",
+        "viewType": "top"
+      }
+    ],
+    "hidden": false
+  },
+  {
+    "name": "The Weave Slide Pam",
+    "slug": "the-weave-slide-pam",
+    "collection": "Drop 001",
+    "price": 20000,
+    "compare_at_price": 22000,
+    "currency": "NGN",
+    "colour": "Black",
+    "colourHex": "#141414",
+    "colours": [
+      {
+        "name": "Black",
+        "hex": "#141414",
+        "imageSrc": "/images/products/the-weave-black.jpg"
+      },
+      {
+        "name": "Burgundy",
+        "hex": "#5B1E28",
+        "imageSrc": "/images/products/the-weave-burgundy.jpg"
+      },
+      {
+        "name": "Off White",
+        "hex": "#EFE9DF",
+        "imageSrc": "/images/products/the-weave-off-white.jpg"
+      },
+      {
+        "name": "Army Green",
+        "hex": "#4B5320",
+        "imageSrc": "/images/products/the-weave-army-green.jpg"
+      },
+      {
+        "name": "Dark Brown",
+        "hex": "#3B2219",
+        "imageSrc": "/images/products/the-weave-dark-brown.jpg"
+      }
+    ],
+    "stock": 5,
+    "material": "Interlocking multi-strap braided Nigerian cowhide, beveled square-toe footbed, flexible non-slip low heel sole.",
+    "care": "Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.",
+    "dimensions_weight": "Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.",
+    "description": "Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, elevated look.",
+    "design_note": "Handcrafted braided strap architecture flexes naturally with every step, distributing stride pressure across the arch while adding rich tactile dimension to your wardrobe.",
+    "charm_option": {
+      "supported": false
+    },
+    "publish_status": "published",
+    "fit_notes": "True to standard size. Woven leather provides gentle give to mirror foot contours.",
+    "shipping_notes": "Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.",
+    "sizes": [
+      {
+        "size": "EU 37",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 38",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 39",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 40",
+        "available": true,
+        "stockCount": 1
+      },
+      {
+        "size": "EU 41",
+        "available": true,
+        "stockCount": 1
+      }
+    ],
+    "images": [
+      {
+        "src": "/images/models/the-weave-hero-model.jpg",
+        "alt": "NOVEQ The Weave Slide Pam on model feet on sunlit stone pavement",
+        "viewType": "hero"
+      },
+      {
+        "src": "/images/products/the-weave-black.jpg",
+        "alt": "NOVEQ The Weave Slide Pam in Deep Noir woven leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/products/the-weave-burgundy.jpg",
+        "alt": "NOVEQ The Weave Slide Pam in Burgundy woven leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/products/the-weave-off-white.jpg",
+        "alt": "NOVEQ The Weave Slide Pam in Off White woven leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/products/the-weave-army-green.jpg",
+        "alt": "NOVEQ The Weave Slide Pam in Army Green woven leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/products/the-weave-dark-brown.jpg",
+        "alt": "NOVEQ The Weave Slide Pam in Dark Brown woven leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/campaign/the-weave-campaign-poster.png",
+        "alt": "NOVEQ The Weave Campaign Poster — Now in more colours",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/models/the-weave-editorial-spec.jpg",
+        "alt": "NOVEQ The Weave Slide Pam editorial specification and colourways",
+        "viewType": "top"
+      }
+    ],
+    "hidden": false
+  }
+]

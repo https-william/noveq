@@ -49,6 +49,7 @@ export interface Product {
   design_note: string;
   charm_option: CharmOption;
   publish_status: 'published' | 'draft' | 'archived';
+  hidden?: boolean;
   fit_notes: string;
   shipping_notes: string;
 }
@@ -111,7 +112,15 @@ export interface Order {
   deliveryFee: number;
   total: number;
   currency: 'NGN';
-  status: 'pending_payment' | 'paid' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+  status:
+    | 'pending_payment'
+    | 'paid'
+    | 'sourcing'
+    | 'out for delivery'
+    | 'delivered'
+    | 'cancelled'
+    | 'processing'
+    | 'shipped';
   payment: {
     status: PaymentStatus;
     reference: string;
