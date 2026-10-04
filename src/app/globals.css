@@ -103,3 +103,34 @@ textarea:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Receipt / Print Styles ── */
+@media print {
+  nav,
+  footer,
+  header,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: #141414 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .receipt-sheet {
+    border: none !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+    padding: 1cm 1.2cm !important;
+    margin: 0 !important;
+    page-break-inside: avoid;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}

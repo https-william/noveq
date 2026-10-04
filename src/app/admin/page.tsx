@@ -1347,6 +1347,17 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                               <span>Full Card</span>
                             </button>
 
+                            <a
+                              href={`/order-confirmation/${order.id}/receipt`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-2.5 bg-bone border border-cocoa/30 hover:bg-warm-white text-ink-black text-xs font-medium rounded-xs transition-colors min-h-[44px]"
+                              title="View / Print receipt"
+                            >
+                              <Download className="w-3.5 h-3.5 text-cocoa" />
+                              <span>Receipt</span>
+                            </a>
+
                             <button
                               type="button"
                               onClick={() => setOrderToDelete(order)}
@@ -1357,6 +1368,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                               <span>Delete</span>
                             </button>
                           </div>
+
                         </div>
                       </div>
                     )}

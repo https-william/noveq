@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Heart,
   ShieldCheck,
+  Download,
 } from 'lucide-react';
 import { getOrderById } from '@/lib/orders';
 import { SITE_SETTINGS } from '@/config/siteSettings';
@@ -250,10 +251,20 @@ export default async function OrderConfirmationPage({ params }: Props) {
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
 
+          <Link
+            href={`/order-confirmation/${order.id}/receipt`}
+            target="_blank"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-espresso hover:bg-ink-black text-warm-white text-xs uppercase tracking-[0.16em] font-bold rounded-xs transition-colors min-h-[40px]"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Download Receipt</span>
+          </Link>
+
           <span className="text-muted-taupe uppercase tracking-[0.2em] text-[11px] font-medium">
             noveq / crafted to move.
           </span>
         </div>
+
       </div>
     </div>
   );

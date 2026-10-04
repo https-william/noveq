@@ -1,13 +1,13 @@
 [
   {
-    "id": "SUB_1791078564034_DNN9",
-    "email": "popoolaariseoluwa@gmail.com",
-    "source": "homepage_waitlist",
-    "campaignState": "live",
-    "subscribedAt": "2026-10-04T01:49:24.034Z",
+    "id": "SUB_1791120959387_7V9N",
+    "email": "testuser123@gmail.com",
+    "name": "Test User 123",
+    "source": "checkout",
+    "subscribedAt": "2026-10-04T13:35:59.387Z",
     "tags": [
-      "vip_waitlist",
-      "homepage_waitlist"
+      "customer",
+      "drop-001-checkout"
     ]
   }
 ]

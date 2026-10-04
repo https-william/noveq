@@ -14,14 +14,12 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
   const { addToCart } = useCart();
-  const [isHovered, setIsHovered] = useState(false);
   const [quickAddLoading, setQuickAddLoading] = useState(false);
 
   const primaryImage = product.images[0] || {
     src: '/images/products/the-twist.jpg',
     alt: product.name,
   };
-  const secondaryImage = product.images[1] || primaryImage;
 
   // Determine low stock label
   const isLowStock = product.stock > 0 && product.stock <= 3;
@@ -58,8 +56,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
   return (
     <article
       className="group relative bg-warm-white border border-cocoa/20 rounded-sm flex flex-col justify-between overflow-hidden transition-all duration-200 hover:border-cocoa/50"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <Link
         href={`/shop/${product.slug}`}
@@ -68,36 +64,14 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
       >
         {/* Product Image Frame (Consistent crop) */}
         <div className="relative aspect-[4/3] sm:aspect-square bg-espresso/30 border-b border-cocoa/15 overflow-hidden">
-          {/* Primary View */}
-          <div
-            className={`absolute inset-0 transition-opacity duration-350 ease-out ${
-              isHovered ? 'opacity-0 md:opacity-0' : 'opacity-100'
-            }`}
-          >
-            <Image
-              src={primaryImage.src}
-              alt={primaryImage.alt}
-              fill
-              priority={priority}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-            />
-          </div>
-
-          {/* Secondary View (Desktop hover swap only, refined silk crossfade) */}
-          <div
-            className={`hidden md:block absolute inset-0 transition-opacity duration-300 ease-out ${
-              isHovered ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <Image
-              src={secondaryImage.src}
-              alt={secondaryImage.alt}
-              fill
-              sizes="(max-width: 1024px) 50vw, 33vw"
-              className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-            />
-          </div>
+          <Image
+            src={primaryImage.src}
+            alt={primaryImage.alt}
+            fill
+            priority={priority}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          />
 
           {/* Badges Overlay */}
           <div className="absolute top-3 left-3 right-3 flex items-start justify-between pointer-events-none">
