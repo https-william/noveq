@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOVEQ Drop 001 — Launch Video Studio (/creative brag)</title>
+  <title>NOVEQ // Cinematic Launch Video Studio</title>
   <style>
     :root {
       --bone: #F5F3EF;
@@ -12,11 +12,12 @@
       --espresso: #2A211B;
       --cocoa: #685A4E;
       --oxblood: #5B1E28;
+      --gold: #C5A059;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #11100F;
+      background: #0D0C0B;
       color: var(--bone);
       min-height: 100vh;
       display: flex;
@@ -26,7 +27,7 @@
     }
     header {
       width: 100%;
-      max-width: 1080px;
+      max-width: 1180px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -36,50 +37,55 @@
     }
     h1 {
       font-size: 20px;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      font-weight: 700;
+      font-weight: 800;
     }
     .badge {
       font-size: 11px;
-      padding: 4px 10px;
+      padding: 5px 12px;
       background: var(--oxblood);
       color: #FFF;
       border-radius: 2px;
-      font-weight: 600;
-      letter-spacing: 0.05em;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
     .container {
       display: flex;
       flex-direction: column;
-      lg-flex-direction: row;
       gap: 32px;
       max-width: 1200px;
       width: 100%;
       align-items: center;
     }
-    @media (min-width: 900px) {
+    @media (min-width: 960px) {
       .container { flex-direction: row; align-items: flex-start; justify-content: center; }
     }
     .video-viewport {
       position: relative;
       background: #000;
-      border: 1px solid rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
       border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+      box-shadow: 0 30px 60px -15px rgba(0,0,0,0.85);
     }
     canvas {
       display: block;
-      max-height: 75vh;
+      max-height: 76vh;
       width: auto;
       aspect-ratio: 9/16;
+    }
+    canvas.landscape {
+      aspect-ratio: 16/9;
+      max-width: 600px;
+      max-height: none;
     }
     .controls-panel {
       flex: 1;
       max-width: 480px;
-      background: #1C1917;
-      border: 1px solid rgba(255,255,255,0.1);
+      background: #181615;
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 4px;
       padding: 24px;
       display: flex;
@@ -88,15 +94,15 @@
     }
     .btn-group {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
     button {
-      padding: 12px 20px;
-      font-size: 12px;
+      padding: 12px 18px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
       border: none;
       border-radius: 2px;
       cursor: pointer;
@@ -108,15 +114,22 @@
     }
     .btn-primary:hover { background: #E5E0D8; }
     .btn-secondary {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
       color: var(--bone);
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.15);
     }
-    .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.18); }
+    .btn-secondary.active {
+      background: var(--oxblood);
+      border-color: var(--oxblood);
+      color: #FFF;
+    }
     .btn-record {
       background: #E11D48;
       color: #FFF;
       flex: 1;
+      font-size: 12px;
+      padding: 14px 20px;
     }
     .btn-record:hover { background: #BE123C; }
     .progress-bar-wrap {
@@ -130,7 +143,7 @@
       height: 100%;
       width: 0%;
       background: var(--oxblood);
-      transition: width 0.1s linear;
+      transition: width 0.08s linear;
     }
     .time-display {
       font-family: monospace;
@@ -143,6 +156,7 @@
       font-size: 13px;
       color: #FBBF24;
       min-height: 20px;
+      font-weight: 500;
     }
     .ai-links {
       border-top: 1px solid rgba(255,255,255,0.1);
@@ -151,10 +165,7 @@
       line-height: 1.6;
       color: #A8A29E;
     }
-    .ai-links a {
-      color: #60A5FA;
-      text-decoration: none;
-    }
+    .ai-links a { color: #60A5FA; text-decoration: none; }
     .ai-links a:hover { text-decoration: underline; }
   </style>
 </head>
@@ -162,10 +173,12 @@
 
   <header>
     <div>
-      <h1>NOVEQ // Launch Video Studio</h1>
-      <p style="font-size: 12px; color: #A8A29E; margin-top: 4px;">Drop 001 — The Foundation Trio (The Ring, The Weave, The Twist)</p>
+      <h1>NOVEQ // Cinematic Launch Studio</h1>
+      <p style="font-size: 12px; color: #A8A29E; margin-top: 4px;">
+        Drop 001 Editorial Motion · Procedural 35mm Grain · Afro-Luxe Synthesizer
+      </p>
     </div>
-    <span class="badge">9:16 Vertical Reel · 22s</span>
+    <span class="badge">Atelier Reel · 22s</span>
   </header>
 
   <div class="container">
@@ -175,7 +188,18 @@
 
     <div class="controls-panel">
       <div>
-        <h2 style="font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Playback &amp; Render</h2>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+          <h2 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; color: #E7E5E4;">Format &amp; Canvas</h2>
+          <span style="font-size: 11px; color: #78716C;">30 FPS Master</span>
+        </div>
+        <div class="btn-group">
+          <button id="btnFormatVertical" class="btn-secondary active">9:16 Vertical (Reel/TikTok)</button>
+          <button id="btnFormatLandscape" class="btn-secondary">16:9 Cinema (Landscape)</button>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="font-size: 13px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; color: #E7E5E4;">Timeline Playback</h2>
         <div class="time-display">
           <span id="currentTime">00:00.0</span>
           <span>00:22.0</span>
@@ -186,31 +210,33 @@
       </div>
 
       <div class="btn-group">
-        <button id="btnPlay" class="btn-primary">Play / Pause</button>
-        <button id="btnReset" class="btn-secondary">Restart</button>
+        <button id="btnPlay" class="btn-primary" style="flex: 2;">Play / Pause</button>
+        <button id="btnReset" class="btn-secondary" style="flex: 1;">Restart</button>
       </div>
 
       <div>
         <button id="btnRecord" class="btn-record" style="width: 100%;">
-          Start Render &amp; Download Video
+          ● Render &amp; Download Video with Audio
         </button>
-        <p style="font-size: 11px; color: #A8A29E; margin-top: 6px;">
-          Captures all 22 seconds at 30 FPS directly to a WebM/MP4 video file via MediaRecorder.
+        <p style="font-size: 11px; color: #78716C; margin-top: 6px;">
+          Bakes procedural 35mm film grain, kinetic typography, and synthesized cello/bass audio directly into <code>.webm</code>.
         </p>
       </div>
 
       <div id="statusMessage" class="status-text"></div>
 
       <div class="ai-links">
-        <h3 style="font-size: 12px; text-transform: uppercase; color: #E7E5E4; margin-bottom: 6px;">Generate with Online AI Video Engines</h3>
-        <p>You can also paste our pre-composed prompts directly into online video generators:</p>
+        <h3 style="font-size: 12px; text-transform: uppercase; color: #E7E5E4; margin-bottom: 6px;">
+          Online Generative Video Prompts
+        </h3>
+        <p>Pre-engineered cinematic prompts for runwayml.com or lumalabs.ai:</p>
         <ul style="margin: 8px 0 8px 18px;">
-          <li><strong><a href="https://runwayml.com" target="_blank" rel="noreferrer">Runway Gen-3 Alpha</a></strong> — Top cinematic motion &amp; camera control</li>
-          <li><strong><a href="https://lumalabs.ai/dream-machine" target="_blank" rel="noreferrer">Luma Dream Machine</a></strong> — Realistic motion &amp; natural lighting</li>
-          <li><strong><a href="https://klingai.com" target="_blank" rel="noreferrer">Kling AI</a></strong> — High-definition leather &amp; product textures</li>
+          <li><strong>Scene 1</strong>: Macro curved skiving knife carving full-grain burgundy leather.</li>
+          <li><strong>Scene 2</strong>: Model foot with gold anklet stepping on sunlit travertine in The Ring.</li>
+          <li><strong>Scene 3</strong>: The Twist in sculptural burgundy gliding across terrazzo.</li>
         </ul>
         <p style="font-size: 11px; color: #78716C;">
-          Prompt instructions and storyboard details are saved in <code>brag-plan.md</code>.
+          Full cue sheet and voiceover scripts saved in <code>brag-plan.md</code>.
         </p>
       </div>
     </div>
@@ -222,20 +248,76 @@
     const btnPlay = document.getElementById('btnPlay');
     const btnReset = document.getElementById('btnReset');
     const btnRecord = document.getElementById('btnRecord');
+    const btnFormatVertical = document.getElementById('btnFormatVertical');
+    const btnFormatLandscape = document.getElementById('btnFormatLandscape');
     const progressBar = document.getElementById('progressBar');
     const currentTimeText = document.getElementById('currentTime');
     const statusMessage = document.getElementById('statusMessage');
 
-    const TOTAL_DURATION = 22.0; // 22 seconds
+    const TOTAL_DURATION = 22.0;
     let currentTime = 0;
     let isPlaying = false;
     let isRecording = false;
     let mediaRecorder = null;
     let recordedChunks = [];
     let lastTimestamp = 0;
+    let isVertical = true;
 
-    // Assets to load
-    const images = {
+    // Web Audio Synthesizer (Afro-Luxe Cello & Polyrhythmic Pulse)
+    let audioCtx = null;
+    let audioDest = null;
+    let bassOsc = null;
+    let bassGain = null;
+
+    function initAudio() {
+      if (audioCtx) return;
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContextClass();
+      audioDest = audioCtx.createMediaStreamDestination();
+    }
+
+    function triggerAudioBeat(t) {
+      if (!audioCtx) return;
+      // Play soft percussion woodblock every 0.5s
+      const beatNum = Math.floor(t * 2);
+      if (Math.abs(t * 2 - beatNum) < 0.05) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140 + (beatNum % 4) * 20, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        if (audioDest) gain.connect(audioDest);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.12);
+      }
+
+      // Cello sub-bass drone
+      if (t >= 3.0 && t <= 20.0) {
+        if (!bassOsc) {
+          bassOsc = audioCtx.createOscillator();
+          bassGain = audioCtx.createGain();
+          bassOsc.type = 'sine';
+          bassOsc.frequency.setValueAtTime(55, audioCtx.currentTime); // A1 note
+          bassGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+          bassGain.gain.linearRampToValueAtTime(0.25, audioCtx.currentTime + 1.0);
+          bassOsc.connect(bassGain);
+          bassGain.connect(audioCtx.destination);
+          if (audioDest) bassGain.connect(audioDest);
+          bassOsc.start();
+        }
+      } else if (bassOsc && t > 20.0) {
+        bassGain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 1.0);
+        setTimeout(() => {
+          if (bassOsc) { bassOsc.stop(); bassOsc = null; }
+        }, 1100);
+      }
+    }
+
+    // Media Assets
+    const assets = {
       anatomy: new Image(),
       ring: new Image(),
       weave: new Image(),
@@ -243,95 +325,190 @@
       craft: new Image()
     };
 
-    images.anatomy.src = '../public/images/editorial/editorial-anatomy.jpg';
-    images.ring.src = '../public/images/models/the-ring-hero-model.jpg';
-    images.weave.src = '../public/images/models/the-weave-hero-model.jpg';
-    images.twist.src = '../public/images/models/the-twist-hero-model.jpg';
-    images.craft.src = '../public/images/editorial/editorial-craft.jpg';
+    assets.anatomy.src = '../public/images/editorial/editorial-anatomy.jpg';
+    assets.ring.src = '../public/images/models/the-ring-hero-model.jpg';
+    assets.weave.src = '../public/images/models/the-weave-hero-model.jpg';
+    assets.twist.src = '../public/images/models/the-twist-hero-model.jpg';
+    assets.craft.src = '../public/images/editorial/editorial-craft.jpg';
 
-    // Timeline Definition (5 Scenes)
+    // Timeline Definition
     const scenes = [
-      { start: 0.0, end: 3.5, name: 'hook', image: images.anatomy, title: 'NOVEQ', subtitle: 'DROP 001 // THE FOUNDATION' },
-      { start: 3.5, end: 8.0, name: 'ring', image: images.ring, title: 'THE RING', subtitle: '₦25,000 · FULL-GRAIN CALFSKIN' },
-      { start: 8.0, end: 12.5, name: 'weave', image: images.weave, title: 'THE WEAVE', subtitle: '₦20,000 · WOVEN ARCHITECTURE' },
-      { start: 12.5, end: 17.5, name: 'twist', image: images.twist, title: 'THE TWIST', subtitle: '₦25,000 · SCULPTURAL LEATHER PAM' },
-      { start: 17.5, end: 22.0, name: 'outro', image: images.craft, title: 'HANDCRAFTED IN LAGOS', subtitle: 'LIMITED RUN · NOVEQ.COM.NG' }
+      {
+        start: 0.0,
+        end: 4.0,
+        image: assets.anatomy,
+        eyebrow: '01 // ARCHITECTURAL FORM',
+        title: 'UNHURRIED CRAFT.',
+        subtitle: 'NO SYNTHETICS. NO COMPROMISE.',
+        tag: 'LAGOS ATELIER'
+      },
+      {
+        start: 4.0,
+        end: 8.5,
+        image: assets.ring,
+        eyebrow: 'DROP 001 // FOUNDATION',
+        title: 'THE RING',
+        subtitle: '₦25,000 · POLISHED STATEMENT RING',
+        tag: 'FULL-GRAIN CALFSKIN'
+      },
+      {
+        start: 8.5,
+        end: 13.0,
+        image: assets.weave,
+        eyebrow: 'DROP 001 // FOUNDATION',
+        title: 'THE WEAVE',
+        subtitle: '₦20,000 · WOVEN LEATHER ARCHITECTURE',
+        tag: 'HAND-BRAIDED VAMP'
+      },
+      {
+        start: 13.0,
+        end: 17.5,
+        image: assets.twist,
+        eyebrow: 'DROP 001 // FOUNDATION',
+        title: 'THE TWIST',
+        subtitle: '₦25,000 · SCULPTURAL TWIST PAM',
+        tag: 'BURGUNDY & LEATHER BROWN'
+      },
+      {
+        start: 17.5,
+        end: 22.0,
+        image: assets.craft,
+        eyebrow: 'ATELIER BENCH LOG',
+        title: 'NOVEQ',
+        subtitle: 'LIMITED RUN · NOVEQ.COM.NG',
+        tag: 'SAME-DAY DISPATCH'
+      }
     ];
 
-    function drawFrame(t) {
-      ctx.fillStyle = '#14110F';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Procedural 35mm Film Grain
+    function drawFilmGrain(alpha = 0.04) {
+      const w = canvas.width;
+      const h = canvas.height;
+      const grainCount = 1200;
+      ctx.save();
+      ctx.fillStyle = '#FFFFFF';
+      for (let i = 0; i < grainCount; i++) {
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        const size = Math.random() * 2 + 1;
+        ctx.globalAlpha = Math.random() * alpha;
+        ctx.fillRect(x, y, size, size);
+      }
+      ctx.restore();
+    }
 
-      // Find active scene
+    function drawFrame(t) {
+      const W = canvas.width;
+      const H = canvas.height;
+
+      // Base background
+      ctx.fillStyle = '#14110F';
+      ctx.fillRect(0, 0, W, H);
+
       const scene = scenes.find(s => t >= s.start && t < s.end) || scenes[scenes.length - 1];
       const sceneElapsed = t - scene.start;
       const sceneDuration = scene.end - scene.start;
       const progress = sceneElapsed / sceneDuration;
 
-      // Draw background image with subtle cinematic zoom
+      // 1. Draw Visual Layer with Slow Cinematic Zoom & Shimmer
       if (scene.image.complete && scene.image.naturalWidth > 0) {
         ctx.save();
-        const zoom = 1.0 + 0.08 * progress;
-        const imgW = canvas.width * zoom;
-        const imgH = (canvas.width / (scene.image.naturalWidth / scene.image.naturalHeight)) * zoom;
-        const offsetX = (canvas.width - imgW) / 2;
-        const offsetY = (canvas.height - imgH) / 2;
+        const zoom = 1.0 + 0.06 * progress;
+        const imgRatio = scene.image.naturalWidth / scene.image.naturalHeight;
+        let drawW, drawH;
 
-        ctx.globalAlpha = Math.min(1.0, sceneElapsed * 2.5); // Fast fade in
-        ctx.drawImage(scene.image, offsetX, offsetY, imgW, imgH);
+        if (W / H > imgRatio) {
+          drawW = W * zoom;
+          drawH = (W / imgRatio) * zoom;
+        } else {
+          drawH = H * zoom;
+          drawW = (H * imgRatio) * zoom;
+        }
 
-        // Elegant dark vignette / gradient for text legibility
-        const grad = ctx.createLinearGradient(0, canvas.height * 0.45, 0, canvas.height);
+        const offsetX = (W - drawW) / 2;
+        const offsetY = (H - drawH) / 2;
+
+        // Fade in
+        ctx.globalAlpha = Math.min(1.0, sceneElapsed * 3.0);
+        ctx.drawImage(scene.image, offsetX, offsetY, drawW, drawH);
+
+        // Moody Deep Vignette Gradient
+        const grad = ctx.createLinearGradient(0, H * 0.35, 0, H);
         grad.addColorStop(0, 'rgba(20, 17, 15, 0.0)');
-        grad.addColorStop(0.65, 'rgba(20, 17, 15, 0.7)');
-        grad.addColorStop(1, 'rgba(20, 17, 15, 0.95)');
+        grad.addColorStop(0.5, 'rgba(20, 17, 15, 0.55)');
+        grad.addColorStop(0.85, 'rgba(20, 17, 15, 0.88)');
+        grad.addColorStop(1, 'rgba(20, 17, 15, 0.98)');
         ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, W, H);
         ctx.restore();
       }
 
-      // Draw Top Brand Bar
+      // 2. Cinematic Letterbox & Film Frame Marks
       ctx.save();
-      ctx.fillStyle = 'rgba(251, 249, 245, 0.9)';
-      ctx.font = '700 36px -apple-system, sans-serif';
-      ctx.letterSpacing = '10px';
-      ctx.textAlign = 'center';
-      ctx.fillText('N O V E Q', canvas.width / 2, 140);
-
-      ctx.fillStyle = '#A8A29E';
-      ctx.font = '500 22px monospace';
-      ctx.letterSpacing = '4px';
-      ctx.fillText('LAGOS, NIGERIA', canvas.width / 2, 185);
+      ctx.strokeStyle = 'rgba(251, 249, 245, 0.2)';
+      ctx.lineWidth = 1;
+      // Corner crosses
+      const pad = 40;
+      const len = 16;
+      // Top Left
+      ctx.beginPath(); ctx.moveTo(pad - len, pad); ctx.lineTo(pad + len, pad); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pad, pad - len); ctx.lineTo(pad, pad + len); ctx.stroke();
+      // Top Right
+      ctx.beginPath(); ctx.moveTo(W - pad - len, pad); ctx.lineTo(W - pad + len, pad); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(W - pad, pad - len); ctx.lineTo(W - pad, pad + len); ctx.stroke();
       ctx.restore();
 
-      // Draw Bottom Typography Overlay
+      // 3. Top Editorial Brand Badge
       ctx.save();
-      const textAlpha = Math.min(1.0, Math.max(0.0, (sceneElapsed - 0.2) * 2));
-      ctx.globalAlpha = textAlpha;
-
-      // Scene Title
-      ctx.fillStyle = '#FBF9F5';
-      ctx.font = '800 68px -apple-system, sans-serif';
       ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(251, 249, 245, 0.95)';
+      ctx.font = '800 38px -apple-system, sans-serif';
+      ctx.letterSpacing = '12px';
+      ctx.fillText('N O V E Q', W / 2, isVertical ? 150 : 80);
+
+      ctx.fillStyle = '#A8A29E';
+      ctx.font = '600 20px monospace';
+      ctx.letterSpacing = '5px';
+      ctx.fillText('LAGOS // DROP 001', W / 2, isVertical ? 195 : 115);
+      ctx.restore();
+
+      // 4. Kinetic Lower Third Typography
+      ctx.save();
+      const textAlpha = Math.min(1.0, Math.max(0.0, (sceneElapsed - 0.15) * 3));
+      ctx.globalAlpha = textAlpha;
+      ctx.textAlign = 'center';
+
+      // Eyebrow Tag
+      ctx.fillStyle = '#C5A059'; // Warm gold
+      ctx.font = '700 24px monospace';
       ctx.letterSpacing = '4px';
-      ctx.fillText(scene.title, canvas.width / 2, canvas.height - 280);
+      ctx.fillText(scene.eyebrow, W / 2, H - (isVertical ? 380 : 220));
 
-      // Accent divider line
+      // Main Scene Headline
+      ctx.fillStyle = '#FBF9F5';
+      ctx.font = `800 ${isVertical ? '72px' : '52px'} -apple-system, sans-serif`;
+      ctx.letterSpacing = '3px';
+      ctx.fillText(scene.title, W / 2, H - (isVertical ? 300 : 160));
+
+      // Divider line
       ctx.fillStyle = '#5B1E28'; // Oxblood
-      ctx.fillRect(canvas.width / 2 - 60, canvas.height - 245, 120, 4);
+      ctx.fillRect(W / 2 - 70, H - (isVertical ? 260 : 135), 140, 4);
 
-      // Scene Subtitle / Badge
+      // Price / Material Subtitle
       ctx.fillStyle = '#E7E5E4';
       ctx.font = '600 32px monospace';
       ctx.letterSpacing = '2px';
-      ctx.fillText(scene.subtitle, canvas.width / 2, canvas.height - 190);
+      ctx.fillText(scene.subtitle, W / 2, H - (isVertical ? 200 : 95));
 
-      // Persistent Callout at bottom
+      // Bottom Badge Pill
       ctx.fillStyle = '#A8A29E';
-      ctx.font = '500 24px -apple-system, sans-serif';
-      ctx.letterSpacing = '1px';
-      ctx.fillText('DROP 001 AVAILABLE NOW · DOOR-TO-DOOR DISPATCH', canvas.width / 2, canvas.height - 120);
+      ctx.font = '500 22px -apple-system, sans-serif';
+      ctx.letterSpacing = '2px';
+      ctx.fillText(scene.tag, W / 2, H - (isVertical ? 130 : 50));
       ctx.restore();
+
+      // 5. Film Grain Pass
+      drawFilmGrain(0.05);
     }
 
     function update(timestamp) {
@@ -341,6 +518,8 @@
 
       if (isPlaying) {
         currentTime += delta;
+        triggerAudioBeat(currentTime);
+
         if (currentTime >= TOTAL_DURATION) {
           if (isRecording) {
             stopRecording();
@@ -353,7 +532,6 @@
 
       drawFrame(currentTime);
 
-      // Update UI displays
       const mins = Math.floor(currentTime / 60);
       const secs = (currentTime % 60).toFixed(1);
       currentTimeText.textContent = `${mins.toString().padStart(2, '0')}:${secs.padStart(4, '0')}`;
@@ -365,6 +543,7 @@
     }
 
     btnPlay.addEventListener('click', () => {
+      initAudio();
       isPlaying = !isPlaying;
       btnPlay.textContent = isPlaying ? 'Pause' : 'Play';
       if (isPlaying) {
@@ -380,10 +559,32 @@
       drawFrame(0);
       currentTimeText.textContent = '00:00.0';
       progressBar.style.width = '0%';
+      if (bassOsc) { bassOsc.stop(); bassOsc = null; }
+    });
+
+    btnFormatVertical.addEventListener('click', () => {
+      isVertical = true;
+      canvas.width = 1080;
+      canvas.height = 1920;
+      canvas.classList.remove('landscape');
+      btnFormatVertical.classList.add('active');
+      btnFormatLandscape.classList.remove('active');
+      drawFrame(currentTime);
+    });
+
+    btnFormatLandscape.addEventListener('click', () => {
+      isVertical = false;
+      canvas.width = 1920;
+      canvas.height = 1080;
+      canvas.classList.add('landscape');
+      btnFormatLandscape.classList.add('active');
+      btnFormatVertical.classList.remove('active');
+      drawFrame(currentTime);
     });
 
     btnRecord.addEventListener('click', () => {
       if (isRecording) return;
+      initAudio();
       startRecording();
     });
 
@@ -393,21 +594,30 @@
       isRecording = true;
       recordedChunks = [];
       btnRecord.disabled = true;
-      statusMessage.textContent = '● Recording video frames in real time (22s)...';
+      statusMessage.textContent = '● Rendering 22s video with audio synthesis...';
 
-      const stream = canvas.captureStream(30);
-      const options = { mimeType: 'video/webm; codecs=vp9' };
+      const canvasStream = canvas.captureStream(30);
+      let combinedStream = canvasStream;
 
+      if (audioDest && audioDest.stream) {
+        const audioTracks = audioDest.stream.getAudioTracks();
+        if (audioTracks.length > 0) {
+          combinedStream = new MediaStream([
+            ...canvasStream.getVideoTracks(),
+            ...audioTracks
+          ]);
+        }
+      }
+
+      const options = { mimeType: 'video/webm; codecs=vp9,opus' };
       try {
-        mediaRecorder = new MediaRecorder(stream, options);
+        mediaRecorder = new MediaRecorder(combinedStream, options);
       } catch (e) {
-        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder = new MediaRecorder(combinedStream);
       }
 
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          recordedChunks.push(event.data);
-        }
+        if (event.data.size > 0) recordedChunks.push(event.data);
       };
 
       mediaRecorder.onstop = () => {
@@ -415,11 +625,11 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'noveq-drop-001-launch-brag.webm';
+        a.download = `noveq-drop-001-${isVertical ? 'vertical' : 'cinema'}.webm`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        statusMessage.textContent = '✓ Video downloaded! (noveq-drop-001-launch-brag.webm)';
+        statusMessage.textContent = '✓ Master video downloaded! (.webm)';
         btnRecord.disabled = false;
         isRecording = false;
       };
@@ -429,10 +639,7 @@
       requestAnimationFrame(update);
     }
 
-    // Initial render
-    setTimeout(() => {
-      drawFrame(0);
-    }, 300);
+    setTimeout(() => { drawFrame(0); }, 350);
   </script>
 </body>
 </html>

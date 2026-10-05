@@ -244,16 +244,31 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             onTouchEnd={handleTouchEnd}
             className="relative aspect-square sm:aspect-[4/3] lg:aspect-square w-full bg-espresso/20 border border-cocoa/20 rounded-sm overflow-hidden flex items-center justify-center select-none shadow-md"
           >
-            <Image
-              src={activeImage.src}
-              alt={activeImage.alt}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 55vw"
-              className={`transition-all duration-300 ${
-                activeImage.src.endsWith('.svg') ? 'object-contain p-6 sm:p-10' : 'object-cover'
-              }`}
-            />
+            {/* Pre-rendered Stacked Image Layers for 0ms Instantaneous Switching */}
+            {product.images.map((img, idx) => {
+              const isActive = activeImageIndex === idx;
+              return (
+                <div
+                  key={`${img.src}-${idx}`}
+                  className={`absolute inset-0 transition-opacity duration-150 ease-out ${
+                    isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                  }`}
+                  aria-hidden={!isActive}
+                >
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    fill
+                    priority={idx === 0 || idx === 1}
+                    loading={idx <= 3 ? 'eager' : 'lazy'}
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                    className={`transition-transform duration-300 ${
+                      img.src.endsWith('.svg') ? 'object-contain p-6 sm:p-10' : 'object-cover'
+                    }`}
+                  />
+                </div>
+              );
+            })}
 
             {/* View Type Indicator Tag */}
             <div className="absolute top-4 left-4 px-2.5 py-1 bg-warm-white/90 border border-cocoa/30 text-[10px] uppercase tracking-widest text-cocoa font-medium rounded-xs pointer-events-none">

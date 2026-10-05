@@ -200,14 +200,14 @@ export const DROP_001_PRODUCTS: Product[] = [
     colourHex: '#5B1E28',
     colours: [
       {
-        name: 'Warm Cognac',
-        hex: '#7C3F1D',
-        imageSrc: '/images/products/the-twist-warm-cognac.jpg',
-      },
-      {
         name: 'Burgundy',
         hex: '#5B1E28',
         imageSrc: '/images/products/the-twist-burgundy.jpg',
+      },
+      {
+        name: 'Leather Brown',
+        hex: '#6A381F',
+        imageSrc: '/images/products/the-twist-warm-cognac.jpg',
       },
     ],
     stock: 5,
@@ -231,18 +231,18 @@ export const DROP_001_PRODUCTS: Product[] = [
     ],
     images: [
       {
-        src: '/images/products/the-twist-burgundy.jpg',
-        alt: 'NOVEQ The Twist Slide Pam in Burgundy sculptural leather',
+        src: '/images/models/the-twist-hero-model.jpg',
+        alt: 'NOVEQ The Twist Slide Pam on model foot stepping on warm sunlit stone',
         viewType: 'hero',
       },
       {
-        src: '/images/models/the-twist-hero-model.jpg',
-        alt: 'NOVEQ The Twist Slide Pam on model foot stepping on warm sunlit stone',
+        src: '/images/products/the-twist-burgundy.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in Burgundy sculptural leather',
         viewType: 'detail',
       },
       {
         src: '/images/products/the-twist-warm-cognac.jpg',
-        alt: 'NOVEQ The Twist Slide Pam in Warm Cognac leather',
+        alt: 'NOVEQ The Twist Slide Pam in Leather Brown',
         viewType: 'detail',
       },
       {
