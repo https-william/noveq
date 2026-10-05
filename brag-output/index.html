@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOVEQ Drop 001 — Launch Video Studio (/creative brag)</title>
+  <style>
+    :root {
+      --bone: #F5F3EF;
+      --warm-white: #FBF9F5;
+      --ink-black: #14110F;
+      --espresso: #2A211B;
+      --cocoa: #685A4E;
+      --oxblood: #5B1E28;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #11100F;
+      color: var(--bone);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+    }
+    header {
+      width: 100%;
+      max-width: 1080px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 20px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      background: var(--oxblood);
+      color: #FFF;
+      border-radius: 2px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      lg-flex-direction: row;
+      gap: 32px;
+      max-width: 1200px;
+      width: 100%;
+      align-items: center;
+    }
+    @media (min-width: 900px) {
+      .container { flex-direction: row; align-items: flex-start; justify-content: center; }
+    }
+    .video-viewport {
+      position: relative;
+      background: #000;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7);
+    }
+    canvas {
+      display: block;
+      max-height: 75vh;
+      width: auto;
+      aspect-ratio: 9/16;
+    }
+    .controls-panel {
+      flex: 1;
+      max-width: 480px;
+      background: #1C1917;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: var(--warm-white);
+      color: var(--ink-black);
+    }
+    .btn-primary:hover { background: #E5E0D8; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: var(--bone);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+    .btn-record {
+      background: #E11D48;
+      color: #FFF;
+      flex: 1;
+    }
+    .btn-record:hover { background: #BE123C; }
+    .progress-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--oxblood);
+      transition: width 0.1s linear;
+    }
+    .time-display {
+      font-family: monospace;
+      font-size: 13px;
+      color: #A8A29E;
+      display: flex;
+      justify-content: space-between;
+    }
+    .status-text {
+      font-size: 13px;
+      color: #FBBF24;
+      min-height: 20px;
+    }
+    .ai-links {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 16px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #A8A29E;
+    }
+    .ai-links a {
+      color: #60A5FA;
+      text-decoration: none;
+    }
+    .ai-links a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>NOVEQ // Launch Video Studio</h1>
+      <p style="font-size: 12px; color: #A8A29E; margin-top: 4px;">Drop 001 — The Foundation Trio (The Ring, The Weave, The Twist)</p>
+    </div>
+    <span class="badge">9:16 Vertical Reel · 22s</span>
+  </header>
+
+  <div class="container">
+    <div class="video-viewport">
+      <canvas id="videoCanvas" width="1080" height="1920"></canvas>
+    </div>
+
+    <div class="controls-panel">
+      <div>
+        <h2 style="font-size: 15px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">Playback &amp; Render</h2>
+        <div class="time-display">
+          <span id="currentTime">00:00.0</span>
+          <span>00:22.0</span>
+        </div>
+        <div class="progress-bar-wrap" style="margin-top: 6px;">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button id="btnPlay" class="btn-primary">Play / Pause</button>
+        <button id="btnReset" class="btn-secondary">Restart</button>
+      </div>
+
+      <div>
+        <button id="btnRecord" class="btn-record" style="width: 100%;">
+          Start Render &amp; Download Video
+        </button>
+        <p style="font-size: 11px; color: #A8A29E; margin-top: 6px;">
+          Captures all 22 seconds at 30 FPS directly to a WebM/MP4 video file via MediaRecorder.
+        </p>
+      </div>
+
+      <div id="statusMessage" class="status-text"></div>
+
+      <div class="ai-links">
+        <h3 style="font-size: 12px; text-transform: uppercase; color: #E7E5E4; margin-bottom: 6px;">Generate with Online AI Video Engines</h3>
+        <p>You can also paste our pre-composed prompts directly into online video generators:</p>
+        <ul style="margin: 8px 0 8px 18px;">
+          <li><strong><a href="https://runwayml.com" target="_blank" rel="noreferrer">Runway Gen-3 Alpha</a></strong> — Top cinematic motion &amp; camera control</li>
+          <li><strong><a href="https://lumalabs.ai/dream-machine" target="_blank" rel="noreferrer">Luma Dream Machine</a></strong> — Realistic motion &amp; natural lighting</li>
+          <li><strong><a href="https://klingai.com" target="_blank" rel="noreferrer">Kling AI</a></strong> — High-definition leather &amp; product textures</li>
+        </ul>
+        <p style="font-size: 11px; color: #78716C;">
+          Prompt instructions and storyboard details are saved in <code>brag-plan.md</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('videoCanvas');
+    const ctx = canvas.getContext('2d');
+    const btnPlay = document.getElementById('btnPlay');
+    const btnReset = document.getElementById('btnReset');
+    const btnRecord = document.getElementById('btnRecord');
+    const progressBar = document.getElementById('progressBar');
+    const currentTimeText = document.getElementById('currentTime');
+    const statusMessage = document.getElementById('statusMessage');
+
+    const TOTAL_DURATION = 22.0; // 22 seconds
+    let currentTime = 0;
+    let isPlaying = false;
+    let isRecording = false;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let lastTimestamp = 0;
+
+    // Assets to load
+    const images = {
+      anatomy: new Image(),
+      ring: new Image(),
+      weave: new Image(),
+      twist: new Image(),
+      craft: new Image()
+    };
+
+    images.anatomy.src = '../public/images/editorial/editorial-anatomy.jpg';
+    images.ring.src = '../public/images/models/the-ring-hero-model.jpg';
+    images.weave.src = '../public/images/models/the-weave-hero-model.jpg';
+    images.twist.src = '../public/images/models/the-twist-hero-model.jpg';
+    images.craft.src = '../public/images/editorial/editorial-craft.jpg';
+
+    // Timeline Definition (5 Scenes)
+    const scenes = [
+      { start: 0.0, end: 3.5, name: 'hook', image: images.anatomy, title: 'NOVEQ', subtitle: 'DROP 001 // THE FOUNDATION' },
+      { start: 3.5, end: 8.0, name: 'ring', image: images.ring, title: 'THE RING', subtitle: '₦25,000 · FULL-GRAIN CALFSKIN' },
+      { start: 8.0, end: 12.5, name: 'weave', image: images.weave, title: 'THE WEAVE', subtitle: '₦20,000 · WOVEN ARCHITECTURE' },
+      { start: 12.5, end: 17.5, name: 'twist', image: images.twist, title: 'THE TWIST', subtitle: '₦25,000 · SCULPTURAL LEATHER PAM' },
+      { start: 17.5, end: 22.0, name: 'outro', image: images.craft, title: 'HANDCRAFTED IN LAGOS', subtitle: 'LIMITED RUN · NOVEQ.COM.NG' }
+    ];
+
+    function drawFrame(t) {
+      ctx.fillStyle = '#14110F';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Find active scene
+      const scene = scenes.find(s => t >= s.start && t < s.end) || scenes[scenes.length - 1];
+      const sceneElapsed = t - scene.start;
+      const sceneDuration = scene.end - scene.start;
+      const progress = sceneElapsed / sceneDuration;
+
+      // Draw background image with subtle cinematic zoom
+      if (scene.image.complete && scene.image.naturalWidth > 0) {
+        ctx.save();
+        const zoom = 1.0 + 0.08 * progress;
+        const imgW = canvas.width * zoom;
+        const imgH = (canvas.width / (scene.image.naturalWidth / scene.image.naturalHeight)) * zoom;
+        const offsetX = (canvas.width - imgW) / 2;
+        const offsetY = (canvas.height - imgH) / 2;
+
+        ctx.globalAlpha = Math.min(1.0, sceneElapsed * 2.5); // Fast fade in
+        ctx.drawImage(scene.image, offsetX, offsetY, imgW, imgH);
+
+        // Elegant dark vignette / gradient for text legibility
+        const grad = ctx.createLinearGradient(0, canvas.height * 0.45, 0, canvas.height);
+        grad.addColorStop(0, 'rgba(20, 17, 15, 0.0)');
+        grad.addColorStop(0.65, 'rgba(20, 17, 15, 0.7)');
+        grad.addColorStop(1, 'rgba(20, 17, 15, 0.95)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.restore();
+      }
+
+      // Draw Top Brand Bar
+      ctx.save();
+      ctx.fillStyle = 'rgba(251, 249, 245, 0.9)';
+      ctx.font = '700 36px -apple-system, sans-serif';
+      ctx.letterSpacing = '10px';
+      ctx.textAlign = 'center';
+      ctx.fillText('N O V E Q', canvas.width / 2, 140);
+
+      ctx.fillStyle = '#A8A29E';
+      ctx.font = '500 22px monospace';
+      ctx.letterSpacing = '4px';
+      ctx.fillText('LAGOS, NIGERIA', canvas.width / 2, 185);
+      ctx.restore();
+
+      // Draw Bottom Typography Overlay
+      ctx.save();
+      const textAlpha = Math.min(1.0, Math.max(0.0, (sceneElapsed - 0.2) * 2));
+      ctx.globalAlpha = textAlpha;
+
+      // Scene Title
+      ctx.fillStyle = '#FBF9F5';
+      ctx.font = '800 68px -apple-system, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.letterSpacing = '4px';
+      ctx.fillText(scene.title, canvas.width / 2, canvas.height - 280);
+
+      // Accent divider line
+      ctx.fillStyle = '#5B1E28'; // Oxblood
+      ctx.fillRect(canvas.width / 2 - 60, canvas.height - 245, 120, 4);
+
+      // Scene Subtitle / Badge
+      ctx.fillStyle = '#E7E5E4';
+      ctx.font = '600 32px monospace';
+      ctx.letterSpacing = '2px';
+      ctx.fillText(scene.subtitle, canvas.width / 2, canvas.height - 190);
+
+      // Persistent Callout at bottom
+      ctx.fillStyle = '#A8A29E';
+      ctx.font = '500 24px -apple-system, sans-serif';
+      ctx.letterSpacing = '1px';
+      ctx.fillText('DROP 001 AVAILABLE NOW · DOOR-TO-DOOR DISPATCH', canvas.width / 2, canvas.height - 120);
+      ctx.restore();
+    }
+
+    function update(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const delta = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      if (isPlaying) {
+        currentTime += delta;
+        if (currentTime >= TOTAL_DURATION) {
+          if (isRecording) {
+            stopRecording();
+          }
+          currentTime = TOTAL_DURATION;
+          isPlaying = false;
+          btnPlay.textContent = 'Play / Pause';
+        }
+      }
+
+      drawFrame(currentTime);
+
+      // Update UI displays
+      const mins = Math.floor(currentTime / 60);
+      const secs = (currentTime % 60).toFixed(1);
+      currentTimeText.textContent = `${mins.toString().padStart(2, '0')}:${secs.padStart(4, '0')}`;
+      progressBar.style.width = `${(currentTime / TOTAL_DURATION) * 100}%`;
+
+      if (isPlaying || isRecording) {
+        requestAnimationFrame(update);
+      }
+    }
+
+    btnPlay.addEventListener('click', () => {
+      isPlaying = !isPlaying;
+      btnPlay.textContent = isPlaying ? 'Pause' : 'Play';
+      if (isPlaying) {
+        lastTimestamp = performance.now();
+        requestAnimationFrame(update);
+      }
+    });
+
+    btnReset.addEventListener('click', () => {
+      currentTime = 0;
+      isPlaying = false;
+      btnPlay.textContent = 'Play';
+      drawFrame(0);
+      currentTimeText.textContent = '00:00.0';
+      progressBar.style.width = '0%';
+    });
+
+    btnRecord.addEventListener('click', () => {
+      if (isRecording) return;
+      startRecording();
+    });
+
+    function startRecording() {
+      currentTime = 0;
+      isPlaying = true;
+      isRecording = true;
+      recordedChunks = [];
+      btnRecord.disabled = true;
+      statusMessage.textContent = '● Recording video frames in real time (22s)...';
+
+      const stream = canvas.captureStream(30);
+      const options = { mimeType: 'video/webm; codecs=vp9' };
+
+      try {
+        mediaRecorder = new MediaRecorder(stream, options);
+      } catch (e) {
+        mediaRecorder = new MediaRecorder(stream);
+      }
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'noveq-drop-001-launch-brag.webm';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        statusMessage.textContent = '✓ Video downloaded! (noveq-drop-001-launch-brag.webm)';
+        btnRecord.disabled = false;
+        isRecording = false;
+      };
+
+      mediaRecorder.start();
+      lastTimestamp = performance.now();
+      requestAnimationFrame(update);
+    }
+
+    // Initial render
+    setTimeout(() => {
+      drawFrame(0);
+    }, 300);
+  </script>
+</body>
+</html>
