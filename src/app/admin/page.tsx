@@ -117,7 +117,7 @@ const INITIAL_OFFLINE_FORM: OfflineOrderForm = {
   colour: 'Warm Cognac',
   size: 'EU 40',
   quantity: 1,
-  total: 20000,
+  total: 25000,
   paymentMethod: 'Direct Bank Transfer',
   paymentStatus: 'success',
 };
@@ -165,6 +165,16 @@ export default function AdminDashboardPage() {
   const [offlineForm, setOfflineForm] = useState<OfflineOrderForm>(INITIAL_OFFLINE_FORM);
   const [isSubmittingOffline, setIsSubmittingOffline] = useState(false);
   const [offlineConfirmStep, setOfflineConfirmStep] = useState(false);
+
+  // Helper to dynamically resolve product prices for offline ordering
+  const getProductPrice = (name: string): number => {
+    const matched = products.find((p) => p.name.toLowerCase() === name.toLowerCase());
+    if (matched && typeof matched.price === 'number' && matched.price > 0) {
+      return matched.price;
+    }
+    if (name.toLowerCase().includes('weave')) return 20000;
+    return 25000;
+  };
 
   // Subscribers State
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
@@ -1067,15 +1077,48 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
 
           {/* Orders List (Newest First) */}
           {loading ? (
-            <div className="py-16 text-center text-xs text-muted-taupe flex flex-col items-center gap-2">
-              <RefreshCw className="w-5 h-5 text-espresso animate-spin" />
-              <span>Loading orders from database...</span>
+            <div className="space-y-3" aria-busy="true" aria-label="Loading orders">
+              {[1, 2, 3].map((n) => (
+                <div
+                  key={n}
+                  className="p-4 bg-warm-white border border-cocoa/20 rounded-xs animate-pulse flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="h-4 w-28 bg-cocoa/15 rounded-xs" />
+                    <div className="h-4 w-14 bg-cocoa/10 rounded-xs" />
+                    <div className="h-3 w-20 bg-cocoa/10 rounded-xs" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-28 bg-cocoa/15 rounded-xs" />
+                    <div className="h-4 w-16 bg-cocoa/10 rounded-xs" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-4 w-20 bg-cocoa/20 rounded-xs" />
+                    <div className="h-5 w-24 bg-cocoa/15 rounded-xs" />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : filteredOrders.length === 0 ? (
-            <div className="py-16 text-center text-xs text-muted-taupe space-y-2 border border-dashed border-cocoa/20 rounded-xs">
+            <div className="py-14 text-center text-xs text-muted-taupe space-y-3 border border-dashed border-cocoa/25 rounded-xs bg-warm-white/50 p-6">
               <ShoppingBag className="w-8 h-8 text-cocoa/40 mx-auto" />
-              <p className="font-semibold text-ink-black text-sm">No orders matching this filter</p>
-              <p>Check back later or select another status filter above.</p>
+              <div className="space-y-1">
+                <p className="font-semibold text-ink-black text-sm">No orders matching this filter</p>
+                <p>Check back later or reset your search &amp; status filters.</p>
+              </div>
+              {(searchQuery || filterStatus !== 'all') && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setFilterStatus('all');
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-bone border border-cocoa/30 hover:bg-espresso hover:text-warm-white text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs transition-colors min-h-[40px]"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  <span>Reset All Filters</span>
+                </button>
+              )}
             </div>
           ) : (
             <div className="space-y-3">
@@ -1083,21 +1126,21 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                 const isExpanded = expandedOrderId === order.id;
                 const statusSaved = statusSaveFeedback[order.id];
 
-                // Badge styling by status
+                // Editorial badge styling by status
                 const getStatusBadge = (status: Order['status']) => {
                   switch (status) {
                     case 'paid':
-                      return 'bg-amber-100 text-amber-900 border-amber-300';
+                      return 'bg-amber-500/10 text-amber-800 border-amber-600/30';
                     case 'sourcing':
                     case 'processing':
-                      return 'bg-blue-100 text-blue-900 border-blue-300';
+                      return 'bg-espresso/10 text-espresso border-espresso/25';
                     case 'out for delivery':
                     case 'shipped':
-                      return 'bg-purple-100 text-purple-900 border-purple-300';
+                      return 'bg-indigo-500/10 text-indigo-900 border-indigo-400/30';
                     case 'delivered':
-                      return 'bg-emerald-100 text-emerald-900 border-emerald-300';
+                      return 'bg-emerald-600/10 text-emerald-800 border-emerald-600/30';
                     case 'cancelled':
-                      return 'bg-gray-100 text-gray-700 border-gray-300';
+                      return 'bg-oxblood/10 text-oxblood border-oxblood/20';
                     default:
                       return 'bg-bone text-cocoa border-cocoa/30';
                   }
@@ -1402,9 +1445,23 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
           </div>
 
           {productsLoading ? (
-            <div className="py-16 text-center text-xs text-muted-taupe flex flex-col items-center gap-2">
-              <RefreshCw className="w-5 h-5 text-espresso animate-spin" />
-              <span>Loading products...</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4" aria-busy="true" aria-label="Loading products">
+              {[1, 2, 3, 4].map((n) => (
+                <div
+                  key={n}
+                  className="border border-cocoa/20 rounded-xs p-4 sm:p-5 bg-warm-white animate-pulse space-y-4"
+                >
+                  <div className="flex gap-4 items-start">
+                    <div className="w-20 h-20 bg-cocoa/15 rounded-xs shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="h-5 w-3/4 bg-cocoa/20 rounded-xs" />
+                      <div className="h-3 w-1/2 bg-cocoa/10 rounded-xs" />
+                      <div className="h-4 w-1/3 bg-cocoa/15 rounded-xs" />
+                    </div>
+                  </div>
+                  <div className="h-9 w-full bg-cocoa/10 rounded-xs" />
+                </div>
+              ))}
             </div>
           ) : products.length === 0 ? (
             <div className="py-16 text-center text-xs text-muted-taupe space-y-2 border border-dashed border-cocoa/20 rounded-xs">
@@ -2307,16 +2364,30 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                     </label>
                     <select
                       value={offlineForm.productName}
-                      onChange={(e) =>
-                        setOfflineForm({ ...offlineForm, productName: e.target.value })
-                      }
+                      onChange={(e) => {
+                        const newName = e.target.value;
+                        const unitPrice = getProductPrice(newName);
+                        setOfflineForm({
+                          ...offlineForm,
+                          productName: newName,
+                          total: offlineForm.quantity * unitPrice,
+                        });
+                      }}
                       className="w-full px-2 py-2 bg-bone border border-cocoa/30 rounded-xs text-ink-black font-medium min-h-[44px]"
                     >
-                      {products.map((p) => (
-                        <option key={p.slug} value={p.name}>
-                          {p.name}
-                        </option>
-                      ))}
+                      {products.length > 0 ? (
+                        products.map((p) => (
+                          <option key={p.slug} value={p.name}>
+                            {p.name} (₦{p.price.toLocaleString()})
+                          </option>
+                        ))
+                      ) : (
+                        <>
+                          <option value="The Ring Slide Pam">The Ring Slide Pam (₦25,000)</option>
+                          <option value="The Weave Slide Pam">The Weave Slide Pam (₦20,000)</option>
+                          <option value="The Twist Slide Pam">The Twist Slide Pam (₦25,000)</option>
+                        </>
+                      )}
                     </select>
                   </div>
                   <div>
@@ -2367,11 +2438,12 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                       max={10}
                       value={offlineForm.quantity}
                       onChange={(e) => {
-                        const qty = Number(e.target.value);
+                        const qty = Math.max(1, Number(e.target.value) || 1);
+                        const unitPrice = getProductPrice(offlineForm.productName);
                         setOfflineForm({
                           ...offlineForm,
                           quantity: qty,
-                          total: qty * 20000,
+                          total: qty * unitPrice,
                         });
                       }}
                       className="w-full px-3 py-2 bg-bone border border-cocoa/30 rounded-xs text-ink-black font-medium font-mono min-h-[44px]"
