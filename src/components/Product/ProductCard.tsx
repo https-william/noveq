@@ -121,11 +121,11 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
         {/* Price (Never hidden or hover-gated) */}
         <div>
           <div className="flex items-baseline gap-2">
-            <span className="text-sm font-bold text-ink-black">
+            <span className="text-sm font-bold text-ink-black font-mono tabular-nums">
               {formattedPrice}
             </span>
             {formattedComparePrice && (
-              <span className="text-xs text-muted-taupe line-through">
+              <span className="text-xs text-muted-taupe line-through font-mono tabular-nums">
                 {formattedComparePrice}
               </span>
             )}

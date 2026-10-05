@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, Truck, ArrowLeft, Heart, Lock } from 'lucide-react';
+import { ShieldCheck, Truck, ArrowLeft, Heart, Lock, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { DELIVERY_ZONES, getDeliveryZoneById } from '@/config/deliveryZones';
 import { CustomerDetails } from '@/types/commerce';
@@ -28,6 +28,39 @@ export default function CheckoutPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  // Field validation rules
+  const validateField = (name: string, value: string): string | null => {
+    if (!value.trim()) return 'This field is required.';
+    if (name === 'fullName') {
+      const parts = value.trim().split(/\s+/);
+      if (parts.length < 2) return 'Please provide both first and last name for courier delivery.';
+    }
+    if (name === 'phone') {
+      const digits = value.replace(/\D/g, '');
+      if (digits.length < 10 || digits.length > 14) {
+        return 'Please enter a valid phone number (at least 10–11 digits) for courier contact.';
+      }
+    }
+    if (name === 'email') {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(value.trim())) {
+        return 'Please enter a valid email address to receive order updates.';
+      }
+    }
+    if (name === 'address') {
+      if (value.trim().length < 8) {
+        return 'Please include house number, street name, and estate or landmark.';
+      }
+    }
+    return null;
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
 
   // Track begin_checkout once on mount
   useEffect(() => {
@@ -178,9 +211,16 @@ export default function CheckoutPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="fullName" className="block text-xs uppercase tracking-wider text-muted-taupe mb-1">
-                    Full Name *
-                  </label>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <label htmlFor="fullName" className="block text-xs uppercase tracking-wider text-muted-taupe">
+                      Full Name *
+                    </label>
+                    {touched.fullName && !validateField('fullName', formData.fullName) && (
+                      <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                        <CheckCircle2 className="w-3 h-3" /> Valid
+                      </span>
+                    )}
+                  </div>
                   <input
                     id="fullName"
                     name="fullName"
@@ -188,15 +228,35 @@ export default function CheckoutPage() {
                     required
                     value={formData.fullName}
                     onChange={handleInputChange}
+                    onBlur={handleBlur}
                     placeholder="e.g. Zainab Balogun"
-                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                      touched.fullName && validateField('fullName', formData.fullName)
+                        ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
+                        : touched.fullName
+                        ? 'border-emerald-700/60 focus:border-emerald-700'
+                        : 'border-cocoa/30 focus:border-ink-black'
+                    }`}
                   />
+                  {touched.fullName && validateField('fullName', formData.fullName) && (
+                    <p className="text-[11px] text-oxblood mt-1.5 flex items-center gap-1 font-medium">
+                      <AlertCircle className="w-3 h-3 shrink-0" />
+                      <span>{validateField('fullName', formData.fullName)}</span>
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-xs uppercase tracking-wider text-muted-taupe mb-1">
-                    Phone (Courier Contact) *
-                  </label>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <label htmlFor="phone" className="block text-xs uppercase tracking-wider text-muted-taupe">
+                      Phone (Courier Contact) *
+                    </label>
+                    {touched.phone && !validateField('phone', formData.phone) && (
+                      <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                        <CheckCircle2 className="w-3 h-3" /> Valid
+                      </span>
+                    )}
+                  </div>
                   <input
                     id="phone"
                     name="phone"
@@ -204,16 +264,36 @@ export default function CheckoutPage() {
                     required
                     value={formData.phone}
                     onChange={handleInputChange}
+                    onBlur={handleBlur}
                     placeholder="080 1234 5678"
-                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                      touched.phone && validateField('phone', formData.phone)
+                        ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
+                        : touched.phone
+                        ? 'border-emerald-700/60 focus:border-emerald-700'
+                        : 'border-cocoa/30 focus:border-ink-black'
+                    }`}
                   />
+                  {touched.phone && validateField('phone', formData.phone) && (
+                    <p className="text-[11px] text-oxblood mt-1.5 flex items-center gap-1 font-medium">
+                      <AlertCircle className="w-3 h-3 shrink-0" />
+                      <span>{validateField('phone', formData.phone)}</span>
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-xs uppercase tracking-wider text-muted-taupe mb-1">
-                  Email Address (Receipt & Tracking) *
-                </label>
+                <div className="flex justify-between items-baseline mb-1">
+                  <label htmlFor="email" className="block text-xs uppercase tracking-wider text-muted-taupe">
+                    Email Address (Receipt & Tracking) *
+                  </label>
+                  {touched.email && !validateField('email', formData.email) && (
+                    <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                      <CheckCircle2 className="w-3 h-3" /> Valid
+                    </span>
+                  )}
+                </div>
                 <input
                   id="email"
                   name="email"
@@ -221,9 +301,22 @@ export default function CheckoutPage() {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   placeholder="zainab@example.com"
-                  className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                    touched.email && validateField('email', formData.email)
+                      ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
+                      : touched.email
+                      ? 'border-emerald-700/60 focus:border-emerald-700'
+                      : 'border-cocoa/30 focus:border-ink-black'
+                  }`}
                 />
+                {touched.email && validateField('email', formData.email) && (
+                  <p className="text-[11px] text-oxblood mt-1.5 flex items-center gap-1 font-medium">
+                    <AlertCircle className="w-3 h-3 shrink-0" />
+                    <span>{validateField('email', formData.email)}</span>
+                  </p>
+                )}
               </div>
             </div>
 
@@ -262,9 +355,16 @@ export default function CheckoutPage() {
               </div>
 
               <div>
-                <label htmlFor="address" className="block text-xs uppercase tracking-wider text-muted-taupe mb-1">
-                  Street Address *
-                </label>
+                <div className="flex justify-between items-baseline mb-1">
+                  <label htmlFor="address" className="block text-xs uppercase tracking-wider text-muted-taupe">
+                    Street Address *
+                  </label>
+                  {touched.address && !validateField('address', formData.address) && (
+                    <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                      <CheckCircle2 className="w-3 h-3" /> Valid
+                    </span>
+                  )}
+                </div>
                 <input
                   id="address"
                   name="address"
@@ -272,9 +372,22 @@ export default function CheckoutPage() {
                   required
                   value={formData.address}
                   onChange={handleInputChange}
+                  onBlur={handleBlur}
                   placeholder="House number, Street name, Estate / Landmark"
-                  className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                    touched.address && validateField('address', formData.address)
+                      ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
+                      : touched.address
+                      ? 'border-emerald-700/60 focus:border-emerald-700'
+                      : 'border-cocoa/30 focus:border-ink-black'
+                  }`}
                 />
+                {touched.address && validateField('address', formData.address) && (
+                  <p className="text-[11px] text-oxblood mt-1.5 flex items-center gap-1 font-medium">
+                    <AlertCircle className="w-3 h-3 shrink-0" />
+                    <span>{validateField('address', formData.address)}</span>
+                  </p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -334,12 +447,19 @@ export default function CheckoutPage() {
                 disabled={isSubmitting}
                 className="w-full flex items-center justify-center gap-2 py-4 px-8 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[48px] disabled:opacity-70 cursor-pointer"
               >
-                <Lock className="w-3.5 h-3.5" />
-                <span>
-                  {isSubmitting
-                    ? 'Preparing Secure Checkout...'
-                    : `Proceed to Payment — ₦${totalAmount.toLocaleString()}`}
-                </span>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-warm-white" />
+                    <span>Preparing Secure Checkout...</span>
+                  </>
+                ) : (
+                  <>
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>
+                      Proceed to Payment — <span className="font-mono tabular-nums">₦{subtotal.toLocaleString()}</span>
+                    </span>
+                  </>
+                )}
               </button>
 
               <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[11px] text-muted-taupe mt-3 text-center">
@@ -388,7 +508,7 @@ export default function CheckoutPage() {
                       <h3 className="text-xs font-semibold text-ink-black truncate">
                         {item.product.name}
                       </h3>
-                      <span className="text-xs font-bold text-ink-black ml-2">
+                      <span className="text-xs font-bold text-ink-black ml-2 font-mono tabular-nums">
                         ₦{(item.product.price * item.quantity).toLocaleString()}
                       </span>
                     </div>
@@ -414,7 +534,7 @@ export default function CheckoutPage() {
             <div className="pt-4 border-t border-cocoa/15 space-y-2 text-xs">
               <div className="flex justify-between text-muted-taupe">
                 <span>Items Subtotal</span>
-                <span className="font-semibold text-ink-black">
+                <span className="font-semibold text-ink-black font-mono tabular-nums">
                   ₦{subtotal.toLocaleString()}
                 </span>
               </div>
@@ -434,7 +554,7 @@ export default function CheckoutPage() {
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between items-baseline text-sm">
                 <span className="font-bold text-ink-black">Total to Pay Online</span>
-                <span className="text-base font-bold text-ink-black">
+                <span className="text-base font-bold text-ink-black font-mono tabular-nums">
                   ₦{subtotal.toLocaleString()}
                 </span>
               </div>

@@ -134,7 +134,7 @@ export default function BagPage() {
                       type="button"
                       onClick={() => removeFromCart(item.product.slug, item.selectedSize, item.selectedColour)}
                       aria-label={`Remove ${item.product.name} from bag`}
-                      className="text-muted-taupe hover:text-oxblood transition-colors p-1"
+                      className="text-muted-taupe hover:text-oxblood transition-colors p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -186,7 +186,7 @@ export default function BagPage() {
                       </button>
                     </div>
 
-                    <span className="text-sm font-bold text-ink-black">
+                    <span className="text-sm font-bold text-ink-black font-mono tabular-nums">
                       ₦{(item.product.price * item.quantity).toLocaleString()}
                     </span>
                   </div>
@@ -204,7 +204,7 @@ export default function BagPage() {
             <div className="space-y-3 text-xs">
               <div className="flex justify-between text-muted-taupe">
                 <span>Items Subtotal</span>
-                <span className="font-semibold text-ink-black">{formattedSubtotal}</span>
+                <span className="font-semibold text-ink-black font-mono tabular-nums">{formattedSubtotal}</span>
               </div>
 
               <div className="flex justify-between text-muted-taupe">
@@ -214,7 +214,7 @@ export default function BagPage() {
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between text-sm">
                 <span className="font-bold text-ink-black">Total (Online)</span>
-                <span className="font-bold text-ink-black">{formattedSubtotal}</span>
+                <span className="font-bold text-ink-black font-mono tabular-nums">{formattedSubtotal}</span>
               </div>
             </div>
 

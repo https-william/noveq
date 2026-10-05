@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowRight, Loader2 } from 'lucide-react';
 
 export function FooterNewsletter() {
   const [email, setEmail] = useState('');
@@ -64,10 +64,10 @@ export function FooterNewsletter() {
         <button
           type="submit"
           disabled={loading}
-          className="px-3.5 py-2 bg-warm-white text-ink-black hover:bg-bone text-[11px] uppercase tracking-wider font-semibold rounded-xs transition-colors shrink-0 min-h-[38px] flex items-center justify-center disabled:opacity-50"
+          className="px-3.5 py-2 bg-warm-white text-ink-black hover:bg-bone text-[11px] uppercase tracking-wider font-semibold rounded-xs transition-colors shrink-0 min-h-[38px] min-w-[38px] flex items-center justify-center disabled:opacity-50"
           aria-label="Submit email"
         >
-          {loading ? '...' : <ArrowRight className="w-3.5 h-3.5" />}
+          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowRight className="w-3.5 h-3.5" />}
         </button>
       </div>
       {error && <p className="text-[11px] text-oxblood">{error}</p>}

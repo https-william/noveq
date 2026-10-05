@@ -85,8 +85,8 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
               <tr key={idx}>
                 <td className="py-2.5 font-semibold">{item.product.name}</td>
                 <td className="py-2.5 text-muted-taupe">{item.selectedColour || item.product.colour} · {item.selectedSize}</td>
-                <td className="py-2.5 text-center font-mono">{item.quantity}</td>
-                <td className="py-2.5 text-right font-mono font-bold">₦{(item.product.price * item.quantity).toLocaleString()}</td>
+                <td className="py-2.5 text-center font-mono tabular-nums">{item.quantity}</td>
+                <td className="py-2.5 text-right font-mono tabular-nums font-bold">₦{(item.product.price * item.quantity).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
@@ -97,7 +97,7 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
           <div className="w-56 space-y-1.5 text-xs">
             <div className="flex justify-between text-muted-taupe">
               <span>Subtotal</span>
-              <span className="font-mono font-semibold text-ink-black">₦{order.subtotal.toLocaleString()}</span>
+              <span className="font-mono tabular-nums font-semibold text-ink-black">₦{order.subtotal.toLocaleString()}</span>
             </div>
             <div className="flex justify-between text-muted-taupe">
               <span>Delivery</span>
@@ -105,7 +105,7 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
             </div>
             <div className="flex justify-between border-t border-cocoa/30 pt-2 text-sm font-bold">
               <span>Total Paid</span>
-              <span className="font-mono">₦{order.total.toLocaleString()}</span>
+              <span className="font-mono tabular-nums">₦{order.total.toLocaleString()}</span>
             </div>
             <p className="text-right text-[9px] text-muted-taupe font-mono uppercase tracking-wider">
               via {order.payment.provider.replace('_', ' ')}

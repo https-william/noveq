@@ -42,6 +42,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
 
   const ringProduct = products.find((p) => p.slug === 'the-ring-slide-pam') || products[0];
   const weaveProduct = products.find((p) => p.slug === 'the-weave-slide-pam') || products[1];
+  const twistProduct = products.find((p) => p.slug === 'the-twist-slide-pam') || products[2];
 
   const formattedRingPrice = ringProduct
     ? new Intl.NumberFormat('en-NG', {
@@ -57,6 +58,14 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         currency: weaveProduct.currency,
         maximumFractionDigits: 0,
       }).format(weaveProduct.price)
+    : '₦20,000';
+
+  const formattedTwistPrice = twistProduct
+    ? new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: twistProduct.currency,
+        maximumFractionDigits: 0,
+      }).format(twistProduct.price)
     : '₦25,000';
 
   const searchParams = useSearchParams();
@@ -423,7 +432,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-8">
             {/* Card 1: The Ring */}
             <div className="group space-y-4">
               <Link
@@ -434,7 +443,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   src="/images/models/the-ring-hero-model.jpg"
                   alt="NOVEQ The Ring Slide Pam on model"
                   fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
@@ -447,11 +456,11 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
                     The Ring Slide Pam
                   </h3>
-                  <span className="font-mono text-xs sm:text-sm text-cocoa font-medium">
+                  <span className="font-mono tabular-nums text-xs sm:text-sm text-cocoa font-medium">
                     {formattedRingPrice}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
+                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed line-clamp-2">
                   A clean cut design anchored with a polished gold statement ring. Simple details, bigger impact.
                 </p>
                 <div className="pt-2">
@@ -476,7 +485,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   src="/images/models/the-weave-hero-model.jpg"
                   alt="NOVEQ The Weave Slide Pam on model"
                   fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
                 <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
@@ -489,11 +498,11 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
                     The Weave Slide Pam
                   </h3>
-                  <span className="font-mono text-xs sm:text-sm text-cocoa font-medium">
+                  <span className="font-mono tabular-nums text-xs sm:text-sm text-cocoa font-medium">
                     {formattedWeavePrice}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
+                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed line-clamp-2">
                   Braided leather straps for a textured finish. Interlocking architecture that flexes naturally across the arch.
                 </p>
                 <div className="pt-2">
@@ -502,6 +511,48 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                     className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-warm-white hover:text-bone underline underline-offset-4 focus-dark min-h-[44px]"
                   >
                     <span>Explore The Weave</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: The Twist */}
+            <div className="group space-y-4">
+              <Link
+                href="/shop/the-twist-slide-pam"
+                className="relative block aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden focus-dark"
+              >
+                <Image
+                  src="/images/products/the-twist-burgundy.jpg"
+                  alt="NOVEQ The Twist Slide Pam in Burgundy leather"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
+                  The Twist · Burgundy
+                </span>
+              </Link>
+
+              <div className="space-y-2 pt-2">
+                <div className="flex items-baseline justify-between">
+                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
+                    The Twist Slide Pam
+                  </h3>
+                  <span className="font-mono tabular-nums text-xs sm:text-sm text-cocoa font-medium">
+                    {formattedTwistPrice}
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed line-clamp-2">
+                  A modern take on the classic pam with a sculptural twist strap. Minimal, refined, and made to move with you.
+                </p>
+                <div className="pt-2">
+                  <Link
+                    href="/shop/the-twist-slide-pam"
+                    className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-warm-white hover:text-bone underline underline-offset-4 focus-dark min-h-[44px]"
+                  >
+                    <span>Explore The Twist</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

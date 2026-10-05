@@ -299,11 +299,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
             {/* Price (Never hidden or hover-gated) */}
             <div className="flex items-baseline gap-3 pt-1">
-              <span className="text-2xl font-bold text-ink-black">
+              <span className="text-2xl font-bold text-ink-black font-mono tabular-nums">
                 {formattedPrice}
               </span>
               {formattedComparePrice && (
-                <span className="text-base text-muted-taupe line-through">
+                <span className="text-base text-muted-taupe line-through font-mono tabular-nums">
                   {formattedComparePrice}
                 </span>
               )}
@@ -683,7 +683,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <span className="text-xs font-bold text-ink-black truncate">
               {product.name}
             </span>
-            <span className="text-xs font-semibold text-cocoa">
+            <span className="text-xs font-semibold text-cocoa font-mono tabular-nums">
               {formattedPrice}
             </span>
           </div>

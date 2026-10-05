@@ -177,7 +177,7 @@ export default function CartDrawer() {
                       type="button"
                       onClick={() => removeFromCart(item.product.slug, item.selectedSize, item.selectedColour)}
                       aria-label={`Remove ${item.product.name} from bag`}
-                      className="text-muted-taupe hover:text-oxblood transition-colors p-1"
+                      className="text-muted-taupe hover:text-oxblood transition-colors p-2 min-h-[36px] min-w-[36px] flex items-center justify-center"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -215,7 +215,7 @@ export default function CartDrawer() {
                       >
                         -
                       </button>
-                      <span className="px-2 text-xs font-semibold text-ink-black min-w-[28px] text-center">
+                      <span className="px-2 text-xs font-semibold text-ink-black min-w-[28px] text-center font-mono tabular-nums">
                         {item.quantity}
                       </span>
                       <button
@@ -235,7 +235,7 @@ export default function CartDrawer() {
                       </button>
                     </div>
 
-                    <span className="text-xs font-bold text-ink-black">
+                    <span className="text-xs font-bold text-ink-black font-mono tabular-nums">
                       ₦{(item.product.price * item.quantity).toLocaleString()}
                     </span>
                   </div>
@@ -252,7 +252,7 @@ export default function CartDrawer() {
               <span className="text-xs uppercase tracking-[0.16em] text-muted-taupe font-medium">
                 Subtotal
               </span>
-              <span className="text-base font-bold text-ink-black">
+              <span className="text-base font-bold text-ink-black font-mono tabular-nums">
                 {formattedSubtotal}
               </span>
             </div>
