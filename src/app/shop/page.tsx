@@ -5,34 +5,44 @@ import { getStorefrontProducts } from '@/lib/productStore';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "NOVEQ Drop 001 | Contemporary Women's Leather Pams",
+  title: "Nigerian Female Leather Pams | Shop Drop 001 — NOVEQ",
   description:
-    "Explore Drop 001: ten pairs of handcrafted women's leather pams. Made in Lagos, Nigeria with full-grain leather, asymmetrical strap geometry, and barefoot comfort.",
+    "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features full-grain vegetable-tanned women's leather slide pams, sculpted comfort, and fast nationwide delivery across Nigeria.",
   alternates: {
     canonical: '/shop',
   },
+  keywords: [
+    'Nigerian female leather pams',
+    'female leather pams in Nigeria',
+    'ladies leather pams Lagos',
+    'women leather pams Nigeria',
+    'handcrafted leather pams Nigeria',
+    'female leather slides Nigeria',
+    'NOVEQ Drop 001',
+    'buy leather pams online Nigeria',
+  ],
   openGraph: {
-    title: "NOVEQ Drop 001 | Contemporary Women's Leather Pams",
+    title: "Nigerian Female Leather Pams | Shop Drop 001 — NOVEQ",
     description:
-      "Explore Drop 001: ten pairs of handcrafted women's leather pams. Made in Lagos, Nigeria with full-grain leather, asymmetrical strap geometry, and barefoot comfort.",
+      "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features full-grain vegetable-tanned women's leather slide pams with nationwide dispatch.",
     url: '/shop',
     siteName: 'NOVEQ',
     type: 'website',
     images: [
       {
-        url: '/images/products/cut-black-hero.svg',
+        url: '/images/brand/noveq-brand-sheet.jpg',
         width: 1200,
-        height: 900,
-        alt: "NOVEQ Drop 001 Women's Leather Pams",
+        height: 630,
+        alt: "NOVEQ — Nigerian Female Leather Pams & Handcrafted Footwear",
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "NOVEQ Drop 001 | Contemporary Women's Leather Pams",
+    title: "Nigerian Female Leather Pams | Shop Drop 001 — NOVEQ",
     description:
-      "Explore Drop 001: ten pairs of handcrafted women's leather pams. Made in Lagos, Nigeria with full-grain leather, asymmetrical strap geometry, and barefoot comfort.",
-    images: ['/images/products/cut-black-hero.svg'],
+      "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features full-grain vegetable-tanned women's leather slide pams.",
+    images: ['/images/brand/noveq-brand-sheet.jpg'],
   },
 };
 
@@ -40,4 +50,3 @@ export default function ShopPage() {
   const products = getStorefrontProducts(false);
   return <ShopCatalogClient initialProducts={products} />;
 }
-

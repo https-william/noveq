@@ -50,6 +50,73 @@
   border-style: solid;
 }
 
+/* ── Ginyboi Genius Design Utilities & Apple 180° Shadows ── */
+.shadow-apple-sm {
+  box-shadow: 0 8px 24px -4px rgba(42, 27, 21, 0.06);
+}
+.shadow-apple-md {
+  box-shadow: 0 16px 40px -8px rgba(42, 27, 21, 0.08);
+}
+.shadow-apple-lg {
+  box-shadow: 0 24px 64px -12px rgba(42, 27, 21, 0.10);
+}
+.shadow-apple-xl {
+  box-shadow: 0 36px 90px -18px rgba(42, 27, 21, 0.14);
+}
+
+/* ── Visible Design Grids (Raw In-Progress Drafting Feel) ── */
+.design-grid-subtle {
+  background-image: 
+    linear-gradient(to right, rgba(91, 64, 51, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(91, 64, 51, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.design-grid-dark {
+  background-image: 
+    linear-gradient(to right, rgba(250, 248, 244, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(250, 248, 244, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ── Constant Micro-Movements (Never let designs stay still) ── */
+@keyframes microFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.35deg);
+  }
+}
+.animate-micro-float {
+  animation: microFloat 7s ease-in-out infinite;
+}
+
+@keyframes slowDrift {
+  0%, 100% {
+    transform: scale(1) translate(0px, 0px);
+  }
+  50% {
+    transform: scale(1.02) translate(-3px, -5px);
+  }
+}
+.animate-slow-drift {
+  animation: slowDrift 14s ease-in-out infinite;
+}
+
+@keyframes subtleBreath {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+.animate-subtle-breath {
+  animation: subtleBreath 9s ease-in-out infinite;
+}
+
 /* Global body styling */
 html {
   scroll-behavior: smooth;

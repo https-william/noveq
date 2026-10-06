@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next';
 import { getStorefrontProducts } from '@/lib/productStore';
 import { getAllPublishedArticles } from '@/data/journal';
+import { SITE_SETTINGS } from '@/config/siteSettings';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://noveq.com.ng';
+  const baseUrl = SITE_SETTINGS.seo.baseUrl || 'https://www.noveq.com.ng';
   const currentDate = new Date();
 
   // Core static routes (admin excluded)
@@ -18,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/shop`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
-      priority: 0.9,
+      priority: 0.95,
     },
     {
       url: `${baseUrl}/story`,
@@ -46,12 +47,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Dynamic product routes
+  // Dynamic product routes (Drop 001)
   const productRoutes: MetadataRoute.Sitemap = getStorefrontProducts(false).map((product) => ({
     url: `${baseUrl}/shop/${product.slug}`,
     lastModified: currentDate,
     changeFrequency: 'weekly',
-    priority: 0.8,
+    priority: 0.85,
   }));
 
   // Dynamic journal article routes

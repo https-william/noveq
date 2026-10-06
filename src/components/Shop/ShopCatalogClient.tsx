@@ -121,7 +121,7 @@ export default function ShopCatalogClient({
         <div className="pb-8 border-b border-cocoa/20">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium">
-              {eyebrow || 'Launch Catalog // Drop 001'}
+              {eyebrow || 'Launch Catalog // Nigerian Female Leather Pams'}
             </span>
             <span className="text-xs text-muted-taupe tracking-wider font-mono">
               {filteredProducts.length} of {DROP_001_PRODUCTS.length} Styles Available
@@ -129,12 +129,12 @@ export default function ShopCatalogClient({
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black mt-2">
-            {title || "NOVEQ Drop 001 — Women's Leather Pams"}
+            {title || "Nigerian Female Leather Pams — Drop 001"}
           </h1>
 
           {/* ONE SENTENCE MAX COLLECTION INTRO */}
           <p className="mt-3 text-sm sm:text-base text-ink-black/80 font-normal max-w-2xl leading-relaxed">
-            {intro || 'Drop 001 introduces NOVEQ through a small release of women’s leather pams.'}
+            {intro || 'Handcrafted in Lagos, Nigeria from full-grain vegetable-tanned hides. Contemporary female leather pams designed for effortless daily movement, personal detail, and nationwide 24–48h delivery.'}
           </p>
         </div>
       )}
@@ -254,10 +254,10 @@ export default function ShopCatalogClient({
             Artisan Production Assurance
           </span>
           <h2 className="text-lg font-bold text-warm-white">
-            Ten Pairs Initial Inventory
+            Ten Pairs Initial Inventory — Lagos Atelier
           </h2>
           <p className="text-xs text-muted-taupe-on-dark max-w-xl mt-1 leading-relaxed">
-            Every pam is built from full-grain leather, conditioned with natural wax, and individually boxed in our slim brown kraft suite with handwritten care instructions.
+            Every pair of NOVEQ female leather pams is built from full-grain Nigerian hides, conditioned with natural wax, and individually boxed in our slim brown kraft suite with handwritten care instructions.
           </p>
         </div>
 
@@ -265,6 +265,103 @@ export default function ShopCatalogClient({
           noveq / crafted to move.
         </div>
       </div>
+
+      {/* ── AEO / GEO High-Intent Knowledge Section (FAQ & Answers) ── */}
+      <div className="mt-16 pt-12 border-t border-cocoa/20">
+        <div className="max-w-3xl space-y-6">
+          <div>
+            <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block mb-1">
+              Atelier Notes // Nigerian Female Leather Pams
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black font-serif">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <div className="divide-y divide-cocoa/15 text-xs text-ink-black/85 leading-relaxed">
+            <div className="py-4 space-y-1">
+              <h3 className="font-semibold text-sm text-ink-black">
+                What are Nigerian female leather pams?
+              </h3>
+              <p className="text-muted-taupe">
+                In Nigeria, "pams" are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that elevate casual and formal silhouettes alike.
+              </p>
+            </div>
+
+            <div className="py-4 space-y-1">
+              <h3 className="font-semibold text-sm text-ink-black">
+                Where are NOVEQ female leather pams made?
+              </h3>
+              <p className="text-muted-taupe">
+                Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of 18 hours of hands-on cutting, strap shaping, and edge burnishing per pair.
+              </p>
+            </div>
+
+            <div className="py-4 space-y-1">
+              <h3 className="font-semibold text-sm text-ink-black">
+                How do I order and how fast is nationwide delivery in Nigeria?
+              </h3>
+              <p className="text-muted-taupe">
+                You can order directly online through our secure checkout. Orders are dispatched within 24–48 hours nationwide across Lagos, Abuja, Port Harcourt, and all Nigerian states via tracked courier service.
+              </p>
+            </div>
+
+            <div className="py-4 space-y-1">
+              <h3 className="font-semibold text-sm text-ink-black">
+                What sizes are available in Drop 001?
+              </h3>
+              <p className="text-muted-taupe">
+                Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2–3 wears to contour naturally to your foot width.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQPage Structured Data for Google AI Overviews and Rich Snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: [
+              {
+                '@type': 'Question',
+                name: 'What are Nigerian female leather pams?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'In Nigeria, pams are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that elevate casual and formal silhouettes alike.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'Where are NOVEQ female leather pams made?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of 18 hours of hands-on cutting, strap shaping, and edge burnishing per pair.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'How do I order and how fast is nationwide delivery in Nigeria?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'You can order directly online through our secure checkout. Orders are dispatched within 24–48 hours nationwide across Lagos, Abuja, Port Harcourt, and all Nigerian states via tracked courier service.',
+                },
+              },
+              {
+                '@type': 'Question',
+                name: 'What sizes are available in Drop 001?',
+                acceptedAnswer: {
+                  '@type': 'Answer',
+                  text: 'Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2–3 wears to contour naturally to your foot width.',
+                },
+              },
+            ],
+          }),
+        }}
+      />
     </div>
   );
 }

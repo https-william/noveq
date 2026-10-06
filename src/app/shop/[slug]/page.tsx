@@ -27,13 +27,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const formattedPrice = `₦${product.price.toLocaleString()}`;
-  const canonicalTitle = `NOVEQ ${product.name} Women's Leather Pam, ${product.colour}`;
-  const canonicalDesc = `${product.description} Handcrafted in Nigeria from full-grain leather. Available in Drop 001 for ${formattedPrice}.`;
-  const heroImage = product.images[0]?.src || '/images/products/the-ring-burgundy.jpg';
+  const canonicalTitle = `${product.name} | Nigerian Female Leather Pam (${product.colour}) — NOVEQ`;
+  const canonicalDesc = `Discover ${product.name} in ${product.colour}. Handcrafted Nigerian female leather pam built from 100% full-grain calfskin with beveled sole comfort. Buy online for ${formattedPrice} with 24–48h delivery across Nigeria.`;
+  const heroImage = product.images[0]?.src.startsWith('http')
+    ? product.images[0]?.src
+    : `https://www.noveq.com.ng${product.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}`;
 
   return {
     title: canonicalTitle,
     description: canonicalDesc,
+    keywords: [
+      'Nigerian female leather pams',
+      'female leather pams in Nigeria',
+      `${product.name} leather pam`,
+      'ladies leather pams Lagos',
+      'handcrafted female leather slippers',
+      'NOVEQ Drop 001',
+    ],
     alternates: {
       canonical: `/shop/${product.slug}`,
     },
@@ -48,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: heroImage,
           width: 1200,
           height: 900,
-          alt: canonicalTitle,
+          alt: `${canonicalTitle} — Handcrafted in Lagos, Nigeria`,
         },
       ],
     },

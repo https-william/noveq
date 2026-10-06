@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "NOVEQ | Contemporary Women's Leather Pams — Crafted to Move",
     description:
       "Contemporary leather footwear, thoughtfully designed around everyday movement, refined form, and personal detail. Discover Drop 001 women's leather pams handcrafted in Lagos.",
-    url: 'https://noveq.com',
+    url: 'https://www.noveq.com.ng',
     siteName: 'NOVEQ',
     type: 'website',
     images: [
@@ -26,6 +26,9 @@ export const metadata: Metadata = {
         alt: "NOVEQ The Twist Slide Pam in rich oxblood full-grain leather",
       },
     ],
+  },
+  verification: {
+    google: 'jt5krer4ijvcuvvmshyx8cqv2jgxsc6ws-vuygm9pdy',
   },
   twitter: {
     card: 'summary_large_image',

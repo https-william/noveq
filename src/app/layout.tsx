@@ -38,22 +38,55 @@ export const metadata: Metadata = {
   keywords: SITE_SETTINGS.seo.keywords,
   authors: [{ name: SITE_SETTINGS.brandName }],
   creator: SITE_SETTINGS.brandName,
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/icon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icon-96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
+  },
+  manifest: '/manifest.webmanifest',
   openGraph: {
     type: 'website',
-    locale: 'en_US',
+    locale: 'en_NG',
     url: SITE_SETTINGS.seo.baseUrl,
-    siteName: SITE_SETTINGS.brandName,
+    siteName: 'NOVEQ',
     title: SITE_SETTINGS.seo.defaultTitle,
     description: SITE_SETTINGS.seo.defaultDescription,
+    images: [
+      {
+        url: '/images/brand/noveq-brand-sheet.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'NOVEQ — Contemporary Nigerian Female Leather Pams',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_SETTINGS.seo.defaultTitle,
     description: SITE_SETTINGS.seo.defaultDescription,
+    images: ['/images/brand/noveq-brand-sheet.jpg'],
+  },
+  verification: {
+    google: 'jt5krer4ijvcuvvmshyx8cqv2jgxsc6ws-vuygm9pdy',
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
 };
 
@@ -64,12 +97,64 @@ export default function RootLayout({
 }) {
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: SITE_SETTINGS.brandName,
-    url: SITE_SETTINGS.seo.baseUrl,
-    description: SITE_SETTINGS.seo.defaultDescription,
-    slogan: SITE_SETTINGS.slogan,
-    sameAs: [SITE_SETTINGS.socialLinks.instagram],
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_SETTINGS.seo.baseUrl}/#organization`,
+        name: 'NOVEQ',
+        legalName: 'NOVEQ',
+        alternateName: [
+          'NOVEQ Atelier',
+          'NOVEQ Footwear',
+          'NOVEQ Nigeria',
+          'NOVEQ The Brand',
+          'NOVEQ Leather Pams',
+        ],
+        url: SITE_SETTINGS.seo.baseUrl,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${SITE_SETTINGS.seo.baseUrl}/icon-512.png`,
+          width: 512,
+          height: 512,
+        },
+        image: `${SITE_SETTINGS.seo.baseUrl}/images/brand/noveq-brand-sheet.jpg`,
+        description:
+          "NOVEQ is a contemporary Nigerian luxury footwear atelier in Lagos, Nigeria, specializing in handcrafted female leather pams, women's slip-on slides, and vegetable-tanned footwear.",
+        disambiguatingDescription:
+          "Contemporary Nigerian female leather footwear atelier and brand founded in Lagos, Nigeria, designing handcrafted slide pams with vegetable-tanned hides. Distinct from software templates or musical artists.",
+        slogan: 'Crafted to move.',
+        foundingLocation: {
+          '@type': 'Place',
+          name: 'Lagos, Nigeria',
+        },
+        areaServed: {
+          '@type': 'Country',
+          name: 'Nigeria',
+        },
+        knowsAbout: [
+          'Nigerian Female Leather Pams',
+          'Female Leather Pams in Nigeria',
+          "Women's Leather Footwear",
+          'Nigerian Leather Craft',
+          'Handcrafted Leather Slides',
+          'Ladies Leather Pams Lagos',
+        ],
+        sameAs: [
+          SITE_SETTINGS.socialLinks.instagram,
+        ],
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${SITE_SETTINGS.seo.baseUrl}/#website`,
+        url: SITE_SETTINGS.seo.baseUrl,
+        name: 'NOVEQ | Nigerian Female Leather Pams',
+        description:
+          "Handcrafted female leather pams and contemporary footwear from Lagos, Nigeria.",
+        publisher: {
+          '@id': `${SITE_SETTINGS.seo.baseUrl}/#organization`,
+        },
+      },
+    ],
   };
 
   return (
@@ -80,6 +165,13 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta name="google-site-verification" content="jt5krer4ijvcuvvmshyx8cqv2jgxsc6ws-vuygm9pdy" />
+        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
+        <link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96" />
+        <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

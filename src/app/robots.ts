@@ -1,14 +1,24 @@
 import { MetadataRoute } from 'next';
+import { SITE_SETTINGS } from '@/config/siteSettings';
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = SITE_SETTINGS.seo.baseUrl || 'https://www.noveq.com.ng';
+
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/private/', '/api/', '/admin/', '/admin', '/order-confirmation/'],
+        disallow: ['/private/', '/api/', '/admin', '/admin/', '/order-confirmation/'],
       },
       {
+        // Googlebot Image & Favicon crawler
+        userAgent: ['Googlebot-Image', 'Google-InspectionTool', 'Google Favicon'],
+        allow: ['/favicon.ico', '/icon.png', '/icon-48.png', '/icon-96.png', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/images/', '/'],
+        disallow: ['/admin', '/admin/'],
+      },
+      {
+        // LLM & AI Search Engine Answer Crawlers (AEO / GEO)
         userAgent: [
           'GPTBot',
           'PerplexityBot',
@@ -16,11 +26,12 @@ export default function robots(): MetadataRoute.Robots {
           'Google-Extended',
           'Applebot-Extended',
           'CCBot',
+          'Bytespider',
         ],
-        allow: ['/', '/shop/', '/journal/', '/story/', '/policies/', '/contact/'],
-        disallow: ['/admin/', '/api/', '/private/', '/bag/', '/checkout/', '/order-confirmation/'],
+        allow: ['/', '/shop', '/shop/*', '/journal', '/journal/*', '/story', '/policies', '/contact'],
+        disallow: ['/admin', '/admin/', '/api/', '/private/', '/bag/', '/checkout/', '/order-confirmation/'],
       },
     ],
-    sitemap: 'https://noveq.com.ng/sitemap.xml',
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

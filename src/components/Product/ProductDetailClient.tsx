@@ -770,26 +770,29 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         productSizes={product.sizes}
       />
 
-      {/* Schema.org Product Structured Data (Strict single source of truth from product model) */}
+      {/* Schema.org Product Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org/',
             '@type': 'Product',
-            name: `NOVEQ ${product.name} Women's Leather Pam, ${product.colour}`,
+            name: `NOVEQ ${product.name} — Nigerian Female Leather Pam (${product.colour})`,
             sku: product.slug,
             image: product.images.map((img) =>
-              img.src.startsWith('http') ? img.src : `https://noveq.com${img.src}`
+              img.src.startsWith('http') ? img.src : `https://www.noveq.com.ng${img.src}`
             ),
-            description: product.description,
+            description: `${product.description} Handcrafted in Lagos, Nigeria from full-grain calfskin leather.`,
+            category: "Apparel & Accessories > Shoes > Slip-ons & Slides",
+            countryOfOrigin: "NG",
             brand: {
               '@type': 'Brand',
               name: 'NOVEQ',
+              url: 'https://www.noveq.com.ng',
             },
             offers: {
               '@type': 'Offer',
-              url: `https://noveq.com/shop/${product.slug}`,
+              url: `https://www.noveq.com.ng/shop/${product.slug}`,
               priceCurrency: product.currency,
               price: product.price,
               priceValidUntil: '2027-12-31',
@@ -800,6 +803,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   ? 'https://schema.org/LimitedAvailability'
                   : 'https://schema.org/InStock',
               itemCondition: 'https://schema.org/NewCondition',
+              seller: {
+                '@type': 'Organization',
+                name: 'NOVEQ',
+                url: 'https://www.noveq.com.ng',
+              },
             },
           }),
         }}
