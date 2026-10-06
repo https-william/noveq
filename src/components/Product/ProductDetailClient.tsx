@@ -261,6 +261,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     fill
                     priority={idx === 0 || idx === 1}
                     loading={idx <= 3 ? 'eager' : 'lazy'}
+                    unoptimized={img.src.startsWith('data:')}
                     sizes="(max-width: 1024px) 100vw, 55vw"
                     className={`transition-transform duration-300 ${
                       img.src.endsWith('.svg') ? 'object-contain p-6 sm:p-10' : 'object-cover'

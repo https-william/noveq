@@ -69,6 +69,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             alt={primaryImage.alt}
             fill
             priority={priority}
+            unoptimized={primaryImage.src.startsWith('data:')}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           />

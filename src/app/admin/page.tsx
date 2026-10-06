@@ -35,6 +35,8 @@ import {
   Layers,
   Sparkles,
   Trash2,
+  Link2,
+  Star,
 } from 'lucide-react';
 import { Order, Product, ProductSize } from '@/types/commerce';
 import { Subscriber } from '@/lib/subscribers';
@@ -473,27 +475,32 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Handle Image Upload (WebP Resize to max 800px)
+  // Handle Image Upload (Sharp Server Optimization + Supabase Storage)
   const handleImageFileSelect = async (
     file: File,
     onSuccess: (url: string) => void
   ) => {
     setIsUploadingImage(true);
-    setUploadFeedback('Optimizing & resizing to 800px WebP...');
+    setUploadFeedback('Optimizing image photo...');
 
     try {
-      // 1. Client-side canvas resize to max 800px square WebP
-      const webpFile = await resizeImageToWebP(file, {
-        maxDimension: 800,
-        quality: 0.88,
-      });
+      // 1. Client-side attempt with automatic fallback if canvas unsupported/HEIC
+      let fileToUpload: File = file;
+      try {
+        fileToUpload = await resizeImageToWebP(file, {
+          maxDimension: 1200,
+          quality: 0.88,
+        });
+      } catch {
+        fileToUpload = file;
+      }
 
-      const kbSize = Math.round(webpFile.size / 1024);
-      setUploadFeedback(`Uploading ${kbSize} KB WebP to Supabase Storage...`);
+      const kbSize = Math.round(fileToUpload.size / 1024);
+      setUploadFeedback(`Uploading ${kbSize} KB image to catalog...`);
 
-      // 2. Upload via API route to Supabase Storage bucket 'products'
+      // 2. Upload via API route
       const formData = new FormData();
-      formData.append('file', webpFile);
+      formData.append('file', fileToUpload);
 
       const res = await fetch('/api/admin/upload', {
         method: 'POST',
@@ -503,17 +510,38 @@ export default function AdminDashboardPage() {
       const data = await res.json();
       if (data.success && data.url) {
         onSuccess(data.url);
-        setUploadFeedback(`Uploaded successfully! (${kbSize} KB)`);
-        setTimeout(() => setUploadFeedback(null), 3000);
+        const tag = data.storageType ? ` [${data.storageType}]` : '';
+        setUploadFeedback(`Image saved successfully!${tag}`);
+        setTimeout(() => setUploadFeedback(null), 3500);
       } else {
-        alert(data.error || 'Failed to upload image.');
-        setUploadFeedback(null);
+        // Fallback: Read as client Data URL if server upload endpoint returned non-success
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (typeof reader.result === 'string') {
+            onSuccess(reader.result);
+            setUploadFeedback('Attached image via local preview.');
+            setTimeout(() => setUploadFeedback(null), 3500);
+          }
+        };
+        reader.readAsDataURL(file);
       }
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error('Image upload failed:', err);
-      alert('Could not optimize image. Please try another image.');
-      setUploadFeedback(null);
+      // Fallback: Read as client Data URL so user is never blocked
+      try {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (typeof reader.result === 'string') {
+            onSuccess(reader.result);
+            setUploadFeedback('Attached image locally.');
+            setTimeout(() => setUploadFeedback(null), 3500);
+          }
+        };
+        reader.readAsDataURL(file);
+      } catch {
+        alert('Could not attach image. Please paste an image URL directly.');
+      }
     } finally {
       setIsUploadingImage(false);
     }
@@ -1245,6 +1273,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                                     src={item.product.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                                     alt={item.product.name}
                                     fill
+                                    unoptimized={Boolean(item.product.images[0]?.src?.startsWith('data:') || item.product.images[0]?.src?.startsWith('http'))}
                                     sizes="48px"
                                     className="object-cover"
                                   />
@@ -1491,6 +1520,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                           src={product.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                           alt={product.name}
                           fill
+                          unoptimized={Boolean(product.images[0]?.src?.startsWith('data:') || product.images[0]?.src?.startsWith('http'))}
                           sizes="80px"
                           className="object-cover"
                         />
@@ -2569,6 +2599,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                         src={item.product.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                         alt={item.product.name}
                         fill
+                        unoptimized={Boolean(item.product.images[0]?.src?.startsWith('data:') || item.product.images[0]?.src?.startsWith('http'))}
                         sizes="48px"
                         className="object-cover"
                       />
@@ -2853,18 +2884,20 @@ function ProductFormModal({
   const [designNote, setDesignNote] = useState(initialProduct?.design_note || '');
   const [hidden, setHidden] = useState(initialProduct?.hidden || initialProduct?.publish_status === 'draft' || false);
   const [images, setImages] = useState<Array<{ src: string; alt: string; viewType: 'hero' | 'detail' | 'side' }>>(
-    initialProduct?.images?.map((img) => ({
+    initialProduct?.images?.map((img, idx) => ({
       src: img.src,
       alt: img.alt || `NOVEQ ${name}`,
-      viewType: (img.viewType as 'hero' | 'detail' | 'side') || 'hero',
+      viewType: (img.viewType as 'hero' | 'detail' | 'side') || (idx === 0 ? 'hero' : 'detail'),
     })) || [
       {
-        src: '/images/products/the-ring-burgundy.jpg',
+        src: '/images/products/the-twist-burgundy.jpg',
         alt: 'NOVEQ Product Image',
         viewType: 'hero',
       },
     ]
   );
+  const [customImageUrl, setCustomImageUrl] = useState('');
+  const [isUrlInputOpen, setIsUrlInputOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -2891,10 +2924,10 @@ function ProductFormModal({
         design_note: designNote,
         hidden,
         publish_status: hidden ? 'draft' : 'published',
-        images: images.map((i) => ({
+        images: images.map((i, idx) => ({
           src: i.src,
           alt: i.alt || `NOVEQ ${name}`,
-          viewType: i.viewType,
+          viewType: idx === 0 ? 'hero' : (i.viewType || 'detail'),
         })),
       },
       isNew
@@ -2906,14 +2939,60 @@ function ProductFormModal({
     if (!file) return;
 
     onUploadImage(file, (uploadedUrl) => {
-      setImages((prev) => [
+      setImages((prev) => {
+        const isPlaceholderOnly = isNew && prev.length === 1 && (
+          prev[0].src.includes('the-ring-burgundy') || prev[0].src.includes('the-twist-burgundy')
+        );
+        const filtered = isPlaceholderOnly ? [] : prev;
+        return [
+          {
+            src: uploadedUrl,
+            alt: `NOVEQ ${name || 'Product'} Image`,
+            viewType: 'hero',
+          },
+          ...filtered.map((img) => ({
+            ...img,
+            viewType: 'detail' as const,
+          })),
+        ];
+      });
+    });
+
+    // Reset input value so selecting same file works reliably
+    e.target.value = '';
+  };
+
+  const handleAddImageUrl = (urlToAdd?: string) => {
+    const targetUrl = (urlToAdd || customImageUrl).trim();
+    if (!targetUrl) return;
+
+    setImages((prev) => {
+      const isPlaceholderOnly = isNew && prev.length === 1 && (
+        prev[0].src.includes('the-ring-burgundy') || prev[0].src.includes('the-twist-burgundy')
+      );
+      const filtered = isPlaceholderOnly ? [] : prev;
+      return [
         {
-          src: uploadedUrl,
+          src: targetUrl,
           alt: `NOVEQ ${name || 'Product'} Image`,
-          viewType: prev.length === 0 ? 'hero' : 'detail',
+          viewType: filtered.length === 0 ? 'hero' : 'detail',
         },
-        ...prev,
-      ]);
+        ...filtered,
+      ];
+    });
+    setCustomImageUrl('');
+    setIsUrlInputOpen(false);
+  };
+
+  const handleSetHero = (targetIdx: number) => {
+    setImages((prev) => {
+      if (targetIdx <= 0 || targetIdx >= prev.length) return prev;
+      const selected = prev[targetIdx];
+      const remainder = prev.filter((_, idx) => idx !== targetIdx);
+      return [
+        { ...selected, viewType: 'hero' },
+        ...remainder.map((img) => ({ ...img, viewType: 'detail' as const })),
+      ];
     });
   };
 
@@ -3064,36 +3143,95 @@ function ProductFormModal({
             </div>
           </div>
 
-          {/* Image Upload to Supabase Storage (Max 800px Square WebP) */}
+          {/* Image Upload & Management (Sharp Server Optimization + Supabase Storage) */}
           <div className="p-4 bg-bone border border-cocoa/20 rounded-xs space-y-3">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <label className="block text-[10px] uppercase font-bold text-cocoa">
-                  Product Imagery (Auto-Resized to 800px WebP)
+                  Product Imagery (Auto-Resized & Optimized WebP)
                 </label>
                 <p className="text-[11px] text-muted-taupe">
-                  Uploaded images are automatically scaled to max 800px WebP before saving to Supabase Storage.
+                  Uploaded images are automatically scaled, auto-oriented, and optimized to WebP.
                 </p>
               </div>
 
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleFileChange}
-              />
+              <div className="flex items-center gap-2">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
 
-              <button
-                type="button"
-                disabled={isUploading}
-                onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center gap-1.5 px-3 py-2 bg-ink-black hover:bg-espresso text-warm-white text-xs uppercase font-semibold rounded-xs transition-colors min-h-[40px] cursor-pointer disabled:opacity-50"
-              >
-                <UploadCloud className="w-3.5 h-3.5" />
-                <span>{isUploading ? 'Resizing...' : 'Upload Image'}</span>
-              </button>
+                <button
+                  type="button"
+                  disabled={isUploading}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 bg-ink-black hover:bg-espresso text-warm-white text-xs uppercase font-semibold rounded-xs transition-colors min-h-[40px] cursor-pointer disabled:opacity-50"
+                >
+                  <UploadCloud className="w-3.5 h-3.5" />
+                  <span>{isUploading ? 'Uploading...' : 'Upload Image'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsUrlInputOpen((prev) => !prev)}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 bg-bone hover:bg-cocoa/15 border border-cocoa/30 text-ink-black text-xs font-semibold rounded-xs transition-colors min-h-[40px] cursor-pointer"
+                  title="Paste an image URL directly"
+                >
+                  <Link2 className="w-3.5 h-3.5" />
+                  <span>{isUrlInputOpen ? 'Hide URL' : 'Paste URL'}</span>
+                </button>
+              </div>
             </div>
+
+            {/* Optional URL Input Dropdown */}
+            {isUrlInputOpen && (
+              <div className="p-3 bg-warm-white border border-cocoa/30 rounded-xs space-y-2 animate-in fade-in duration-150">
+                <div className="flex gap-2">
+                  <input
+                    type="url"
+                    placeholder="https://... or /images/products/..."
+                    value={customImageUrl}
+                    onChange={(e) => setCustomImageUrl(e.target.value)}
+                    className="flex-1 px-3 py-2 bg-bone border border-cocoa/30 rounded-xs text-xs text-ink-black min-h-[40px]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleAddImageUrl()}
+                    disabled={!customImageUrl.trim()}
+                    className="px-3 py-2 bg-espresso hover:bg-ink-black text-warm-white text-xs font-semibold rounded-xs disabled:opacity-40 min-h-[40px] cursor-pointer"
+                  >
+                    Add URL
+                  </button>
+                </div>
+                <div className="flex flex-wrap items-center gap-1 text-[10px] text-muted-taupe">
+                  <span>Quick catalog presets:</span>
+                  <button
+                    type="button"
+                    onClick={() => handleAddImageUrl('/images/models/the-twist-hero-model.jpg')}
+                    className="px-1.5 py-0.5 bg-bone border border-cocoa/20 rounded-xs hover:border-cocoa text-espresso"
+                  >
+                    The Twist (Model)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleAddImageUrl('/images/products/the-twist-burgundy.jpg')}
+                    className="px-1.5 py-0.5 bg-bone border border-cocoa/20 rounded-xs hover:border-cocoa text-espresso"
+                  >
+                    The Twist (Burgundy)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleAddImageUrl('/images/products/the-twist-warm-cognac.jpg')}
+                    className="px-1.5 py-0.5 bg-bone border border-cocoa/20 rounded-xs hover:border-cocoa text-espresso"
+                  >
+                    The Twist (Brown)
+                  </button>
+                </div>
+              </div>
+            )}
 
             {uploadFeedback && (
               <div className="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 p-2 rounded-xs font-mono flex items-center gap-2">
@@ -3102,27 +3240,62 @@ function ProductFormModal({
               </div>
             )}
 
-            {/* Gallery Previews */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              {images.map((img, idx) => (
-                <div key={idx} className="relative w-16 h-16 bg-warm-white border border-cocoa/30 rounded-xs overflow-hidden group">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="64px"
-                    className="object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setImages((prev) => prev.filter((_, i) => i !== idx))}
-                    className="absolute top-0 right-0 p-1 bg-ink-black/80 text-warm-white opacity-0 group-hover:opacity-100 transition-opacity"
-                    title="Remove"
-                  >
-                    <X className="w-3 h-3" />
-                  </button>
-                </div>
-              ))}
+            {/* Gallery Previews with Hero Indicator */}
+            <div className="space-y-1.5 pt-1">
+              <span className="text-[10px] uppercase font-bold text-muted-taupe block">
+                Attached Images ({images.length}) — Click star to set primary hero
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {images.map((img, idx) => {
+                  const isHero = idx === 0 || img.viewType === 'hero';
+                  return (
+                    <div
+                      key={idx}
+                      className={`relative w-20 h-20 bg-warm-white border rounded-xs overflow-hidden group ${
+                        isHero ? 'border-espresso ring-2 ring-espresso/30' : 'border-cocoa/30'
+                      }`}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        unoptimized={img.src.startsWith('data:') || img.src.startsWith('http')}
+                        sizes="80px"
+                        className="object-cover"
+                      />
+
+                      {/* Hero Badge */}
+                      {isHero && (
+                        <span className="absolute top-1 left-1 px-1 py-0.5 bg-ink-black/90 text-warm-white text-[9px] uppercase font-bold tracking-wider rounded-xs pointer-events-none">
+                          Hero
+                        </span>
+                      )}
+
+                      {/* Controls on hover / touch */}
+                      <div className="absolute inset-0 bg-ink-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1">
+                        {!isHero && (
+                          <button
+                            type="button"
+                            onClick={() => handleSetHero(idx)}
+                            className="p-1.5 bg-warm-white/90 hover:bg-warm-white text-ink-black rounded-xs transition-colors"
+                            title="Set as Hero image"
+                          >
+                            <Star className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setImages((prev) => prev.filter((_, i) => i !== idx))}
+                          className="p-1.5 bg-oxblood hover:bg-oxblood/80 text-warm-white rounded-xs transition-colors"
+                          title="Remove image"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
