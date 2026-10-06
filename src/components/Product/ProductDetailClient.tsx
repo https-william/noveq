@@ -546,7 +546,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <ShieldCheck className="w-5 h-5 text-cocoa shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-xs leading-relaxed text-ink-black/85">
               <span className="font-semibold block uppercase tracking-wider text-[10px] text-cocoa mb-0.5">
-                Material & Atelier Integrity
+                Material & Craft Integrity
               </span>
               Handcrafted from full-grain Nigerian leather with tempered arch support. Individually inspected pair-by-pair in our Lagos studio before dispatch.
             </div>

@@ -96,8 +96,8 @@ export default function CartDrawer() {
 
         {/* Delivery Note Banner */}
         <div className="px-6 py-2.5 bg-espresso text-warm-white text-[11px] uppercase tracking-wider flex items-center justify-between">
-          <span>Drop 001 Priority Dispatch</span>
-          <span className="text-muted-taupe-on-dark font-medium">Lagos / 24–48h</span>
+          <span>Drop 001 Made to Order</span>
+          <span className="text-muted-taupe-on-dark font-medium">Nationwide / ~7 Days</span>
         </div>
 
         {/* Restore After Remove (Undo) Banner — Mobile & Desktop */}

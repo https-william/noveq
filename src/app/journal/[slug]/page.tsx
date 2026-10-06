@@ -234,7 +234,7 @@ export default async function JournalArticlePage({ params }: Props) {
           className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-cocoa hover:text-ink-black underline underline-offset-4 focus-dark"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>All Atelier Notes</span>
+          <span>All Journal Notes</span>
         </Link>
         <Link
           href="/shop"

@@ -100,7 +100,7 @@ export default function Footer({
           {/* 3. Legal business details */}
           <div className="space-y-2">
             <span className="block text-[11px] uppercase tracking-[0.2em] text-warm-white/70">
-              Provenance & Atelier
+              Provenance & Origin
             </span>
             {legalBusinessDetails ? (
               <div className="text-muted-taupe-on-dark leading-relaxed whitespace-pre-line text-xs">
@@ -108,7 +108,7 @@ export default function Footer({
               </div>
             ) : (
               <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
-                NOVEQ Atelier. Contemporary leather footwear handcrafted in Nigeria. Distributed nationwide with tracked courier dispatch.
+                NOVEQ. Contemporary leather footwear handcrafted in Nigeria. Distributed nationwide with tracked courier dispatch.
               </p>
             )}
           </div>
@@ -124,7 +124,7 @@ export default function Footer({
               </div>
             ) : (
               <p className="text-xs text-muted-taupe-on-dark leading-relaxed">
-                Paystack 256-bit encrypted checkout. Tracked courier dispatch across all Nigerian states within 24–48 hours.
+                Paystack secure checkout. Made to order: crafted in 5 business days, followed by 2 business days for delivery (receive within 7 business days nationwide).
               </p>
             )}
           </div>

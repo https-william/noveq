@@ -6,16 +6,16 @@ import { getAllPublishedArticles } from '@/data/journal';
 import { ScrollReveal } from '@/components/Editorial/ScrollReveal';
 
 export const metadata: Metadata = {
-  title: 'Atelier Journal — Craft Notes & Silhouette Geometry',
+  title: 'Journal — Craft Notes & Silhouette Geometry | NOVEQ',
   description:
-    'Notes on leather craft, workshop observations, and footwear design from the NOVEQ atelier in Lagos, Nigeria.',
+    'Notes on leather craft, workshop observations, and footwear design from the NOVEQ workshop in Lagos, Nigeria.',
   alternates: {
     canonical: '/journal',
   },
   openGraph: {
-    title: 'Atelier Journal | NOVEQ Contemporary Leather Footwear',
+    title: 'Journal | NOVEQ Contemporary Leather Footwear',
     description:
-      'Notes on leather craft, workshop observations, and footwear design from the NOVEQ atelier in Lagos, Nigeria.',
+      'Notes on leather craft, workshop observations, and footwear design from the NOVEQ workshop in Lagos, Nigeria.',
     url: '/journal',
     siteName: 'NOVEQ',
     type: 'website',
@@ -24,15 +24,15 @@ export const metadata: Metadata = {
         url: '/images/products/minimalist-espresso-top.svg',
         width: 1200,
         height: 900,
-        alt: 'NOVEQ atelier craft notes and leather silhouette design',
+        alt: 'NOVEQ craft notes and leather silhouette design',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Atelier Journal | NOVEQ Contemporary Leather Footwear',
+    title: 'Journal | NOVEQ Contemporary Leather Footwear',
     description:
-      'Notes on leather craft, workshop observations, and footwear design from the NOVEQ atelier in Lagos, Nigeria.',
+      'Notes on leather craft, workshop observations, and footwear design from the NOVEQ workshop in Lagos, Nigeria.',
     images: ['/images/products/minimalist-espresso-top.svg'],
   },
 };
@@ -59,7 +59,7 @@ export default function JournalPage() {
       <div className="py-12 sm:py-16">
         {articles.length === 0 ? (
           <div className="py-16 text-center border border-dashed border-cocoa/20 rounded-xs bg-warm-white">
-            <p className="text-sm text-muted-taupe">New atelier notes will be published soon.</p>
+            <p className="text-sm text-muted-taupe">New craft notes will be published soon.</p>
           </div>
         ) : (
           <div className="divide-y divide-cocoa/15">

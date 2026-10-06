@@ -101,7 +101,7 @@ export default function RootLayout({
         name: 'NOVEQ',
         legalName: 'NOVEQ',
         alternateName: [
-          'NOVEQ Atelier',
+          'NOVEQ Studio',
           'NOVEQ Footwear',
           'NOVEQ Nigeria',
           'NOVEQ The Brand',
@@ -116,9 +116,9 @@ export default function RootLayout({
         },
         image: `${SITE_SETTINGS.seo.baseUrl}/images/brand/noveq-brand-sheet.jpg`,
         description:
-          "NOVEQ is a contemporary Nigerian luxury footwear atelier in Lagos, Nigeria, specializing in handcrafted female leather pams, women's slip-on slides, and vegetable-tanned footwear.",
+          "NOVEQ is a contemporary Nigerian footwear brand in Lagos, Nigeria, specializing in handcrafted female leather pams, women's slip-on slides, and vegetable-tanned footwear.",
         disambiguatingDescription:
-          "Contemporary Nigerian female leather footwear atelier and brand founded in Lagos, Nigeria, designing handcrafted slide pams with vegetable-tanned hides. Distinct from software templates or musical artists.",
+          "Contemporary Nigerian female leather footwear brand founded in Lagos, Nigeria, designing handcrafted slide pams with vegetable-tanned hides. Distinct from software templates or musical artists.",
         slogan: 'Crafted to move.',
         foundingLocation: {
           '@type': 'Place',

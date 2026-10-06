@@ -881,7 +881,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
           </form>
 
           <div className="text-[11px] text-muted-taupe border-t border-cocoa/15 pt-4">
-            NOVEQ Atelier Management · Nigeria
+            NOVEQ Store Management · Nigeria
           </div>
         </div>
       </div>
@@ -894,7 +894,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cocoa/20 pb-5">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-serif italic text-cocoa">Executive Atelier Console</span>
+            <span className="text-xs font-serif italic text-cocoa">Executive Management Console</span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[10px] uppercase font-mono tracking-wider text-emerald-800">
               Live Realtime Sync
@@ -1926,7 +1926,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                       <td className="p-3">
                         <a
                           href={`https://wa.me/${cust.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
-                            `Hello ${cust.fullName}, this is the NOVEQ atelier team. Thank you for walking with us.`
+                            `Hello ${cust.fullName}, this is the NOVEQ team. Thank you for walking with us.`
                           )}`}
                           target="_blank"
                           rel="noopener noreferrer"

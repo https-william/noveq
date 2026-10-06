@@ -57,7 +57,7 @@ export function InstagramStrip({
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
-              Atelier Visuals
+              Studio Visuals
             </span>
             <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black">
               On the Bench & In Movement

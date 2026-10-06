@@ -113,7 +113,7 @@ export default function StoryPage() {
               href="/journal"
               className="inline-flex items-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[44px]"
             >
-              <span>Read Atelier Journal</span>
+              <span>Read Journal</span>
             </Link>
           </div>
 

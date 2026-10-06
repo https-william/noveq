@@ -57,7 +57,7 @@ function PaymentContent() {
 
         if (result.status === 'success') {
           setPaymentStatus('success');
-          setStatusMessage('Payment confirmed and verified. Directing to your atelier receipt...');
+          setStatusMessage('Payment confirmed and verified. Directing to your order receipt...');
 
           // Authoritative purchase analytics event
           trackEvent('purchase', {
@@ -153,7 +153,7 @@ function PaymentContent() {
         }
       } catch {
         setPaymentStatus('failed');
-        setStatusMessage('Unable to connect to the atelier server.');
+        setStatusMessage('Unable to connect to the server.');
         setLoading(false);
       }
     }
@@ -329,7 +329,7 @@ function PaymentContent() {
         {/* Security badge */}
         <div className="pt-2 text-center flex items-center justify-center gap-2 text-[11px] text-muted-taupe">
           <ShieldCheck className="w-4 h-4 text-cocoa" />
-          <span>Paystack 256-bit Encrypted Settlement</span>
+          <span>Secure Paystack Payment</span>
         </div>
       </div>
     </div>

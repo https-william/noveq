@@ -134,7 +134,7 @@ export default function ShopCatalogClient({
 
           {/* ONE SENTENCE MAX COLLECTION INTRO */}
           <p className="mt-3 text-sm sm:text-base text-ink-black/80 font-normal max-w-2xl leading-relaxed">
-            {intro || 'Handcrafted in Lagos, Nigeria from full-grain vegetable-tanned hides. Contemporary female leather pams designed for effortless daily movement, personal detail, and nationwide 24–48h delivery.'}
+            {intro || 'Handcrafted in Lagos, Nigeria from full-grain vegetable-tanned hides. Contemporary female leather pams designed for effortless daily movement, personal detail, and nationwide delivery within 7 business days.'}
           </p>
         </div>
       )}
@@ -254,7 +254,7 @@ export default function ShopCatalogClient({
             Artisan Production Assurance
           </span>
           <h2 className="text-lg font-bold text-warm-white">
-            Ten Pairs Initial Inventory — Lagos Atelier
+            Ten Pairs Initial Inventory — Handcrafted in Lagos
           </h2>
           <p className="text-xs text-muted-taupe-on-dark max-w-xl mt-1 leading-relaxed">
             Every pair of NOVEQ female leather pams is built from full-grain Nigerian hides, conditioned with natural wax, and individually boxed in our slim brown kraft suite with handwritten care instructions.
@@ -271,7 +271,7 @@ export default function ShopCatalogClient({
         <div className="max-w-3xl space-y-6">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block mb-1">
-              Atelier Notes // Nigerian Female Leather Pams
+              Craft Notes // Nigerian Female Leather Pams
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black font-serif">
               Frequently Asked Questions
@@ -293,7 +293,7 @@ export default function ShopCatalogClient({
                 Where are NOVEQ female leather pams made?
               </h3>
               <p className="text-muted-taupe">
-                Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of 18 hours of hands-on cutting, strap shaping, and edge burnishing per pair.
+                Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of hands-on cutting, strap shaping, and edge burnishing per pair.
               </p>
             </div>
 
@@ -302,7 +302,7 @@ export default function ShopCatalogClient({
                 How do I order and how fast is nationwide delivery in Nigeria?
               </h3>
               <p className="text-muted-taupe">
-                You can order directly online through our secure checkout. Orders are dispatched within 24–48 hours nationwide across Lagos, Abuja, Port Harcourt, and all Nigerian states via tracked courier service.
+                You can order directly online through our secure Paystack checkout. Each pair is made to order: manufacturing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide across Lagos, Abuja, Port Harcourt, and all Nigerian states.
               </p>
             </div>
 
@@ -339,7 +339,7 @@ export default function ShopCatalogClient({
                 name: 'Where are NOVEQ female leather pams made?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of 18 hours of hands-on cutting, strap shaping, and edge burnishing per pair.',
+                  text: 'Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of hands-on cutting, strap shaping, and edge burnishing per pair.',
                 },
               },
               {
@@ -347,7 +347,7 @@ export default function ShopCatalogClient({
                 name: 'How do I order and how fast is nationwide delivery in Nigeria?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'You can order directly online through our secure checkout. Orders are dispatched within 24–48 hours nationwide across Lagos, Abuja, Port Harcourt, and all Nigerian states via tracked courier service.',
+                  text: 'You can order directly online through our secure checkout. Manufacturing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide.',
                 },
               },
               {

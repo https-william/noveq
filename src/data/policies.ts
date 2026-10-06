@@ -19,9 +19,9 @@ export const POLICIES: Record<string, Policy> = {
       'Drop 001 dispatch timeframes, tracked regional courier logistics, and fee structures across Nigeria.',
     sections: [
       {
-        heading: 'Dispatch Timelines',
+        heading: 'Manufacturing & Delivery Timelines',
         content:
-          'In-stock Drop 001 orders are inspected by hand, conditioned, and handed to our regional courier within 24–48 business hours of confirmed payment.',
+          'Every pair is handcrafted to order: manufacturing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide.',
       },
       {
         heading: 'Regional Delivery Estimates',
@@ -162,7 +162,7 @@ export const POLICIES: Record<string, Policy> = {
       {
         heading: 'Brand Operations & Governance',
         content:
-          'NOVEQ operates as a contemporary footwear design atelier based in Lagos, Nigeria.',
+          'NOVEQ operates as a contemporary footwear design brand based in Lagos, Nigeria.',
         isPendingClientDecision: false,
       },
     ],

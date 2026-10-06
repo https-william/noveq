@@ -1,7 +1,7 @@
 import { JournalArticle } from '@/types/content';
 
 /**
- * NOVEQ Atelier Journal Articles
+ * NOVEQ Journal Articles
  * 
  * Genuine notes on shoemaking craft, silhouette design, and leather care.
  * Strictly free from filler, fake quotes, or synthetic marketing hype.
@@ -12,8 +12,8 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     title: 'Drop 001: The First Ten Pairs',
     subtitle: 'Why we began with ten pairs, the asymmetric cut, and the deliberate pace of small-batch shoemaking.',
     excerpt: 'Why we started with ten pairs, the geometry behind the cut, and building a foundation before scaling.',
-    coverImage: '/images/models/the-ring-hero-model.jpg',
-    coverAlt: 'NOVEQ The Ring Slide Pam on model feet on stone pavement',
+    coverImage: '/images/products/the-ring-warm-cognac.jpg',
+    coverAlt: 'NOVEQ The Ring Slide Pam in Warm Cognac full-grain leather',
     body: [
       'When we prepared the launch for NOVEQ, conventional retail logic urged releasing twenty styles across hundreds of units. We decided against it.',
       'Drop 001 began with a singular focus: footwear made by hand in intimate collaboration with our artisan partner in Nigeria. We wanted to touch every hide, test the flexion on real feet across sunlit pavements, and ensure each design felt personal and intentional.',
@@ -29,7 +29,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     date: 'October 14, 2026',
     readingTime: '3 min read',
     type: 'editorial',
-    tags: ['Drop 001', 'Atelier', 'Launch'],
+    tags: ['Drop 001', 'Craft', 'Launch'],
     relatedProductSlug: 'the-ring-slide-pam',
     seoTitle: 'Drop 001: The First Ten Pairs | NOVEQ Journal',
     seoDescription:
@@ -41,8 +41,8 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     title: 'The Pam, Considered',
     subtitle: 'How an indispensable West African staple became the foundation of modern everyday footwear.',
     excerpt: 'Examining the cultural familiarity of the leather slip-on pam and reimagining it through minimal form.',
-    coverImage: '/images/models/the-weave-hero-model.jpg',
-    coverAlt: 'NOVEQ The Weave Pam on model along sunlit stone pavement',
+    coverImage: '/images/products/the-weave-black.jpg',
+    coverAlt: 'NOVEQ The Weave Pam in Deep Noir woven leather',
     body: [
       'To live in Lagos or any West African city is to know the pam. It is the pair by the front door you slide into for a quick errand, the pair you wear to meet friends on Sunday afternoon, the natural accompaniment to both crisp linen trousers and easy weekend wear.',
       'Yet for decades, this silhouette was treated either as disposable utility or smothered in gilded embellishment to justify luxury price tags. We saw an opportunity to celebrate the pam on its own structural merits.',

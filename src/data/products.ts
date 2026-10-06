@@ -3,7 +3,7 @@ import { Product, Collection } from '@/types/commerce';
 /**
  * NOVEQ Product Catalog
  * 
- * Exclusively featuring The Ring Slide Pam and The Weave Slide Pam
+ * Exclusively featuring The Ring Slide Pam, The Weave Slide Pam, and The Twist Slide Pam
  * for Drop 001, highlighting hand-beveled craft and refined daily movement.
  */
 
@@ -21,7 +21,7 @@ export const DROP_001_PRODUCTS: Product[] = [
       {
         name: 'Warm Cognac',
         hex: '#7C3F1D',
-        imageSrc: '/images/models/the-ring-hero-model.jpg',
+        imageSrc: '/images/products/the-ring-warm-cognac.jpg',
       },
       {
         name: 'Burgundy',
@@ -50,7 +50,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     },
     publish_status: 'published',
     fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
-    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.',
+    shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
     sizes: [
       { size: 'EU 37', available: true, stockCount: 1 },
       { size: 'EU 38', available: true, stockCount: 1 },
@@ -60,8 +60,8 @@ export const DROP_001_PRODUCTS: Product[] = [
     ],
     images: [
       {
-        src: '/images/models/the-ring-hero-model.jpg',
-        alt: 'NOVEQ The Ring Slide Pam on model feet with gold anklet on sunlit stone pavement',
+        src: '/images/products/the-ring-warm-cognac.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Warm Cognac full-grain leather',
         viewType: 'hero',
       },
       {
@@ -83,11 +83,6 @@ export const DROP_001_PRODUCTS: Product[] = [
         src: '/images/campaign/the-ring-campaign-poster.png',
         alt: 'NOVEQ The Ring Campaign Poster — Modern. Chic. Refined.',
         viewType: 'detail',
-      },
-      {
-        src: '/images/models/the-ring-editorial-spec.jpg',
-        alt: 'NOVEQ The Ring Slide Pam editorial specification and colourways',
-        viewType: 'top',
       },
     ],
   },
@@ -138,7 +133,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     },
     publish_status: 'published',
     fit_notes: 'True to standard size. Woven leather provides gentle give to mirror foot contours.',
-    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.',
+    shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
     sizes: [
       { size: 'EU 37', available: true, stockCount: 1 },
       { size: 'EU 38', available: true, stockCount: 1 },
@@ -148,28 +143,13 @@ export const DROP_001_PRODUCTS: Product[] = [
     ],
     images: [
       {
-        src: '/images/models/the-weave-hero-model.jpg',
-        alt: 'NOVEQ The Weave Slide Pam on model feet on sunlit stone pavement',
-        viewType: 'hero',
-      },
-      {
         src: '/images/products/the-weave-black.jpg',
         alt: 'NOVEQ The Weave Slide Pam in Deep Noir woven leather',
-        viewType: 'detail',
+        viewType: 'hero',
       },
       {
         src: '/images/products/the-weave-burgundy.jpg',
         alt: 'NOVEQ The Weave Slide Pam in Burgundy woven leather',
-        viewType: 'detail',
-      },
-      {
-        src: '/images/products/the-weave-off-white.jpg',
-        alt: 'NOVEQ The Weave Slide Pam in Off White woven leather',
-        viewType: 'detail',
-      },
-      {
-        src: '/images/products/the-weave-army-green.jpg',
-        alt: 'NOVEQ The Weave Slide Pam in Army Green woven leather',
         viewType: 'detail',
       },
       {
@@ -178,14 +158,19 @@ export const DROP_001_PRODUCTS: Product[] = [
         viewType: 'detail',
       },
       {
-        src: '/images/campaign/the-weave-campaign-poster.png',
-        alt: 'NOVEQ The Weave Campaign Poster — Now in more colours',
+        src: '/images/products/the-weave-army-green.jpg',
+        alt: 'NOVEQ The Weave Slide Pam in Army Green woven leather',
         viewType: 'detail',
       },
       {
-        src: '/images/models/the-weave-editorial-spec.jpg',
-        alt: 'NOVEQ The Weave Slide Pam editorial specification and colourways',
-        viewType: 'top',
+        src: '/images/products/the-weave-off-white.jpg',
+        alt: 'NOVEQ The Weave Slide Pam in Off White woven leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/campaign/the-weave-campaign-poster.png',
+        alt: 'NOVEQ The Weave Campaign Poster — Now in more colours',
+        viewType: 'detail',
       },
     ],
   },
@@ -209,6 +194,11 @@ export const DROP_001_PRODUCTS: Product[] = [
         hex: '#6A381F',
         imageSrc: '/images/products/the-twist-warm-cognac.jpg',
       },
+      {
+        name: 'Black',
+        hex: '#141414',
+        imageSrc: '/images/products/the-twist-black.jpg',
+      },
     ],
     stock: 5,
     material: 'Full-grain Nigerian calfskin, sculptural gathered twist strap architecture, molded ergonomic footbed with beveled edges and low-profile non-slip sole.',
@@ -221,7 +211,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     },
     publish_status: 'published',
     fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
-    shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.',
+    shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
     sizes: [
       { size: 'EU 37', available: true, stockCount: 1 },
       { size: 'EU 38', available: true, stockCount: 1 },
@@ -231,14 +221,9 @@ export const DROP_001_PRODUCTS: Product[] = [
     ],
     images: [
       {
-        src: '/images/models/the-twist-hero-model.jpg',
-        alt: 'NOVEQ The Twist Slide Pam on model foot stepping on warm sunlit stone',
-        viewType: 'hero',
-      },
-      {
         src: '/images/products/the-twist-burgundy.jpg',
         alt: 'NOVEQ The Twist Slide Pam in Burgundy sculptural leather',
-        viewType: 'detail',
+        viewType: 'hero',
       },
       {
         src: '/images/products/the-twist-warm-cognac.jpg',
@@ -246,9 +231,9 @@ export const DROP_001_PRODUCTS: Product[] = [
         viewType: 'detail',
       },
       {
-        src: '/images/products/the-twist.jpg',
-        alt: 'NOVEQ The Twist editorial specification and colourways',
-        viewType: 'top',
+        src: '/images/products/the-twist-black.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in Noir Black',
+        viewType: 'detail',
       },
     ],
   },
@@ -258,7 +243,7 @@ export const DROP_001_COLLECTION: Collection = {
   name: 'Drop 001',
   slug: 'drop-001',
   title: 'Drop 001 — noveq collection',
-  short_intro: 'Drop 001 introduces NOVEQ through an exclusive focus on The Ring and The Weave.',
+  short_intro: 'Drop 001 introduces NOVEQ through an exclusive focus on The Ring, The Weave, and The Twist.',
   products: DROP_001_PRODUCTS,
   editorial_copy: 'Our inaugural release is intentionally focused: Drop 001 showcases designs crafted by our artisan shoemakers in Nigeria. Built around everyday movement, refined form, and honest craftsmanship.',
   publish_date: '2026-09-25',
@@ -269,7 +254,6 @@ export function getProductBySlug(slug: string): Product | undefined {
   if (slug === 'the-braid-slide-pam') {
     return DROP_001_PRODUCTS.find((p) => p.slug === 'the-weave-slide-pam') || DROP_001_PRODUCTS[1];
   }
-  // Graceful fallback for any previously accessed slugs to avoid 404s
   const directMatch = DROP_001_PRODUCTS.find((p) => p.slug === slug);
   if (directMatch) return directMatch;
   if (slug.includes('weave') || slug.includes('braid') || slug.includes('loop')) {

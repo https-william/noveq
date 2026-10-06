@@ -86,7 +86,7 @@ export default function NotFound() {
         </Link>
         <span>·</span>
         <Link href="/journal" className="hover:text-ink-black underline focus-dark">
-          Atelier Journal
+          Journal
         </Link>
         <span>·</span>
         <Link href="/contact" className="hover:text-ink-black underline focus-dark">

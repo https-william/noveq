@@ -46,14 +46,13 @@ export const SITE_SETTINGS: SiteSettings = {
     defaultTitle: "NOVEQ | Nigerian Female Leather Pams & Handcrafted Footwear",
     titleTemplate: '%s | NOVEQ',
     defaultDescription:
-      "NOVEQ Atelier. Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain vegetable-tanned hides. Built for effortless daily movement, personal detail, and nationwide 24–48h delivery across Nigeria.",
+      "NOVEQ. Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain vegetable-tanned hides. Built for effortless daily movement, personal detail, and nationwide delivery within 7 business days across Nigeria.",
     keywords: [
       'Nigerian female leather pams',
       'female leather pams in Nigeria',
       'ladies leather pams Lagos',
       'women leather pams Nigeria',
       'NOVEQ',
-      'NOVEQ Atelier',
       'NOVEQ Footwear',
       'handcrafted female leather slippers',
       'artisan leather slides Nigeria',
@@ -89,7 +88,7 @@ export const SITE_SETTINGS: SiteSettings = {
   // Launch sequence & campaign state (Config-driven toggle: 'live' | 'pre-launch' | 'reveal' | 'sold-out')
   campaign: {
     state: (process.env.NEXT_PUBLIC_CAMPAIGN_STATE as 'live' | 'pre-launch' | 'sold-out' | 'reveal') || 'live',
-    preLaunchEyebrow: 'COMING SOON · ATELIER LAUNCH PREVIEW',
+    preLaunchEyebrow: 'COMING SOON · LAUNCH PREVIEW',
     preLaunchDateText: 'October 2026',
   },
 

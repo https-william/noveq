@@ -70,7 +70,7 @@ export default function SizeGuideModal({
             <Ruler className="w-5 h-5 text-cocoa" aria-hidden="true" />
             <div>
               <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-bold block">
-                Atelier Fit Standard
+                NOVEQ Fit Standard
               </span>
               <h2 className="text-lg font-bold text-ink-black">
                 Size & Measurement Guide

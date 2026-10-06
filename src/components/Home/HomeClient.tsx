@@ -149,7 +149,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   <>
                     <span className="font-semibold text-warm-white">PRE-LAUNCH PREVIEW</span>
                     <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                    <span>Drop 001 Finishing in Atelier</span>
+                    <span>Drop 001 Handcrafted in Nigeria</span>
                   </>
                 )}
                 {campaignState === 'sold-out' && (
@@ -294,7 +294,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               </div>
             </div>
 
-            {/* Right Column: Hero Visual with Watermark Layering & Apple Shadow */}
+            {/* Right Column: Hero Visual with Pure Slipper Product Photography */}
             <div className="lg:col-span-5 relative">
               {/* Subtle Atmospheric Watermark Behind Object */}
               <div
@@ -309,8 +309,8 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               {/* Hero Image Card */}
               <div className="relative z-10 aspect-[3/4] sm:aspect-[4/3] lg:aspect-[3/4] bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl animate-micro-float group">
                 <Image
-                  src="/images/models/the-ring-hero-model.jpg"
-                  alt="NOVEQ The Ring Slide Pam on model feet — Handcrafted in Nigeria"
+                  src="/images/products/the-ring-warm-cognac.jpg"
+                  alt="NOVEQ The Ring Slide Pam in Warm Cognac — Handcrafted in Nigeria"
                   fill
                   priority
                   quality={90}
@@ -389,152 +389,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         </div>
       </ScrollReveal>
 
-      {/* ── 4. EDITORIAL CAMPAIGN SPOTLIGHT (THREE DISTINCT DESIGNS ON MODEL) ── */}
-      <section className="py-20 sm:py-28 bg-espresso text-warm-white border-b border-cocoa/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mb-12 sm:mb-16">
-            <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark font-medium block mb-2">
-              Featured Designs
-            </span>
-            <h2 className="font-rayleigh text-3xl sm:text-5xl font-normal tracking-tight text-warm-white leading-tight">
-              Three Designs. Considered Form.
-            </h2>
-            <p className="mt-3 text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
-              Handcrafted in Nigeria from full-grain calfskin. Built around everyday movement.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-8">
-            {/* Card 1: The Ring */}
-            <div className="group space-y-4">
-              <Link
-                href="/shop/the-ring-slide-pam"
-                className="relative block aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden focus-dark shadow-apple-md group-hover:shadow-apple-xl transition-shadow duration-300"
-              >
-                <Image
-                  src="/images/models/the-ring-hero-model.jpg"
-                  alt="NOVEQ The Ring Slide Pam on model"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
-                  The Ring · Warm Cognac
-                </span>
-              </Link>
-
-              <div className="space-y-2 pt-2">
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
-                    The Ring Slide Pam
-                  </h3>
-                  <span className="font-mono tabular-nums text-xs sm:text-sm text-cocoa font-medium">
-                    {formattedRingPrice}
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed line-clamp-2">
-                  A clean cut design anchored with a polished gold statement ring. Simple details, bigger impact.
-                </p>
-                <div className="pt-2">
-                  <Link
-                    href="/shop/the-ring-slide-pam"
-                    className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-warm-white hover:text-bone underline underline-offset-4 focus-dark min-h-[44px]"
-                  >
-                    <span>Explore The Ring</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2: The Weave */}
-            <div className="group space-y-4">
-              <Link
-                href="/shop/the-weave-slide-pam"
-                className="relative block aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden focus-dark shadow-apple-md group-hover:shadow-apple-xl transition-shadow duration-300"
-              >
-                <Image
-                  src="/images/models/the-weave-hero-model.jpg"
-                  alt="NOVEQ The Weave Slide Pam on model"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
-                  The Weave · Deep Noir
-                </span>
-              </Link>
-
-              <div className="space-y-2 pt-2">
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
-                    The Weave Slide Pam
-                  </h3>
-                  <span className="font-mono tabular-nums text-xs sm:text-sm text-cocoa font-medium">
-                    {formattedWeavePrice}
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed line-clamp-2">
-                  Braided leather straps for a textured finish. Interlocking architecture that flexes naturally across the arch.
-                </p>
-                <div className="pt-2">
-                  <Link
-                    href="/shop/the-weave-slide-pam"
-                    className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-warm-white hover:text-bone underline underline-offset-4 focus-dark min-h-[44px]"
-                  >
-                    <span>Explore The Weave</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 3: The Twist (Realistic On-Model Foot Photography) */}
-            <div className="group space-y-4">
-              <Link
-                href="/shop/the-twist-slide-pam"
-                className="relative block aspect-[3/4] bg-ink-black border border-cocoa/30 rounded-xs overflow-hidden focus-dark shadow-apple-md group-hover:shadow-apple-xl transition-shadow duration-300"
-              >
-                <Image
-                  src="/images/models/the-twist-hero-model.jpg"
-                  alt="NOVEQ The Twist Slide Pam on model foot stepping on warm sunlit stone"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
-                <span className="absolute bottom-3 left-3 px-2.5 py-1 bg-ink-black/85 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
-                  The Twist · Burgundy
-                </span>
-              </Link>
-
-              <div className="space-y-2 pt-2">
-                <div className="flex items-baseline justify-between">
-                  <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-warm-white">
-                    The Twist Slide Pam
-                  </h3>
-                  <span className="font-mono tabular-nums text-xs sm:text-sm text-cocoa font-medium">
-                    {formattedTwistPrice}
-                  </span>
-                </div>
-                <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed line-clamp-2">
-                  A modern take on the classic pam with a sculptural twist strap. Minimal, refined, and made to move with you.
-                </p>
-                <div className="pt-2">
-                  <Link
-                    href="/shop/the-twist-slide-pam"
-                    className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-semibold text-warm-white hover:text-bone underline underline-offset-4 focus-dark min-h-[44px]"
-                  >
-                    <span>Explore The Twist</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 5. BRAND STORY MINI-EDITORIAL BLOCK ── */}
+      {/* ── 4. BRAND STORY MINI-EDITORIAL BLOCK ── */}
       <section className="py-20 sm:py-28 bg-bone border-b border-cocoa/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -552,7 +407,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
 
             <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
               <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
-                01 / Atelier Origin
+                01 / Craft Origin
               </span>
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black leading-tight">
                 Handcrafted in Nigeria. Built for modern movement.
@@ -582,18 +437,18 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       {/* ── 6. SOCIAL PROOF ARCHITECTURE ── */}
       <SocialProofSection />
 
-      {/* ── 7. ATELIER NOTES & AEO SEARCH KNOWLEDGE (DISAMBIGUATION) ── */}
+      {/* ── 5. CRAFT NOTES & SEARCH KNOWLEDGE ── */}
       <section className="py-16 sm:py-24 bg-bone border-b border-cocoa/20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block mb-2">
-              Atelier Notes // NOVEQ
+              Craft Notes // NOVEQ
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black font-serif">
               Nigerian Female Leather Pams & Footwear Craft
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-ink-black/80 leading-relaxed max-w-2xl">
-              NOVEQ is a contemporary Nigerian footwear atelier based in Lagos, Nigeria. We re-engineer the traditional slip-on leather pam into architectural, minimalist silhouettes for modern women.
+              NOVEQ is a contemporary Nigerian footwear brand based in Lagos, Nigeria. We re-engineer the traditional slip-on leather pam into architectural, minimalist silhouettes for modern women.
             </p>
           </div>
 
@@ -607,13 +462,13 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
             <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
               <h3 className="font-semibold text-sm text-ink-black">Where are NOVEQ shoes handcrafted?</h3>
               <p className="text-muted-taupe leading-relaxed">
-                Every pair of NOVEQ footwear is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans. Each pair undergoes 18 hours of hands-on cutting, strap shaping, and edge burnishing.
+                Every pair of NOVEQ footwear is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans. Each pair undergoes hands-on cutting, strap shaping, and edge burnishing.
               </p>
             </div>
             <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
-              <h3 className="font-semibold text-sm text-ink-black">How do I order in Nigeria?</h3>
+              <h3 className="font-semibold text-sm text-ink-black">How do I order and when will I receive my pair?</h3>
               <p className="text-muted-taupe leading-relaxed">
-                Orders can be placed directly on our storefront with instant bank transfer or Paystack. We dispatch within 24–48 hours nationwide to Lagos, Abuja, Port Harcourt, and all Nigerian states via tracked courier service.
+                Orders are placed directly online with secure Paystack checkout or bank transfer. Every pair is made to order: manufacturing takes 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.
               </p>
             </div>
             <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
@@ -639,7 +494,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'What is NOVEQ?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: "NOVEQ is a contemporary Nigerian luxury footwear atelier based in Lagos, Nigeria. The brand specializes in handcrafted female leather pams, slip-on leather slides, and vegetable-tanned artisanal footwear.",
+                  text: "NOVEQ is a contemporary Nigerian footwear brand based in Lagos, Nigeria. The brand specializes in handcrafted female leather pams, slip-on leather slides, and vegetable-tanned footwear.",
                 },
               },
               {
@@ -647,7 +502,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'What is a Nigerian female leather pam?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'In Nigeria, pams are classic slip-on leather footwear known for everyday ease and comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that elevate casual and formal silhouettes alike.',
+                  text: 'In Nigeria, pams are classic slip-on leather footwear known for everyday ease and comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles.',
                 },
               },
               {
@@ -655,7 +510,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'Where are NOVEQ shoes handcrafted?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Every pair of NOVEQ footwear is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans. Each pair undergoes 18 hours of hands-on cutting, strap shaping, and edge burnishing.',
+                  text: 'Every pair of NOVEQ footwear is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans. Each pair undergoes hands-on cutting, strap shaping, and edge burnishing.',
                 },
               },
               {
@@ -663,7 +518,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'How do I order and how fast is delivery across Nigeria?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Orders can be placed directly on our storefront with instant bank transfer or Paystack. We dispatch within 24–48 hours nationwide to Lagos, Abuja, Port Harcourt, and all Nigerian states via tracked courier service.',
+                  text: 'Orders are placed directly online with secure Paystack checkout. Manufacturing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide.',
                 },
               },
             ],
@@ -671,7 +526,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         }}
       />
 
-      {/* ── 7. NEWSLETTER / LAUNCH LIST / WAITLIST ── */}
+      {/* ── 6. NEWSLETTER / LAUNCH LIST / WAITLIST ── */}
       <section
         id="launch-access"
         className="py-20 sm:py-24 bg-warm-white text-ink-black border-b border-cocoa/20"
@@ -688,7 +543,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
           <p className="text-xs sm:text-sm text-muted-taupe max-w-md mx-auto leading-relaxed">
             {campaignState === 'sold-out'
               ? 'Drop 001 is completely allocated. Leave your email to receive first notification when Drop 002 opens for reservations. No marketing noise.'
-              : 'Receive private notifications for Drop 001 releases, restocking alerts, and atelier journal notes. No promotional noise.'}
+              : 'Receive private notifications for Drop 001 releases, restocking alerts, and craft journal notes. No promotional noise.'}
           </p>
 
           {newsletterSubmitted ? (
