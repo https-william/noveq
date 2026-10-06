@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      { source: '/collection', destination: '/shop' },
+      { source: '/atelier', destination: '/story' },
+      { source: '/cart', destination: '/bag' },
+    ];
+  },
   async headers() {
     return [
       {

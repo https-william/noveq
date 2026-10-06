@@ -26,23 +26,25 @@ export default function Footer({
   return (
     <footer
       aria-label="Site footer"
-      className="bg-ink-black text-warm-white border-t border-cocoa/30 pt-16 pb-12 sm:pt-20 sm:pb-16"
+      className="bg-[var(--noveq-black)] text-[var(--noveq-ivory)] border-t border-zinc-900 pt-16 pb-12 sm:pt-20 sm:pb-16"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Row 1: Brand Wordmark & Primary Navigation */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 pb-12 border-b border-cocoa/20">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-10 pb-12 border-b border-zinc-900">
           <div>
             <Link
               href="/"
-              className="inline-flex flex-col items-start py-1 text-warm-white focus-dark"
+              className="inline-flex flex-col items-start gap-1 py-1 group"
               aria-label="noveq homepage"
             >
-              <span className="font-serif text-2xl sm:text-3xl tracking-[0.25em] lowercase text-warm-white font-normal leading-none select-none">
+              <span className="font-serif text-3xl lowercase text-[var(--noveq-ivory)] font-normal leading-none select-none">
                 noveq
               </span>
-              <span className="w-full h-[1px] bg-warm-white/70 mt-1" />
+              <span className="text-[0.55rem] uppercase tracking-[0.3em] text-[var(--noveq-sand)]">
+                Lagos &middot; Milano
+              </span>
             </Link>
-            <p className="mt-3 text-sm text-muted-taupe-on-dark max-w-sm font-normal leading-relaxed">
+            <p className="mt-3 text-sm text-[var(--noveq-sand)] max-w-sm font-normal leading-relaxed">
               Contemporary leather footwear. Thoughtfully designed around everyday movement, refined form, and personal detail.
             </p>
           </div>

@@ -27,9 +27,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  verification: {
-    google: 'jt5krer4ijvcuvvmshyx8cqv2jgxsc6ws-vuygm9pdy',
-  },
   twitter: {
     card: 'summary_large_image',
     title: "NOVEQ | Contemporary Women's Leather Pams — Crafted to Move",

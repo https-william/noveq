@@ -74,9 +74,6 @@ export const metadata: Metadata = {
     description: SITE_SETTINGS.seo.defaultDescription,
     images: ['/images/brand/noveq-brand-sheet.jpg'],
   },
-  verification: {
-    google: 'jt5krer4ijvcuvvmshyx8cqv2jgxsc6ws-vuygm9pdy',
-  },
   robots: {
     index: true,
     follow: true,

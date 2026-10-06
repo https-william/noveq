@@ -2,25 +2,35 @@
 
 :root {
   /* ==========================================================================
-     NOVEQ DESIGN TOKENS
-     Calibrated for strict WCAG 2.2 AA contrast compliance.
+     NOVEQ EDITORIAL LUXURY DESIGN TOKENS
      ========================================================================== */
-  --ink-black: #0A0A0A;
+  --noveq-black: #111111;       /* Tacit, Organic Matte Charcoal */
+  --noveq-charcoal: #1c1c1c;    /* Mid-tone For Surface Elements, Subtle Borders */
+  --noveq-ivory: #f4f3ef;       /* Soft, Non-reflective Warm Ivory For Brand Mark/copy */
+  --noveq-sand: #cecbbe;        /* Muted Sand For Secondary Metadata/borders */
+  --noveq-depth-shadow: rgba(0, 0, 0, 0.4);
+
+  /* Legacy calibrated tokens preserved for seamless compatibility */
+  --ink-black: #111111;
   --espresso: #2A1B15;
   --cocoa: #5B4033;
   --bone: #F4F1EA;
   --warm-white: #FAF8F4;
-  /* Calibrated from #A99B90 (2.39:1 fail) to #665B53 (5.8:1 pass) for AA contrast on bone/warm-white */
   --muted-taupe: #665B53;
   --muted-taupe-on-dark: #C7BCB3;
   --oxblood: #5A2028;
 
   /* Global defaults: Quiet, warm bone canvas */
   --background: var(--bone);
-  --foreground: var(--ink-black);
+  --foreground: var(--noveq-black);
 }
 
 @theme inline {
+  --color-noveq-black: var(--noveq-black);
+  --color-noveq-charcoal: var(--noveq-charcoal);
+  --color-noveq-ivory: var(--noveq-ivory);
+  --color-noveq-sand: var(--noveq-sand);
+
   --color-ink-black: var(--ink-black);
   --color-espresso: var(--espresso);
   --color-cocoa: var(--cocoa);
