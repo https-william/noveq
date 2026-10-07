@@ -178,17 +178,17 @@ export default function CheckoutPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-        {/* Left Column: Guest Checkout Form (No Account Wall) */}
+        {/* Left Column: Direct Checkout Form */}
         <div className="lg:col-span-7 space-y-8">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block mb-1">
-              Guest Checkout
+              Direct Checkout
             </span>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black">
               Delivery & Contact Details
             </h1>
             <p className="text-xs text-muted-taupe mt-1">
-              No account required. We only collect the details needed to deliver and confirm your footwear.
+              Please enter your delivery address and contact details to receive your order.
             </p>
           </div>
 
@@ -465,10 +465,10 @@ export default function CheckoutPage() {
               <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[11px] text-muted-taupe mt-3 text-center">
                 <span className="inline-flex items-center gap-1">
                   <ShieldCheck className="w-3.5 h-3.5 text-cocoa shrink-0" />
-                  Bank-Grade Encryption
+                  Paystack Secure Checkout
                 </span>
                 <span className="hidden sm:inline">•</span>
-                <span>Explicit Payment Confirmation</span>
+                <span>Instant Order Confirmation</span>
               </div>
             </div>
           </form>
@@ -564,7 +564,7 @@ export default function CheckoutPage() {
             <div className="p-3 bg-bone border border-cocoa/20 rounded-xs flex items-start gap-2.5 text-[11px] text-ink-black/80">
               <Truck className="w-4 h-4 text-cocoa shrink-0 mt-0.5" />
               <span>
-                Dispatched nationwide within 24–48 hours. You pay your delivery rider directly upon delivery.
+                Made to order: crafted in 5 business days, followed by 2 business days for delivery (receive within 7 business days nationwide). You pay your delivery rider directly upon delivery.
               </span>
             </div>
           </div>

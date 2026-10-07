@@ -41,7 +41,7 @@ function PaymentContent() {
   const executeVerification = useCallback(
     async (targetOrderId: string, targetReference?: string) => {
       setPaymentStatus('processing');
-      setStatusMessage('Authorizing settlement with Paystack gateway...');
+      setStatusMessage('Confirming transaction with Paystack...');
 
       try {
         const response = await fetch('/api/checkout/verify-payment', {
@@ -182,7 +182,7 @@ function PaymentContent() {
             <div className="space-y-4">
               <div className="w-14 h-14 border-3 border-cocoa border-t-transparent rounded-full animate-spin mx-auto" />
               <span className="inline-block px-3 py-1 bg-espresso text-warm-white text-[10px] uppercase tracking-widest font-semibold rounded-xs">
-                Authoritative Verification
+                Verifying Transaction
               </span>
               <h1 className="text-2xl font-serif text-ink-black">
                 Confirming Your Payment

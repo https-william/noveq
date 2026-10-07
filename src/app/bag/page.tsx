@@ -230,13 +230,13 @@ export default function BagPage() {
                 }}
                 className="w-full flex items-center justify-center gap-2 py-4 px-6 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[48px]"
               >
-                <span>Proceed to Guest Checkout</span>
+                <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
             <p className="text-[11px] text-muted-taupe leading-relaxed text-center">
-              Guest checkout available. No account creation required.
+              Direct secure checkout. Tracked courier dispatch nationwide.
             </p>
           </div>
         </div>

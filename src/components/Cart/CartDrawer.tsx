@@ -274,7 +274,7 @@ export default function CartDrawer() {
                 }}
                 className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
               >
-                <span>Checkout as Guest</span>
+                <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
