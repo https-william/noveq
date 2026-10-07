@@ -309,7 +309,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               {/* Hero Image Card */}
               <div className="relative z-10 aspect-[3/4] sm:aspect-[4/3] lg:aspect-[3/4] bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl animate-micro-float group">
                 <Image
-                  src="/images/products/the-ring-warm-cognac.jpg"
+                  src="/images/models/the-ring-hero-model.jpg"
                   alt="NOVEQ The Ring Slide Pam in Warm Cognac — Handcrafted in Nigeria"
                   fill
                   priority

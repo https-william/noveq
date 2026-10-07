@@ -86,7 +86,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: 'jt5krer4ijvcuvvmshyx8cqv2jgxsc6ws-vuygm9pdy',
+    google: 'jT5KReR4IJvcuVVMshyX8cQV2JGxSC6Ws-VuYgM9PDY',
   },
 };
 
@@ -165,7 +165,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <meta name="google-site-verification" content="jt5krer4ijvcuvvmshyx8cqv2jgxsc6ws-vuygm9pdy" />
+        <meta name="google-site-verification" content="jT5KReR4IJvcuVVMshyX8cQV2JGxSC6Ws-VuYgM9PDY" />
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
         <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
         <link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96" />
