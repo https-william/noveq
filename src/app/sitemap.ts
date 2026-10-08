@@ -1,9 +1,9 @@
 import { MetadataRoute } from 'next';
-import { getStorefrontProducts } from '@/lib/productStore';
+import { getStorefrontProductsAsync } from '@/lib/productStore';
 import { getAllPublishedArticles } from '@/data/journal';
 import { SITE_SETTINGS } from '@/config/siteSettings';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_SETTINGS.seo.baseUrl || 'https://www.noveq.com.ng';
   const currentDate = new Date();
 
@@ -48,7 +48,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   // Dynamic product routes (Drop 001)
-  const productRoutes: MetadataRoute.Sitemap = getStorefrontProducts(false).map((product) => ({
+  const storefrontProducts = await getStorefrontProductsAsync(false);
+  const productRoutes: MetadataRoute.Sitemap = storefrontProducts.map((product) => ({
     url: `${baseUrl}/shop/${product.slug}`,
     lastModified: currentDate,
     changeFrequency: 'weekly',

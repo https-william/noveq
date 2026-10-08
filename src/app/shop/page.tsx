@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import ShopCatalogClient from '@/components/Shop/ShopCatalogClient';
-import { getStorefrontProducts } from '@/lib/productStore';
+import { getStorefrontProductsAsync } from '@/lib/productStore';
 
 export const dynamic = 'force-dynamic';
 
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ShopPage() {
-  const products = getStorefrontProducts(false);
+export default async function ShopPage() {
+  const products = await getStorefrontProductsAsync(false);
   return <ShopCatalogClient initialProducts={products} />;
 }

@@ -181,18 +181,18 @@ export const DROP_001_PRODUCTS: Product[] = [
     price: 25000,
     compare_at_price: 27000,
     currency: 'NGN',
-    colour: 'Burgundy',
-    colourHex: '#5B1E28',
+    colour: 'Leather Brown',
+    colourHex: '#6A381F',
     colours: [
+      {
+        name: 'Leather Brown',
+        hex: '#6A381F',
+        imageSrc: '/images/products/the-twist.jpg',
+      },
       {
         name: 'Burgundy',
         hex: '#5B1E28',
         imageSrc: '/images/products/the-twist-burgundy.jpg',
-      },
-      {
-        name: 'Leather Brown',
-        hex: '#6A381F',
-        imageSrc: '/images/products/the-twist-warm-cognac.jpg',
       },
       {
         name: 'Black',
@@ -221,13 +221,18 @@ export const DROP_001_PRODUCTS: Product[] = [
     ],
     images: [
       {
-        src: '/images/products/the-twist-burgundy.jpg',
-        alt: 'NOVEQ The Twist Slide Pam in Burgundy sculptural leather',
+        src: '/images/products/the-twist.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in rich leather brown full-grain leather',
         viewType: 'hero',
       },
       {
-        src: '/images/products/the-twist-warm-cognac.jpg',
-        alt: 'NOVEQ The Twist Slide Pam in Leather Brown',
+        src: '/images/products/the-twist-detail.jpg',
+        alt: 'NOVEQ The Twist Slide Pam architectural gathered strap detail and insole embossing',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-twist-burgundy.jpg',
+        alt: 'NOVEQ The Twist Slide Pam in Burgundy sculptural leather',
         viewType: 'detail',
       },
       {

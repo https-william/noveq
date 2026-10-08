@@ -2,74 +2,203 @@ import fs from 'fs';
 import path from 'path';
 import { Product, ProductSize } from '@/types/commerce';
 import { DROP_001_PRODUCTS } from '@/data/products';
+import { supabaseAdmin } from '@/lib/supabase';
 
 /**
  * NOVEQ Authoritative Product Repository
- * 
- * Provides server-side persistent product management (add, edit, hide, update stock & price)
- * with disk persistence `data/products.json` and in-memory caching.
+ *
+ * Cloud-Persistent Multi-Tier Architecture:
+ * 1. Supabase Storage: Bucket 'products' at 'catalog/products.json' (Permanent, multi-region CDN)
+ * 2. In-Memory Cache: Zero latency reads across serverless lambdas
+ * 3. Local Filesystem: 'data/products.json' for local offline development
+ * 4. Static Fallback: DROP_001_PRODUCTS from codebase
+ *
+ * Solves serverless container resets: price updates and new products permanently persist
+ * in Supabase Storage and will never reset on redeployment or cold starts.
  */
 
+const STORAGE_BUCKET = 'products';
+const STORAGE_PATH = 'catalog/products.json';
 const DATA_DIR = path.join(process.cwd(), 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 
 declare global {
   // eslint-disable-next-line no-var
   var __noveq_products: Map<string, Product> | undefined;
+  // eslint-disable-next-line no-var
+  var __noveq_last_synced: number | undefined;
 }
 
-function loadInitialProducts(): Map<string, Product> {
-  const map = new Map<string, Product>();
-
-  try {
-    if (fs.existsSync(PRODUCTS_FILE)) {
-      const data = fs.readFileSync(PRODUCTS_FILE, 'utf-8');
-      const list: Product[] = JSON.parse(data);
-      for (const item of list) {
-        map.set(item.slug, item);
-      }
-    }
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error('Failed to load products from disk:', err);
-  }
-
-  // Seed with DROP_001_PRODUCTS if empty
-  if (map.size === 0) {
-    for (const prod of DROP_001_PRODUCTS) {
-      map.set(prod.slug, {
-        ...prod,
-        hidden: prod.publish_status === 'draft' || false,
-      });
-    }
-    persistProductsToFile(map);
-  }
-
-  return map;
-}
-
-const productsStore: Map<string, Product> =
-  global.__noveq_products ?? loadInitialProducts();
+// Memory cache
+const productsStore: Map<string, Product> = global.__noveq_products ?? new Map<string, Product>();
 
 if (process.env.NODE_ENV !== 'production') {
   global.__noveq_products = productsStore;
 }
 
-function persistProductsToFile(store: Map<string, Product> = productsStore) {
+/**
+ * Read local disk products if file exists
+ */
+function readLocalDiskProducts(): Product[] | null {
+  try {
+    if (fs.existsSync(PRODUCTS_FILE)) {
+      const data = fs.readFileSync(PRODUCTS_FILE, 'utf-8');
+      const list: Product[] = JSON.parse(data);
+      if (Array.isArray(list) && list.length > 0) {
+        return list;
+      }
+    }
+  } catch {
+    // Local filesystem read failed (e.g. read-only environment)
+  }
+  return null;
+}
+
+/**
+ * Write to local disk if environment allows
+ */
+function writeLocalDiskProducts(list: Product[]) {
   try {
     if (!fs.existsSync(DATA_DIR)) {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
-    const list = Array.from(store.values());
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(list, null, 2), 'utf-8');
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error('Failed to persist products to disk:', err);
+  } catch {
+    // Ignore read-only filesystem errors in production
   }
 }
 
 /**
- * Returns all products for storefront (excludes hidden/draft items by default)
+ * Seed memory store with baseline catalog
+ */
+function seedInitialMemory() {
+  if (productsStore.size === 0) {
+    const diskList = readLocalDiskProducts();
+    const source = diskList && diskList.length > 0 ? diskList : DROP_001_PRODUCTS;
+    for (const item of source) {
+      productsStore.set(item.slug, {
+        ...item,
+        hidden: item.publish_status === 'draft' || Boolean(item.hidden),
+      });
+    }
+  }
+}
+
+// Initial bootstrap
+seedInitialMemory();
+
+/**
+ * Fetch catalog from Supabase Storage
+ */
+async function fetchCatalogFromSupabase(): Promise<Product[] | null> {
+  const hasSupabase = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL);
+  if (!hasSupabase) return null;
+
+  // 1. Direct download using Supabase Admin client
+  try {
+    const { data, error } = await supabaseAdmin.storage
+      .from(STORAGE_BUCKET)
+      .download(STORAGE_PATH);
+
+    if (!error && data) {
+      const text = await data.text();
+      const parsed: Product[] = JSON.parse(text);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.warn('[ProductStore] Supabase download error:', err);
+  }
+
+  // 2. Fallback via public CDN URL with cache buster
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    if (supabaseUrl) {
+      const publicUrl = `${supabaseUrl}/storage/v1/object/public/${STORAGE_BUCKET}/${STORAGE_PATH}?t=${Date.now()}`;
+      const res = await fetch(publicUrl, { cache: 'no-store' });
+      if (res.ok) {
+        const parsed: Product[] = await res.json();
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    }
+  } catch {
+    // Ignore CDN fallback error
+  }
+
+  return null;
+}
+
+/**
+ * Upload entire catalog to Supabase Storage
+ */
+async function syncCatalogToSupabase(list: Product[]): Promise<boolean> {
+  const hasSupabase = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+  if (!hasSupabase) return false;
+
+  try {
+    const buffer = Buffer.from(JSON.stringify(list, null, 2), 'utf-8');
+    const { error } = await supabaseAdmin.storage
+      .from(STORAGE_BUCKET)
+      .upload(STORAGE_PATH, buffer, {
+        contentType: 'application/json',
+        upsert: true,
+      });
+
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.warn('[ProductStore] Failed to sync to Supabase storage:', error.message);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('[ProductStore] Supabase sync exception:', err);
+    return false;
+  }
+}
+
+/**
+ * Ensure memory store is populated and fresh from Supabase
+ */
+export async function ensureProductsLoaded(force = false): Promise<void> {
+  const now = Date.now();
+  const lastSync = global.__noveq_last_synced || 0;
+  const isStale = now - lastSync > 30000; // 30s cache TTL
+
+  if (!force && !isStale && productsStore.size > 0) {
+    return;
+  }
+
+  const cloudList = await fetchCatalogFromSupabase();
+  if (cloudList && cloudList.length > 0) {
+    productsStore.clear();
+    for (const item of cloudList) {
+      productsStore.set(item.slug, item);
+    }
+    global.__noveq_last_synced = now;
+    writeLocalDiskProducts(cloudList);
+    return;
+  }
+
+  // If Supabase does not have the file yet, seed it with current products
+  if (productsStore.size > 0 && isStale) {
+    const currentList = Array.from(productsStore.values());
+    await syncCatalogToSupabase(currentList);
+    global.__noveq_last_synced = now;
+  }
+}
+
+// Background sync on module evaluation (non-blocking)
+if (typeof window === 'undefined') {
+  ensureProductsLoaded().catch(() => {});
+}
+
+/**
+ * Synchronous getters (reads hot in-memory store)
  */
 export function getStorefrontProducts(includeHidden = false): Product[] {
   const all = Array.from(productsStore.values());
@@ -77,21 +206,14 @@ export function getStorefrontProducts(includeHidden = false): Product[] {
   return all.filter((p) => !p.hidden && p.publish_status !== 'draft');
 }
 
-/**
- * Returns all products for admin console (includes hidden and drafts)
- */
 export function getAllAdminProducts(): Product[] {
   return Array.from(productsStore.values());
 }
 
-/**
- * Find single product by slug
- */
 export function getProductBySlug(slug: string): Product | undefined {
   if (productsStore.has(slug)) {
     return productsStore.get(slug);
   }
-  // Slugs aliases
   if (slug === 'the-braid-slide-pam') {
     return productsStore.get('the-weave-slide-pam');
   }
@@ -99,28 +221,46 @@ export function getProductBySlug(slug: string): Product | undefined {
 }
 
 /**
- * Save new product or update existing
+ * Async getters (guarantee latest cloud state)
  */
-export function saveProduct(product: Product): Product {
-  productsStore.set(product.slug, product);
-  persistProductsToFile();
-  return product;
+export async function getStorefrontProductsAsync(includeHidden = false): Promise<Product[]> {
+  await ensureProductsLoaded();
+  return getStorefrontProducts(includeHidden);
+}
+
+export async function getAllAdminProductsAsync(): Promise<Product[]> {
+  await ensureProductsLoaded(true); // Always fresh for admin
+  return getAllAdminProducts();
+}
+
+export async function getProductBySlugAsync(slug: string): Promise<Product | undefined> {
+  await ensureProductsLoaded();
+  return getProductBySlug(slug);
 }
 
 /**
- * Update partial details of a product
+ * Mutators: Update in-memory Map immediately and persist to Supabase Storage + local disk
  */
-export function updateProduct(
+export async function saveProduct(product: Product): Promise<Product> {
+  productsStore.set(product.slug, product);
+  const list = Array.from(productsStore.values());
+  writeLocalDiskProducts(list);
+  await syncCatalogToSupabase(list);
+  return product;
+}
+
+export async function updateProduct(
   slug: string,
   updates: Partial<Product>
-): Product | undefined {
+): Promise<Product | undefined> {
+  await ensureProductsLoaded();
   const existing = productsStore.get(slug);
   if (!existing) return undefined;
 
   const updated: Product = {
     ...existing,
     ...updates,
-    slug: updates.slug || existing.slug, // Maintain key integrity
+    slug: updates.slug || existing.slug,
   };
 
   if (updates.slug && updates.slug !== slug) {
@@ -128,37 +268,19 @@ export function updateProduct(
   }
 
   productsStore.set(updated.slug, updated);
-  persistProductsToFile();
+  const list = Array.from(productsStore.values());
+  writeLocalDiskProducts(list);
+  await syncCatalogToSupabase(list);
   return updated;
 }
 
-/**
- * Toggle hide/show status
- */
-export function toggleProductVisibility(
-  slug: string,
-  hidden?: boolean
-): Product | undefined {
-  const prod = productsStore.get(slug);
-  if (!prod) return undefined;
-
-  prod.hidden = hidden !== undefined ? hidden : !prod.hidden;
-  prod.publish_status = prod.hidden ? 'draft' : 'published';
-
-  productsStore.set(slug, prod);
-  persistProductsToFile();
-  return prod;
-}
-
-/**
- * Update price, stock count, and optional sizes breakdown
- */
-export function updatePriceAndStock(
+export async function updatePriceAndStock(
   slug: string,
   price: number,
   stock: number,
   sizes?: ProductSize[]
-): Product | undefined {
+): Promise<Product | undefined> {
+  await ensureProductsLoaded();
   const prod = productsStore.get(slug);
   if (!prod) return undefined;
 
@@ -169,16 +291,38 @@ export function updatePriceAndStock(
   }
 
   productsStore.set(slug, prod);
-  persistProductsToFile();
+  const list = Array.from(productsStore.values());
+  writeLocalDiskProducts(list);
+  await syncCatalogToSupabase(list);
   return prod;
 }
 
-/**
- * Delete product from repository
- */
-export function deleteProduct(slug: string): boolean {
+export async function toggleProductVisibility(
+  slug: string,
+  hidden?: boolean
+): Promise<Product | undefined> {
+  await ensureProductsLoaded();
+  const prod = productsStore.get(slug);
+  if (!prod) return undefined;
+
+  prod.hidden = hidden !== undefined ? hidden : !prod.hidden;
+  prod.publish_status = prod.hidden ? 'draft' : 'published';
+
+  productsStore.set(slug, prod);
+  const list = Array.from(productsStore.values());
+  writeLocalDiskProducts(list);
+  await syncCatalogToSupabase(list);
+  return prod;
+}
+
+export async function deleteProduct(slug: string): Promise<boolean> {
+  await ensureProductsLoaded();
   if (!productsStore.has(slug)) return false;
   const removed = productsStore.delete(slug);
-  if (removed) persistProductsToFile();
+  if (removed) {
+    const list = Array.from(productsStore.values());
+    writeLocalDiskProducts(list);
+    await syncCatalogToSupabase(list);
+  }
   return removed;
 }

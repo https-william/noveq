@@ -483,13 +483,13 @@ export default function AdminDashboardPage() {
     setIsUploadingImage(true);
     setUploadFeedback('Optimizing image photo...');
 
+    let fileToUpload: File = file;
     try {
       // 1. Client-side attempt with automatic fallback if canvas unsupported/HEIC
-      let fileToUpload: File = file;
       try {
         fileToUpload = await resizeImageToWebP(file, {
           maxDimension: 1200,
-          quality: 0.88,
+          quality: 0.85,
         });
       } catch {
         fileToUpload = file;
@@ -507,6 +507,17 @@ export default function AdminDashboardPage() {
         body: formData,
       });
 
+      if (!res.ok) {
+        let errMsg = `Upload failed with status ${res.status}`;
+        try {
+          const errData = await res.json();
+          if (errData.error) errMsg = errData.error;
+        } catch {
+          // Non-JSON response
+        }
+        throw new Error(errMsg);
+      }
+
       const data = await res.json();
       if (data.success && data.url) {
         onSuccess(data.url);
@@ -514,34 +525,33 @@ export default function AdminDashboardPage() {
         setUploadFeedback(`Image saved successfully!${tag}`);
         setTimeout(() => setUploadFeedback(null), 3500);
       } else {
-        // Fallback: Read as client Data URL if server upload endpoint returned non-success
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (typeof reader.result === 'string') {
-            onSuccess(reader.result);
-            setUploadFeedback('Attached image via local preview.');
-            setTimeout(() => setUploadFeedback(null), 3500);
-          }
-        };
-        reader.readAsDataURL(file);
+        throw new Error(data.error || 'Server rejected image upload.');
       }
-    } catch (err) {
+    } catch (err: unknown) {
       // eslint-disable-next-line no-console
       console.error('Image upload failed:', err);
-      // Fallback: Read as client Data URL so user is never blocked
-      try {
-        const reader = new FileReader();
-        reader.onload = () => {
-          if (typeof reader.result === 'string') {
-            onSuccess(reader.result);
-            setUploadFeedback('Attached image locally.');
-            setTimeout(() => setUploadFeedback(null), 3500);
-          }
-        };
-        reader.readAsDataURL(file);
-      } catch {
-        alert('Could not attach image. Please paste an image URL directly.');
+      const msg = err instanceof Error ? err.message : 'Upload failed';
+      setUploadFeedback(`Upload error: ${msg}`);
+
+      // Safe fallback: Only attach data URI if compressed file is small enough (< 400KB)
+      if (fileToUpload && fileToUpload.size < 400 * 1024) {
+        try {
+          const reader = new FileReader();
+          reader.onload = () => {
+            if (typeof reader.result === 'string') {
+              onSuccess(reader.result);
+              setUploadFeedback('Attached compressed preview image.');
+              setTimeout(() => setUploadFeedback(null), 3500);
+            }
+          };
+          reader.readAsDataURL(fileToUpload);
+          return;
+        } catch {
+          // ignore reader error
+        }
       }
+
+      alert(`Could not upload image: ${msg}. You can also use the "Paste URL" option below to add an image URL directly.`);
     } finally {
       setIsUploadingImage(false);
     }

@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
+import { supabaseAdmin, supabase } from '@/lib/supabase';
 import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
+
+export const dynamic = 'force-dynamic';
+export const maxDuration = 30;
 
 /**
  * Image Upload Route for Product Management

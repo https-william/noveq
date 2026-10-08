@@ -1,9 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getStorefrontProducts } from '@/lib/productStore';
+import { getStorefrontProductsAsync } from '@/lib/productStore';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const products = getStorefrontProducts(false);
+    const products = await getStorefrontProductsAsync(false);
     return NextResponse.json({ success: true, products });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Failed to fetch products';

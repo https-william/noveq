@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getProductBySlug, getStorefrontProducts } from '@/lib/productStore';
+import { getProductBySlugAsync, getStorefrontProductsAsync } from '@/lib/productStore';
 import ProductDetailClient from '@/components/Product/ProductDetailClient';
 
 export const dynamic = 'force-dynamic';
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const products = getStorefrontProducts(true);
+  const products = await getStorefrontProductsAsync(true);
   return products.map((product) => ({
     slug: product.slug,
   }));
@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlugAsync(slug);
 
   if (!product) {
     return {
@@ -73,7 +73,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlugAsync(slug);
 
   if (!product) {
     notFound();

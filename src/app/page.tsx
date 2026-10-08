@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import HomeClient from '@/components/Home/HomeClient';
-import { getStorefrontProducts } from '@/lib/productStore';
+import { getStorefrontProductsAsync } from '@/lib/productStore';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: '/images/products/the-twist.jpg',
         width: 1200,
         height: 900,
-        alt: "NOVEQ The Twist Slide Pam in rich oxblood full-grain leather",
+        alt: "NOVEQ The Twist Slide Pam in rich leather brown full-grain leather",
       },
     ],
   },
@@ -36,8 +36,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
-  const products = getStorefrontProducts(false);
+export default async function HomePage() {
+  const products = await getStorefrontProductsAsync(false);
   return <HomeClient initialProducts={products} />;
 }
 

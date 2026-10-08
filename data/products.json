@@ -12,7 +12,7 @@
       {
         "name": "Warm Cognac",
         "hex": "#7C3F1D",
-        "imageSrc": "/images/models/the-ring-hero-model.jpg"
+        "imageSrc": "/images/products/the-ring-warm-cognac.jpg"
       },
       {
         "name": "Burgundy",
@@ -30,7 +30,7 @@
         "imageSrc": "/images/products/the-ring-off-white.jpg"
       }
     ],
-    "stock": 11,
+    "stock": 5,
     "material": "Hand-selected Nigerian calfskin, anchored with a polished solid gold-toned statement ring. Molded ergonomic footbed with hand-beveled edges and durable low-heel sole.",
     "care": "Wipe with a soft dry cotton cloth after wear. Apply a light neutral wax balm monthly to maintain rich suppleness. Buff hardware gently with dry microfiber.",
     "dimensions_weight": "Weight: ~375g per pair. Low heel elevation: 12mm heel, 8mm forefoot.",
@@ -41,7 +41,7 @@
     },
     "publish_status": "published",
     "fit_notes": "True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.",
-    "shipping_notes": "Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.",
+    "shipping_notes": "Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.",
     "sizes": [
       {
         "size": "EU 37",
@@ -71,8 +71,8 @@
     ],
     "images": [
       {
-        "src": "/images/models/the-ring-hero-model.jpg",
-        "alt": "NOVEQ The Ring Slide Pam on model feet with gold anklet on sunlit stone pavement",
+        "src": "/images/products/the-ring-warm-cognac.jpg",
+        "alt": "NOVEQ The Ring Slide Pam in Warm Cognac full-grain leather",
         "viewType": "hero"
       },
       {
@@ -94,11 +94,6 @@
         "src": "/images/campaign/the-ring-campaign-poster.png",
         "alt": "NOVEQ The Ring Campaign Poster — Modern. Chic. Refined.",
         "viewType": "detail"
-      },
-      {
-        "src": "/images/models/the-ring-editorial-spec.jpg",
-        "alt": "NOVEQ The Ring Slide Pam editorial specification and colourways",
-        "viewType": "top"
       }
     ],
     "hidden": false
@@ -124,9 +119,9 @@
         "imageSrc": "/images/products/the-weave-burgundy.jpg"
       },
       {
-        "name": "Off White",
-        "hex": "#EFE9DF",
-        "imageSrc": "/images/products/the-weave-off-white.jpg"
+        "name": "Dark Brown",
+        "hex": "#3B2219",
+        "imageSrc": "/images/products/the-weave-dark-brown.jpg"
       },
       {
         "name": "Army Green",
@@ -134,9 +129,9 @@
         "imageSrc": "/images/products/the-weave-army-green.jpg"
       },
       {
-        "name": "Dark Brown",
-        "hex": "#3B2219",
-        "imageSrc": "/images/products/the-weave-dark-brown.jpg"
+        "name": "Off White",
+        "hex": "#EFE9DF",
+        "imageSrc": "/images/products/the-weave-off-white.jpg"
       }
     ],
     "stock": 5,
@@ -150,7 +145,7 @@
     },
     "publish_status": "published",
     "fit_notes": "True to standard size. Woven leather provides gentle give to mirror foot contours.",
-    "shipping_notes": "Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.",
+    "shipping_notes": "Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.",
     "sizes": [
       {
         "size": "EU 37",
@@ -180,28 +175,13 @@
     ],
     "images": [
       {
-        "src": "/images/models/the-weave-hero-model.jpg",
-        "alt": "NOVEQ The Weave Slide Pam on model feet on sunlit stone pavement",
-        "viewType": "hero"
-      },
-      {
         "src": "/images/products/the-weave-black.jpg",
         "alt": "NOVEQ The Weave Slide Pam in Deep Noir woven leather",
-        "viewType": "detail"
+        "viewType": "hero"
       },
       {
         "src": "/images/products/the-weave-burgundy.jpg",
         "alt": "NOVEQ The Weave Slide Pam in Burgundy woven leather",
-        "viewType": "detail"
-      },
-      {
-        "src": "/images/products/the-weave-off-white.jpg",
-        "alt": "NOVEQ The Weave Slide Pam in Off White woven leather",
-        "viewType": "detail"
-      },
-      {
-        "src": "/images/products/the-weave-army-green.jpg",
-        "alt": "NOVEQ The Weave Slide Pam in Army Green woven leather",
         "viewType": "detail"
       },
       {
@@ -210,14 +190,19 @@
         "viewType": "detail"
       },
       {
-        "src": "/images/campaign/the-weave-campaign-poster.png",
-        "alt": "NOVEQ The Weave Campaign Poster — Now in more colours",
+        "src": "/images/products/the-weave-army-green.jpg",
+        "alt": "NOVEQ The Weave Slide Pam in Army Green woven leather",
         "viewType": "detail"
       },
       {
-        "src": "/images/models/the-weave-editorial-spec.jpg",
-        "alt": "NOVEQ The Weave Slide Pam editorial specification and colourways",
-        "viewType": "top"
+        "src": "/images/products/the-weave-off-white.jpg",
+        "alt": "NOVEQ The Weave Slide Pam in Off White woven leather",
+        "viewType": "detail"
+      },
+      {
+        "src": "/images/campaign/the-weave-campaign-poster.png",
+        "alt": "NOVEQ The Weave Campaign Poster — Now in more colours",
+        "viewType": "detail"
       }
     ],
     "hidden": false
@@ -229,18 +214,23 @@
     "price": 25000,
     "compare_at_price": 27000,
     "currency": "NGN",
-    "colour": "Burgundy",
-    "colourHex": "#5B1E28",
+    "colour": "Leather Brown",
+    "colourHex": "#6A381F",
     "colours": [
+      {
+        "name": "Leather Brown",
+        "hex": "#6A381F",
+        "imageSrc": "/images/products/the-twist.jpg"
+      },
       {
         "name": "Burgundy",
         "hex": "#5B1E28",
         "imageSrc": "/images/products/the-twist-burgundy.jpg"
       },
       {
-        "name": "Leather Brown",
-        "hex": "#6A381F",
-        "imageSrc": "/images/products/the-twist-warm-cognac.jpg"
+        "name": "Black",
+        "hex": "#141414",
+        "imageSrc": "/images/products/the-twist-black.jpg"
       }
     ],
     "stock": 5,
@@ -254,7 +244,7 @@
     },
     "publish_status": "published",
     "fit_notes": "True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.",
-    "shipping_notes": "Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.",
+    "shipping_notes": "Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.",
     "sizes": [
       {
         "size": "EU 37",
@@ -284,9 +274,14 @@
     ],
     "images": [
       {
-        "src": "/images/models/the-twist-hero-model.jpg",
-        "alt": "NOVEQ The Twist Slide Pam on model foot stepping on warm sunlit stone",
+        "src": "/images/products/the-twist.jpg",
+        "alt": "NOVEQ The Twist Slide Pam in rich leather brown full-grain leather",
         "viewType": "hero"
+      },
+      {
+        "src": "/images/products/the-twist-detail.jpg",
+        "alt": "NOVEQ The Twist Slide Pam architectural gathered strap detail and insole embossing",
+        "viewType": "detail"
       },
       {
         "src": "/images/products/the-twist-burgundy.jpg",
@@ -294,14 +289,9 @@
         "viewType": "detail"
       },
       {
-        "src": "/images/products/the-twist-warm-cognac.jpg",
-        "alt": "NOVEQ The Twist Slide Pam in Leather Brown",
+        "src": "/images/products/the-twist-black.jpg",
+        "alt": "NOVEQ The Twist Slide Pam in Noir Black",
         "viewType": "detail"
-      },
-      {
-        "src": "/images/products/the-twist.jpg",
-        "alt": "NOVEQ The Twist editorial specification and colourways",
-        "viewType": "top"
       }
     ],
     "hidden": false

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
-  getAllAdminProducts,
+  getAllAdminProductsAsync,
   getProductBySlug,
   saveProduct,
   updateProduct,
@@ -10,9 +10,11 @@ import {
 } from '@/lib/productStore';
 import { Product, ProductSize } from '@/types/commerce';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
-    const products = getAllAdminProducts();
+    const products = await getAllAdminProductsAsync();
     return NextResponse.json({ success: true, products });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Failed to fetch products';
@@ -98,10 +100,10 @@ export async function POST(req: NextRequest) {
       publish_status: hidden ? 'draft' : 'published',
       hidden: Boolean(hidden),
       fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width.',
-      shipping_notes: 'Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.',
+      shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
     };
 
-    const saved = saveProduct(newProduct);
+    const saved = await saveProduct(newProduct);
     return NextResponse.json({ success: true, product: saved });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Failed to create product';
@@ -119,7 +121,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (action === 'toggle-visibility') {
-      const updated = toggleProductVisibility(slug, hidden);
+      const updated = await toggleProductVisibility(slug, hidden);
       if (!updated) {
         return NextResponse.json({ success: false, error: 'Product not found.' }, { status: 404 });
       }
@@ -127,7 +129,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     if (action === 'update-price-stock') {
-      const updated = updatePriceAndStock(slug, Number(price), Number(stock), sizes);
+      const updated = await updatePriceAndStock(slug, Number(price), Number(stock), sizes);
       if (!updated) {
         return NextResponse.json({ success: false, error: 'Product not found.' }, { status: 404 });
       }
@@ -135,7 +137,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     // General updates
-    const updated = updateProduct(slug, updates || body);
+    const updated = await updateProduct(slug, updates || body);
     if (!updated) {
       return NextResponse.json({ success: false, error: 'Product not found.' }, { status: 404 });
     }
@@ -155,7 +157,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Product slug is required.' }, { status: 400 });
     }
 
-    const removed = deleteProduct(slug);
+    const removed = await deleteProduct(slug);
     if (!removed) {
       return NextResponse.json({ success: false, error: 'Product not found.' }, { status: 404 });
     }
