@@ -6,7 +6,7 @@ import { WhatsAppLink } from '@/components/Analytics/WhatsAppLink';
 import { InstagramLink } from '@/components/Analytics/InstagramLink';
 
 export const metadata: Metadata = {
-  title: 'Contact Support — Sizing, Inquiries & Dispatch',
+  title: 'Contact Support - Sizing, Inquiries & Dispatch',
   description:
     'Direct inquiries, sizing assistance, and Drop 001 dispatch updates from the NOVEQ team.',
   alternates: {
@@ -138,18 +138,6 @@ export default function ContactPage() {
           <span>Responses typically provided within 2 business hours.</span>
         </div>
       </div>
-
-      {/* Architectural Client Decision Callout */}
-      {supportContact.isPendingClientConfirmation && (
-        <div className="mt-8 p-4 bg-warm-white border border-dashed border-cocoa/40 rounded-xs text-xs text-muted-taupe space-y-1">
-          <span className="font-semibold text-cocoa uppercase tracking-wider text-[10px] block">
-            System Note // Client Support Decision
-          </span>
-          <p>
-            The final customer communication channel (WhatsApp-first vs. Email-first vs. Hybrid Phone) is configured globally in <code className="font-mono text-ink-black">src/config/siteSettings.ts</code>. Modifying this single record updates this Contact page, the post-purchase notification dispatcher, and the order confirmation screen.
-          </p>
-        </div>
-      )}
     </div>
   );
 }

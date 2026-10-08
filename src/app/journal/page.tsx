@@ -6,7 +6,7 @@ import { getAllPublishedArticles } from '@/data/journal';
 import { ScrollReveal } from '@/components/Editorial/ScrollReveal';
 
 export const metadata: Metadata = {
-  title: 'Journal — Craft Notes & Silhouette Geometry | NOVEQ',
+  title: 'Journal - Craft Notes & Silhouette Geometry | NOVEQ',
   description:
     'Notes on leather craft, workshop observations, and footwear design from the NOVEQ workshop in Lagos, Nigeria.',
   alternates: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/products/minimalist-espresso-top.svg',
+        url: '/images/editorial/artisan-workshop.jpg',
         width: 1200,
         height: 900,
         alt: 'NOVEQ craft notes and leather silhouette design',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Journal | NOVEQ Contemporary Leather Footwear',
     description:
       'Notes on leather craft, workshop observations, and footwear design from the NOVEQ workshop in Lagos, Nigeria.',
-    images: ['/images/products/minimalist-espresso-top.svg'],
+    images: ['/images/editorial/artisan-workshop.jpg'],
   },
 };
 

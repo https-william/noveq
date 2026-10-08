@@ -815,7 +815,7 @@ export default function AdminDashboardPage() {
     const itemsList = order.items
       .map(
         (i) =>
-          `• ${i.product.name} — Color: ${i.selectedColour || i.product.colour}, Size: ${i.selectedSize} (Qty: ${i.quantity})`
+          `• ${i.product.name} - Color: ${i.selectedColour || i.product.colour}, Size: ${i.selectedSize} (Qty: ${i.quantity})`
       )
       .join('\n');
 
@@ -3220,10 +3220,10 @@ function ProductFormModal({
                   <span>Quick catalog presets:</span>
                   <button
                     type="button"
-                    onClick={() => handleAddImageUrl('/images/models/the-twist-hero-model.jpg')}
+                    onClick={() => handleAddImageUrl('/images/products/the-twist.jpg')}
                     className="px-1.5 py-0.5 bg-bone border border-cocoa/20 rounded-xs hover:border-cocoa text-espresso"
                   >
-                    The Twist (Model)
+                    The Twist (Studio)
                   </button>
                   <button
                     type="button"
@@ -3253,7 +3253,7 @@ function ProductFormModal({
             {/* Gallery Previews with Hero Indicator */}
             <div className="space-y-1.5 pt-1">
               <span className="text-[10px] uppercase font-bold text-muted-taupe block">
-                Attached Images ({images.length}) — Click star to set primary hero
+                Attached Images ({images.length}) - Click star to set primary hero
               </span>
               <div className="flex flex-wrap gap-2">
                 {images.map((img, idx) => {

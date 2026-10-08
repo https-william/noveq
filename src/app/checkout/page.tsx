@@ -40,7 +40,7 @@ export default function CheckoutPage() {
     if (name === 'phone') {
       const digits = value.replace(/\D/g, '');
       if (digits.length < 10 || digits.length > 14) {
-        return 'Please enter a valid phone number (at least 10–11 digits) for courier contact.';
+        return 'Please enter a valid phone number (at least 10-11 digits) for courier contact.';
       }
     }
     if (name === 'email') {
@@ -326,7 +326,7 @@ export default function CheckoutPage() {
                 2. Delivery Destination
               </h2>
 
-              {/* Delivery Zone Selector — Configurable Table */}
+              {/* Delivery Zone Selector - Configurable Table */}
               <div>
                 <div className="flex justify-between items-baseline mb-1">
                   <label htmlFor="zoneId" className="block text-xs uppercase tracking-wider text-muted-taupe">
@@ -345,7 +345,7 @@ export default function CheckoutPage() {
                 >
                   {DELIVERY_ZONES.map((zone) => (
                     <option key={zone.id} value={zone.id}>
-                      {zone.name} — Pay rider on arrival ({zone.estimatedDays})
+                      {zone.name} - Pay rider on arrival ({zone.estimatedDays})
                     </option>
                   ))}
                 </select>
@@ -456,7 +456,7 @@ export default function CheckoutPage() {
                   <>
                     <Lock className="w-3.5 h-3.5" />
                     <span>
-                      Proceed to Payment — <span className="font-mono tabular-nums">₦{subtotal.toLocaleString()}</span>
+                      Proceed to Payment - <span className="font-mono tabular-nums">₦{subtotal.toLocaleString()}</span>
                     </span>
                   </>
                 )}
@@ -495,7 +495,7 @@ export default function CheckoutPage() {
                 >
                   <div className="relative w-14 h-14 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
                     <Image
-                      src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
+                      src={item.product.images[0]?.src || '/images/products/the-ring-warm-cognac.jpg'}
                       alt={item.product.name}
                       fill
                       sizes="56px"
@@ -521,7 +521,7 @@ export default function CheckoutPage() {
                       <div className="mt-1 inline-flex items-center gap-1 text-[10px] text-cocoa font-medium">
                         <Heart className="w-2.5 h-2.5 fill-oxblood text-oxblood" />
                         <span>
-                          Heart charm{item.engravedText ? ` — engraved '${item.engravedText}'` : ''}
+                          Heart charm{item.engravedText ? ` - engraved '${item.engravedText}'` : ''}
                         </span>
                       </div>
                     )}
@@ -539,7 +539,7 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
-              {/* Delivery Fee Notice — Pay Rider Directly */}
+              {/* Delivery Fee Notice - Pay Rider Directly */}
               <div className="flex justify-between items-baseline text-muted-taupe">
                 <div>
                   <span>Delivery ({selectedZone.name})</span>

@@ -49,7 +49,7 @@ export const DROP_001_PRODUCTS: Product[] = [
       supported: false,
     },
     publish_status: 'published',
-    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
+    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2-3 wears.',
     shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
     sizes: [
       { size: 'EU 37', available: true, stockCount: 1 },
@@ -81,7 +81,7 @@ export const DROP_001_PRODUCTS: Product[] = [
       },
       {
         src: '/images/campaign/the-ring-campaign-poster.png',
-        alt: 'NOVEQ The Ring Campaign Poster — Modern. Chic. Refined.',
+        alt: 'NOVEQ The Ring Campaign Poster - Modern. Chic. Refined.',
         viewType: 'detail',
       },
     ],
@@ -169,7 +169,7 @@ export const DROP_001_PRODUCTS: Product[] = [
       },
       {
         src: '/images/campaign/the-weave-campaign-poster.png',
-        alt: 'NOVEQ The Weave Campaign Poster — Now in more colours',
+        alt: 'NOVEQ The Weave Campaign Poster - Now in more colours',
         viewType: 'detail',
       },
     ],
@@ -210,7 +210,7 @@ export const DROP_001_PRODUCTS: Product[] = [
       supported: false,
     },
     publish_status: 'published',
-    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2–3 wears.',
+    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2-3 wears.',
     shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
     sizes: [
       { size: 'EU 37', available: true, stockCount: 1 },
@@ -247,7 +247,7 @@ export const DROP_001_PRODUCTS: Product[] = [
 export const DROP_001_COLLECTION: Collection = {
   name: 'Drop 001',
   slug: 'drop-001',
-  title: 'Drop 001 — noveq collection',
+  title: 'Drop 001 - noveq collection',
   short_intro: 'Drop 001 introduces NOVEQ through an exclusive focus on The Ring, The Weave, and The Twist.',
   products: DROP_001_PRODUCTS,
   editorial_copy: 'Our inaugural release is intentionally focused: Drop 001 showcases designs crafted by our artisan shoemakers in Nigeria. Built around everyday movement, refined form, and honest craftsmanship.',

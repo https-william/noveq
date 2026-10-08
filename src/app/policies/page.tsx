@@ -4,7 +4,7 @@ import { getAllPolicies } from '@/data/policies';
 import { ShieldCheck, Calendar, FileText, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Policies & Standards — Shipping, Exchanges & Leather Care',
+  title: 'Policies & Standards - Shipping, Exchanges & Leather Care',
   description:
     'Versioned operational guidelines: shipping schedules, size exchange rules, genuine leather care, and privacy standards.',
   alternates: {
@@ -72,11 +72,6 @@ export default function PoliciesPage() {
                   <span className="px-2 py-0.5 bg-bone border border-cocoa/30 font-mono text-[10px] text-cocoa font-semibold rounded-xs">
                     {policy.version}
                   </span>
-                  {policy.isDraft && (
-                    <span className="px-2 py-0.5 bg-oxblood/10 border border-oxblood/20 text-[10px] text-oxblood uppercase tracking-wider font-semibold rounded-xs">
-                      Working Draft
-                    </span>
-                  )}
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight text-ink-black">
                   {policy.title}
@@ -96,31 +91,17 @@ export default function PoliciesPage() {
             {/* Sections */}
             <div className="space-y-6 pt-2">
               {policy.sections.map((section, sIdx) => (
-                <div
-                  key={sIdx}
-                  className={`space-y-1.5 ${
-                    section.isPendingClientDecision
-                      ? 'p-4 bg-bone/70 border border-dashed border-cocoa/40 rounded-xs'
-                      : ''
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
+                  <div key={sIdx} className="space-y-1.5">
                     <h3 className="text-xs uppercase tracking-[0.16em] font-bold text-ink-black">
                       {section.heading}
                     </h3>
-                    {section.isPendingClientDecision && (
-                      <span className="px-2 py-0.5 bg-espresso text-warm-white text-[9px] uppercase tracking-wider rounded-xs font-semibold">
-                        Needs Client Decision
-                      </span>
-                    )}
+                    <p className="text-xs sm:text-sm leading-relaxed text-ink-black/80">
+                      {section.content}
+                    </p>
                   </div>
-                  <p className="text-xs sm:text-sm leading-relaxed text-ink-black/80">
-                    {section.content}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </article>
+                ))}
+              </div>
+            </article>
         ))}
       </div>
 

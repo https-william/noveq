@@ -11,7 +11,7 @@ interface AnnouncementBarProps {
 }
 
 export default function AnnouncementBar({
-  message = 'DROP 001 IS LIVE — LIMITED RUN OF LEATHER PAMS',
+  message = 'DROP 001 IS LIVE - LIMITED RUN OF LEATHER PAMS',
   linkText,
   linkHref,
   isDismissible = true,

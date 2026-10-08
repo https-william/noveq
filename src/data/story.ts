@@ -8,10 +8,10 @@ import { StoryBlock } from '@/types/content';
 export const STORY_BLOCKS: StoryBlock[] = [
   {
     id: 'origin-problem',
-    eyebrow: '01 / The Origin',
+    eyebrow: 'Origin',
     heading: 'Why start with the pam?',
     body: [
-      'In Nigeria and across West Africa, the leather pam is ubiquitous — an effortless slip-on worn from dawn errands to relaxed evenings. Yet the market presented a compromise: either mass-market synthetic slides that fall apart in months, or ornate pieces weighed down by excessive hardware.',
+      'In Nigeria and across West Africa, the leather pam is ubiquitous - an effortless slip-on worn from dawn errands to relaxed evenings. Yet the market presented a compromise: either mass-market synthetic slides that fall apart in months, or ornate pieces weighed down by excessive hardware.',
       'We wanted to make a contemporary pam that required no compromise. Footwear pared back to line, leather temper, and walking balance.',
     ],
     accentQuote: 'Footwear that is already culturally indispensable, reimagined with deliberate restraint.',
@@ -22,7 +22,7 @@ export const STORY_BLOCKS: StoryBlock[] = [
   },
   {
     id: 'design-philosophy',
-    eyebrow: '02 / Design Philosophy',
+    eyebrow: 'Design Philosophy',
     heading: 'Same purpose. A new perspective.',
     body: [
       'Our approach centers on quiet confidence. We removed decorative buckles, printed logos, and synthetic linings. What remains is intentional form: an asymmetrical strap cut that relieves instep pressure, cushioned footbeds wrapped in supple calfskin, and a silhouette that pairs as naturally with tailored trousers as it does with denim.',
@@ -36,11 +36,11 @@ export const STORY_BLOCKS: StoryBlock[] = [
   },
   {
     id: 'craft-context',
-    eyebrow: '03 / Craft Context',
+    eyebrow: 'Craft Context',
     heading: 'Handcrafted in Nigeria. Ten pairs at a time.',
     body: [
       'NOVEQ is made in direct partnership with independent master shoemakers in Nigeria. We do not mass-produce in anonymous facilities, nor do we invent multi-generational folklore.',
-      'Drop 001 is limited to ten pairs — not as a marketing stunt, but because true small-batch production allows our artisan partners to hand-cut each leather hide, bevel every strap border, and inspect each sole before it leaves the bench.',
+      'Drop 001 is limited to ten pairs - not as a marketing stunt, but because true small-batch production allows our artisan partners to hand-cut each leather hide, bevel every strap border, and inspect each sole before it leaves the bench.',
     ],
     image: '/images/editorial/editorial-craft.jpg',
     altText: 'Master shoemaker hand lasting and bench cobbler tools in Lagos workshop',
@@ -49,14 +49,14 @@ export const STORY_BLOCKS: StoryBlock[] = [
   },
   {
     id: 'call-to-shop',
-    eyebrow: '04 / Drop 001',
+    eyebrow: 'Drop 001',
     heading: 'Crafted to move.',
     body: [
       'Drop 001 represents our foundational offering: designs including The Ring and The Weave in curated leather tones.',
       'Each pair is inspected pair-by-pair in our studio, tempered for natural arch comfort, and dispatched directly to your door.',
     ],
-    image: '/images/models/the-ring-hero-model.jpg',
-    altText: 'NOVEQ The Ring slide pam worn on model along sunlit Lagos stone pavement',
+    image: '/images/products/the-ring-warm-cognac.jpg',
+    altText: 'NOVEQ The Ring slide pam in warm cognac full-grain calfskin',
     caption: 'Quiet geometry, intentional lines, crafted for everyday movement.',
     imagePosition: 'left',
     ctaText: 'Explore Drop 001',

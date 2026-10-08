@@ -22,7 +22,7 @@ export const BRAND_TOKENS = {
     mutedTaupe: '#665B53',
     // Secondary text on dark surfaces (Calibrated to #C7BCB3 for 9.2:1 contrast on ink-black)
     mutedTaupeOnDark: '#C7BCB3',
-    // OPTIONAL editorial/product accent ONLY — use sparingly, never as primary UI
+    // OPTIONAL editorial/product accent ONLY - use sparingly, never as primary UI
     oxblood: '#5A2028',
   },
   typography: {

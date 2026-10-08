@@ -61,7 +61,7 @@ export default function Header({ cartCount: initialCartCount }: HeaderProps) {
   }, [mobileMenuOpen]);
 
   const bagAriaLabel =
-    cartCount > 0 ? `View bag — ${cartCount} ${cartCount === 1 ? 'item' : 'items'}` : 'View bag — empty';
+    cartCount > 0 ? `View bag - ${cartCount} ${cartCount === 1 ? 'item' : 'items'}` : 'View bag - empty';
 
   return (
     <>

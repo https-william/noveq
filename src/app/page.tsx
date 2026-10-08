@@ -5,14 +5,14 @@ import { getStorefrontProductsAsync } from '@/lib/productStore';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: "NOVEQ | Contemporary Women's Leather Pams — Crafted to Move",
+  title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
   description:
     "Contemporary leather footwear, thoughtfully designed around everyday movement, refined form, and personal detail. Discover Drop 001 women's leather pams handcrafted in Lagos.",
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: "NOVEQ | Contemporary Women's Leather Pams — Crafted to Move",
+    title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
     description:
       "Contemporary leather footwear, thoughtfully designed around everyday movement, refined form, and personal detail. Discover Drop 001 women's leather pams handcrafted in Lagos.",
     url: 'https://www.noveq.com.ng',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: "NOVEQ | Contemporary Women's Leather Pams — Crafted to Move",
+    title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
     description:
       "Contemporary leather footwear, thoughtfully designed around everyday movement, refined form, and personal detail. Discover Drop 001 women's leather pams handcrafted in Lagos.",
     images: ['/images/products/the-twist.jpg'],

@@ -5,7 +5,7 @@ import { getStorefrontProducts } from '@/lib/productStore';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Drop 001 — noveq collection | NOVEQ',
+  title: 'Drop 001 - noveq collection | NOVEQ',
   description:
     'The inaugural release of contemporary women’s leather pams, handcrafted in Nigeria.',
   alternates: {

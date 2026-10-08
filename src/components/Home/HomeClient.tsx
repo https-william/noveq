@@ -139,10 +139,10 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
           className="absolute -bottom-24 -left-20 w-80 h-80 rounded-full bg-radial from-oxblood/15 to-transparent blur-3xl pointer-events-none"
         />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-28 z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Contextual Launch Copy (Reverted to Original) */}
-            <div className="lg:col-span-7 space-y-6">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 min-h-[calc(100dvh-5rem)] flex items-center z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
+            {/* Left Column: Contextual Launch Copy */}
+            <div className="lg:col-span-7 space-y-5">
               {/* Dynamic Eyebrow Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-espresso/90 backdrop-blur-xs border border-cocoa/40 rounded-xs text-[11px] uppercase tracking-[0.2em] text-muted-taupe-on-dark shadow-apple-sm">
                 {campaignState === 'pre-launch' && (
@@ -175,16 +175,16 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 )}
               </div>
 
-              {/* Editorial Launch Headline (Reverted to Original) */}
-              <h1 className="font-rayleigh text-5xl sm:text-7xl lg:text-8xl font-normal tracking-tight text-warm-white leading-[1.02]">
+              {/* Editorial Launch Headline */}
+              <h1 className="font-rayleigh text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-warm-white leading-[1.04]">
                 {campaignState === 'pre-launch' && 'The first release is almost here.'}
                 {campaignState === 'sold-out' && 'Ten pairs claimed.'}
                 {campaignState === 'reveal' && 'A quiet debut.'}
                 {campaignState === 'live' && 'Crafted to move.'}
               </h1>
 
-              {/* Subheading (Reverted to Original) */}
-              <p className="text-base sm:text-lg text-muted-taupe-on-dark max-w-xl font-normal leading-relaxed">
+              {/* Subheading */}
+              <p className="text-sm sm:text-base text-muted-taupe-on-dark max-w-lg font-normal leading-relaxed">
                 {campaignState === 'pre-launch' &&
                   'Drop 001 enters final artisan finishing in Nigeria. Ten pairs of contemporary leather footwear, made for everyday movement.'}
                 {campaignState === 'sold-out' &&
@@ -196,19 +196,19 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               </p>
 
               {/* Contextual Action CTAs */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-4">
+              <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:gap-4">
                 {campaignState === 'live' && (
                   <>
                     <Link
                       href="/shop"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-all duration-200 rounded-xs focus-dark min-h-[48px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.99]"
+                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-all duration-200 rounded-xs focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.99]"
                     >
                       <span>Explore Drop 001</span>
                       <ArrowRight className="w-4 h-4" />
                     </Link>
                     <Link
                       href="/story"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[48px]"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
                     >
                       <span>Read Our Story</span>
                     </Link>
@@ -219,14 +219,14 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   <>
                     <a
                       href="#launch-access"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[48px] shadow-apple-md active:scale-[0.99]"
+                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[46px] shadow-apple-md active:scale-[0.99]"
                     >
                       <span>Join Launch List</span>
                       <ArrowRight className="w-4 h-4" />
                     </a>
                     <Link
                       href="/story"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[48px]"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
                     >
                       <span>Read Our Story</span>
                     </Link>
@@ -237,14 +237,14 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   <>
                     <a
                       href="#launch-access"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[48px] shadow-apple-md active:scale-[0.99]"
+                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[46px] shadow-apple-md active:scale-[0.99]"
                     >
                       <span>Join Drop 002 Waitlist</span>
                       <ArrowRight className="w-4 h-4" />
                     </a>
                     <Link
                       href="/drop-001"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[48px]"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
                     >
                       <span>View Drop 001 Archive</span>
                     </Link>
@@ -255,14 +255,14 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   <>
                     <a
                       href="#drop-001-grid"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[48px] shadow-apple-md active:scale-[0.99]"
+                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[46px] shadow-apple-md active:scale-[0.99]"
                     >
                       <span>Preview Designs</span>
                       <ArrowRight className="w-4 h-4" />
                     </a>
                     <a
                       href="#launch-access"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-4 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[48px]"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
                     >
                       <span>Get Private Access</span>
                     </a>
@@ -270,8 +270,8 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 )}
               </div>
 
-              {/* Provenance Footer Badges (Reverted to Original) */}
-              <div className="pt-4 flex flex-wrap items-center gap-4 text-xs text-muted-taupe-on-dark font-mono">
+              {/* Provenance Footer Badges */}
+              <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-muted-taupe-on-dark font-mono">
                 <span>Handcrafted in Nigeria</span>
                 <span>•</span>
                 <span className="text-warm-white font-medium">Nigerian Female Leather Pams</span>
@@ -295,28 +295,27 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
             </div>
 
             {/* Right Column: Hero Visual with Pure Slipper Product Photography */}
-            <div className="lg:col-span-5 relative">
+            <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
               {/* Subtle Atmospheric Watermark Behind Object */}
               <div
                 aria-hidden="true"
-                className="absolute -top-8 -left-6 sm:-left-10 z-0 select-none pointer-events-none"
+                className="absolute -top-6 -left-6 sm:-left-8 z-0 select-none pointer-events-none"
               >
-                <span className="font-rayleigh text-7xl sm:text-9xl font-bold tracking-widest text-warm-white/[0.06] block leading-none">
+                <span className="font-rayleigh text-6xl sm:text-8xl font-bold tracking-widest text-warm-white/[0.05] block leading-none">
                   NOVEQ
                 </span>
               </div>
 
-              {/* Hero Image Card */}
-              <div className="relative z-10 aspect-[3/4] sm:aspect-[4/3] lg:aspect-[3/4] bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl animate-micro-float group">
+              {/* Hero Image Card (4:5 Aspect Ratio for Natural Photoshoot Framing) */}
+              <div className="relative z-10 aspect-[4/5] max-w-sm sm:max-w-md w-full bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl group">
                 <Image
                   src="/images/hero/landing-hero-photoshoot.jpg"
-                  alt="NOVEQ contemporary handcrafted leather footwear — Drop 001"
+                  alt="NOVEQ contemporary handcrafted leather footwear: Drop 001"
                   fill
                   priority
-                  quality={90}
-                  loading="eager"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  quality={95}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 450px, 480px"
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
                 />
 
                 {/* State-specific subtle visual overlay pill */}
@@ -349,9 +348,6 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
             <div>
-              <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
-                Launch Release
-              </span>
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-black lowercase font-serif">
                 noveq collection
               </h2>
@@ -377,9 +373,6 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       {/* ── 3. RESTRAINED EDITORIAL ACCENT PHRASE INTERLUDE ── */}
       <ScrollReveal className="py-16 sm:py-24 bg-warm-white border-b border-cocoa/20 text-center">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-          <span className="text-[11px] uppercase tracking-[0.25em] text-cocoa font-medium block">
-            The NOVEQ Perspective
-          </span>
           <blockquote className="font-serif text-3xl sm:text-5xl lg:text-6xl text-espresso font-normal italic tracking-tight leading-tight">
             “Same purpose. A new perspective.”
           </blockquote>
@@ -406,9 +399,6 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
             </div>
 
             <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
-              <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
-                01 / Craft Origin
-              </span>
               <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black leading-tight">
                 Handcrafted in Nigeria. Built for modern movement.
               </h2>
@@ -474,7 +464,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
             <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
               <h3 className="font-semibold text-sm text-ink-black">How do NOVEQ female pams fit?</h3>
               <p className="text-muted-taupe leading-relaxed">
-                Our footwear fits true to standard European sizing (EU 37–41). Hand-selected full-grain cowhide softens naturally to foot contours over 2–3 wears with zero break-in friction.
+                Our footwear fits true to standard European sizing (EU 37-41). Hand-selected full-grain cowhide softens naturally to foot contours over 2-3 wears with zero break-in friction.
               </p>
             </div>
           </div>

@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
       deliveryFee: 0,
       total: Number(total),
       currency: 'NGN',
-      deliveryExpectation: '24–48 hours nationwide courier',
+      deliveryExpectation: '24-48 hours nationwide courier',
       payment: {
         provider: 'bank_transfer',
         status: paymentStatus,

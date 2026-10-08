@@ -25,7 +25,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { orderId } = await params;
   return {
-    title: `Order Confirmed — ${orderId}`,
+    title: `Order Confirmed - ${orderId}`,
     description: `Receipt and dispatch schedule for NOVEQ order ${orderId}.`,
     robots: { index: false, follow: false },
   };
@@ -140,7 +140,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
                     <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 bg-bone border border-cocoa/20 text-[10px] text-cocoa rounded-xs font-medium">
                       <Heart className="w-2.5 h-2.5 fill-oxblood text-oxblood" />
                       <span>
-                        Heart charm{item.engravedText ? ` — engraved '${item.engravedText}'` : ''}
+                        Heart charm{item.engravedText ? ` - engraved '${item.engravedText}'` : ''}
                       </span>
                     </div>
                   )}

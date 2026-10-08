@@ -60,7 +60,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
       <Link
         href={`/shop/${product.slug}`}
         className="block focus-dark"
-        aria-label={`View ${product.name} — ${formattedPrice}`}
+        aria-label={`View ${product.name} - ${formattedPrice}`}
       >
         {/* Product Image Frame (Consistent crop) */}
         <div className="relative aspect-[4/3] sm:aspect-square bg-espresso/30 border-b border-cocoa/15 overflow-hidden">

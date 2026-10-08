@@ -111,7 +111,7 @@ export default function BagPage() {
               >
                 <div className="relative w-24 h-24 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
                   <Image
-                    src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
+                    src={item.product.images[0]?.src || '/images/products/the-ring-warm-cognac.jpg'}
                     alt={item.product.name}
                     fill
                     sizes="96px"
@@ -144,7 +144,7 @@ export default function BagPage() {
                     <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-bone border border-cocoa/25 text-[11px] text-cocoa rounded-xs font-medium">
                       <Heart className="w-3 h-3 fill-oxblood text-oxblood shrink-0" />
                       <span>
-                        Heart charm{item.engravedText ? ` — engraved '${item.engravedText}'` : ''}
+                        Heart charm{item.engravedText ? ` - engraved '${item.engravedText}'` : ''}
                       </span>
                     </div>
                   )}

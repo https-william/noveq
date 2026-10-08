@@ -17,7 +17,7 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
 
   return (
     <div className="min-h-screen bg-stone-100 text-ink-black py-6 print:bg-white print:py-0">
-      {/* Action Bar — hidden on print */}
+      {/* Action Bar - hidden on print */}
       <div className="max-w-2xl mx-auto px-4 mb-5 print:hidden">
         <div className="flex items-center justify-between">
           <Link

@@ -11,7 +11,7 @@ export const NOVEQ_COLLECTIONS: Collection[] = [
   {
     name: 'Drop 001',
     slug: 'drop-001',
-    title: 'Drop 001 — noveq collection',
+    title: 'Drop 001 - noveq collection',
     short_intro: 'An initial release of contemporary women’s leather pams, handcrafted in Nigeria.',
     hero_image: '/images/products/the-ring-warm-cognac.jpg',
     products: DROP_001_PRODUCTS,
@@ -23,7 +23,7 @@ export const NOVEQ_COLLECTIONS: Collection[] = [
   {
     name: 'Drop 002',
     slug: 'drop-002',
-    title: 'Drop 002 — In Development',
+    title: 'Drop 002 - In Development',
     short_intro: 'Next-stage designs currently in development with our master shoemaker.',
     hero_image: '/images/editorial/artisan-workshop.jpg',
     products: [],

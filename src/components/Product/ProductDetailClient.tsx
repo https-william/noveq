@@ -381,7 +381,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </p>
           </div>
 
-          {/* Size Selector — MUST be explicit tap/click buttons showing states */}
+          {/* Size Selector - MUST be explicit tap/click buttons showing states */}
           <div id="size-selector-section" className="space-y-3 scroll-mt-28">
             <div className="flex items-center justify-between text-xs">
               <span className="uppercase tracking-[0.16em] text-muted-taupe font-medium">
@@ -419,7 +419,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     disabled={!sz.available}
                     onClick={() => handleSelectSize(sz.size)}
                     aria-pressed={isSelected}
-                    aria-label={`${sz.size}${sz.available ? '' : ' — Out of stock'}`}
+                    aria-label={`${sz.size}${sz.available ? '' : ' - Out of stock'}`}
                     className={`py-3 px-2 text-xs uppercase tracking-wider font-semibold rounded-xs border transition-all duration-150 min-h-[44px] flex flex-col items-center justify-center focus-dark ${
                       !sz.available
                         ? 'bg-bone/40 text-muted-taupe/40 border-cocoa/15 cursor-not-allowed line-through'
@@ -500,7 +500,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               aria-label={
                 !isSelectedSizeAvailable
                   ? 'Size currently unavailable'
-                  : `Add ${product.name} to bag — ${formattedPrice}`
+                  : `Add ${product.name} to bag - ${formattedPrice}`
               }
               className={`w-full py-4 px-8 text-xs uppercase tracking-[0.2em] font-semibold rounded-xs transition-all duration-200 min-h-[48px] flex items-center justify-center gap-2 focus-dark ${
                 !isSelectedSizeAvailable
@@ -528,7 +528,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     ? 'Select a Size'
                     : !isSelectedSizeAvailable
                     ? 'Size Unavailable'
-                    : `Add to Bag — ${formattedPrice}`}
+                    : `Add to Bag - ${formattedPrice}`}
                 </span>
               )}
             </button>
@@ -645,7 +645,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-2">
                   <p><strong>Routine Cleaning:</strong> Wipe with a soft, dry cotton cloth after wear to lift fine dust and street grit. For smudges, dampen slightly with clean water and wipe gently.</p>
                   <p><strong>Moisture Care:</strong> Avoid submersion in standing water. If wet, blot immediately and air-dry away from direct heat or sun.</p>
-                  <p><strong>Conditioning:</strong> Apply a thin coat of neutral wax balm or natural beeswax conditioner every 4–6 weeks to maintain grain suppleness.</p>
+                  <p><strong>Conditioning:</strong> Apply a thin coat of neutral wax balm or natural beeswax conditioner every 4-6 weeks to maintain grain suppleness.</p>
                   <p><strong>Storage:</strong> Store resting flat on outsoles in a cool, ventilated space.</p>
                 </div>
               )}
@@ -777,7 +777,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           __html: JSON.stringify({
             '@context': 'https://schema.org/',
             '@type': 'Product',
-            name: `NOVEQ ${product.name} — Nigerian Female Leather Pam (${product.colour})`,
+            name: `NOVEQ ${product.name} - Nigerian Female Leather Pam (${product.colour})`,
             sku: product.slug,
             image: product.images.map((img) =>
               img.src.startsWith('http') ? img.src : `https://www.noveq.com.ng${img.src}`

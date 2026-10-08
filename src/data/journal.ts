@@ -20,7 +20,7 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
       'Central to Drop 001 is The Ring Slide Pam. Anchored by a polished gold statement ring, the strap is sculpted to allow the instep to flex naturally during stride without cutting into the foot.',
       'Every pair in this release is inspected pair-by-pair in our studio before dispatch. For us, this is not just a product launch; it is setting our standard for everything that follows.',
     ],
-    pullQuote: 'Small-batch production is not artificial scarcity — it is an obsession with getting every edge, sole angle, and temper right.',
+    pullQuote: 'Small-batch production is not artificial scarcity - it is an obsession with getting every edge, sole angle, and temper right.',
     inlineImage: {
       src: '/images/editorial/craft-spec-grid.jpg',
       alt: 'Artisan hand-crafting Drop 001 leather pams at the bench in Nigeria',
@@ -75,8 +75,8 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     body: [
       'In shoemaking, “temper” refers to the balance of pliability and firmness in a hide. A strap that is too stiff bites the top of your foot; one that is too soft stretches out of shape within weeks.',
       'For Drop 001, we selected full-grain calfskin hides with uniform tensile strength. Before cutting, each hide is conditioned with natural beeswax and oils, allowing the fibers to relax while preserving their structural memory.',
-      'One critical step often skipped in modern commercial footwear is edge beveling. We shave the bottom corners of every strap at a gentle 45-degree angle before hand-burnishing the raw edge. When you slip your foot in barefoot, there are no sharp leather edges — only a smooth, supple boundary.',
-      'With proper care — a simple wipe-down after wear and periodic light conditioning — this leather does not degrade. It deepens in character, forming a gentle patina unique to the way you walk.',
+      'One critical step often skipped in modern commercial footwear is edge beveling. We shave the bottom corners of every strap at a gentle 45-degree angle before hand-burnishing the raw edge. When you slip your foot in barefoot, there are no sharp leather edges - only a smooth, supple boundary.',
+      'With proper care - a simple wipe-down after wear and periodic light conditioning - this leather does not degrade. It deepens in character, forming a gentle patina unique to the way you walk.',
     ],
     pullQuote: 'Leather is not a static material; it is a responsive medium that records the story of how you move.',
     inlineImage: {

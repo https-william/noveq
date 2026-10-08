@@ -26,7 +26,7 @@ export const POLICIES: Record<string, Policy> = {
       {
         heading: 'Regional Delivery Estimates',
         content:
-          'Lagos Mainland & Island: 1–2 business days. South-West Regional (Ogun, Oyo, Osun, Ondo): 2–3 business days. Abuja & FCT: 2–4 business days. Eastern, South-South & Northern States: 3–5 business days.',
+          'Lagos Mainland & Island: 1-2 business days. South-West Regional (Ogun, Oyo, Osun, Ondo): 2-3 business days. Abuja & FCT: 2-4 business days. Eastern, South-South & Northern States: 3-5 business days.',
       },
       {
         heading: 'Delivery Fees',
@@ -97,7 +97,7 @@ export const POLICIES: Record<string, Policy> = {
       {
         heading: 'Wax Conditioning & Patina',
         content:
-          'Apply a thin coat of neutral wax balm or natural beeswax conditioner every 4–6 weeks. Allow the leather to absorb the nutrients for 15 minutes, then buff with a horsehair brush or dry lint-free cloth to restore natural luster.',
+          'Apply a thin coat of neutral wax balm or natural beeswax conditioner every 4-6 weeks. Allow the leather to absorb the nutrients for 15 minutes, then buff with a horsehair brush or dry lint-free cloth to restore natural luster.',
       },
       {
         heading: 'Proper Storage',

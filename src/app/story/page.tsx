@@ -6,7 +6,7 @@ import { EditorialBlock } from '@/components/Editorial/EditorialBlock';
 import { ScrollReveal } from '@/components/Editorial/ScrollReveal';
 
 export const metadata: Metadata = {
-  title: 'Our Story — Design Philosophy & Craft Context',
+  title: 'Our Story - Design Philosophy & Craft Context',
   description:
     'Why NOVEQ exists: modern design philosophy, Nigerian artisan shoemaking context, and the foundation behind Drop 001.',
   alternates: {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/products/cut-black-detail.svg',
+        url: '/images/editorial/artisan-workshop.jpg',
         width: 1200,
         height: 900,
         alt: 'NOVEQ artisan shoemaking craft and leather detail',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: 'Our Story | NOVEQ Contemporary Leather Footwear',
     description:
       'Why NOVEQ exists: modern design philosophy, Nigerian artisan shoemaking context, and the foundation behind Drop 001.',
-    images: ['/images/products/cut-black-detail.svg'],
+    images: ['/images/editorial/artisan-workshop.jpg'],
   },
 };
 
@@ -119,7 +119,7 @@ export default function StoryPage() {
 
           <div className="pt-6 border-t border-cocoa/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-muted-taupe-on-dark">
             <span className="font-serif italic text-warm-white text-sm">noveq / crafted to move.</span>
-            <span>Independent contemporary leather footwear — Lagos, Nigeria</span>
+            <span>Independent contemporary leather footwear - Lagos, Nigeria</span>
           </div>
         </section>
       </ScrollReveal>

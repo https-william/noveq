@@ -100,7 +100,7 @@ export default function CartDrawer() {
           <span className="text-muted-taupe-on-dark font-medium">Nationwide / ~7 Days</span>
         </div>
 
-        {/* Restore After Remove (Undo) Banner — Mobile & Desktop */}
+        {/* Restore After Remove (Undo) Banner - Mobile & Desktop */}
         {lastRemovedItem && (
           <div className="px-6 py-3 bg-bone border-b border-cocoa/20 flex items-center justify-between text-xs animate-in fade-in duration-150">
             <span className="truncate max-w-[220px] text-ink-black font-medium">
@@ -159,7 +159,7 @@ export default function CartDrawer() {
                 {/* Thumbnail */}
                 <div className="relative w-20 h-20 bg-espresso/30 border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
                   <Image
-                    src={item.product.images[0]?.src || '/images/models/the-ring-hero-model.jpg'}
+                    src={item.product.images[0]?.src || '/images/products/the-ring-warm-cognac.jpg'}
                     alt={item.product.name}
                     fill
                     sizes="80px"
@@ -192,7 +192,7 @@ export default function CartDrawer() {
                     <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 bg-bone border border-cocoa/25 text-[11px] text-cocoa rounded-xs font-medium">
                       <Heart className="w-3 h-3 fill-oxblood text-oxblood shrink-0" />
                       <span>
-                        Heart charm{item.engravedText ? ` — engraved '${item.engravedText}'` : ''}
+                        Heart charm{item.engravedText ? ` - engraved '${item.engravedText}'` : ''}
                       </span>
                     </div>
                   )}

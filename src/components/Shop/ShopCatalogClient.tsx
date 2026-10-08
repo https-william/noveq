@@ -129,7 +129,7 @@ export default function ShopCatalogClient({
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black mt-2">
-            {title || "Nigerian Female Leather Pams — Drop 001"}
+            {title || "Nigerian Female Leather Pams - Drop 001"}
           </h1>
 
           {/* ONE SENTENCE MAX COLLECTION INTRO */}
@@ -254,7 +254,7 @@ export default function ShopCatalogClient({
             Artisan Production Assurance
           </span>
           <h2 className="text-lg font-bold text-warm-white">
-            Ten Pairs Initial Inventory — Handcrafted in Lagos
+            Ten Pairs Initial Inventory - Handcrafted in Lagos
           </h2>
           <p className="text-xs text-muted-taupe-on-dark max-w-xl mt-1 leading-relaxed">
             Every pair of NOVEQ female leather pams is built from full-grain Nigerian hides, conditioned with natural wax, and individually boxed in our slim brown kraft suite with handwritten care instructions.
@@ -311,7 +311,7 @@ export default function ShopCatalogClient({
                 What sizes are available in Drop 001?
               </h3>
               <p className="text-muted-taupe">
-                Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2–3 wears to contour naturally to your foot width.
+                Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2-3 wears to contour naturally to your foot width.
               </p>
             </div>
           </div>
@@ -355,7 +355,7 @@ export default function ShopCatalogClient({
                 name: 'What sizes are available in Drop 001?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2–3 wears to contour naturally to your foot width.',
+                  text: 'Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2-3 wears to contour naturally to your foot width.',
                 },
               },
             ],

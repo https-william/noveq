@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const formattedPrice = `₦${product.price.toLocaleString()}`;
-  const canonicalTitle = `${product.name} | Nigerian Female Leather Pam (${product.colour}) — NOVEQ`;
+  const canonicalTitle = `${product.name} | Nigerian Female Leather Pam (${product.colour}) - NOVEQ`;
   const canonicalDesc = `Discover ${product.name} in ${product.colour}. Handcrafted Nigerian female leather pam built from 100% full-grain calfskin with beveled sole comfort. Buy online for ${formattedPrice} with delivery within 7 business days across Nigeria.`;
   const heroImage = product.images[0]?.src.startsWith('http')
     ? product.images[0]?.src
@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           url: heroImage,
           width: 1200,
           height: 900,
-          alt: `${canonicalTitle} — Handcrafted in Lagos, Nigeria`,
+          alt: `${canonicalTitle} - Handcrafted in Lagos, Nigeria`,
         },
       ],
     },

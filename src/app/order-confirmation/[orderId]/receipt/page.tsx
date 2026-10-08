@@ -12,7 +12,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { orderId } = await params;
   return {
-    title: `Official Receipt — Order ${orderId} | NOVEQ`,
+    title: `Official Receipt - Order ${orderId} | NOVEQ`,
     description: `Official 1-page allocation receipt for NOVEQ order ${orderId}.`,
     robots: { index: false, follow: false },
   };

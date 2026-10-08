@@ -16,26 +16,26 @@ const CURATED_POSTS: InstagramPostItem[] = [
   {
     id: 'post-1',
     image: '/images/products/the-twist.jpg',
-    alt: 'NOVEQ The Twist Slide Pam sculptural strap detail on sunlit stone plinth',
+    alt: 'NOVEQ The Twist Slide Pam sculptural strap detail',
     caption: 'Drop 001: The Twist. Sculptural calfskin vamp contoured for effortless daily stride.',
   },
   {
     id: 'post-2',
-    image: '/images/models/the-bar-model.jpg',
-    alt: 'NOVEQ The Bar Slide Pam on model in sunlit architectural setting',
-    caption: 'Drop 001: The Bar. Polished brass bar accentuating a refined low-profile sole.',
+    image: '/images/products/the-ring-warm-cognac.jpg',
+    alt: 'NOVEQ The Ring Slide Pam in Warm Cognac with gold statement ring',
+    caption: 'Drop 001: The Ring. Solid gold statement ring anchoring full-grain Nigerian leather.',
   },
   {
     id: 'post-3',
     image: '/images/editorial/artisan-workshop.jpg',
     alt: 'Artisan workbench in Nigeria with hand-beveled leather soles and brass calipers',
-    caption: 'Workbench notes: hand-beveled 45° edges, vegetal oils, and tempered arch balance.',
+    caption: 'Workbench notes: hand-beveled 45-degree edges, vegetal oils, and tempered arch balance.',
   },
   {
     id: 'post-4',
-    image: '/images/models/the-doubleskin-model.jpg',
-    alt: 'NOVEQ The Double Skin Slide Pam styled with tailored linen on model',
-    caption: 'Drop 001: The Double Skin. Minimalist dual-strap geometry contoured for everyday movement.',
+    image: '/images/products/the-weave-black.jpg',
+    alt: 'NOVEQ The Weave Slide Pam braided leather strap architecture',
+    caption: 'Drop 001: The Weave. Interlocking multi-strap braided cowhide for tactile elegance.',
   },
 ];
 

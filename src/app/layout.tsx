@@ -64,7 +64,7 @@ export const metadata: Metadata = {
         url: '/images/brand/noveq-brand-sheet.jpg',
         width: 1200,
         height: 630,
-        alt: 'NOVEQ — Contemporary Nigerian Female Leather Pams',
+        alt: 'NOVEQ - Contemporary Nigerian Female Leather Pams',
       },
     ],
   },

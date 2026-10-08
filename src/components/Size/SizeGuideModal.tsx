@@ -97,7 +97,7 @@ export default function SizeGuideModal({
               <span>How NOVEQ Pams Run</span>
             </div>
             <p className="leading-relaxed text-ink-black/85">
-              Drop 001 footwear is crafted with full-grain leather that naturally molds to foot width after 2–3 wears.
+              Drop 001 footwear is crafted with full-grain leather that naturally molds to foot width after 2-3 wears.
             </p>
             <div className="p-3 bg-warm-white border border-cocoa/20 rounded-xs text-[11px] text-muted-taupe leading-relaxed">
               <span className="font-semibold text-cocoa block uppercase tracking-wider text-[10px] mb-0.5">
@@ -143,7 +143,7 @@ export default function SizeGuideModal({
                               Available in Drop
                             </span>
                           ) : (
-                            <span className="text-[10px] text-muted-taupe/60">—</span>
+                            <span className="text-[10px] text-muted-taupe/60"> - </span>
                           )}
                         </td>
                       </tr>
