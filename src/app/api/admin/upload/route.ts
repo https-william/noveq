@@ -124,6 +124,7 @@ export async function POST(req: NextRequest) {
           .from('products')
           .upload(storagePath, processedBuffer, {
             contentType: outputMime,
+            cacheControl: 'public, max-age=31536000, immutable',
             upsert: true,
           });
 
@@ -143,9 +144,31 @@ export async function POST(req: NextRequest) {
         // eslint-disable-next-line no-console
         console.warn('Supabase storage exception:', sbErr);
       }
-    } else {
-      // eslint-disable-next-line no-console
-      console.info('Supabase storage credentials not fully populated. Falling back to local/inline.');
+    }
+
+    // Try standard public client if admin client did not yield a URL
+    if (!publicUrl && hasSupabaseUrl) {
+      try {
+        const { error: anonError } = await supabase.storage
+          .from('products')
+          .upload(storagePath, processedBuffer, {
+            contentType: outputMime,
+            cacheControl: 'public, max-age=31536000, immutable',
+            upsert: true,
+          });
+
+        if (!anonError) {
+          const { data } = supabase.storage
+            .from('products')
+            .getPublicUrl(storagePath);
+          if (data?.publicUrl) {
+            publicUrl = data.publicUrl;
+            storageType = 'supabase';
+          }
+        }
+      } catch {
+        // Ignore fallback error
+      }
     }
 
     // 3. Fallback Tier 1: Local Filesystem Storage (public/uploads/)

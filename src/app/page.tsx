@@ -7,23 +7,23 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
   description:
-    "Contemporary leather footwear, thoughtfully designed around everyday movement, refined form, and personal detail. Discover Drop 001 women's leather pams handcrafted in Lagos.",
+    'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain hides. Discover Drop 001, built for effortless movement and refined style.',
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
     description:
-      "Contemporary leather footwear, thoughtfully designed around everyday movement, refined form, and personal detail. Discover Drop 001 women's leather pams handcrafted in Lagos.",
+      'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain hides. Discover Drop 001, built for effortless movement and refined style.',
     url: 'https://www.noveq.com.ng',
     siteName: 'NOVEQ',
     type: 'website',
     images: [
       {
-        url: '/images/products/the-twist.jpg',
-        width: 1200,
-        height: 900,
-        alt: "NOVEQ The Twist Slide Pam in rich leather brown full-grain leather",
+        url: 'https://www.noveq.com.ng/images/hero/landing-hero-photoshoot.jpg',
+        width: 1152,
+        height: 2048,
+        alt: 'NOVEQ Contemporary Handcrafted Leather Footwear - Drop 001',
       },
     ],
   },
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
     description:
-      "Contemporary leather footwear, thoughtfully designed around everyday movement, refined form, and personal detail. Discover Drop 001 women's leather pams handcrafted in Lagos.",
-    images: ['/images/products/the-twist.jpg'],
+      'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain hides. Discover Drop 001, built for effortless movement and refined style.',
+    images: ['https://www.noveq.com.ng/images/hero/landing-hero-photoshoot.jpg'],
   },
 };
 

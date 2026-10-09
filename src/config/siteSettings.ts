@@ -46,7 +46,7 @@ export const SITE_SETTINGS: SiteSettings = {
     defaultTitle: "NOVEQ | Nigerian Female Leather Pams & Handcrafted Footwear",
     titleTemplate: '%s | NOVEQ',
     defaultDescription:
-      "NOVEQ. Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain vegetable-tanned hides. Built for effortless daily movement, personal detail, and nationwide delivery within 7 business days across Nigeria.",
+      'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain hides. Built for effortless daily movement and nationwide delivery.',
     keywords: [
       'Nigerian female leather pams',
       'female leather pams in Nigeria',

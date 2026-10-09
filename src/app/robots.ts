@@ -12,6 +12,12 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/private/', '/api/', '/admin', '/admin/', '/order-confirmation/'],
       },
       {
+        // Bingbot & MSNbot Crawlers
+        userAgent: ['Bingbot', 'msnbot', 'BingPreview'],
+        allow: '/',
+        disallow: ['/private/', '/api/', '/admin', '/admin/', '/order-confirmation/'],
+      },
+      {
         // Googlebot Image & Favicon crawler
         userAgent: ['Googlebot-Image', 'Google-InspectionTool', 'Google Favicon'],
         allow: ['/favicon.ico', '/icon.png', '/icon-48.png', '/icon-96.png', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/images/', '/'],
@@ -33,5 +39,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

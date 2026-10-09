@@ -145,6 +145,7 @@ async function syncCatalogToSupabase(list: Product[]): Promise<boolean> {
       .from(STORAGE_BUCKET)
       .upload(STORAGE_PATH, buffer, {
         contentType: 'application/json',
+        cacheControl: 'no-cache, no-store, max-age=0',
         upsert: true,
       });
 
@@ -184,12 +185,9 @@ export async function ensureProductsLoaded(force = false): Promise<void> {
     return;
   }
 
-  // If Supabase does not have the file yet, seed it with current products
-  if (productsStore.size > 0 && isStale) {
-    const currentList = Array.from(productsStore.values());
-    await syncCatalogToSupabase(currentList);
-    global.__noveq_last_synced = now;
-  }
+  // NOTE: If Supabase download fails (e.g. transient network hiccup), NEVER overwrite
+  // cloud storage with stale local disk/git defaults. We preserve the current in-memory store.
+  global.__noveq_last_synced = now;
 }
 
 // Background sync on module evaluation (non-blocking)

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   creator: SITE_SETTINGS.brandName,
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon-48.png', sizes: '48x48', type: 'image/png' },
       { url: '/icon-96.png', sizes: '96x96', type: 'image/png' },
       { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -61,9 +61,9 @@ export const metadata: Metadata = {
     description: SITE_SETTINGS.seo.defaultDescription,
     images: [
       {
-        url: '/images/brand/noveq-brand-sheet.jpg',
-        width: 1200,
-        height: 630,
+        url: `${SITE_SETTINGS.seo.baseUrl}/images/hero/landing-hero-photoshoot.jpg`,
+        width: 1152,
+        height: 2048,
         alt: 'NOVEQ - Contemporary Nigerian Female Leather Pams',
       },
     ],
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: SITE_SETTINGS.seo.defaultTitle,
     description: SITE_SETTINGS.seo.defaultDescription,
-    images: ['/images/brand/noveq-brand-sheet.jpg'],
+    images: [`${SITE_SETTINGS.seo.baseUrl}/images/hero/landing-hero-photoshoot.jpg`],
   },
   robots: {
     index: true,
@@ -117,7 +117,7 @@ export default function RootLayout({
           width: 512,
           height: 512,
         },
-        image: `${SITE_SETTINGS.seo.baseUrl}/images/brand/noveq-brand-sheet.jpg`,
+        image: `${SITE_SETTINGS.seo.baseUrl}/images/hero/landing-hero-photoshoot.jpg`,
         description:
           "NOVEQ is a contemporary Nigerian footwear brand in Lagos, Nigeria, specializing in handcrafted female leather pams, women's slip-on slides, and vegetable-tanned footwear.",
         disambiguatingDescription:
@@ -144,6 +144,16 @@ export default function RootLayout({
         ],
       },
       {
+        '@type': 'Brand',
+        '@id': `${SITE_SETTINGS.seo.baseUrl}/#brand`,
+        name: 'NOVEQ',
+        alternateName: ['Noveq'],
+        url: SITE_SETTINGS.seo.baseUrl,
+        logo: `${SITE_SETTINGS.seo.baseUrl}/icon-512.png`,
+        slogan: 'Crafted to move.',
+        description: 'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain calfskin.',
+      },
+      {
         '@type': 'WebSite',
         '@id': `${SITE_SETTINGS.seo.baseUrl}/#website`,
         url: SITE_SETTINGS.seo.baseUrl,
@@ -166,7 +176,7 @@ export default function RootLayout({
     >
       <head>
         <meta name="google-site-verification" content="jT5KReR4IJvcuVVMshyX8cQV2JGxSC6Ws-VuYgM9PDY" />
-        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon-48.png" type="image/png" sizes="48x48" />
         <link rel="icon" href="/icon-96.png" type="image/png" sizes="96x96" />
         <link rel="icon" href="/icon-192.png" type="image/png" sizes="192x192" />
