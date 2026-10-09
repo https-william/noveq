@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, ArrowRight } from 'lucide-react';
+import { Heart, ArrowRight, Check } from 'lucide-react';
 import { Product } from '@/types/commerce';
 import { useCart } from '@/context/CartContext';
 
@@ -13,8 +13,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
-  const { addToCart } = useCart();
-  const [quickAddLoading, setQuickAddLoading] = useState(false);
+  const { addToCart, openDrawer } = useCart();
+  const [addingSize, setAddingSize] = useState<string | null>(null);
+  const [addedSize, setAddedSize] = useState<string | null>(null);
 
   const primaryImage = product.images[0] || {
     src: '/images/products/the-twist.jpg',
@@ -24,19 +25,21 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
   // Determine low stock label
   const isLowStock = product.stock > 0 && product.stock <= 3;
 
-  // First available size for quick add
-  const defaultSize = product.sizes.find((s) => s.available)?.size;
-
-  const handleQuickAdd = (e: React.MouseEvent) => {
+  const handleSizeQuickAdd = (e: React.MouseEvent, size: string) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!defaultSize) return;
+    if (addingSize) return;
 
-    setQuickAddLoading(true);
+    setAddingSize(size);
     setTimeout(() => {
-      addToCart(product, defaultSize, 1);
-      setQuickAddLoading(false);
-    }, 200);
+      addToCart(product, size, 1);
+      setAddingSize(null);
+      setAddedSize(size);
+      openDrawer();
+      setTimeout(() => {
+        setAddedSize(null);
+      }, 1600);
+    }, 220);
   };
 
   const formattedPrice = new Intl.NumberFormat('en-NG', {
@@ -117,6 +120,51 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
         </div>
       </Link>
 
+      {/* Direct Size Availability Chips (Strategy C) */}
+      <div className="px-5 sm:px-6 py-3 border-t border-cocoa/15 bg-bone/35 flex flex-wrap items-center justify-between gap-2">
+        <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-medium">
+          Quick Size
+        </span>
+
+        <div className="flex items-center gap-1.5" role="group" aria-label="Available shoe sizes">
+          {product.sizes.map((sz) => {
+            const isAdding = addingSize === sz.size;
+            const isJustAdded = addedSize === sz.size;
+            return (
+              <button
+                key={sz.size}
+                type="button"
+                disabled={!sz.available || Boolean(addingSize)}
+                onClick={(e) => handleSizeQuickAdd(e, sz.size)}
+                aria-label={
+                  sz.available
+                    ? `Quick add size ${sz.size} to bag`
+                    : `Size ${sz.size} sold out`
+                }
+                title={sz.available ? `Quick add ${sz.size} to bag` : `${sz.size} sold out`}
+                className={`min-w-[30px] h-7 px-1.5 text-[11px] font-mono rounded-xs border transition-transform duration-160 ease-out active:scale-[0.95] flex items-center justify-center focus-dark ${
+                  !sz.available
+                    ? 'border-cocoa/15 text-muted-taupe/35 bg-transparent line-through cursor-not-allowed'
+                    : isJustAdded
+                    ? 'border-emerald-700 bg-emerald-700 text-warm-white font-bold'
+                    : isAdding
+                    ? 'border-ink-black bg-ink-black text-warm-white'
+                    : 'border-cocoa/30 bg-warm-white text-ink-black hover:border-ink-black hover:bg-espresso hover:text-warm-white'
+                }`}
+              >
+                {isAdding ? (
+                  <span className="w-2.5 h-2.5 border-2 border-warm-white border-t-transparent rounded-full animate-spin" />
+                ) : isJustAdded ? (
+                  <Check className="w-3 h-3" />
+                ) : (
+                  sz.size.replace('EU ', '')
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Card Footer: Always-visible price and action */}
       <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-3 border-t border-cocoa/15 flex items-center justify-between">
         {/* Price (Never hidden or hover-gated) */}
@@ -136,28 +184,15 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           </span>
         </div>
 
-        {/* Quick Add (Desktop only, minimal) / Direct Link */}
-        <div className="flex items-center gap-2">
-          {defaultSize && (
-            <button
-              type="button"
-              onClick={handleQuickAdd}
-              disabled={quickAddLoading}
-              aria-label={`Quick add ${product.name} in ${defaultSize} to bag`}
-              className="hidden lg:inline-flex items-center gap-1 px-3 py-1.5 border border-cocoa/40 text-[11px] uppercase tracking-wider font-medium text-ink-black hover:bg-espresso hover:text-warm-white transition-colors rounded-xs focus-dark"
-            >
-              <span>{quickAddLoading ? 'Adding...' : `+ ${defaultSize}`}</span>
-            </button>
-          )}
-
-          <Link
-            href={`/shop/${product.slug}`}
-            className="p-1.5 text-espresso hover:text-ink-black transition-colors focus-dark rounded-xs"
-            aria-label={`View details for ${product.name}`}
-          >
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+        {/* Direct Link */}
+        <Link
+          href={`/shop/${product.slug}`}
+          className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider font-semibold text-cocoa hover:text-ink-black underline underline-offset-4 focus-dark p-1.5 transition-colors"
+          aria-label={`View details for ${product.name}`}
+        >
+          <span>View Pair</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
     </article>
   );

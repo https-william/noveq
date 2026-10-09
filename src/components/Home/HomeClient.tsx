@@ -12,6 +12,7 @@ import {
   Archive,
 } from 'lucide-react';
 import ProductCard from '@/components/Product/ProductCard';
+import { AtelierSpecimenInspector } from '@/components/Atelier/AtelierSpecimenInspector';
 import { SocialProofSection } from '@/components/SocialProof/SocialProofSection';
 import { ScrollReveal } from '@/components/Editorial/ScrollReveal';
 import { DROP_001_PRODUCTS } from '@/data/products';
@@ -346,27 +347,38 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         </div>
       </section>
 
-      {/* ── RELOCATED DROP 001 ANNOUNCEMENT STRIP (BELOW HERO) ── */}
+      {/* ── STRATEGY D: LIVING ATELIER STATUS PULSE (BELOW HERO) ── */}
       <aside
-        aria-label="Collection Announcement"
+        aria-label="Atelier Production Status"
         className="w-full bg-espresso text-warm-white border-b border-cocoa/30 py-3.5 px-4 sm:px-6"
       >
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
-          <div className="flex items-center gap-2.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-semibold text-warm-white">Drop 001 is Live</span>
-            <span className="text-muted-taupe-on-dark hidden md:inline">|</span>
-            <span className="text-muted-taupe-on-dark font-normal hidden md:inline">
-              Limited run of handcrafted female leather pams
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
+          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span className="font-semibold text-warm-white">Lagos Atelier Active</span>
+            <span className="text-muted-taupe-on-dark">•</span>
+            <span className="text-warm-white font-medium">Drop 001 Allocation Live</span>
+            <span className="text-muted-taupe-on-dark hidden lg:inline">•</span>
+            <span className="text-muted-taupe-on-dark font-normal hidden lg:inline">
+              7 business days nationwide delivery
             </span>
           </div>
-          <Link
-            href="/shop"
-            className="inline-flex items-center gap-1.5 text-warm-white font-medium hover:text-bone underline underline-offset-4 transition-colors focus-dark"
-          >
-            <span>Discover Collection</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+
+          <div className="flex items-center gap-4 text-[11px]">
+            <span className="font-mono text-muted-taupe-on-dark/70 hidden sm:inline">
+              LAT 6.5244° N, LON 3.3792° E
+            </span>
+            <Link
+              href="/shop"
+              className="inline-flex items-center gap-1.5 text-warm-white font-medium hover:text-bone underline underline-offset-4 transition-colors focus-dark"
+            >
+              <span>Explore Collection</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
       </aside>
 
@@ -408,6 +420,9 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
           </p>
         </div>
       </ScrollReveal>
+
+      {/* ── STRATEGY A: INTERACTIVE ATELIER LEATHER & MATERIALITY INSPECTOR ── */}
+      <AtelierSpecimenInspector />
 
       {/* ── 4. BRAND STORY MINI-EDITORIAL BLOCK ── */}
       <section className="py-20 sm:py-28 bg-bone border-b border-cocoa/20">
