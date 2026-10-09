@@ -55,7 +55,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
 
   return (
     <article
-      className="group relative bg-warm-white border border-cocoa/20 rounded-sm flex flex-col justify-between overflow-hidden transition-all duration-200 hover:border-cocoa/50"
+      className="group relative bg-warm-white border border-cocoa/20 rounded-sm flex flex-col justify-between overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-apple-md hover:border-cocoa/40"
     >
       <Link
         href={`/shop/${product.slug}`}

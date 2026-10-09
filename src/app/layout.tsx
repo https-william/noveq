@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Inter, Instrument_Serif } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
-import AnnouncementBar from '@/components/AnnouncementBar/AnnouncementBar';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 
@@ -202,15 +201,7 @@ export default function RootLayout({
             Skip to main content
           </a>
 
-          {/* Global Brand Shell: Announcement Bar + Sticky Header */}
-          {SITE_SETTINGS.announcement.enabled && (
-            <AnnouncementBar
-              message={SITE_SETTINGS.announcement.text}
-              linkText={SITE_SETTINGS.announcement.linkText}
-              linkHref={SITE_SETTINGS.announcement.linkHref}
-              isDismissible={SITE_SETTINGS.announcement.dismissible}
-            />
-          )}
+          {/* Global Brand Shell: Sticky Header (Flush at viewport top) */}
           <Header />
 
           {/* Primary Page Canvas */}

@@ -169,8 +169,8 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 {campaignState === 'live' && (
                   <>
                     <span className="font-semibold text-warm-white">DROP 001</span>
-                    <span className="w-1 h-1 rounded-full bg-cocoa" />
-                    <span>Handcrafted in Nigeria</span>
+                    <span className="text-muted-taupe-on-dark font-normal">•</span>
+                    <span>HANDCRAFTED IN NIGERIA</span>
                   </>
                 )}
               </div>
@@ -306,17 +306,20 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 </span>
               </div>
 
-              {/* Hero Image Card (4:5 Aspect Ratio for Natural Photoshoot Framing) */}
-              <div className="relative z-10 aspect-[4/5] max-w-sm sm:max-w-md w-full bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl group">
-                <Image
-                  src="/images/hero/landing-hero-photoshoot.jpg"
-                  alt="NOVEQ contemporary handcrafted leather footwear: Drop 001"
-                  fill
-                  priority
-                  quality={95}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 450px, 480px"
-                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                />
+              {/* Hero Visual Card (Rock-solid Fluid Video with Poster Fallback & Quiet Luxury Framing) */}
+              <div className="relative z-10 aspect-[4/5] max-w-sm sm:max-w-md w-full bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="metadata"
+                  poster="/images/hero/landing-hero-photoshoot.jpg"
+                  aria-label="NOVEQ contemporary handcrafted leather footwear in movement"
+                  className="w-full h-full object-cover object-center pointer-events-none select-none"
+                >
+                  <source src="/videos/landing-hero-video.mp4" type="video/mp4" />
+                </video>
 
                 {/* State-specific subtle visual overlay pill */}
                 {campaignState === 'pre-launch' && (
@@ -342,6 +345,30 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
           </div>
         </div>
       </section>
+
+      {/* ── RELOCATED DROP 001 ANNOUNCEMENT STRIP (BELOW HERO) ── */}
+      <aside
+        aria-label="Collection Announcement"
+        className="w-full bg-espresso text-warm-white border-b border-cocoa/30 py-3.5 px-4 sm:px-6"
+      >
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
+          <div className="flex items-center gap-2.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="font-semibold text-warm-white">Drop 001 is Live</span>
+            <span className="text-muted-taupe-on-dark hidden md:inline">|</span>
+            <span className="text-muted-taupe-on-dark font-normal hidden md:inline">
+              Limited run of handcrafted female leather pams
+            </span>
+          </div>
+          <Link
+            href="/shop"
+            className="inline-flex items-center gap-1.5 text-warm-white font-medium hover:text-bone underline underline-offset-4 transition-colors focus-dark"
+          >
+            <span>Discover Collection</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+      </aside>
 
       {/* ── 2. FEATURED NOVEQ COLLECTION (CLEAN, MINIMAL CATALOG) ── */}
       <section id="drop-001-grid" className="py-20 sm:py-28 bg-bone border-b border-cocoa/15 design-grid-subtle">
