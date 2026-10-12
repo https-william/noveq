@@ -96,11 +96,24 @@ export function saveOrder(order: Order): Order {
   return order;
 }
 
+export function reloadOrdersFromDisk(): Map<string, Order> {
+  const diskOrders = loadInitialOrders();
+  ordersStore.clear();
+  for (const [k, v] of diskOrders.entries()) {
+    ordersStore.set(k, v);
+  }
+  return ordersStore;
+}
+
 export function getOrderById(orderId: string): Order | undefined {
+  if (!ordersStore.has(orderId)) {
+    reloadOrdersFromDisk();
+  }
   return ordersStore.get(orderId);
 }
 
 export function getAllOrders(): Order[] {
+  reloadOrdersFromDisk();
   return Array.from(ordersStore.values()).sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );

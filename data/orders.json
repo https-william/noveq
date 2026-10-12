@@ -1,7 +1,7 @@
 [
   {
-    "id": "NOV-OFF-36856",
-    "createdAt": "2026-10-04T13:33:56.856Z",
+    "id": "ORD-006",
+    "createdAt": "2026-10-12T18:30:00.000Z",
     "status": "paid",
     "customer": {
       "fullName": "Glory Johnson",
@@ -11,7 +11,7 @@
       "city": "Lagos",
       "state": "Lagos",
       "zoneId": "lagos-metro",
-      "deliveryNotes": "Manual / Offline Order (Direct Bank Transfer)"
+      "deliveryNotes": "Order synced with Google Sheets (Row 11)"
     },
     "items": [
       {
@@ -19,137 +19,361 @@
           "name": "The Weave Slide Pam",
           "slug": "the-weave-slide-pam",
           "collection": "Drop 001",
-          "price": 25000,
-          "compare_at_price": 29000,
+          "price": 20000,
+          "compare_at_price": 25000,
           "currency": "NGN",
           "colour": "Black",
           "colourHex": "#141414",
-          "colours": [
-            {
-              "name": "Black",
-              "hex": "#141414",
-              "imageSrc": "/images/products/the-weave-black.jpg"
-            },
-            {
-              "name": "Burgundy",
-              "hex": "#5B1E28",
-              "imageSrc": "/images/products/the-weave-burgundy.jpg"
-            },
-            {
-              "name": "Off White",
-              "hex": "#EFE9DF",
-              "imageSrc": "/images/products/the-weave-off-white.jpg"
-            },
-            {
-              "name": "Army Green",
-              "hex": "#4B5320",
-              "imageSrc": "/images/products/the-weave-army-green.jpg"
-            },
-            {
-              "name": "Dark Brown",
-              "hex": "#3B2219",
-              "imageSrc": "/images/products/the-weave-dark-brown.jpg"
-            }
-          ],
           "stock": 5,
           "material": "Interlocking multi-strap braided Nigerian cowhide, beveled square-toe footbed, flexible non-slip low heel sole.",
           "care": "Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.",
-          "dimensions_weight": "Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.",
-          "description": "Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, elevated look.",
-          "design_note": "Handcrafted braided strap architecture flexes naturally with every step, distributing stride pressure across the arch while adding rich tactile dimension to your wardrobe.",
-          "charm_option": {
-            "supported": false
-          },
+          "description": "Braided leather straps for a textured finish. Stylish, refined, and timeless.",
+          "design_note": "Handcrafted braided strap architecture flexes naturally with every step.",
+          "charm_option": { "supported": false },
           "publish_status": "published",
-          "fit_notes": "True to standard size. Woven leather provides gentle give to mirror foot contours.",
-          "shipping_notes": "Ships within 24–48 hours nationwide. Tracked courier with delivery fee paid directly to rider on arrival.",
+          "fit_notes": "True to standard size.",
+          "shipping_notes": "Ships within 24–48 hours nationwide.",
           "sizes": [
-            {
-              "size": "EU 37",
-              "available": true,
-              "stockCount": 1
-            },
-            {
-              "size": "EU 38",
-              "available": true,
-              "stockCount": 1
-            },
-            {
-              "size": "EU 39",
-              "available": true,
-              "stockCount": 1
-            },
-            {
-              "size": "EU 40",
-              "available": true,
-              "stockCount": 1
-            },
-            {
-              "size": "EU 41",
-              "available": true,
-              "stockCount": 1
-            }
+            { "size": "EU 37", "available": true, "stockCount": 1 },
+            { "size": "EU 38", "available": true, "stockCount": 1 },
+            { "size": "EU 39", "available": true, "stockCount": 1 },
+            { "size": "EU 40", "available": true, "stockCount": 1 },
+            { "size": "EU 41", "available": true, "stockCount": 1 }
           ],
           "images": [
-            {
-              "src": "/images/models/the-weave-hero-model.jpg",
-              "alt": "NOVEQ The Weave Slide Pam on model feet on sunlit stone pavement",
-              "viewType": "hero"
-            },
-            {
-              "src": "/images/products/the-weave-black.jpg",
-              "alt": "NOVEQ The Weave Slide Pam in Deep Noir woven leather",
-              "viewType": "detail"
-            },
-            {
-              "src": "/images/products/the-weave-burgundy.jpg",
-              "alt": "NOVEQ The Weave Slide Pam in Burgundy woven leather",
-              "viewType": "detail"
-            },
-            {
-              "src": "/images/products/the-weave-off-white.jpg",
-              "alt": "NOVEQ The Weave Slide Pam in Off White woven leather",
-              "viewType": "detail"
-            },
-            {
-              "src": "/images/products/the-weave-army-green.jpg",
-              "alt": "NOVEQ The Weave Slide Pam in Army Green woven leather",
-              "viewType": "detail"
-            },
-            {
-              "src": "/images/products/the-weave-dark-brown.jpg",
-              "alt": "NOVEQ The Weave Slide Pam in Dark Brown woven leather",
-              "viewType": "detail"
-            },
-            {
-              "src": "/images/campaign/the-weave-campaign-poster.png",
-              "alt": "NOVEQ The Weave Campaign Poster — Now in more colours",
-              "viewType": "detail"
-            },
-            {
-              "src": "/images/models/the-weave-editorial-spec.jpg",
-              "alt": "NOVEQ The Weave Slide Pam editorial specification and colourways",
-              "viewType": "top"
-            }
-          ],
-          "hidden": false
+            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+          ]
         },
         "selectedSize": "EU 38",
         "selectedColour": "Black",
         "quantity": 1
       }
     ],
-    "subtotal": 25000,
+    "subtotal": 20000,
     "deliveryFee": 0,
-    "total": 25000,
+    "total": 20000,
     "currency": "NGN",
     "deliveryExpectation": "24–48 hours nationwide courier",
     "payment": {
       "provider": "bank_transfer",
       "status": "success",
-      "reference": "OFF-836857",
-      "paidAt": "2026-10-04T13:33:56.857Z"
+      "reference": "OFF-ORD-006",
+      "paidAt": "2026-10-12T18:30:00.000Z"
     },
-    "notes": "Offline sale logged via Admin Console (Direct Bank Transfer)"
+    "notes": "Verified client order synced from Google Sheet row 11"
+  },
+  {
+    "id": "ORD-005",
+    "createdAt": "2026-10-07T09:40:00.000Z",
+    "status": "processing",
+    "customer": {
+      "fullName": "Vivian Isibor",
+      "phone": "+2348163221852",
+      "email": "2348163221852@client.noveq.com.ng",
+      "address": "21, Abiodun Street, Somolu",
+      "city": "Lagos",
+      "state": "Lagos",
+      "zoneId": "lagos-metro",
+      "deliveryNotes": "Order synced with Google Sheets (Row 10)"
+    },
+    "items": [
+      {
+        "product": {
+          "name": "The Twist Slide Pam",
+          "slug": "the-twist-slide-pam",
+          "collection": "Drop 001",
+          "price": 20000,
+          "compare_at_price": 25000,
+          "currency": "NGN",
+          "colour": "Warm Cognac",
+          "colourHex": "#7C3F1D",
+          "stock": 4,
+          "material": "Continuous helical single-strip architecture in supple Nigerian calfskin.",
+          "care": "Wipe clean with a soft dry cloth.",
+          "description": "Continuous helical leather crossover. Uninterrupted sculpture for daily wear.",
+          "design_note": "Single-strip folded architecture cradles the instep without seams.",
+          "charm_option": { "supported": false },
+          "publish_status": "published",
+          "fit_notes": "True to standard size.",
+          "shipping_notes": "Ships within 24–48 hours nationwide.",
+          "sizes": [
+            { "size": "EU 37", "available": true, "stockCount": 1 },
+            { "size": "EU 38", "available": true, "stockCount": 1 },
+            { "size": "EU 39", "available": true, "stockCount": 1 },
+            { "size": "EU 40", "available": true, "stockCount": 1 },
+            { "size": "EU 41", "available": true, "stockCount": 1 }
+          ],
+          "images": [
+            { "src": "/images/products/the-twist-warm-cognac.jpg", "alt": "The Twist Warm Cognac", "viewType": "hero" }
+          ]
+        },
+        "selectedSize": "EU 40",
+        "selectedColour": "Brown",
+        "quantity": 1
+      }
+    ],
+    "subtotal": 20000,
+    "deliveryFee": 0,
+    "total": 20000,
+    "currency": "NGN",
+    "deliveryExpectation": "24–48 hours nationwide courier",
+    "payment": {
+      "provider": "bank_transfer",
+      "status": "pending",
+      "reference": "OFF-ORD-005"
+    },
+    "notes": "Balance: ₦20,000 payable upon arrival (Row 10)"
+  },
+  {
+    "id": "ORD-004",
+    "createdAt": "2026-10-02T14:20:00.000Z",
+    "status": "delivered",
+    "customer": {
+      "fullName": "Jacinta Isibor",
+      "phone": "+2348035032743",
+      "email": "2348035032743@client.noveq.com.ng",
+      "address": "8, Unity Street, Sango, Ogun state",
+      "city": "Sango",
+      "state": "Ogun",
+      "zoneId": "south-west",
+      "deliveryNotes": "Order synced with Google Sheets (Row 9)"
+    },
+    "items": [
+      {
+        "product": {
+          "name": "The Weave Slide Pam",
+          "slug": "the-weave-slide-pam",
+          "collection": "Drop 001",
+          "price": 20000,
+          "compare_at_price": 25000,
+          "currency": "NGN",
+          "colour": "Black",
+          "colourHex": "#141414",
+          "stock": 5,
+          "material": "Interlocking multi-strap braided Nigerian cowhide.",
+          "care": "Wipe clean with a soft dry cotton cloth.",
+          "description": "Braided leather straps for a textured finish.",
+          "design_note": "Handcrafted braided strap architecture.",
+          "charm_option": { "supported": false },
+          "publish_status": "published",
+          "fit_notes": "True to standard size.",
+          "shipping_notes": "Ships within 24–48 hours nationwide.",
+          "sizes": [
+            { "size": "EU 37", "available": true, "stockCount": 1 },
+            { "size": "EU 38", "available": true, "stockCount": 1 },
+            { "size": "EU 39", "available": true, "stockCount": 1 },
+            { "size": "EU 40", "available": true, "stockCount": 1 },
+            { "size": "EU 41", "available": true, "stockCount": 1 }
+          ],
+          "images": [
+            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+          ]
+        },
+        "selectedSize": "EU 39",
+        "selectedColour": "Black",
+        "quantity": 1
+      }
+    ],
+    "subtotal": 20000,
+    "deliveryFee": 0,
+    "total": 20000,
+    "currency": "NGN",
+    "deliveryExpectation": "Delivered to Sango, Ogun state",
+    "payment": {
+      "provider": "bank_transfer",
+      "status": "success",
+      "reference": "OFF-ORD-004",
+      "paidAt": "2026-10-02T14:20:00.000Z"
+    },
+    "notes": "Delivered and settled (Row 9)"
+  },
+  {
+    "id": "ORD-003",
+    "createdAt": "2026-10-02T12:45:00.000Z",
+    "status": "delivered",
+    "customer": {
+      "fullName": "Vivian Isibor",
+      "phone": "+2348163221852",
+      "email": "2348163221852@client.noveq.com.ng",
+      "address": "21, Abiodun Street, Somolu",
+      "city": "Lagos",
+      "state": "Lagos",
+      "zoneId": "lagos-metro",
+      "deliveryNotes": "Order synced with Google Sheets (Row 8)"
+    },
+    "items": [
+      {
+        "product": {
+          "name": "The Weave Slide Pam",
+          "slug": "the-weave-slide-pam",
+          "collection": "Drop 001",
+          "price": 20000,
+          "compare_at_price": 25000,
+          "currency": "NGN",
+          "colour": "Black",
+          "colourHex": "#141414",
+          "stock": 5,
+          "material": "Interlocking multi-strap braided Nigerian cowhide.",
+          "care": "Wipe clean with a soft dry cotton cloth.",
+          "description": "Braided leather straps for a textured finish.",
+          "design_note": "Handcrafted braided strap architecture.",
+          "charm_option": { "supported": false },
+          "publish_status": "published",
+          "fit_notes": "True to standard size.",
+          "shipping_notes": "Ships within 24–48 hours nationwide.",
+          "sizes": [
+            { "size": "EU 37", "available": true, "stockCount": 1 },
+            { "size": "EU 38", "available": true, "stockCount": 1 },
+            { "size": "EU 39", "available": true, "stockCount": 1 },
+            { "size": "EU 40", "available": true, "stockCount": 1 },
+            { "size": "EU 41", "available": true, "stockCount": 1 }
+          ],
+          "images": [
+            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+          ]
+        },
+        "selectedSize": "EU 37",
+        "selectedColour": "Black",
+        "quantity": 1
+      }
+    ],
+    "subtotal": 20000,
+    "deliveryFee": 0,
+    "total": 20000,
+    "currency": "NGN",
+    "deliveryExpectation": "Delivered to Somolu, Lagos",
+    "payment": {
+      "provider": "bank_transfer",
+      "status": "success",
+      "reference": "OFF-ORD-003",
+      "paidAt": "2026-10-02T12:45:00.000Z"
+    },
+    "notes": "Delivered and settled (Row 8)"
+  },
+  {
+    "id": "ORD-002",
+    "createdAt": "2026-10-02T11:30:00.000Z",
+    "status": "delivered",
+    "customer": {
+      "fullName": "Isibor Dorcas",
+      "phone": "+2349031901868",
+      "email": "2349031901868@client.noveq.com.ng",
+      "address": "Bonam Fortunam",
+      "city": "Lagos",
+      "state": "Lagos",
+      "zoneId": "lagos-metro",
+      "deliveryNotes": "Order synced with Google Sheets (Row 7)"
+    },
+    "items": [
+      {
+        "product": {
+          "name": "The Weave Slide Pam",
+          "slug": "the-weave-slide-pam",
+          "collection": "Drop 001",
+          "price": 20000,
+          "compare_at_price": 25000,
+          "currency": "NGN",
+          "colour": "Army Green",
+          "colourHex": "#4B5320",
+          "stock": 5,
+          "material": "Interlocking multi-strap braided Nigerian cowhide.",
+          "care": "Wipe clean with a soft dry cotton cloth.",
+          "description": "Braided leather straps for a textured finish.",
+          "design_note": "Handcrafted braided strap architecture.",
+          "charm_option": { "supported": false },
+          "publish_status": "published",
+          "fit_notes": "True to standard size.",
+          "shipping_notes": "Ships within 24–48 hours nationwide.",
+          "sizes": [
+            { "size": "EU 37", "available": true, "stockCount": 1 },
+            { "size": "EU 38", "available": true, "stockCount": 1 },
+            { "size": "EU 39", "available": true, "stockCount": 1 },
+            { "size": "EU 40", "available": true, "stockCount": 1 },
+            { "size": "EU 41", "available": true, "stockCount": 1 }
+          ],
+          "images": [
+            { "src": "/images/products/the-weave-army-green.jpg", "alt": "The Weave Army Green", "viewType": "hero" }
+          ]
+        },
+        "selectedSize": "EU 37",
+        "selectedColour": "Army Green",
+        "quantity": 1
+      }
+    ],
+    "subtotal": 20000,
+    "deliveryFee": 0,
+    "total": 20000,
+    "currency": "NGN",
+    "deliveryExpectation": "Delivered to Bonam Fortunam, Lagos",
+    "payment": {
+      "provider": "bank_transfer",
+      "status": "success",
+      "reference": "OFF-ORD-002",
+      "paidAt": "2026-10-02T11:30:00.000Z"
+    },
+    "notes": "Delivered and settled (Row 7)"
+  },
+  {
+    "id": "ORD-001",
+    "createdAt": "2026-10-02T10:15:00.000Z",
+    "status": "delivered",
+    "customer": {
+      "fullName": "Isibor Dorcas",
+      "phone": "+2349031901868",
+      "email": "2349031901868@client.noveq.com.ng",
+      "address": "Bonam Fortunam",
+      "city": "Lagos",
+      "state": "Lagos",
+      "zoneId": "lagos-metro",
+      "deliveryNotes": "Order synced with Google Sheets (Row 6)"
+    },
+    "items": [
+      {
+        "product": {
+          "name": "The Weave Slide Pam",
+          "slug": "the-weave-slide-pam",
+          "collection": "Drop 001",
+          "price": 20000,
+          "compare_at_price": 25000,
+          "currency": "NGN",
+          "colour": "Black",
+          "colourHex": "#141414",
+          "stock": 5,
+          "material": "Interlocking multi-strap braided Nigerian cowhide.",
+          "care": "Wipe clean with a soft dry cotton cloth.",
+          "description": "Braided leather straps for a textured finish.",
+          "design_note": "Handcrafted braided strap architecture.",
+          "charm_option": { "supported": false },
+          "publish_status": "published",
+          "fit_notes": "True to standard size.",
+          "shipping_notes": "Ships within 24–48 hours nationwide.",
+          "sizes": [
+            { "size": "EU 37", "available": true, "stockCount": 1 },
+            { "size": "EU 38", "available": true, "stockCount": 1 },
+            { "size": "EU 39", "available": true, "stockCount": 1 },
+            { "size": "EU 40", "available": true, "stockCount": 1 },
+            { "size": "EU 41", "available": true, "stockCount": 1 }
+          ],
+          "images": [
+            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+          ]
+        },
+        "selectedSize": "EU 38",
+        "selectedColour": "Black",
+        "quantity": 1
+      }
+    ],
+    "subtotal": 20000,
+    "deliveryFee": 0,
+    "total": 20000,
+    "currency": "NGN",
+    "deliveryExpectation": "Delivered to Bonam Fortunam, Lagos",
+    "payment": {
+      "provider": "bank_transfer",
+      "status": "success",
+      "reference": "OFF-ORD-001",
+      "paidAt": "2026-10-02T10:15:00.000Z"
+    },
+    "notes": "Delivered and settled (Row 6)"
   }
 ]

@@ -10,6 +10,10 @@ export async function GET() {
   try {
     const orders = getAllOrders();
     const totalRevenue = orders.reduce(
+      (sum, o) => (o.status !== 'cancelled' ? sum + o.total : sum),
+      0
+    );
+    const moneyReceived = orders.reduce(
       (sum, o) => (o.payment.status === 'success' ? sum + o.total : sum),
       0
     );
@@ -22,6 +26,7 @@ export async function GET() {
       success: true,
       metrics: {
         totalRevenue,
+        moneyReceived,
         totalOrdersCount,
         pendingFulfillmentsCount,
         currency: 'NGN',
