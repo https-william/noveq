@@ -37,14 +37,19 @@ import {
   Trash2,
   Link2,
   Star,
+  FileSpreadsheet,
+  CheckCheck,
+  Code,
+  ArrowUpRight,
+  Activity,
 } from 'lucide-react';
 import { Order, Product, ProductSize } from '@/types/commerce';
 import { Subscriber } from '@/lib/subscribers';
 import { supabase } from '@/lib/supabase';
 import { resizeImageToWebP } from '@/lib/imageResize';
+import { GOOGLE_SHEETS_CONFIG } from '@/config/siteSettings';
 
-const GOOGLE_SHEET_URL =
-  'https://docs.google.com/spreadsheets/d/1ZLbOPcCztTgtxmKmWLW_BB_utKxS7-DpePflxXerA1I/edit?gid=79417387#gid=79417387';
+const GOOGLE_SHEET_URL = GOOGLE_SHEETS_CONFIG.tabs.orders.url;
 
 // Brand Voice WhatsApp Message Generator (/clarity + /wolf)
 function getWhatsAppMessageForStatus(order: Order, status: Order['status']): string {
@@ -127,12 +132,165 @@ const INITIAL_OFFLINE_FORM: OfflineOrderForm = {
 export default function AdminDashboardPage() {
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+const APPS_SCRIPT_CODE = `/**
+ * NOVEQ Brand Google Sheets Webhook (Apps Script)
+ * Sheet: NOVEQ Official Ledger (Orders, P&L, Summary)
+ * Spreadsheet ID: 1ZLbOPcCztTgtxmKmWLW_BB_utKxS7-DpePflxXerA1I
+ *
+ * HOW TO INSTALL IN GOOGLE SHEETS:
+ * 1. Open your Google Sheet
+ * 2. Click Extensions > Apps Script
+ * 3. Replace all code with this file and click Save (Floppy disk icon)
+ * 4. Click Deploy > Manage Deployments > Edit (pencil icon) > New Version > Deploy
+ */
+
+function doGet(e) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success",
+      message: "NOVEQ Webhook is active and responding.",
+      spreadsheet: ss.getName(),
+      timestamp: new Date().toISOString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doPost(e) {
+  try {
+    var data = {};
+    if (e && e.postData && e.postData.contents) {
+      data = JSON.parse(e.postData.contents);
+    } else if (e && e.parameter) {
+      data = e.parameter;
+    }
+
+    if (data.action === "ping" || data.test === true) {
+      return ContentService.createTextOutput(JSON.stringify({
+        status: "success",
+        message: "NOVEQ webhook ping verified successfully! Connection is healthy."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var ordersSheet = ss.getSheetByName("Orders");
+    if (!ordersSheet) {
+      var all = ss.getSheets();
+      for (var k = 0; k < all.length; k++) {
+        if (all[k].getSheetId() === 87663893 || all[k].getName().toLowerCase().indexOf("order") !== -1) {
+          ordersSheet = all[k];
+          break;
+        }
+      }
+    }
+    if (!ordersSheet) ordersSheet = ss.getSheets()[0];
+
+    var orderNo = data.orderNo || data.orderId || ("ORD-" + Utilities.formatDate(new Date(), "Africa/Lagos", "yyMMdd-HHmm"));
+    var dateStr = data.dateReceived || Utilities.formatDate(new Date(), "Africa/Lagos", "dd-MMM-yyyy");
+    var customerName = (data.customer && data.customer.fullName) || data.customerName || "Customer";
+    var phone = cleanPhoneFormat((data.customer && data.customer.phone) || data.phone || "");
+    
+    var addressParts = [];
+    if (data.customer && data.customer.address) addressParts.push(data.customer.address);
+    if (data.customer && data.customer.city) addressParts.push(data.customer.city);
+    if (data.customer && data.customer.state) addressParts.push(data.customer.state);
+    var address = addressParts.length > 0 ? addressParts.join(", ") : (data.address || "Lagos, Nigeria");
+    
+    var status = data.orderStatus || data.status || "New";
+    var paymentStatus = data.paymentStatus || (data.payment && data.payment.status) || "paid";
+    var orderTotal = Number(data.total) || 0;
+
+    var items = data.items || [];
+    if (!Array.isArray(items) || items.length === 0) {
+      items = [{
+        name: data.productName || "The Weave",
+        selectedSize: data.size || "38",
+        selectedColour: data.colour || "Black",
+        quantity: Number(data.quantity) || 1,
+        price: orderTotal || 20000
+      }];
+    }
+
+    var lastRow = ordersSheet.getLastRow();
+    var nextRow = Math.max(lastRow + 1, 6);
+
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      var productName = item.name || "The Weave";
+      var rawSize = item.selectedSize || item.size || "38";
+      var size = rawSize.toString().replace(/^EU\\\\s*/i, "").trim();
+      var colour = item.selectedColour || item.colour || "Black";
+      var qty = Number(item.quantity) || 1;
+      var unitPrice = Number(item.price) || (items.length > 0 ? Math.round(orderTotal / items.length) : 20000);
+      var itemTotal = unitPrice * qty;
+      var isPaid = (paymentStatus === "success" || paymentStatus === "paid");
+
+      ordersSheet.getRange(nextRow, 1, 1, 14).setValues([[
+        orderNo,
+        dateStr,
+        customerName,
+        phone,
+        address,
+        productName,
+        size,
+        colour,
+        qty,
+        unitPrice,
+        itemTotal,
+        status,
+        isPaid ? itemTotal : 0,
+        isPaid ? "Paid" : "Pending"
+      ]]);
+      nextRow++;
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success",
+      message: "Order " + orderNo + " logged successfully to Google Sheets.",
+      orderNo: orderNo
+    })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error",
+      message: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function cleanPhoneFormat(phoneStr) {
+  if (!phoneStr) return "";
+  var digits = phoneStr.replace(/[^0-9]/g, "");
+  if (digits.startsWith("0")) digits = "234" + digits.substring(1);
+  else if (!digits.startsWith("234") && digits.length === 10) digits = "234" + digits;
+  if (digits.startsWith("234") && digits.length >= 13) return "(+234)" + digits.substring(3);
+  return phoneStr;
+}`;
+
   const [passwordInput, setPasswordInput] = useState<string>('');
   const [authError, setAuthError] = useState<string | null>(null);
   const [isAuthChecking, setIsAuthChecking] = useState<boolean>(true);
 
-  // Active View Tab: 'orders' | 'products' | 'dashboard' | 'customers' | 'subscribers'
-  const [activeTab, setActiveTab] = useState<'orders' | 'products' | 'dashboard' | 'customers' | 'subscribers'>('orders');
+  // Active View Tab: 'orders' | 'products' | 'dashboard' | 'customers' | 'subscribers' | 'sheets'
+  const [activeTab, setActiveTab] = useState<
+    'orders' | 'products' | 'dashboard' | 'customers' | 'subscribers' | 'sheets'
+  >('orders');
+
+  // Google Sheets Hub State
+  const [sheetsSubTab, setSheetsSubTab] = useState<'orders' | 'pnl' | 'summary' | 'sync' | 'script'>('orders');
+  const [webhookStatus, setWebhookStatus] = useState<'idle' | 'testing' | 'healthy' | 'error'>('idle');
+  const [webhookMessage, setWebhookMessage] = useState<string>('');
+  const [isSyncingAll, setIsSyncingAll] = useState(false);
+  const [syncSummary, setSyncSummary] = useState<{ total: number; succeeded: number; failed: number } | null>(null);
+  const [syncingOrderId, setSyncingOrderId] = useState<string | null>(null);
+  const [orderSyncFeedback, setOrderSyncFeedback] = useState<Record<string, { success: boolean; message: string }>>({});
+  const [iframeKey, setIframeKey] = useState<number>(1);
+  const [copiedScript, setCopiedScript] = useState<boolean>(false);
+  const [customWebhookUrl, setCustomWebhookUrl] = useState<string>(GOOGLE_SHEETS_CONFIG.defaultWebhookUrl);
 
   // Orders State
   const [orders, setOrders] = useState<Order[]>([]);
@@ -702,6 +860,83 @@ export default function AdminDashboardPage() {
     document.body.removeChild(link);
   };
 
+  // Google Sheets Sync Handlers
+  const testWebhook = async () => {
+    setWebhookStatus('testing');
+    setWebhookMessage('Pinging Google Apps Script Webhook...');
+    try {
+      const res = await fetch(`/api/admin/sheets?webhookUrl=${encodeURIComponent(customWebhookUrl)}`);
+      const data = await res.json();
+      if (data.success) {
+        setWebhookStatus('healthy');
+        setWebhookMessage(data.message || 'Webhook is live and responding perfectly!');
+      } else {
+        setWebhookStatus('error');
+        setWebhookMessage(data.message || data.error || 'Webhook reported an error. Ensure the latest Apps Script is deployed.');
+      }
+    } catch (err: unknown) {
+      setWebhookStatus('error');
+      const msg = err instanceof Error ? err.message : String(err);
+      setWebhookMessage(`Connection failed: ${msg}`);
+    }
+  };
+
+  const handleSyncOrder = async (orderId: string) => {
+    setSyncingOrderId(orderId);
+    try {
+      const res = await fetch('/api/admin/sheets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'sync_order', orderId, webhookUrl: customWebhookUrl }),
+      });
+      const data = await res.json();
+      setOrderSyncFeedback((prev) => ({
+        ...prev,
+        [orderId]: { success: data.success, message: data.message || (data.success ? 'Synced' : 'Failed') },
+      }));
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Sync failed';
+      setOrderSyncFeedback((prev) => ({
+        ...prev,
+        [orderId]: { success: false, message: msg },
+      }));
+    } finally {
+      setSyncingOrderId(null);
+    }
+  };
+
+  const handleSyncAllOrders = async () => {
+    setIsSyncingAll(true);
+    setSyncSummary(null);
+    try {
+      const res = await fetch('/api/admin/sheets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'sync_all', webhookUrl: customWebhookUrl }),
+      });
+      const data = await res.json();
+      if (data.results) {
+        const newFeedback: Record<string, { success: boolean; message: string }> = {};
+        data.results.forEach((r: { orderId: string; success: boolean; message: string }) => {
+          newFeedback[r.orderId] = { success: r.success, message: r.message };
+        });
+        setOrderSyncFeedback((prev) => ({ ...prev, ...newFeedback }));
+        setSyncSummary({ total: data.total, succeeded: data.succeeded, failed: data.failed });
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Sync all failed';
+      setWebhookMessage(msg);
+    } finally {
+      setIsSyncingAll(false);
+    }
+  };
+
+  const copyAppsScriptCode = () => {
+    navigator.clipboard.writeText(APPS_SCRIPT_CODE);
+    setCopiedScript(true);
+    setTimeout(() => setCopiedScript(false), 3000);
+  };
+
   // Filtered Orders (newest first, status filter: paid, sourcing, out for delivery, delivered, cancelled and orders)
   const filteredOrders = useMemo(() => {
     return orders.filter((order) => {
@@ -1030,6 +1265,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
           { id: 'dashboard', label: 'Metrics & Pipeline', icon: TrendingUp },
           { id: 'customers', label: `Clients (${uniqueCustomers.length})`, icon: Users },
           { id: 'subscribers', label: `Subscribers (${subscribers.length})`, icon: Mail },
+          { id: 'sheets', label: 'Financials & Sheets', icon: FileSpreadsheet },
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -2089,6 +2325,484 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 6: FINANCIALS & GOOGLE SHEETS HUB */}
+      {activeTab === 'sheets' && (
+        <div className="bg-warm-white border border-cocoa/20 rounded-xs shadow-xs space-y-6 p-4 sm:p-6">
+          {/* Header & Controls */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-bold text-ink-black font-serif">Financials &amp; Google Sheets Hub</h2>
+                <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] uppercase font-mono font-bold tracking-wider rounded-xs border border-emerald-300">
+                  Live Sync
+                </span>
+              </div>
+              <p className="text-xs text-muted-taupe mt-1 max-w-2xl">
+                Unified financial workspace for the founding team. View and edit your live Profit &amp; Loss ledger, orders database, and automated revenue formulas directly inside NOVEQ Admin.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={testWebhook}
+                disabled={webhookStatus === 'testing'}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-bone transition-colors focus-dark min-h-[40px] cursor-pointer disabled:opacity-50"
+              >
+                <Activity className={`w-3.5 h-3.5 text-cocoa ${webhookStatus === 'testing' ? 'animate-pulse' : ''}`} />
+                <span>{webhookStatus === 'testing' ? 'Testing...' : 'Test Webhook'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSyncAllOrders}
+                disabled={isSyncingAll}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-ink-black text-bone text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-espresso transition-colors focus-dark min-h-[40px] cursor-pointer disabled:opacity-50"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isSyncingAll ? 'animate-spin' : ''}`} />
+                <span>{isSyncingAll ? 'Syncing...' : 'Sync All Orders'}</span>
+              </button>
+
+              <a
+                href={GOOGLE_SHEETS_CONFIG.spreadsheetUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-bone border border-cocoa/20 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-warm-white transition-colors focus-dark min-h-[40px]"
+              >
+                <span>Full Sheet</span>
+                <ExternalLink className="w-3.5 h-3.5 text-cocoa" />
+              </a>
+            </div>
+          </div>
+
+          {/* Webhook Health Status Banner (if tested or error) */}
+          {webhookStatus !== 'idle' && (
+            <div
+              className={`p-3.5 rounded-xs border text-xs flex items-start justify-between gap-3 ${
+                webhookStatus === 'healthy'
+                  ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+                  : webhookStatus === 'error'
+                  ? 'bg-red-50 border-red-200 text-red-900'
+                  : 'bg-amber-50 border-amber-200 text-amber-900'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                {webhookStatus === 'healthy' && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
+                {webhookStatus === 'error' && <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />}
+                {webhookStatus === 'testing' && <RefreshCw className="w-4 h-4 animate-spin text-amber-600 shrink-0" />}
+                <span className="font-mono">{webhookMessage}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setWebhookStatus('idle')}
+                className="text-muted-taupe hover:text-ink-black text-[11px] underline"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
+          {/* Sync Summary Result Banner */}
+          {syncSummary && (
+            <div className="p-3.5 bg-bone/80 border border-cocoa/20 rounded-xs text-xs flex items-center justify-between">
+              <span className="font-medium text-ink-black">
+                Bulk Sync Completed: <strong className="text-emerald-700">{syncSummary.succeeded}</strong> synced successfully
+                {syncSummary.failed > 0 && <span className="text-oxblood">, <strong>{syncSummary.failed}</strong> failed</span>} (out of {syncSummary.total} total orders).
+              </span>
+              <button
+                type="button"
+                onClick={() => setSyncSummary(null)}
+                className="text-xs text-muted-taupe hover:text-ink-black underline"
+              >
+                Close
+              </button>
+            </div>
+          )}
+
+          {/* Sub-Tabs: Orders | P&L | Summary | Sync Queue | Apps Script Setup */}
+          <div className="flex items-center justify-between border-b border-cocoa/20 gap-2 overflow-x-auto pb-px">
+            <div className="flex items-center gap-1">
+              {[
+                { id: 'orders', label: 'Orders Ledger', icon: ShoppingBag, gid: GOOGLE_SHEETS_CONFIG.tabs.orders.gid },
+                { id: 'pnl', label: 'P&L (Balance Sheet)', icon: TrendingUp, gid: GOOGLE_SHEETS_CONFIG.tabs.pnl.gid },
+                { id: 'summary', label: 'Summary Metrics', icon: Layers, gid: GOOGLE_SHEETS_CONFIG.tabs.summary.gid },
+                { id: 'sync', label: `Sync Queue (${orders.length})`, icon: RefreshCw },
+                { id: 'script', label: 'Apps Script Setup & Fix', icon: Code },
+              ].map((subTab) => {
+                const Icon = subTab.icon;
+                const isCurrent = sheetsSubTab === subTab.id;
+                return (
+                  <button
+                    key={subTab.id}
+                    type="button"
+                    onClick={() => setSheetsSubTab(subTab.id as typeof sheetsSubTab)}
+                    className={`inline-flex items-center gap-2 px-3.5 py-2.5 text-xs uppercase tracking-wider font-semibold border-b-2 transition-colors whitespace-nowrap min-h-[40px] cursor-pointer ${
+                      isCurrent
+                        ? 'border-ink-black text-ink-black bg-warm-white shadow-2xs'
+                        : 'border-transparent text-muted-taupe hover:text-ink-black hover:bg-bone/40'
+                    }`}
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{subTab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Quick Link to current sheet in Google Sheets */}
+            {(sheetsSubTab === 'orders' || sheetsSubTab === 'pnl' || sheetsSubTab === 'summary') && (
+              <div className="flex items-center gap-2 shrink-0 py-1">
+                <button
+                  type="button"
+                  onClick={() => setIframeKey((prev) => prev + 1)}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] uppercase tracking-wider font-semibold text-cocoa hover:text-ink-black bg-bone/60 border border-cocoa/20 rounded-xs min-h-[30px]"
+                  title="Reload Google Sheet embed"
+                >
+                  <RefreshCw className="w-3 h-3" />
+                  <span>Reload Frame</span>
+                </button>
+                <a
+                  href={
+                    sheetsSubTab === 'orders'
+                      ? GOOGLE_SHEETS_CONFIG.tabs.orders.url
+                      : sheetsSubTab === 'pnl'
+                      ? GOOGLE_SHEETS_CONFIG.tabs.pnl.url
+                      : GOOGLE_SHEETS_CONFIG.tabs.summary.url
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-[11px] uppercase tracking-wider font-semibold text-ink-black hover:bg-bone border border-cocoa/30 rounded-xs min-h-[30px]"
+                >
+                  <span>Open in Google Sheets</span>
+                  <ExternalLink className="w-3 h-3 text-cocoa" />
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* SUB-VIEW 1: ORDERS SHEET IFRAME */}
+          {sheetsSubTab === 'orders' && (
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-muted-taupe bg-bone/40 p-3 rounded-xs border border-cocoa/15 gap-2">
+                <div>
+                  <strong className="text-ink-black font-semibold">Tab: Orders (gid=87663893)</strong>
+                  <p className="text-[11px] text-muted-taupe mt-0.5">
+                    Row 4 contains headers (Order No., Date, Customer, Phone, Address, Product, Size, Colour, Qty, Unit Price, Total). Rows 6+ update automatically when customers order.
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-warm-white px-2 py-1 border border-cocoa/20 rounded-xs shrink-0">
+                  Yellow cells = Editable | Grey cells = Formulas
+                </span>
+              </div>
+              <div className="w-full h-[750px] border border-cocoa/25 rounded-xs overflow-hidden bg-warm-white shadow-inner relative">
+                <iframe
+                  key={`orders-frame-${iframeKey}`}
+                  src={`https://docs.google.com/spreadsheets/d/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/edit?rm=minimal&gid=${GOOGLE_SHEETS_CONFIG.tabs.orders.gid}#gid=${GOOGLE_SHEETS_CONFIG.tabs.orders.gid}`}
+                  title="NOVEQ Orders Google Sheet"
+                  className="w-full h-full border-0"
+                  allow="clipboard-read; clipboard-write"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* SUB-VIEW 2: P&L (BALANCE SHEET) IFRAME */}
+          {sheetsSubTab === 'pnl' && (
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-muted-taupe bg-bone/40 p-3 rounded-xs border border-cocoa/15 gap-2">
+                <div>
+                  <strong className="text-ink-black font-semibold">Tab: P&amp;L (Balance Sheet / gid=1282207252)</strong>
+                  <p className="text-[11px] text-muted-taupe mt-0.5">
+                    Co-Founder / CEO financial ledger: EXPENSES (Columns A–C: Date, Particulars, Amount) and INCOME (Columns F–H: Date, Particulars, Amount).
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-warm-white px-2 py-1 border border-cocoa/20 rounded-xs shrink-0">
+                  Full In-Place Editing Active
+                </span>
+              </div>
+              <div className="w-full h-[750px] border border-cocoa/25 rounded-xs overflow-hidden bg-warm-white shadow-inner relative">
+                <iframe
+                  key={`pnl-frame-${iframeKey}`}
+                  src={`https://docs.google.com/spreadsheets/d/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/edit?rm=minimal&gid=${GOOGLE_SHEETS_CONFIG.tabs.pnl.gid}#gid=${GOOGLE_SHEETS_CONFIG.tabs.pnl.gid}`}
+                  title="NOVEQ P&L Balance Sheet"
+                  className="w-full h-full border-0"
+                  allow="clipboard-read; clipboard-write"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* SUB-VIEW 3: SUMMARY METRICS IFRAME */}
+          {sheetsSubTab === 'summary' && (
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-muted-taupe bg-bone/40 p-3 rounded-xs border border-cocoa/15 gap-2">
+                <div>
+                  <strong className="text-ink-black font-semibold">Tab: Summary (Executive Formulas)</strong>
+                  <p className="text-[11px] text-muted-taupe mt-0.5">
+                    Calculates orders received, still to deliver, delivered, pairs ordered, total order value, sales delivered, and outstanding balances.
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono uppercase bg-warm-white px-2 py-1 border border-cocoa/20 rounded-xs shrink-0">
+                  Calculated automatically from Orders tab
+                </span>
+              </div>
+              <div className="w-full h-[750px] border border-cocoa/25 rounded-xs overflow-hidden bg-warm-white shadow-inner relative">
+                <iframe
+                  key={`summary-frame-${iframeKey}`}
+                  src={`https://docs.google.com/spreadsheets/d/${GOOGLE_SHEETS_CONFIG.spreadsheetId}/edit?rm=minimal&gid=${GOOGLE_SHEETS_CONFIG.tabs.summary.gid}#gid=${GOOGLE_SHEETS_CONFIG.tabs.summary.gid}`}
+                  title="NOVEQ Summary Metrics Sheet"
+                  className="w-full h-full border-0"
+                  allow="clipboard-read; clipboard-write"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* SUB-VIEW 4: SYNC QUEUE & AUDIT */}
+          {sheetsSubTab === 'sync' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-3.5 bg-bone/40 border border-cocoa/20 rounded-xs text-xs">
+                <div>
+                  <h4 className="font-bold text-ink-black uppercase tracking-wider text-[11px]">Website Order Sync Audit</h4>
+                  <p className="text-muted-taupe text-[11px] mt-0.5">
+                    All website and offline orders logged in NOVEQ. Click "Sync" to send any order individually or "Sync All Orders" above.
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="font-mono text-sm font-bold text-ink-black">{orders.length}</span>
+                  <span className="text-[10px] uppercase tracking-wider text-muted-taupe block">Total Orders</span>
+                </div>
+              </div>
+
+              {orders.length === 0 ? (
+                <div className="py-16 text-center text-xs text-muted-taupe space-y-2 border border-dashed border-cocoa/20 rounded-xs">
+                  <Package className="w-8 h-8 text-cocoa/40 mx-auto" />
+                  <p className="font-semibold text-ink-black text-sm">No orders yet</p>
+                  <p>When customers purchase on the store, they will appear here and sync to Google Sheets.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="border-b border-cocoa/20 text-cocoa uppercase tracking-wider text-[10px] bg-bone/60">
+                        <th className="p-3">Order ID</th>
+                        <th className="p-3">Date</th>
+                        <th className="p-3">Customer</th>
+                        <th className="p-3">Items</th>
+                        <th className="p-3">Total (₦)</th>
+                        <th className="p-3">Payment</th>
+                        <th className="p-3">Google Sheet Status</th>
+                        <th className="p-3">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-cocoa/15">
+                      {orders.map((order) => {
+                        const feedback = orderSyncFeedback[order.id];
+                        const isSyncing = syncingOrderId === order.id;
+                        return (
+                          <tr key={order.id} className="hover:bg-bone/40 transition-colors">
+                            <td className="p-3 font-mono font-bold text-ink-black">{order.id}</td>
+                            <td className="p-3 text-muted-taupe font-mono text-[11px]">
+                              {new Date(order.createdAt).toLocaleDateString('en-GB', {
+                                day: '2-digit',
+                                month: 'short',
+                                year: 'numeric',
+                              })}
+                            </td>
+                            <td className="p-3">
+                              <div className="font-semibold text-ink-black">{order.customer.fullName}</div>
+                              <div className="text-[10px] font-mono text-muted-taupe">{order.customer.phone}</div>
+                            </td>
+                            <td className="p-3">
+                              {order.items.map((i, idx) => (
+                                <div key={idx} className="text-[11px] text-ink-black">
+                                  {i.product.name} ({i.selectedColour || i.product.colour}, {i.selectedSize}) x{i.quantity}
+                                </div>
+                              ))}
+                            </td>
+                            <td className="p-3 font-mono font-bold text-ink-black">
+                              ₦{order.total.toLocaleString()}
+                            </td>
+                            <td className="p-3">
+                              <span
+                                className={`px-2 py-0.5 text-[9px] uppercase font-mono font-bold tracking-wider rounded-xs ${
+                                  order.payment.status === 'success'
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : 'bg-amber-100 text-amber-800'
+                                }`}
+                              >
+                                {order.payment.status}
+                              </span>
+                            </td>
+                            <td className="p-3">
+                              {feedback ? (
+                                <span
+                                  className={`inline-flex items-center gap-1 text-[10px] font-mono ${
+                                    feedback.success ? 'text-emerald-700 font-bold' : 'text-red-700'
+                                  }`}
+                                >
+                                  {feedback.success ? <CheckCircle2 className="w-3 h-3" /> : <AlertTriangle className="w-3 h-3" />}
+                                  {feedback.message}
+                                </span>
+                              ) : (
+                                <span className="text-[10px] font-mono text-muted-taupe">Ready to sync</span>
+                              )}
+                            </td>
+                            <td className="p-3">
+                              <button
+                                type="button"
+                                onClick={() => handleSyncOrder(order.id)}
+                                disabled={isSyncing}
+                                className="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] uppercase font-bold text-ink-black bg-warm-white border border-cocoa/30 rounded-xs hover:bg-bone transition-colors disabled:opacity-50 min-h-[30px] cursor-pointer"
+                              >
+                                <RefreshCw className={`w-3 h-3 ${isSyncing ? 'animate-spin' : ''}`} />
+                                <span>{isSyncing ? 'Syncing...' : 'Sync'}</span>
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* SUB-VIEW 5: APPS SCRIPT SETUP & BUG FIX GUIDE */}
+          {sheetsSubTab === 'script' && (
+            <div className="space-y-6">
+              {/* Root Cause Card */}
+              <div className="p-4 bg-amber-50 border border-amber-200 rounded-xs space-y-2">
+                <div className="flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-700" />
+                  <h4 className="font-bold text-xs uppercase tracking-wider text-amber-900">
+                    Why Sync Was Not Updating Automatically
+                  </h4>
+                </div>
+                <p className="text-xs text-amber-900 leading-relaxed">
+                  Your website was sending order payloads to your Google Apps Script webhook, but the script on Google crashed with:
+                  <code className="mx-1 px-1.5 py-0.5 bg-amber-100 text-oxblood font-mono text-[11px] rounded-xs">
+                    TypeError: dashSheet.setGridlines is not a function
+                  </code>
+                  In Google Apps Script, <code className="font-mono">setGridlines</code> does not exist on a Sheet object. This caused every incoming order to be rejected before it could write to row 6.
+                </p>
+              </div>
+
+              {/* Step-by-Step Fix */}
+              <div className="p-4 sm:p-6 bg-bone/50 border border-cocoa/20 rounded-xs space-y-4">
+                <h4 className="font-bold text-sm text-ink-black uppercase tracking-wider font-serif">
+                  Quick 1-Minute Fix: Deploy the Clean Google Apps Script
+                </h4>
+                <ol className="list-decimal list-inside text-xs text-ink-black space-y-2 leading-relaxed">
+                  <li>
+                    Open your Google Spreadsheet ({' '}
+                    <a
+                      href={GOOGLE_SHEETS_CONFIG.spreadsheetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-espresso underline font-semibold"
+                    >
+                      NOVEQ Spreadsheet
+                    </a>{' '}
+                    ).
+                  </li>
+                  <li>
+                    In the top menu, click <strong>Extensions</strong> &rarr; <strong>Apps Script</strong>.
+                  </li>
+                  <li>
+                    Delete all existing code in <strong>Code.gs</strong>, and paste the verified code below.
+                  </li>
+                  <li>
+                    Click the <strong>Save</strong> icon (floppy disk), then click <strong>Deploy</strong> (top-right blue button) &rarr; <strong>Manage deployments</strong>.
+                  </li>
+                  <li>
+                    Click the <strong>Edit (pencil)</strong> icon &rarr; change Version to <strong>New version</strong> &rarr; Click <strong>Deploy</strong>.
+                  </li>
+                </ol>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={copyAppsScriptCode}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 bg-ink-black text-bone text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-espresso transition-colors min-h-[40px] cursor-pointer"
+                  >
+                    {copiedScript ? (
+                      <>
+                        <CheckCheck className="w-4 h-4 text-emerald-400" />
+                        <span>Code Copied to Clipboard!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" />
+                        <span>Copy Bug-Free Apps Script Code</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={testWebhook}
+                    disabled={webhookStatus === 'testing'}
+                    className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-bone transition-colors min-h-[40px] cursor-pointer"
+                  >
+                    <Activity className={`w-3.5 h-3.5 ${webhookStatus === 'testing' ? 'animate-pulse text-amber-600' : 'text-cocoa'}`} />
+                    <span>Test Webhook Ping</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Webhook URL Override Setting */}
+              <div className="p-4 bg-warm-white border border-cocoa/20 rounded-xs space-y-3">
+                <h4 className="font-bold text-xs uppercase tracking-wider text-ink-black">
+                  Google Apps Script Webhook Endpoint URL
+                </h4>
+                <p className="text-xs text-muted-taupe">
+                  If you deploy a new web app URL, you can paste it here to test and update live:
+                </p>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                  <input
+                    type="text"
+                    value={customWebhookUrl}
+                    onChange={(e) => setCustomWebhookUrl(e.target.value)}
+                    placeholder="https://script.google.com/macros/s/.../exec"
+                    className="flex-1 px-3 py-2 text-xs font-mono bg-bone/40 border border-cocoa/30 rounded-xs text-ink-black focus-dark min-h-[40px]"
+                  />
+                  <button
+                    type="button"
+                    onClick={testWebhook}
+                    className="px-4 py-2 bg-bone border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-xs hover:bg-warm-white transition-colors min-h-[40px]"
+                  >
+                    Ping URL
+                  </button>
+                </div>
+              </div>
+
+              {/* Code Preview Box */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-xs text-muted-taupe">
+                  <span className="font-mono text-[11px]">scripts/google-apps-script-sync.js</span>
+                  <span>Row 6+ mapping verified</span>
+                </div>
+                <div className="relative">
+                  <pre className="p-4 bg-ink-black text-bone text-xs font-mono rounded-xs overflow-x-auto max-h-96 leading-relaxed">
+                    {APPS_SCRIPT_CODE}
+                  </pre>
+                  <button
+                    type="button"
+                    onClick={copyAppsScriptCode}
+                    className="absolute top-3 right-3 px-3 py-1.5 bg-warm-white/10 hover:bg-warm-white/20 text-bone text-[11px] uppercase tracking-wider font-mono rounded-xs border border-bone/20 flex items-center gap-1.5"
+                  >
+                    {copiedScript ? <CheckCheck className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    <span>{copiedScript ? 'Copied' : 'Copy'}</span>
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>

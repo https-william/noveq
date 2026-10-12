@@ -95,3 +95,28 @@ export const SITE_SETTINGS: SiteSettings = {
   shippingZones: DELIVERY_ZONES,
 };
 
+export const GOOGLE_SHEETS_CONFIG = {
+  spreadsheetId: '1ZLbOPcCztTgtxmKmWLW_BB_utKxS7-DpePflxXerA1I',
+  spreadsheetUrl:
+    'https://docs.google.com/spreadsheets/d/1ZLbOPcCztTgtxmKmWLW_BB_utKxS7-DpePflxXerA1I/edit',
+  tabs: {
+    orders: {
+      gid: '87663893',
+      name: 'Orders',
+      url: 'https://docs.google.com/spreadsheets/d/1ZLbOPcCztTgtxmKmWLW_BB_utKxS7-DpePflxXerA1I/edit?gid=87663893#gid=87663893',
+    },
+    pnl: {
+      gid: '1282207252',
+      name: 'P&L (Balance Sheet)',
+      url: 'https://docs.google.com/spreadsheets/d/1ZLbOPcCztTgtxmKmWLW_BB_utKxS7-DpePflxXerA1I/edit?pli=1&gid=1282207252#gid=1282207252',
+    },
+    summary: {
+      gid: '0',
+      name: 'Summary',
+      url: 'https://docs.google.com/spreadsheets/d/1ZLbOPcCztTgtxmKmWLW_BB_utKxS7-DpePflxXerA1I/edit?gid=0#gid=0',
+    },
+  },
+  defaultWebhookUrl:
+    'https://script.google.com/macros/s/AKfycbxcQXNnv9doCYG96BpFJb1LMcMvqz-rI7TEqWAEs4DKq75-F2ZVsJID-_1a7BrUqlDk/exec',
+};
+
