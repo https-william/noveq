@@ -211,3 +211,21 @@ textarea:focus-visible {
     margin: 0;
   }
 }
+
+/* ── Legacy Device Fallbacks (Safari 12 / iOS 12.5.7) ── */
+.noveq-legacy-device .noveq-legacy-banner {
+  display: block !important;
+}
+
+.noveq-legacy-device .flex > * + * {
+  margin-left: 0.75rem;
+}
+
+.noveq-legacy-device .flex-col > * + * {
+  margin-top: 0.75rem;
+  margin-left: 0;
+}
+
+.noveq-legacy-device [class*="aspect-"] {
+  min-height: 260px;
+}

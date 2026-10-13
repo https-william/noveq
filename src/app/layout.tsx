@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
+import LegacyFallbackBanner from '@/components/LegacyFallbackBanner';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -187,11 +188,20 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd),
           }}
         />
+        {/* Lightweight ES5 detection for vintage browsers (e.g. Safari 12 / iOS 12.5.7) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var l=false;if(typeof window.ResizeObserver==='undefined'||typeof window.CSS==='undefined'||!window.CSS.supports||!window.CSS.supports('gap','1rem')){l=true;}if(/iPhone OS (?:9|10|11|12|13)_/i.test(navigator.userAgent)||/OS (?:9|10|11|12|13)_/i.test(navigator.userAgent)){l=true;}if(l){document.documentElement.className+=' noveq-legacy-device';}}catch(e){document.documentElement.className+=' noveq-legacy-device';}})();`,
+          }}
+        />
       </head>
       <body
         className="min-h-full flex flex-col bg-bone text-ink-black"
         suppressHydrationWarning
       >
+        {/* Graceful fallback banner for legacy devices / noscript */}
+        <LegacyFallbackBanner />
+
         <Providers>
           {/* Skip to main content link for keyboard accessibility */}
           <a
