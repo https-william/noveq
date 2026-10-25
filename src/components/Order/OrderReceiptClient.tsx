@@ -115,7 +115,7 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
 
         {/* Footer */}
         <div className="border-t border-cocoa/20 pt-4 flex justify-between items-center text-[9px] text-muted-taupe font-mono">
-          <span>concierge@noveq.com.ng · +234 810 000 0000</span>
+          <span>support@noveq.com.ng · +234 810 000 0000</span>
           <span className="uppercase tracking-[0.15em] text-ink-black font-bold">noveq / crafted to move.</span>
         </div>
       </div>

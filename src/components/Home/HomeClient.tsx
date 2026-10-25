@@ -308,7 +308,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               </div>
 
               {/* Hero Visual Card (Rock-solid Fluid Video with Poster Fallback & Quiet Luxury Framing) */}
-              <div className="relative z-10 aspect-[4/5] max-w-sm sm:max-w-md w-full bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl">
+              <div className="relative z-10 aspect-[4/5] max-w-sm sm:max-w-md w-full bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl pointer-events-none select-none transform-gpu will-change-transform [transform:translateZ(0)] [backface-visibility:hidden]">
                 <video
                   autoPlay
                   loop
@@ -317,7 +317,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   preload="metadata"
                   poster="/images/hero/landing-hero-photoshoot.jpg"
                   aria-label="NOVEQ contemporary handcrafted leather footwear in movement"
-                  className="w-full h-full object-cover object-center pointer-events-none select-none"
+                  className="w-full h-full object-cover object-center pointer-events-none select-none block [transform:translateZ(0)]"
                 >
                   <source src="/videos/landing-hero-video.mp4" type="video/mp4" />
                 </video>
@@ -347,9 +347,9 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         </div>
       </section>
 
-      {/* ── STRATEGY D: LIVING ATELIER STATUS PULSE (BELOW HERO) ── */}
+      {/* ── STRATEGY D: LIVING WORKSHOP STATUS PULSE (BELOW HERO) ── */}
       <aside
-        aria-label="Atelier Production Status"
+        aria-label="Workshop Production Status"
         className="w-full bg-espresso text-warm-white border-b border-cocoa/30 py-3.5 px-4 sm:px-6"
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
@@ -358,7 +358,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="font-semibold text-warm-white">Lagos Atelier Active</span>
+            <span className="font-semibold text-warm-white">Lagos Workshop Active</span>
             <span className="text-muted-taupe-on-dark">•</span>
             <span className="text-warm-white font-medium">Drop 001 Allocation Live</span>
             <span className="text-muted-taupe-on-dark hidden lg:inline">•</span>
@@ -421,7 +421,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         </div>
       </ScrollReveal>
 
-      {/* ── STRATEGY A: INTERACTIVE ATELIER LEATHER & MATERIALITY INSPECTOR ── */}
+      {/* ── STRATEGY A: INTERACTIVE WORKSHOP LEATHER & MATERIALITY INSPECTOR ── */}
       <AtelierSpecimenInspector />
 
       {/* ── 4. BRAND STORY MINI-EDITORIAL BLOCK ── */}

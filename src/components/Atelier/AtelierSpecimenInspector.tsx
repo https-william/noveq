@@ -46,7 +46,7 @@ const SPECIMENS: Specimen[] = [
       'Hot-iron burnished with organic carnauba wax seal',
       'Weather-sealed against Lagos rain and asphalt grit',
     ],
-    provenance: 'Lagos Atelier / Benchcraft Workbench',
+    provenance: 'Lagos Workshop / Benchcraft Workbench',
   },
   {
     id: 'arch',
@@ -89,7 +89,7 @@ export function AtelierSpecimenInspector() {
 
   return (
     <section
-      aria-label="Atelier Leather & Materiality Inspector"
+      aria-label="Workshop Leather & Craftsmanship Inspector"
       className="py-16 sm:py-20 bg-warm-white border-b border-cocoa/20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
@@ -101,7 +101,7 @@ export function AtelierSpecimenInspector() {
               <span>Tactile Anatomy // Materiality</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink-black font-serif">
-              The Atelier Specimen Bench
+              The Workshop Specimen Bench
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-ink-black/75 max-w-xl leading-relaxed">
               Explore the physical components of Drop 001. Four architectural elements engineered for lasting comfort and tactile distinction.
@@ -109,7 +109,7 @@ export function AtelierSpecimenInspector() {
           </div>
 
           <div className="text-[11px] font-mono uppercase tracking-widest text-muted-taupe shrink-0 hidden md:block">
-            <span>6°31&apos; N, 3°23&apos; E • LAGOS ATELIER</span>
+            <span>6°31&apos; N, 3°23&apos; E • LAGOS WORKSHOP</span>
           </div>
         </div>
 

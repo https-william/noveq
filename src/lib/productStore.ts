@@ -163,12 +163,37 @@ async function syncCatalogToSupabase(list: Product[]): Promise<boolean> {
 }
 
 /**
+ * Get local disk file modified timestamp
+ */
+function getLocalDiskMtime(): number {
+  try {
+    if (fs.existsSync(PRODUCTS_FILE)) {
+      return fs.statSync(PRODUCTS_FILE).mtimeMs;
+    }
+  } catch {}
+  return 0;
+}
+
+/**
  * Ensure memory store is populated and fresh from Supabase
  */
 export async function ensureProductsLoaded(force = false): Promise<void> {
   const now = Date.now();
   const lastSync = global.__noveq_last_synced || 0;
   const isStale = now - lastSync > 30000; // 30s cache TTL
+
+  // Check if local disk was modified more recently than last cloud sync
+  const diskList = readLocalDiskProducts();
+  const localMtime = getLocalDiskMtime();
+  if (localMtime > lastSync && diskList && diskList.length > 0) {
+    productsStore.clear();
+    for (const item of diskList) {
+      productsStore.set(item.slug, item);
+    }
+    global.__noveq_last_synced = now;
+    syncCatalogToSupabase(diskList).catch(() => {});
+    return;
+  }
 
   if (!force && !isStale && productsStore.size > 0) {
     return;
@@ -185,8 +210,14 @@ export async function ensureProductsLoaded(force = false): Promise<void> {
     return;
   }
 
-  // NOTE: If Supabase download fails (e.g. transient network hiccup), NEVER overwrite
-  // cloud storage with stale local disk/git defaults. We preserve the current in-memory store.
+  // Fallback to local disk if cloud is unreachable
+  if (diskList && diskList.length > 0) {
+    productsStore.clear();
+    for (const item of diskList) {
+      productsStore.set(item.slug, item);
+    }
+  }
+
   global.__noveq_last_synced = now;
 }
 

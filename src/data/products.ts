@@ -12,7 +12,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     name: 'The Ring Slide Pam',
     slug: 'the-ring-slide-pam',
     collection: 'Drop 001',
-    price: 25000,
+    price: 20000,
     compare_at_price: 27000,
     currency: 'NGN',
     colour: 'Warm Cognac',
