@@ -62,19 +62,12 @@ export function generateCustomerReceiptHtml(order: Order): string {
           <!-- Body -->
           <tr>
             <td style="padding: 32px 28px 20px 28px;">
-              <h1 style="font-size: 22px; font-weight: 700; color: #2A1B15; margin: 0 0 12px 0;">
-                Thank you for your order, ${firstName}. You are now NOVEQ.
+              <h1 style="font-size: 22px; font-weight: 700; color: #2A1B15; margin: 0 0 14px 0;">
+                Thank you for your order, ${firstName}.
               </h1>
               
-              <!-- What NOVEQ Means: 1 Sentence -->
-              <div style="background-color: #FAF8F4; border-left: 3px solid #7C3F1D; padding: 14px 18px; margin: 16px 0; border-radius: 0 4px 4px 0;">
-                <p style="font-size: 14px; font-weight: 600; color: #2A1B15; margin: 0; line-height: 1.5;">
-                  To us, NOVEQ is simple: luxury isn't loud.
-                </p>
-              </div>
-
-              <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 18px 0;">
-                Your pair is confirmed and currently in line at our Lagos workshop.
+              <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 20px 0;">
+                Your pair is confirmed and currently in line at our Lagos workshop. We make each piece by hand with soft leather designed for everyday comfort.
               </p>
 
               <!-- Order Summary Table -->
