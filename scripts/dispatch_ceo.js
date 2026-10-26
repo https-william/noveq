@@ -85,11 +85,14 @@ const cheekyHtml = `
 
 async function dispatchCeo() {
   const payload = {
-    orderNo: 'NOVEQ-HQ-MEMO',
+    action: 'send_email',
     recipientEmail: 'isiboremmanuel06@gmail.com',
+    to: 'isiboremmanuel06@gmail.com',
     customerName: 'Emmanuel Isibor',
     emailSubject: 'Memo to the CEO: High-Priority Check-In 🌚',
-    customerHtml: cheekyHtml
+    subject: 'Memo to the CEO: High-Priority Check-In 🌚',
+    customerHtml: cheekyHtml,
+    htmlBody: cheekyHtml,
   };
 
   console.log('Dispatching cheeky CEO memo to: isiboremmanuel06@gmail.com');

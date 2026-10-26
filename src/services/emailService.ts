@@ -65,19 +65,17 @@ export function generateCustomerReceiptHtml(order: Order): string {
               <h1 style="font-size: 22px; font-weight: 700; color: #2A1B15; margin: 0 0 12px 0;">
                 Thank you for your order, ${firstName}. You are now NOVEQ.
               </h1>
-              <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 16px 0;">
-                Your pair is confirmed and currently in line at our Lagos workshop.
-              </p>
               
-              <!-- What NOVEQ Means -->
-              <div style="background-color: #FAF8F4; border-left: 3px solid #7C3F1D; padding: 14px 18px; margin: 18px 0; border-radius: 0 4px 4px 0;">
-                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #7C3F1D; font-weight: 700; display: block; margin-bottom: 6px;">
-                  What Does It Mean to Be NOVEQ?
-                </span>
-                <p style="font-size: 13px; line-height: 1.6; color: #5B4033; margin: 0;">
-                  To us, it is simple: it means moving with quiet confidence. You do not need loud logos or flashy gimmicks to stand out. It is about taking the everyday leather slipper we all wear, stripping away the unnecessary noise, and making it right: soft leather that feels comfortable from day one, clean lines, and honest Lagos handcrafting. When you step out in your pair, you are wearing NOVEQ.
+              <!-- What NOVEQ Means: 1 Sentence -->
+              <div style="background-color: #FAF8F4; border-left: 3px solid #7C3F1D; padding: 14px 18px; margin: 16px 0; border-radius: 0 4px 4px 0;">
+                <p style="font-size: 14px; font-weight: 600; color: #2A1B15; margin: 0; line-height: 1.5;">
+                  To us, NOVEQ is simple: luxury isn't loud.
                 </p>
               </div>
+
+              <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 18px 0;">
+                Your pair is confirmed and currently in line at our Lagos workshop.
+              </p>
 
               <!-- Order Summary Table -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 20px 0 16px 0; border-top: 2px solid #2A1B15;">
@@ -313,5 +311,27 @@ export async function sendOrderEmails(order: Order): Promise<{ customerSent: boo
     }
   }
 
-  return { customerSent: false, adminSent: false, method: 'apps_script_queued' };
+  // Fallback: Direct dispatch via Google Apps Script Webhook
+  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  if (webhookUrl) {
+    try {
+      const customerHtml = generateCustomerReceiptHtml(order);
+      const res = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'send_email',
+          recipientEmail: order.customer.email,
+          subject: `Your NOVEQ Order is Confirmed (${order.id})`,
+          htmlBody: customerHtml,
+        }),
+      });
+      return { customerSent: res.ok, adminSent: res.ok, method: 'apps_script' };
+    } catch (webhookErr) {
+      // eslint-disable-next-line no-console
+      console.error('[EmailService] Apps Script webhook dispatch failed:', webhookErr);
+    }
+  }
+
+  return { customerSent: false, adminSent: false, method: 'none' };
 }
