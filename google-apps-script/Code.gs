@@ -223,22 +223,17 @@ function doPost(e) {
 }
 
 /**
- * High-Reliability Email Sender
- * Uses GmailApp to put emails into Gmail Sent folder with High Priority headers.
- * Falls back to MailApp if needed.
+ * High-Deliverability Email Sender
+ * Strips aggressive spam-trigger headers and provides clean plain-text fallback
+ * to ensure emails land in the Primary inbox rather than Spam or Promotions.
  */
 function sendBrandedEmail(recipient, subject, htmlBody) {
+  var plainText = stripHtml(htmlBody);
   try {
-    GmailApp.sendEmail(recipient, subject, '', {
+    GmailApp.sendEmail(recipient, subject, plainText, {
       htmlBody: htmlBody,
       name: 'NOVEQ',
-      replyTo: 'noveqthebrand@gmail.com',
-      headers: {
-        'Importance': 'High',
-        'X-Priority': '1',
-        'X-MSMail-Priority': 'High',
-        'Priority': 'Urgent'
-      }
+      replyTo: 'noveqthebrand@gmail.com'
     });
     return { success: true, message: 'Dispatched via GmailApp (appears in Gmail Sent box)' };
   } catch (gmailErr) {
@@ -246,14 +241,36 @@ function sendBrandedEmail(recipient, subject, htmlBody) {
       MailApp.sendEmail({
         to: recipient,
         subject: subject,
+        body: plainText,
         htmlBody: htmlBody,
-        name: 'NOVEQ'
+        name: 'NOVEQ',
+        replyTo: 'noveqthebrand@gmail.com'
       });
       return { success: true, message: 'Dispatched via MailApp fallback: ' + gmailErr.message };
     } catch (mailErr) {
       return { success: false, message: 'Email dispatch failed: ' + mailErr.message };
     }
   }
+}
+
+/**
+ * Clean plain-text fallback generator
+ */
+function stripHtml(html) {
+  if (!html) return '';
+  return html
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<br\s*[\/]?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n\n')
+    .replace(/<\/tr>/gi, '\n')
+    .replace(/<\/td>/gi, '  ')
+    .replace(/<\/h[1-6]>/gi, '\n\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/\n\s+\n/g, '\n\n')
+    .trim();
 }
 
 /**
