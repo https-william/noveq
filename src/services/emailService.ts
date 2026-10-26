@@ -63,14 +63,21 @@ export function generateCustomerReceiptHtml(order: Order): string {
           <tr>
             <td style="padding: 32px 28px 20px 28px;">
               <h1 style="font-size: 22px; font-weight: 700; color: #2A1B15; margin: 0 0 12px 0;">
-                Thank you for your order, ${firstName}.
+                Thank you for your order, ${firstName}. You are now NOVEQ.
               </h1>
               <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 16px 0;">
-                Your pair is confirmed and currently in line at our Lagos workshop. 
+                Your pair is confirmed and currently in line at our Lagos workshop.
               </p>
-              <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 20px 0;">
-                We started NOVEQ because we wanted good leather slippers that actually look clean, feel soft from the first day you put them on, and don't fall apart after a few wears. That is the whole idea behind NOVEQ: taking the everyday slipper we all wear, and making it right.
-              </p>
+              
+              <!-- What NOVEQ Means -->
+              <div style="background-color: #FAF8F4; border-left: 3px solid #7C3F1D; padding: 14px 18px; margin: 18px 0; border-radius: 0 4px 4px 0;">
+                <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #7C3F1D; font-weight: 700; display: block; margin-bottom: 6px;">
+                  What Does It Mean to Be NOVEQ?
+                </span>
+                <p style="font-size: 13px; line-height: 1.6; color: #5B4033; margin: 0;">
+                  To us, it is simple: it means moving with quiet confidence. You do not need loud logos or flashy gimmicks to stand out. It is about taking the everyday leather slipper we all wear, stripping away the unnecessary noise, and making it right: soft leather that feels comfortable from day one, clean lines, and honest Lagos handcrafting. When you step out in your pair, you are wearing NOVEQ.
+                </p>
+              </div>
 
               <!-- Order Summary Table -->
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 20px 0 16px 0; border-top: 2px solid #2A1B15;">
@@ -217,9 +224,10 @@ export function generateAdminOrderAlertHtml(order: Order): string {
 }
 
 /**
- * Generate cheeky email to founder/finance CEO Emmanuel Isibor
+ * Generate cheeky email to founder/CEO Emmanuel Isibor
+ * Pure humor and camaraderie, zero financial jargon, zero transfer talk
  */
-export function generateFounderCheekyEmailHtml(order: Order): string {
+export function generateFounderCheekyEmailHtml(): string {
   return `
 <!DOCTYPE html>
 <html>
@@ -227,18 +235,29 @@ export function generateFounderCheekyEmailHtml(order: Order): string {
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FAF8F4; padding: 24px; color: #2A1B15;">
   <div style="max-width: 520px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E8E3D8; border-radius: 6px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
     <span style="font-size: 28px; display: block; margin-bottom: 8px;">🌚</span>
-    <h2 style="color: #2A1B15; font-size: 20px; margin: 0 0 14px 0;">CEO sir, your Moniepoint transfer just cleared.</h2>
+    <h2 style="color: #2A1B15; font-size: 20px; margin: 0 0 14px 0;">Executive Memo: High-Priority Check-In for the CEO</h2>
     <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 14px 0;">
-      Emmanuel, we saw that transfer of <strong>₦20,000</strong> come in from your Moniepoint MFB account for Desire Aigbe's pair of <em>The Weave Slide Pam (EU 39, Black)</em>.
+      Good day Mr. CEO,
     </p>
     <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 14px 0;">
-      We see you funding the footwear ministry from behind the scenes! The order (<code>${order.id}</code>) has been recovered, synced to the Google Sheet, and logged on the admin ledger.
+      This is a quick operational check-in from the tech and logistics desk to make sure you are drinking enough cold water and not spending your entire afternoon staring passionately at leather swatches.
     </p>
-    <div style="background: #F5F1E9; border-left: 3px solid #7C3F1D; padding: 12px 16px; margin: 18px 0; font-size: 13px; color: #2A1B15;">
-      <strong>Action Required:</strong> Check your balance sheet, confirm the ₦20,000 inflow, and let William know when you want to look at the next batch of leather hides.
+    <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 14px 0;">
+      Everything on our end is running smoothly:
+    </p>
+    <ul style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 16px 20px; padding: 0;">
+      <li>Drop 001 orders are accounted for and synced.</li>
+      <li>The website is humming, the database is intact, and the sheets are in real-time order.</li>
+      <li>The Lagos workshop is actively turning out clean pairs.</li>
+    </ul>
+    <div style="background: #FAF8F4; border-left: 3px solid #7C3F1D; padding: 14px 16px; margin: 18px 0; font-size: 13px; color: #2A1B15; border-radius: 0 4px 4px 0;">
+      <strong>Your Official CEO Responsibilities for Today:</strong><br />
+      1. Step out in your freshest pair of NOVEQ slippers.<br />
+      2. When anyone asks about the company strategy, take a sip of water, look into the middle distance, and say: <em>"We let the footwear do the talking."</em><br />
+      3. Smile and act like every single thing that worked was 100% according to your master plan.
     </div>
-    <p style="font-size: 13px; color: #7A7265; margin: 18px 0 0 0;">
-      Now close this tab and go back to your financial models.<br /><br />
+    <p style="font-size: 13px; color: #7A7265; margin: 18px 0 0 0; line-height: 1.5;">
+      Keep building, boss.<br /><br />
       <strong>NOVEQ Tech & Operations Desk</strong>
     </p>
   </div>
