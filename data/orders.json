@@ -1,5 +1,94 @@
 [
   {
+    "id": "NVQ-2026-18217",
+    "createdAt": "2026-10-24T21:35:42.000Z",
+    "status": "paid",
+    "customer": {
+      "fullName": "Desire Aigbe",
+      "phone": "+2348163221852",
+      "email": "aigbedesire17@gmail.com",
+      "address": "Covenant University / Lagos Delivery",
+      "city": "Ota / Lagos",
+      "state": "Ogun / Lagos",
+      "zoneId": "lagos-metro",
+      "deliveryNotes": "Verified online checkout via Moniepoint transfer (Sender: Emmanuel Osakpolor Isibor)"
+    },
+    "items": [
+      {
+        "product": {
+          "name": "The Weave Slide Pam",
+          "slug": "the-weave-slide-pam",
+          "collection": "Drop 001",
+          "price": 20000,
+          "compare_at_price": 25000,
+          "currency": "NGN",
+          "colour": "Black",
+          "colourHex": "#141414",
+          "stock": 5,
+          "material": "Handcrafted braided Nigerian leather pam.",
+          "care": "Wipe clean with a soft dry cloth.",
+          "description": "Braided leather straps for a textured finish.",
+          "design_note": "Hand-braided leather architecture.",
+          "charm_option": {
+            "supported": false
+          },
+          "publish_status": "published",
+          "fit_notes": "True to standard size.",
+          "shipping_notes": "Ships within 24–48 hours nationwide.",
+          "sizes": [
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
+          ],
+          "images": [
+            {
+              "src": "/images/products/the-weave-black.jpg",
+              "alt": "The Weave Black",
+              "viewType": "hero"
+            }
+          ]
+        },
+        "selectedSize": "EU 39",
+        "selectedColour": "Black",
+        "quantity": 1
+      }
+    ],
+    "subtotal": 20000,
+    "deliveryFee": 0,
+    "total": 20000,
+    "currency": "NGN",
+    "deliveryExpectation": "24–48 hours nationwide courier",
+    "payment": {
+      "provider": "paystack",
+      "status": "success",
+      "reference": "NVQ_PAY_1792877741493_FWQ5I",
+      "paidAt": "2026-10-24T21:37:28.000Z"
+    },
+    "notes": "Recovered from Paystack transaction 6692704264 (Approved Moniepoint bank transfer)"
+  },
+  {
     "id": "ORD-006",
     "createdAt": "2026-10-12T18:30:00.000Z",
     "status": "paid",
@@ -29,19 +118,45 @@
           "care": "Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.",
           "description": "Braided leather straps for a textured finish. Stylish, refined, and timeless.",
           "design_note": "Handcrafted braided strap architecture flexes naturally with every step.",
-          "charm_option": { "supported": false },
+          "charm_option": {
+            "supported": false
+          },
           "publish_status": "published",
           "fit_notes": "True to standard size.",
           "shipping_notes": "Ships within 24–48 hours nationwide.",
           "sizes": [
-            { "size": "EU 37", "available": true, "stockCount": 1 },
-            { "size": "EU 38", "available": true, "stockCount": 1 },
-            { "size": "EU 39", "available": true, "stockCount": 1 },
-            { "size": "EU 40", "available": true, "stockCount": 1 },
-            { "size": "EU 41", "available": true, "stockCount": 1 }
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
           ],
           "images": [
-            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+            {
+              "src": "/images/products/the-weave-black.jpg",
+              "alt": "The Weave Black",
+              "viewType": "hero"
+            }
           ]
         },
         "selectedSize": "EU 38",
@@ -92,19 +207,45 @@
           "care": "Wipe clean with a soft dry cloth.",
           "description": "Continuous helical leather crossover. Uninterrupted sculpture for daily wear.",
           "design_note": "Single-strip folded architecture cradles the instep without seams.",
-          "charm_option": { "supported": false },
+          "charm_option": {
+            "supported": false
+          },
           "publish_status": "published",
           "fit_notes": "True to standard size.",
           "shipping_notes": "Ships within 24–48 hours nationwide.",
           "sizes": [
-            { "size": "EU 37", "available": true, "stockCount": 1 },
-            { "size": "EU 38", "available": true, "stockCount": 1 },
-            { "size": "EU 39", "available": true, "stockCount": 1 },
-            { "size": "EU 40", "available": true, "stockCount": 1 },
-            { "size": "EU 41", "available": true, "stockCount": 1 }
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
           ],
           "images": [
-            { "src": "/images/products/the-twist-warm-cognac.jpg", "alt": "The Twist Warm Cognac", "viewType": "hero" }
+            {
+              "src": "/images/products/the-twist-warm-cognac.jpg",
+              "alt": "The Twist Warm Cognac",
+              "viewType": "hero"
+            }
           ]
         },
         "selectedSize": "EU 40",
@@ -154,19 +295,45 @@
           "care": "Wipe clean with a soft dry cotton cloth.",
           "description": "Braided leather straps for a textured finish.",
           "design_note": "Handcrafted braided strap architecture.",
-          "charm_option": { "supported": false },
+          "charm_option": {
+            "supported": false
+          },
           "publish_status": "published",
           "fit_notes": "True to standard size.",
           "shipping_notes": "Ships within 24–48 hours nationwide.",
           "sizes": [
-            { "size": "EU 37", "available": true, "stockCount": 1 },
-            { "size": "EU 38", "available": true, "stockCount": 1 },
-            { "size": "EU 39", "available": true, "stockCount": 1 },
-            { "size": "EU 40", "available": true, "stockCount": 1 },
-            { "size": "EU 41", "available": true, "stockCount": 1 }
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
           ],
           "images": [
-            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+            {
+              "src": "/images/products/the-weave-black.jpg",
+              "alt": "The Weave Black",
+              "viewType": "hero"
+            }
           ]
         },
         "selectedSize": "EU 39",
@@ -217,19 +384,45 @@
           "care": "Wipe clean with a soft dry cotton cloth.",
           "description": "Braided leather straps for a textured finish.",
           "design_note": "Handcrafted braided strap architecture.",
-          "charm_option": { "supported": false },
+          "charm_option": {
+            "supported": false
+          },
           "publish_status": "published",
           "fit_notes": "True to standard size.",
           "shipping_notes": "Ships within 24–48 hours nationwide.",
           "sizes": [
-            { "size": "EU 37", "available": true, "stockCount": 1 },
-            { "size": "EU 38", "available": true, "stockCount": 1 },
-            { "size": "EU 39", "available": true, "stockCount": 1 },
-            { "size": "EU 40", "available": true, "stockCount": 1 },
-            { "size": "EU 41", "available": true, "stockCount": 1 }
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
           ],
           "images": [
-            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+            {
+              "src": "/images/products/the-weave-black.jpg",
+              "alt": "The Weave Black",
+              "viewType": "hero"
+            }
           ]
         },
         "selectedSize": "EU 37",
@@ -280,19 +473,45 @@
           "care": "Wipe clean with a soft dry cotton cloth.",
           "description": "Braided leather straps for a textured finish.",
           "design_note": "Handcrafted braided strap architecture.",
-          "charm_option": { "supported": false },
+          "charm_option": {
+            "supported": false
+          },
           "publish_status": "published",
           "fit_notes": "True to standard size.",
           "shipping_notes": "Ships within 24–48 hours nationwide.",
           "sizes": [
-            { "size": "EU 37", "available": true, "stockCount": 1 },
-            { "size": "EU 38", "available": true, "stockCount": 1 },
-            { "size": "EU 39", "available": true, "stockCount": 1 },
-            { "size": "EU 40", "available": true, "stockCount": 1 },
-            { "size": "EU 41", "available": true, "stockCount": 1 }
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
           ],
           "images": [
-            { "src": "/images/products/the-weave-army-green.jpg", "alt": "The Weave Army Green", "viewType": "hero" }
+            {
+              "src": "/images/products/the-weave-army-green.jpg",
+              "alt": "The Weave Army Green",
+              "viewType": "hero"
+            }
           ]
         },
         "selectedSize": "EU 37",
@@ -343,19 +562,45 @@
           "care": "Wipe clean with a soft dry cotton cloth.",
           "description": "Braided leather straps for a textured finish.",
           "design_note": "Handcrafted braided strap architecture.",
-          "charm_option": { "supported": false },
+          "charm_option": {
+            "supported": false
+          },
           "publish_status": "published",
           "fit_notes": "True to standard size.",
           "shipping_notes": "Ships within 24–48 hours nationwide.",
           "sizes": [
-            { "size": "EU 37", "available": true, "stockCount": 1 },
-            { "size": "EU 38", "available": true, "stockCount": 1 },
-            { "size": "EU 39", "available": true, "stockCount": 1 },
-            { "size": "EU 40", "available": true, "stockCount": 1 },
-            { "size": "EU 41", "available": true, "stockCount": 1 }
+            {
+              "size": "EU 37",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 38",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 39",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 40",
+              "available": true,
+              "stockCount": 1
+            },
+            {
+              "size": "EU 41",
+              "available": true,
+              "stockCount": 1
+            }
           ],
           "images": [
-            { "src": "/images/products/the-weave-black.jpg", "alt": "The Weave Black", "viewType": "hero" }
+            {
+              "src": "/images/products/the-weave-black.jpg",
+              "alt": "The Weave Black",
+              "viewType": "hero"
+            }
           ]
         },
         "selectedSize": "EU 38",

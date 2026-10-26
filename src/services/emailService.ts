@@ -5,7 +5,8 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.noveq.com.ng';
 const BRAND_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'noveqthebrand@gmail.com';
 
 /**
- * Generate luxury-styled HTML email receipt for the customer
+ * Generate plain-English, warm customer receipt and welcome email
+ * Strictly adheres to /clarity: zero jargon, warm, grounded, and human
  */
 export function generateCustomerReceiptHtml(order: Order): string {
   const firstName = order.customer.fullName.split(' ')[0] || order.customer.fullName;
@@ -18,14 +19,14 @@ export function generateCustomerReceiptHtml(order: Order): string {
       (item) => `
       <tr style="border-bottom: 1px solid #EBE7DF;">
         <td style="padding: 14px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          <strong style="color: #2A1B15; font-size: 14px; display: block;">${item.product.name}</strong>
-          <span style="color: #7A7265; font-size: 12px;">Size: ${item.selectedSize} · Colour: ${item.selectedColour || item.product.colour}</span>
-          ${item.withHeartCharm ? `<div style="color: #7C3F1D; font-size: 11px; margin-top: 3px;">+ Brass Heart Charm${item.engravedText ? ` (Engraved: "${item.engravedText}")` : ''}</div>` : ''}
+          <strong style="color: #2A1B15; font-size: 15px; display: block;">${item.product.name}</strong>
+          <span style="color: #7A7265; font-size: 13px;">Size: ${item.selectedSize} · Colour: ${item.selectedColour || item.product.colour}</span>
+          ${item.withHeartCharm ? `<div style="color: #7C3F1D; font-size: 12px; margin-top: 4px;">+ Heart Charm Attached</div>` : ''}
         </td>
-        <td style="padding: 14px 0; text-align: center; color: #5B4033; font-size: 13px;">
+        <td style="padding: 14px 0; text-align: center; color: #5B4033; font-size: 14px;">
           x${item.quantity}
         </td>
-        <td style="padding: 14px 0; text-align: right; color: #2A1B15; font-weight: 600; font-size: 14px;">
+        <td style="padding: 14px 0; text-align: right; color: #2A1B15; font-weight: 700; font-size: 15px;">
           ₦${(item.product.price * item.quantity).toLocaleString()}
         </td>
       </tr>
@@ -38,7 +39,7 @@ export function generateCustomerReceiptHtml(order: Order): string {
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>NOVEQ Order Confirmed</title>
+  <title>Your NOVEQ Order is Confirmed</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body style="margin: 0; padding: 0; background-color: #FAF8F4; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #2A1B15; -webkit-font-smoothing: antialiased;">
@@ -48,36 +49,36 @@ export function generateCustomerReceiptHtml(order: Order): string {
         <table role="presentation" width="100%" style="max-width: 600px; background-color: #FFFFFF; border: 1px solid #E8E3D8; border-radius: 4px; overflow: hidden; box-shadow: 0 4px 20px rgba(42, 27, 21, 0.04);">
           <!-- Header -->
           <tr>
-            <td style="background-color: #2A1B15; padding: 32px 24px; text-align: center;">
+            <td style="background-color: #2A1B15; padding: 28px 24px; text-align: center;">
               <span style="font-family: Georgia, serif; font-size: 26px; font-weight: bold; letter-spacing: 0.15em; color: #FAF8F4; text-transform: uppercase; display: block;">
                 NOVEQ
               </span>
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.25em; color: #BAAA9E; margin-top: 4px; display: block;">
-                Drop 001 · Lagos Workshop
+              <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #BAAA9E; margin-top: 4px; display: block;">
+                Handcrafted Leather Footwear · Lagos
               </span>
             </td>
           </tr>
 
-          <!-- Confirmation Banner -->
+          <!-- Body -->
           <tr>
             <td style="padding: 32px 28px 20px 28px;">
-              <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: #7C3F1D; font-weight: 700; display: block; margin-bottom: 8px;">
-                Payment Verified & Confirmed
-              </span>
-              <h1 style="font-size: 24px; font-weight: 700; color: #2A1B15; margin: 0 0 12px 0; letter-spacing: -0.02em;">
-                Thank you, ${firstName}.
+              <h1 style="font-size: 22px; font-weight: 700; color: #2A1B15; margin: 0 0 12px 0;">
+                Thank you for your order, ${firstName}.
               </h1>
+              <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 16px 0;">
+                Your pair is confirmed and currently in line at our Lagos workshop. 
+              </p>
               <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 20px 0;">
-                Your order <strong>${order.id}</strong> has been confirmed and placed in our workshop dispatch schedule. Every pair in Drop 001 is hand-finished in Lagos with full-grain Nigerian hides.
+                We started NOVEQ because we wanted good leather slippers that actually look clean, feel soft from the first day you put them on, and don't fall apart after a few wears. That is the whole idea behind NOVEQ: taking the everyday slipper we all wear, and making it right.
               </p>
 
               <!-- Order Summary Table -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 24px 0 16px 0; border-top: 2px solid #2A1B15;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 20px 0 16px 0; border-top: 2px solid #2A1B15;">
                 <thead>
                   <tr style="border-bottom: 1px solid #EBE7DF; text-transform: uppercase; font-size: 10px; letter-spacing: 0.15em; color: #7A7265;">
-                    <th align="left" style="padding: 10px 0;">Item</th>
-                    <th align="center" style="padding: 10px 0;">Qty</th>
-                    <th align="right" style="padding: 10px 0;">Amount</th>
+                    <th align="left" style="padding: 10px 0;">Your Pair</th>
+                    <th align="center" style="padding: 10px 0;">Quantity</th>
+                    <th align="right" style="padding: 10px 0;">Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -85,8 +86,8 @@ export function generateCustomerReceiptHtml(order: Order): string {
                 </tbody>
               </table>
 
-              <!-- Financial Totals -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 8px;">
+              <!-- Totals -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 6px;">
                 <tr>
                   <td style="padding: 6px 0; font-size: 13px; color: #7A7265;">Subtotal</td>
                   <td align="right" style="padding: 6px 0; font-size: 13px; color: #2A1B15; font-weight: 600;">₦${order.subtotal.toLocaleString()}</td>
@@ -94,50 +95,82 @@ export function generateCustomerReceiptHtml(order: Order): string {
                 <tr>
                   <td style="padding: 6px 0; font-size: 13px; color: #7A7265;">Delivery Fee</td>
                   <td align="right" style="padding: 6px 0; font-size: 13px; color: #2A1B15;">
-                    ${order.deliveryFee > 0 ? `₦${order.deliveryFee.toLocaleString()}` : 'Pay to rider on arrival'}
+                    ${order.deliveryFee > 0 ? `₦${order.deliveryFee.toLocaleString()}` : 'Pay directly to rider on arrival'}
                   </td>
                 </tr>
                 <tr style="border-top: 1px solid #2A1B15; font-size: 16px;">
                   <td style="padding: 12px 0; font-weight: 700; color: #2A1B15;">Total Paid</td>
-                  <td align="right" style="padding: 12px 0; font-weight: 700; color: #2A1B15; font-size: 18px;">${formattedTotal}</td>
+                  <td align="right" style="padding: 12px 0; font-weight: 700; color: #2A1B15; font-size: 17px;">${formattedTotal}</td>
                 </tr>
               </table>
 
               <!-- Delivery Destination Box -->
-              <div style="background-color: #FAF8F4; border: 1px solid #EBE7DF; border-radius: 4px; padding: 18px; margin: 24px 0;">
-                <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: #7C3F1D; font-weight: 700; display: block; margin-bottom: 6px;">
-                  Delivery Destination
+              <div style="background-color: #FAF8F4; border: 1px solid #EBE7DF; border-radius: 4px; padding: 16px; margin: 22px 0;">
+                <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #7C3F1D; font-weight: 700; display: block; margin-bottom: 4px;">
+                  Delivery Information
                 </span>
                 <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #2A1B15;">
                   <strong>${order.customer.fullName}</strong> (${order.customer.phone})<br />
-                  ${order.customer.address}, ${order.customer.city}, ${order.customer.state}<br />
-                  <span style="color: #7A7265; font-size: 12px;">Expected Dispatch: ${order.deliveryExpectation}</span>
+                  ${order.customer.address}, ${order.customer.city}, ${order.customer.state}
                 </p>
               </div>
 
-              <!-- Action Buttons -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 28px 0 16px 0;">
+              <!-- Button to view online receipt -->
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 24px 0 16px 0;">
                 <tr>
                   <td align="center">
-                    <a href="${receiptUrl}" style="background-color: #2A1B15; color: #FAF8F4; padding: 14px 28px; text-decoration: none; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; border-radius: 2px; display: inline-block;">
-                      View Official Receipt
+                    <a href="${receiptUrl}" style="background-color: #2A1B15; color: #FAF8F4; padding: 13px 26px; text-decoration: none; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 2px; display: inline-block;">
+                      View Your Official Receipt
                     </a>
                   </td>
                 </tr>
               </table>
 
-              <p style="font-size: 12px; line-height: 1.5; color: #7A7265; text-align: center; margin: 20px 0 0 0;">
-                Have a question or custom request? Chat directly with our team on
-                <a href="https://wa.me/${cleanPhone}" style="color: #7C3F1D; text-decoration: underline;">WhatsApp (+${cleanPhone})</a>.
+              <!-- Cross-Sell / Other Pieces from Drop 001 -->
+              <div style="border-top: 1px dashed #D6CFC4; margin-top: 28px; padding-top: 24px;">
+                <h3 style="font-size: 15px; font-weight: 700; color: #2A1B15; margin: 0 0 8px 0; text-align: center;">
+                  Explore More From Drop 001
+                </h3>
+                <p style="font-size: 13px; color: #7A7265; line-height: 1.5; text-align: center; margin: 0 0 16px 0;">
+                  Each piece in our first drop has its own character. If you ever want another pair or want to get one for a friend:
+                </p>
+                
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-bottom: 12px;">
+                  <tr>
+                    <td style="padding: 8px; width: 33%; vertical-align: top; text-align: center; background: #FAF8F4; border-radius: 4px;">
+                      <strong style="font-size: 12px; color: #2A1B15; display: block;">The Weave</strong>
+                      <span style="font-size: 11px; color: #7A7265; display: block; margin: 4px 0;">Hand-braided leather straps for easy everyday styling.</span>
+                      <a href="${SITE_URL}/shop/the-weave-slide-pam" style="color: #7C3F1D; font-size: 11px; font-weight: 600; text-decoration: underline;">View Pair</a>
+                    </td>
+                    <td style="width: 8px;"></td>
+                    <td style="padding: 8px; width: 33%; vertical-align: top; text-align: center; background: #FAF8F4; border-radius: 4px;">
+                      <strong style="font-size: 12px; color: #2A1B15; display: block;">The Ring</strong>
+                      <span style="font-size: 11px; color: #7A7265; display: block; margin: 4px 0;">Clean wide strap anchored by a solid brass ring.</span>
+                      <a href="${SITE_URL}/shop/the-ring-slide-pam" style="color: #7C3F1D; font-size: 11px; font-weight: 600; text-decoration: underline;">View Pair</a>
+                    </td>
+                    <td style="width: 8px;"></td>
+                    <td style="padding: 8px; width: 33%; vertical-align: top; text-align: center; background: #FAF8F4; border-radius: 4px;">
+                      <strong style="font-size: 12px; color: #2A1B15; display: block;">The Twist</strong>
+                      <span style="font-size: 11px; color: #7A7265; display: block; margin: 4px 0;">A smooth crossover strap that hugs your foot cleanly.</span>
+                      <a href="${SITE_URL}/shop/the-twist-slide-pam" style="color: #7C3F1D; font-size: 11px; font-weight: 600; text-decoration: underline;">View Pair</a>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- Personal Support Note -->
+              <p style="font-size: 12px; line-height: 1.5; color: #7A7265; text-align: center; margin: 24px 0 0 0;">
+                If you have any questions or want to update your delivery address, talk to us directly on 
+                <a href="https://wa.me/${cleanPhone}" style="color: #7C3F1D; font-weight: 600; text-decoration: underline;">WhatsApp (+${cleanPhone})</a>.
               </p>
             </td>
           </tr>
 
           <!-- Footer -->
           <tr>
-            <td style="background-color: #F5F1E9; padding: 20px 24px; text-align: center; border-top: 1px solid #E8E3D8; font-size: 11px; color: #8F8475;">
-              NOVEQ · Handcrafted in Lagos, Nigeria · All Rights Reserved.<br />
-              <a href="${SITE_URL}" style="color: #5B4033; text-decoration: underline; margin-top: 4px; display: inline-block;">noveq.com.ng</a>
+            <td style="background-color: #F5F1E9; padding: 18px 24px; text-align: center; border-top: 1px solid #E8E3D8; font-size: 11px; color: #8F8475;">
+              NOVEQ · Handcrafted in Lagos, Nigeria.<br />
+              <a href="${SITE_URL}" style="color: #5B4033; text-decoration: underline; margin-top: 3px; display: inline-block;">noveq.com.ng</a>
             </td>
           </tr>
         </table>
@@ -184,12 +217,42 @@ export function generateAdminOrderAlertHtml(order: Order): string {
 }
 
 /**
- * Send order confirmation emails via available providers (Resend API or Google Apps Script Webhook forwarding)
+ * Generate cheeky email to founder/finance CEO Emmanuel Isibor
+ */
+export function generateFounderCheekyEmailHtml(order: Order): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8" /></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FAF8F4; padding: 24px; color: #2A1B15;">
+  <div style="max-width: 520px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E8E3D8; border-radius: 6px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+    <span style="font-size: 28px; display: block; margin-bottom: 8px;">🌚</span>
+    <h2 style="color: #2A1B15; font-size: 20px; margin: 0 0 14px 0;">CEO sir, your Moniepoint transfer just cleared.</h2>
+    <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 14px 0;">
+      Emmanuel, we saw that transfer of <strong>₦20,000</strong> come in from your Moniepoint MFB account for Desire Aigbe's pair of <em>The Weave Slide Pam (EU 39, Black)</em>.
+    </p>
+    <p style="font-size: 14px; line-height: 1.6; color: #5B4033; margin: 0 0 14px 0;">
+      We see you funding the footwear ministry from behind the scenes! The order (<code>${order.id}</code>) has been recovered, synced to the Google Sheet, and logged on the admin ledger.
+    </p>
+    <div style="background: #F5F1E9; border-left: 3px solid #7C3F1D; padding: 12px 16px; margin: 18px 0; font-size: 13px; color: #2A1B15;">
+      <strong>Action Required:</strong> Check your balance sheet, confirm the ₦20,000 inflow, and let William know when you want to look at the next batch of leather hides.
+    </div>
+    <p style="font-size: 13px; color: #7A7265; margin: 18px 0 0 0;">
+      Now close this tab and go back to your financial models.<br /><br />
+      <strong>NOVEQ Tech & Operations Desk</strong>
+    </p>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+/**
+ * Dispatch emails via Resend or queued for Google Apps Script Webhook
  */
 export async function sendOrderEmails(order: Order): Promise<{ customerSent: boolean; adminSent: boolean; method: string }> {
   const resendApiKey = process.env.RESEND_API_KEY;
 
-  // 1. Direct Resend API if configured
   if (resendApiKey) {
     try {
       const customerHtml = generateCustomerReceiptHtml(order);
@@ -204,7 +267,7 @@ export async function sendOrderEmails(order: Order): Promise<{ customerSent: boo
         body: JSON.stringify({
           from: 'NOVEQ <orders@noveq.com.ng>',
           to: [order.customer.email],
-          subject: `Order Confirmed: ${order.id} | NOVEQ Drop 001`,
+          subject: `Your NOVEQ Order is Confirmed (${order.id})`,
           html: customerHtml,
         }),
       });
@@ -231,6 +294,5 @@ export async function sendOrderEmails(order: Order): Promise<{ customerSent: boo
     }
   }
 
-  // Fallback: Google Apps Script Webhook automatically handles customer & brand notification
   return { customerSent: false, adminSent: false, method: 'apps_script_queued' };
 }

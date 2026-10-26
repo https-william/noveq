@@ -228,16 +228,24 @@ export async function getAllOrders(): Promise<Order[]> {
       if (!error && data) {
         const text = await data.text();
         const list: Order[] = JSON.parse(text);
+        // Clear in-memory store so deleted orders stay deleted
+        ordersStore.clear();
         for (const item of list) {
           ordersStore.set(item.id, item);
         }
+        return Array.from(ordersStore.values()).sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
       }
     } catch {
       // Fall back to memory
     }
   }
 
-  reloadOrdersFromDisk();
+  // Only fall back to local disk if cloud fetch failed and memory is empty
+  if (ordersStore.size === 0) {
+    reloadOrdersFromDisk();
+  }
 
   return Array.from(ordersStore.values()).sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()

@@ -1,10 +1,11 @@
 /**
  * NOVEQ Order & Commerce Synchronization Engine
  * Deployed as Google Apps Script Web App
- * Handles:
- * 1. Automatic row insertion into the Orders Ledger (gid: 87663893)
- * 2. Instant branded customer confirmation email delivery via MailApp
- * 3. Instant founder notification email to noveqthebrand@gmail.com
+ * 
+ * Capabilities:
+ * 1. Automatic row insertion into the Orders tab (gid: 87663893)
+ * 2. Instant branded customer confirmation email tagged as IMPORTANT
+ * 3. Instant founder notification to noveqthebrand@gmail.com
  */
 
 function doPost(e) {
@@ -21,9 +22,21 @@ function doPost(e) {
     }
 
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName('Orders') || ss.getActiveSheet();
+    
+    // Find sheet tab by gid (87663893) or name containing 'order'
+    var sheet = null;
+    var allSheets = ss.getSheets();
+    for (var i = 0; i < allSheets.length; i++) {
+      if (allSheets[i].getSheetId() == 87663893 || allSheets[i].getName().toLowerCase().indexOf('order') !== -1) {
+        sheet = allSheets[i];
+        break;
+      }
+    }
+    if (!sheet) {
+      sheet = ss.getActiveSheet();
+    }
 
-    // Format items summary
+    // Format items summary in plain English
     var itemsStr = '';
     if (data.items && Array.isArray(data.items)) {
       itemsStr = data.items
@@ -48,38 +61,57 @@ function doPost(e) {
       (data.payment && data.payment.reference) || ''
     ]);
 
-    // Send Branded Confirmation Email to Customer
+    // Send Branded Confirmation Email to Customer (Marked as High Priority / Important)
     var customerEmail = (data.customer && data.customer.email) || data.recipientEmail;
     if (customerEmail && data.customerHtml) {
       try {
+        GmailApp.sendEmail(customerEmail, data.emailSubject || ('Your NOVEQ Order is Confirmed (' + (data.orderNo || data.orderId) + ')'), '', {
+          htmlBody: data.customerHtml,
+          name: 'NOVEQ',
+          replyTo: 'noveqthebrand@gmail.com',
+          headers: {
+            'Importance': 'High',
+            'X-Priority': '1',
+            'X-MSMail-Priority': 'High',
+            'Priority': 'Urgent'
+          }
+        });
+      } catch (custMailErr) {
+        // Fallback to MailApp if GmailApp permissions differ
         MailApp.sendEmail({
           to: customerEmail,
-          subject: data.emailSubject || ('Order Confirmed: ' + (data.orderNo || data.orderId) + ' | NOVEQ Drop 001'),
+          subject: data.emailSubject || ('Your NOVEQ Order is Confirmed (' + (data.orderNo || data.orderId) + ')'),
           htmlBody: data.customerHtml,
           name: 'NOVEQ'
         });
-      } catch (custMailErr) {
-        Logger.log('Customer mail error: ' + custMailErr.toString());
       }
     }
 
     // Send Alert Email to Founders
     if (data.adminHtml) {
       try {
+        GmailApp.sendEmail('noveqthebrand@gmail.com', '🚨 [New Order] ' + (data.orderNo || data.orderId) + ' - ' + (data.customerName || 'Customer') + ' (₦' + Number(data.total).toLocaleString() + ')', '', {
+          htmlBody: data.adminHtml,
+          name: 'NOVEQ System',
+          headers: {
+            'Importance': 'High',
+            'X-Priority': '1'
+          }
+        });
+      } catch (adminMailErr) {
+        // Fallback to MailApp
         MailApp.sendEmail({
           to: 'noveqthebrand@gmail.com',
           subject: '🚨 [New Order] ' + (data.orderNo || data.orderId) + ' - ' + (data.customerName || 'Customer') + ' (₦' + Number(data.total).toLocaleString() + ')',
           htmlBody: data.adminHtml,
           name: 'NOVEQ System'
         });
-      } catch (adminMailErr) {
-        Logger.log('Admin mail error: ' + adminMailErr.toString());
       }
     }
 
     return respondJson({
       status: 'ok',
-      message: 'Order recorded and notification emails dispatched successfully.',
+      message: 'Order recorded to sheet ' + sheet.getName() + ' and notification emails dispatched successfully.',
       orderNo: data.orderNo || data.orderId
     });
 
