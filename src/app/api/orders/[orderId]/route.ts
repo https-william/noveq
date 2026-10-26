@@ -8,7 +8,7 @@ interface RouteContext {
 export async function GET(request: Request, context: RouteContext) {
   try {
     const { orderId } = await context.params;
-    const order = getOrderById(orderId);
+    const order = await getOrderById(orderId);
 
     if (!order) {
       return NextResponse.json({ error: 'Order not found.' }, { status: 404 });

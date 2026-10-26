@@ -22,9 +22,9 @@ export async function POST(request: Request) {
     if (event.event === 'charge.success') {
       const reference = event.data?.reference;
       if (reference) {
-        const order = getOrderByReference(reference);
+        const order = await getOrderByReference(reference);
         if (order) {
-          const updated = updateOrderPayment(order.id, 'success', {
+          const updated = await updateOrderPayment(order.id, 'success', {
             paidAt: event.data.paid_at || new Date().toISOString(),
           });
           if (updated) {

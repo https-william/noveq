@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
     // Action 2: Sync single order
     if (action === 'sync_order' && orderId) {
-      const order = getOrderById(orderId);
+      const order = await getOrderById(orderId);
       if (!order) {
         return NextResponse.json({ success: false, message: 'Order not found' }, { status: 404 });
       }
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
     // Action 3: Sync all orders
     if (action === 'sync_all') {
-      const allOrders = getAllOrders();
+      const allOrders = await getAllOrders();
       const results: Array<{ orderId: string; success: boolean; message: string }> = [];
 
       for (const order of allOrders) {

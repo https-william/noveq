@@ -1,4 +1,5 @@
 import { Order } from '@/types/commerce';
+import { generateCustomerReceiptHtml, generateAdminOrderAlertHtml } from '@/services/emailService';
 
 export const DEFAULT_WEBHOOK_URL =
   'https://script.google.com/macros/s/AKfycbxcQXNnv9doCYG96BpFJb1LMcMvqz-rI7TEqWAEs4DKq75-F2ZVsJID-_1a7BrUqlDk/exec';
@@ -60,6 +61,12 @@ function formatOrderPayload(order: Order) {
       status: order.payment.status,
       reference: order.payment.reference,
     },
+    // Automatic email notifications for Google Apps Script
+    sendNotificationEmails: true,
+    recipientEmail: order.customer.email,
+    emailSubject: `Order Confirmed: ${order.id} | NOVEQ Drop 001`,
+    customerHtml: generateCustomerReceiptHtml(order),
+    adminHtml: generateAdminOrderAlertHtml(order),
   };
 }
 

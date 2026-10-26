@@ -82,9 +82,11 @@ function PaymentContent() {
           // Clear bag only after authoritative server confirmation
           clearCart();
 
+          const confirmedId = result.order?.id || targetOrderId;
+
           // Redirect to order confirmation screen
           setTimeout(() => {
-            router.push(`/order-confirmation/${targetOrderId}`);
+            router.push(`/order-confirmation/${confirmedId}`);
           }, 1500);
         } else if (result.status === 'failed') {
           setPaymentStatus('failed');
@@ -111,7 +113,7 @@ function PaymentContent() {
 
   // Initial load: Fetch order and automatically trigger Paystack verification
   useEffect(() => {
-    if (!orderId) {
+    if (!orderId && !reference) {
       setLoading(false);
       setPaymentStatus('failed');
       setStatusMessage('No valid order reference was detected.');
@@ -120,37 +122,47 @@ function PaymentContent() {
 
     async function initAndVerify() {
       try {
-        const res = await fetch(`/api/orders/${orderId}`);
-        const data = await res.json();
+        if (orderId) {
+          const res = await fetch(`/api/orders/${orderId}`);
+          const data = await res.json();
 
-        if (!data.order) {
-          setPaymentStatus('failed');
-          setStatusMessage('Order could not be located in our system.');
-          setLoading(false);
-          return;
+          if (data?.order) {
+            const fetchedOrder: Order = data.order;
+            setOrder(fetchedOrder);
+            setLoading(false);
+
+            // If order is already paid, route straight to confirmation
+            if (fetchedOrder.status === 'paid' || fetchedOrder.payment?.status === 'success') {
+              setPaymentStatus('success');
+              setStatusMessage('Order is settled. Redirecting to confirmation...');
+              clearCart();
+              setTimeout(() => {
+                router.push(`/order-confirmation/${orderId}`);
+              }, 1200);
+              return;
+            }
+
+            // If not verified yet and we haven't fired the call, verify with Paystack now
+            if (!hasTriggeredVerification.current) {
+              hasTriggeredVerification.current = true;
+              const activeRef = reference || fetchedOrder.payment?.reference;
+              await executeVerification(orderId, activeRef);
+              return;
+            }
+          }
         }
 
-        const fetchedOrder: Order = data.order;
-        setOrder(fetchedOrder);
-        setLoading(false);
-
-        // If order is already paid, route straight to confirmation
-        if (fetchedOrder.status === 'paid' || fetchedOrder.payment?.status === 'success') {
-          setPaymentStatus('success');
-          setStatusMessage('Order is settled. Redirecting to confirmation...');
-          clearCart();
-          setTimeout(() => {
-            router.push(`/order-confirmation/${orderId}`);
-          }, 1200);
-          return;
-        }
-
-        // If not verified yet and we haven't fired the call, verify with Paystack now
-        if (!hasTriggeredVerification.current && orderId) {
+        // If orderId was not located yet or direct reference callback from gateway
+        if (reference && !hasTriggeredVerification.current) {
           hasTriggeredVerification.current = true;
-          const activeRef = reference || fetchedOrder.payment?.reference;
-          await executeVerification(orderId, activeRef);
+          setLoading(false);
+          await executeVerification(orderId || '', reference);
+          return;
         }
+
+        setPaymentStatus('failed');
+        setStatusMessage('Order could not be located in our system.');
+        setLoading(false);
       } catch {
         setPaymentStatus('failed');
         setStatusMessage('Unable to connect to the server.');

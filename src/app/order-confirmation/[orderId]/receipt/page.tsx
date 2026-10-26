@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function OrderReceiptPage({ params }: Props) {
   const { orderId } = await params;
-  const order = getOrderById(orderId);
+  const order = await getOrderById(orderId);
 
   if (!order) {
     notFound();

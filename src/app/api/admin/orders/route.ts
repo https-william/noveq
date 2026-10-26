@@ -8,7 +8,7 @@ import { sendTelegramOrderNotification } from '@/services/telegramService';
 
 export async function GET() {
   try {
-    const orders = getAllOrders();
+    const orders = await getAllOrders();
     const totalRevenue = orders.reduce(
       (sum, o) => (o.status !== 'cancelled' ? sum + o.total : sum),
       0
@@ -123,7 +123,7 @@ export async function POST(req: NextRequest) {
       notes: `Offline sale logged via Admin Console (${paymentMethod})`,
     };
 
-    const saved = saveOrder(newOrder);
+    const saved = await saveOrder(newOrder);
 
     // Save subscriber if legitimate email provided
     if (email && email.includes('@') && !email.includes('@client.noveq.com.ng')) {
@@ -168,7 +168,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const updated = updateOrderStatus(orderId, status);
+    const updated = await updateOrderStatus(orderId, status);
     if (!updated) {
       return NextResponse.json(
         { success: false, error: 'Order not found.' },
@@ -195,7 +195,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const removed = deleteOrder(orderId);
+    const removed = await deleteOrder(orderId);
     if (!removed) {
       return NextResponse.json(
         { success: false, error: 'Order not found or already deleted.' },

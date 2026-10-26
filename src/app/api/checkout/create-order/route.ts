@@ -92,7 +92,7 @@ export async function POST(request: Request) {
     newOrder.payment.provider = paymentInit.provider;
 
     // Save order in authoritative store
-    saveOrder(newOrder);
+    await saveOrder(newOrder);
 
     // Save customer email to subscriber retention database
     try {

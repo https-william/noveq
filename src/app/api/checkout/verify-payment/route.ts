@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getOrderById, updateOrderPayment } from '@/lib/orders';
+import { getOrderById, getOrderByReference, updateOrderPayment } from '@/lib/orders';
 import { PaymentService } from '@/services/paymentService';
 import { dispatchOrderConfirmation } from '@/services/notificationService';
 import { PaymentStatus } from '@/types/commerce';
@@ -17,13 +17,19 @@ export async function POST(request: Request) {
       mockOutcome?: 'success' | 'failed' | 'cancelled' | 'timed_out';
     } = body;
 
-    const order = getOrderById(orderId);
+    let order = orderId ? await getOrderById(orderId) : undefined;
+    if (!order && reference) {
+      order = await getOrderByReference(reference);
+    }
+
     if (!order) {
       return NextResponse.json(
         { error: 'Order not found.' },
         { status: 404 }
       );
     }
+
+    const activeOrderId = order.id;
 
     let determinedStatus: PaymentStatus = 'processing';
     let errorMessage: string | undefined;
@@ -44,7 +50,7 @@ export async function POST(request: Request) {
     }
 
     // Authoritative update on the server
-    const updatedOrder = updateOrderPayment(orderId, determinedStatus, {
+    const updatedOrder = await updateOrderPayment(activeOrderId, determinedStatus, {
       paidAt: determinedStatus === 'success' ? new Date().toISOString() : undefined,
       errorMessage,
     });
