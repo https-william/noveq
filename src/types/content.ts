@@ -112,7 +112,9 @@ export interface SiteSettings {
   socialLinks: {
     instagram: string;
     instagramHandle: string;
+    tiktok?: string;
     twitter?: string;
+    facebook?: string;
   };
   announcement: {
     enabled: boolean;

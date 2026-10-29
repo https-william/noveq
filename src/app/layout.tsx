@@ -141,7 +141,10 @@ export default function RootLayout({
         ],
         sameAs: [
           SITE_SETTINGS.socialLinks.instagram,
-        ],
+          SITE_SETTINGS.socialLinks.tiktok,
+          SITE_SETTINGS.socialLinks.twitter,
+          SITE_SETTINGS.socialLinks.facebook,
+        ].filter(Boolean),
       },
       {
         '@type': 'Brand',

@@ -32,6 +32,9 @@ export const SITE_SETTINGS: SiteSettings = {
   socialLinks: {
     instagram: 'https://instagram.com/noveqthebrand',
     instagramHandle: '@noveqthebrand',
+    tiktok: 'https://www.tiktok.com/@noveqthebrand',
+    twitter: 'https://x.com/noveqthebrand',
+    facebook: 'https://www.facebook.com/noveqthebrand',
   },
 
   announcement: {
