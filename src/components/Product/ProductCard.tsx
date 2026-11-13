@@ -15,7 +15,11 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
     alt: product.name,
   };
 
-  const isLowStock = product.stock > 0 && product.stock <= 3;
+  const isRestocking =
+    Boolean(product.restocking) ||
+    product.stock <= 0 ||
+    product.sizes.every((s) => !s.available);
+  const isLowStock = !isRestocking && product.stock > 0 && product.stock <= 3;
 
   const formattedPrice = new Intl.NumberFormat('en-NG', {
     style: 'currency',
@@ -36,7 +40,7 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
       <Link
         href={`/shop/${product.slug}`}
         className="flex flex-col h-full focus-dark"
-        aria-label={`Discover ${product.name} - ${formattedPrice}`}
+        aria-label={`Discover ${product.name} - ${formattedPrice}${isRestocking ? ' (Restocking Soon)' : ''}`}
       >
         {/* Unadorned Gallery Image Stage */}
         <div className="relative aspect-[4/5] w-full bg-[#F4F0E8] border-b border-cocoa/10 overflow-hidden">
@@ -47,8 +51,13 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             priority={priority}
             unoptimized={primaryImage.src.startsWith('data:')}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover hover-image-zoom"
+            className={`object-cover hover-image-zoom ${isRestocking ? 'opacity-90' : ''}`}
           />
+          {isRestocking && (
+            <span className="absolute top-3.5 left-3.5 px-3 py-1 bg-warm-white/95 border border-cocoa/25 rounded-full text-[10px] uppercase tracking-[0.18em] text-espresso font-medium shadow-xs">
+              Restocking Soon
+            </span>
+          )}
         </div>
 
         {/* Poised Centered Maison Details */}
@@ -75,10 +84,16 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
               )}
             </div>
 
-            {isLowStock && (
-              <p className="font-editorial italic text-sm text-cocoa">
-                {product.stock} {product.stock === 1 ? 'pair' : 'pairs'} remaining
+            {isRestocking ? (
+              <p className="font-editorial italic text-sm text-muted-taupe">
+                Restocking soon
               </p>
+            ) : (
+              isLowStock && (
+                <p className="font-editorial italic text-sm text-cocoa">
+                  {product.stock} {product.stock === 1 ? 'pair' : 'pairs'} remaining
+                </p>
+              )
             )}
           </div>
         </div>

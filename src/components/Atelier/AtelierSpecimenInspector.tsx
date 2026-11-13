@@ -17,62 +17,62 @@ const CHAPTERS: MaterialChapter[] = [
   {
     id: 'hide',
     number: '01',
-    tabLabel: 'The Hide',
-    title: 'Vegetable-Tanned Cowhide',
-    headline: 'Substantial 2.2mm Nigerian calfskin conditioned with natural beeswax.',
+    tabLabel: 'The Leather',
+    title: 'Soft, Natural Nigerian Leather',
+    headline: 'Thick enough to hold its clean line, soft enough to feel gentle from your first wear.',
     description:
-      'We work exclusively with full-grain hides tanned slowly in plant extracts and organic oils. Rather than stiff synthetic coatings, the leather breathes effortlessly and moulds to your foot contours across two to three wears.',
+      'We choose breathable natural leather finished with plant oils instead of plastic coatings. It never feels stiff or papery, and gently shapes itself to your foot across your first two or three outings.',
     notes: [
-      'Full-grain aniline finish preserving natural grain',
-      'Conditioned by hand with beeswax and natural tallow',
-      'Develops a rich individual patina with wear',
+      'Breathable natural grain without plastic shine',
+      'Conditioned by hand so straps stay soft and supple',
+      'Deepens into a richer tone with time and movement',
     ],
-    provenance: 'Northern Nigeria Tannery',
+    provenance: 'Selected Local Leather',
   },
   {
     id: 'edge',
     number: '02',
-    tabLabel: 'The Edge',
-    title: 'Hand-Beveled Sole Profile',
-    headline: 'A sculpted 45-degree sole line sealed with hot carnauba wax.',
+    tabLabel: 'The Edges',
+    title: 'Smooth, Hand-Sealed Edges',
+    headline: 'Shaped and smoothed by hand so nothing rubs or pinches bare skin.',
     description:
-      'Every perimeter is shaved with hand rasps at our Lagos workbench to eliminate heavy visual weight. Heat-burnished carnauba wax leaves a dark satin border built to resist tropical humidity and everyday pavement.',
+      'Every strap and sole border is trimmed cleanly and sealed with warm natural wax at our Lagos workbench. The result is a dark, smooth finish built to stand up to humid streets and everyday wear.',
     notes: [
-      'Hand-skived and shaped per pair at the bench',
-      'Hot-iron burnished with organic carnauba wax',
-      'Moisture-sealed for sunlit stone and rainy streets',
+      'Rounded gently by hand along every strap edge',
+      'Sealed cleanly to keep out moisture and city dust',
+      'Built for smooth walking on asphalt, tile, and stone',
     ],
-    provenance: 'Lagos Benchcraft Studio',
+    provenance: 'Lagos Workbench',
   },
   {
     id: 'arch',
     number: '03',
-    tabLabel: 'The Arch',
-    title: 'Tempered Ergonomic Arch',
-    headline: 'Balanced 8mm incline supporting natural stride without heel slap.',
+    tabLabel: 'The Comfort',
+    title: 'Gentle Cushioned Support',
+    headline: 'A subtle cushioned lift under the heel so long days out stay effortless.',
     description:
-      'Conventional flat pams tire the instep over long hours. We engineered an 8mm tempered incline and contoured leather footbed that cushions foot strike softly across concrete, tile, and timber.',
+      'Flat slides often tire the arch after an hour on hard ground. We tucked soft layered padding beneath the leather footbed with a quiet lift at the heel, easing pressure with every step.',
     notes: [
-      'Contoured instep support shaped for female ergonomics',
-      'Dual-density inner cushioning hidden beneath calfskin',
-      'Structured heel rim to stabilize daily movement',
+      'Gently shaped under the arch for natural balance',
+      'Soft hidden cushioning beneath the smooth leather lining',
+      'Steady heel base that stops the sole from slapping',
     ],
-    provenance: 'Anatomical Last Study, Lagos',
+    provenance: 'Everyday Fit Study',
   },
   {
     id: 'hardware',
     number: '04',
-    tabLabel: 'Cast Brass',
-    title: 'Hand-Buffed Brass Hardware',
-    headline: 'Solid non-ferrous metalwork anchored cleanly into full-grain straps.',
+    tabLabel: 'The Brass',
+    title: 'Solid Brass Hardware',
+    headline: 'Weighted solid brass with a quiet satin glow that never flakes or peels.',
     description:
-      'On The Ring silhouette, custom-cast solid brass anchors the sweeping vamp strap. Hand-buffed to a restrained satin gleam, it carries honest weight and will never flake or peel.',
+      'On The Ring, solid brass anchors the sweeping top strap cleanly. Because it is solid metal rather than thin paint or plating, it keeps its calm golden warmth season after season.',
     notes: [
-      'Solid cast brass with hand-buffed satin patina',
-      'Reinforced double-rivet mechanical anchorage',
-      'Sealed naturally against tropical humidity',
+      'Weighted solid brass finished with a soft sheen',
+      'Secured cleanly through the strap for lasting strength',
+      'Easy to wipe bright with a dry cloth in coastal air',
     ],
-    provenance: 'Small-Batch Foundry Casting',
+    provenance: 'Small-Batch Metalwork',
   },
 ];
 
@@ -82,20 +82,20 @@ export function AtelierSpecimenInspector() {
 
   return (
     <section
-      aria-label="Savoir-Faire and Materiality"
+      aria-label="Workshop Materials and Craft"
       className="py-20 sm:py-28 bg-warm-white border-b border-cocoa/15"
     >
       <div className="max-w-5xl mx-auto px-5 sm:px-8 space-y-12">
-        {/* Centered Maison Heading */}
+        {/* Centered Heading */}
         <div className="text-center max-w-xl mx-auto space-y-3">
           <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
-            Savoir-Faire
+            Inside Drop 001
           </span>
-          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] leading-[1.15] text-ink-black">
-            Materials of Permanence
+          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] leading-[1.15] text-ink-black text-balance">
+            How Each Pair Is Made
           </h2>
-          <p className="text-[15px] sm:text-base text-muted-taupe leading-relaxed">
-            Four quiet elements define Drop 001, each finished by hand in our Lagos workshop.
+          <p className="text-[15px] sm:text-base text-muted-taupe leading-relaxed text-pretty">
+            Four quiet details go into every pair, each cut and finished by hand in our Lagos workshop.
           </p>
         </div>
 

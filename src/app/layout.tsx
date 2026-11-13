@@ -5,6 +5,7 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import LegacyFallbackBanner from '@/components/LegacyFallbackBanner';
+import { MaisonTransitionShell } from '@/components/ui/MaisonTransitionShell';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -127,9 +128,9 @@ export default function RootLayout({
         },
         image: `${SITE_SETTINGS.seo.baseUrl}/images/hero/landing-hero-photoshoot.jpg`,
         description:
-          "NOVEQ is a contemporary Nigerian footwear brand in Lagos, Nigeria, specializing in handcrafted female leather pams, women's slip-on slides, and vegetable-tanned footwear.",
+          "NOVEQ is a contemporary Nigerian footwear brand in Lagos, Nigeria, specializing in handcrafted female leather pams and women's slip-on leather slides.",
         disambiguatingDescription:
-          "Contemporary Nigerian female leather footwear brand founded in Lagos, Nigeria, designing handcrafted slide pams with vegetable-tanned hides. Distinct from software templates or musical artists.",
+          "Contemporary Nigerian female leather footwear brand founded in Lagos, Nigeria, designing handcrafted slide pams from soft natural leather. Distinct from software templates or musical artists.",
         slogan: 'Crafted to move.',
         foundingLocation: {
           '@type': 'Place',
@@ -162,7 +163,7 @@ export default function RootLayout({
         url: SITE_SETTINGS.seo.baseUrl,
         logo: `${SITE_SETTINGS.seo.baseUrl}/icon-512.png`,
         slogan: 'Crafted to move.',
-        description: 'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain calfskin.',
+        description: 'Contemporary Nigerian female leather pams handcrafted in Lagos from soft natural leather.',
       },
       {
         '@type': 'WebSite',
@@ -181,8 +182,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${instrumentSerif.variable} ${newsreader.variable} ${rayleighGlamour.variable} h-full antialiased`}
-      data-scroll-behavior="smooth"
+      className={`${inter.variable} ${instrumentSerif.variable} ${newsreader.variable} ${rayleighGlamour.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -199,21 +199,24 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd),
           }}
         />
-        {/* Lightweight ES5 detection for vintage browsers (e.g. Safari 12 / iOS 12.5.7) */}
+        {/* Lightweight ES5 detection for vintage browsers, network conditions, and first-visit arrival */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var l=false;if(typeof window.ResizeObserver==='undefined'||typeof window.CSS==='undefined'||!window.CSS.supports||!window.CSS.supports('gap','1rem')){l=true;}if(/iPhone OS (?:9|10|11|12|13)_/i.test(navigator.userAgent)||/OS (?:9|10|11|12|13)_/i.test(navigator.userAgent)){l=true;}if(l){document.documentElement.className+=' noveq-legacy-device';}}catch(e){document.documentElement.className+=' noveq-legacy-device';}})();`,
+            __html: `(function(){var d=document.documentElement;try{var l=false;if(typeof window.ResizeObserver==='undefined'||typeof window.CSS==='undefined'||!window.CSS.supports||!window.CSS.supports('gap','1rem')){l=true;}if(/iPhone OS (?:9|10|11|12|13)_/i.test(navigator.userAgent)||/OS (?:9|10|11|12|13)_/i.test(navigator.userAgent)){l=true;}if(l){d.className+=' noveq-legacy-device';}var c=navigator.connection||navigator.mozConnection||navigator.webkitConnection;var slow=!!(c&&(c.saveData||c.effectiveType==='2g'||c.effectiveType==='slow-2g'));if(slow){d.setAttribute('data-nvq-slow-net','1');}var bot=/bot|crawl|spider|slurp|lighthouse|pagespeed/i.test(navigator.userAgent||'');var rm=!!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);var arrived=false;try{arrived=sessionStorage.getItem('nvq_arrived')==='1';}catch(err){}if(!l&&!slow&&!bot&&!rm&&!arrived){d.setAttribute('data-nvq-arrival','pending');}}catch(e){d.className+=' noveq-legacy-device';}})();`,
           }}
         />
       </head>
       <body
-        className="min-h-full flex flex-col bg-bone text-ink-black"
+        className="min-h-dvh flex flex-col bg-bone text-ink-black"
         suppressHydrationWarning
       >
         {/* Graceful fallback banner for legacy devices / noscript */}
         <LegacyFallbackBanner />
 
         <Providers>
+          {/* First-visit arrival curtain, route progress bar, and offline indicator */}
+          <MaisonTransitionShell />
+
           {/* Skip to main content link for keyboard accessibility */}
           <a
             href="#main-content"

@@ -42,6 +42,7 @@ export interface Product {
   colours?: ProductColour[];
   sizes: ProductSize[];
   stock: number; // Real remaining inventory (e.g. 2, 4)
+  restocking?: boolean; // Marks silhouettes temporarily paused at the workshop
   material: string;
   care: string;
   dimensions_weight?: string;

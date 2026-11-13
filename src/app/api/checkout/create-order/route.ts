@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { CartItem, CustomerDetails, Order } from '@/types/commerce';
-import { getProductBySlug } from '@/lib/productStore';
+import { ensureProductsLoaded, getProductBySlug } from '@/lib/productStore';
 import { getDeliveryZoneById } from '@/config/deliveryZones';
 import { saveOrder } from '@/lib/orders';
 import { saveSubscriber } from '@/lib/subscribers';
@@ -31,7 +31,8 @@ export async function POST(request: Request) {
       );
     }
 
-    // Authoritative Server-Side Pricing (Prevent client-side price tampering)
+    // Authoritative Server-Side Pricing & Availability Check
+    await ensureProductsLoaded();
     let calculatedSubtotal = 0;
     const validatedItems: CartItem[] = [];
 
@@ -40,6 +41,16 @@ export async function POST(request: Request) {
       if (!liveProduct) {
         return NextResponse.json(
           { error: `Product "${item.product.name}" is no longer available.` },
+          { status: 400 }
+        );
+      }
+
+      const sizeEntry = liveProduct.sizes.find((s) => s.size === item.selectedSize);
+      if (liveProduct.restocking || liveProduct.stock <= 0 || (sizeEntry && !sizeEntry.available)) {
+        return NextResponse.json(
+          {
+            error: `"${liveProduct.name}" is currently restocking and unavailable for checkout. Please remove it from your bag to continue.`,
+          },
           { status: 400 }
         );
       }

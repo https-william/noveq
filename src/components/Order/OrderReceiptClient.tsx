@@ -41,18 +41,31 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
       {/* Receipt Sheet */}
       <div className="receipt-sheet max-w-2xl mx-auto bg-white border border-cocoa/20 p-8 print:border-none print:shadow-none print:p-6 print:max-w-none">
 
-        {/* Header */}
-        <div className="flex justify-between items-start border-b-2 border-[#141414] pb-4 mb-5">
+        {/* Drop 001 Edition Record Header */}
+        <div className="flex justify-between items-start border-b-2 border-[#141414] pb-5 mb-5 gap-4">
           <div>
             <p className="font-bold tracking-[0.3em] uppercase text-xl">n o v e q</p>
-            <p className="text-[10px] text-cocoa uppercase tracking-[0.2em] font-semibold mt-0.5">Order Receipt</p>
+            <p className="text-[10px] text-cocoa uppercase tracking-[0.2em] font-semibold mt-1">
+              Drop 001 · Edition Record &amp; Receipt
+            </p>
+            <div className="mt-2.5 inline-block border border-ink-black/30 px-2.5 py-1 text-[9px] uppercase tracking-[0.18em] text-ink-black">
+              Lagos Atelier · Checked by Hand
+            </div>
           </div>
           <div className="text-right">
-            <p className="text-[10px] text-muted-taupe uppercase tracking-wider">Order</p>
+            <p className="text-[10px] text-muted-taupe uppercase tracking-wider">Order Reference</p>
             <p className="font-mono text-sm font-bold">{order.id}</p>
             <p className="text-[10px] text-muted-taupe mt-0.5">{formattedDate}</p>
             <span className="inline-block mt-1 text-[9px] font-bold text-emerald-800 uppercase tracking-wider">● Payment Confirmed</span>
           </div>
+        </div>
+
+        {/* Pair Craftsmanship Record Note */}
+        <div className="mb-5 p-3 bg-stone-50 border border-cocoa/15 text-[11px] text-espresso/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span>
+            <strong className="uppercase tracking-[0.14em] text-[10px] text-cocoa mr-2">Studio Record:</strong>
+            Soft Nigerian leather shaped by hand, cushioned sole, boxed with cotton dust bag.
+          </span>
         </div>
 
         {/* Customer */}
@@ -111,6 +124,12 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
               via {order.payment.provider.replace('_', ' ')}
             </p>
           </div>
+        </div>
+
+        {/* Quick Care Note */}
+        <div className="border-t border-cocoa/20 pt-3 mb-4 text-[10px] text-muted-taupe leading-relaxed">
+          <span className="uppercase tracking-[0.16em] font-bold text-ink-black mr-2">Quick Care:</span>
+          Wipe gently with a dry cloth after wear · Nourish monthly with clear leather cream · Air-dry wet leather in shade and store flat inside the dust bag.
         </div>
 
         {/* Footer */}

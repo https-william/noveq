@@ -82,27 +82,27 @@ export const POLICIES: Record<string, Policy> = {
     effectiveDate: 'September 25, 2026',
     isDraft: false,
     summary:
-      'Practical, concrete care recommendations to ensure full-grain calfskin and soles endure for years of daily movement.',
+      'Simple, gentle care routines to keep soft Nigerian leather and cushioned soles looking their best for years.',
     sections: [
       {
-        heading: 'Routine Cleaning',
+        heading: 'Everyday Wipe-Down',
         content:
-          'Wipe with a soft, dry cotton cloth after wear to lift fine dust and street grit. For surface smudges, dampen a microfiber towel slightly with clean water and wipe gently. Do not rub aggressively against natural dye lines.',
+          'Wipe gently with a soft, dry cotton cloth after wear to remove street dust. For small surface marks, lightly dampen a clean cloth with plain water and pat gently instead of scrubbing.',
       },
       {
-        heading: 'Moisture & Water Exposure',
+        heading: 'Wet Streets & Rain Care',
         content:
-          'Avoid submersion in standing water or heavy rain. If your pams get wet, blot immediately with a clean towel and stuff the vamp with dry unprinted paper to hold shape. Allow them to air-dry away from direct sunlight, heating radiators, or hair dryers.',
+          'Try to avoid deep puddles. If your pams get wet in the rain, pat them dry right away with a clean towel and tuck soft tissue beneath the front strap so it holds its curved shape. Let them dry slowly indoors away from bright midday sun or hair dryers.',
       },
       {
-        heading: 'Wax Conditioning & Patina',
+        heading: 'Monthly Conditioning',
         content:
-          'Apply a thin coat of neutral wax balm or natural beeswax conditioner every 4-6 weeks. Allow the leather to absorb the nutrients for 15 minutes, then buff with a horsehair brush or dry lint-free cloth to restore natural luster.',
+          'Every 4 to 6 weeks, rub a tiny amount of plain, clear leather cream or beeswax balm across the straps. Let the leather absorb it for 15 minutes, then buff lightly with a dry cloth to keep the finish supple and rich.',
       },
       {
-        heading: 'Proper Storage',
+        heading: 'Dust Bag & Storage',
         content:
-          'Store in a cool, ventilated space away from direct sunlight, which can fade vegetable-tanned pigment. Keep shoes resting flat on their outsoles; do not stack heavy objects directly over the vamp strap.',
+          'Store inside your breathable cotton dust bag in a cool closet away from direct window sun, which can lighten rich natural dyes. Always lay your pairs flat on their soles instead of stacking heavy items across the straps.',
       },
     ],
   },

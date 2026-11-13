@@ -16,7 +16,7 @@ export const NOVEQ_COLLECTIONS: Collection[] = [
     hero_image: '/images/products/the-ring-warm-cognac.jpg',
     products: DROP_001_PRODUCTS,
     editorial_copy:
-      'NOVEQ introduces contemporary leather footwear through Drop 001. Featuring full-grain leather, hand-beveled edges, and signature strap geometry.',
+      'NOVEQ introduces contemporary leather footwear through Drop 001, crafted with soft natural leather, smooth rounded edges, and signature strap silhouettes.',
     publish_date: '2026-09-25',
     publish_status: 'published',
   },

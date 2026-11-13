@@ -42,6 +42,12 @@ export default async function OrderConfirmationPage({ params }: Props) {
   const formattedSubtotal = `₦${order.subtotal.toLocaleString()}`;
   const formattedDelivery = `₦${order.deliveryFee.toLocaleString()}`;
   const formattedTotal = `₦${order.total.toLocaleString()}`;
+  const formattedDate = new Date(order.createdAt).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+  const totalPairs = order.items.reduce((acc, item) => acc + item.quantity, 0);
 
   // WhatsApp direct link with prefilled order context
   const whatsAppText = encodeURIComponent(
@@ -54,30 +60,72 @@ export default async function OrderConfirmationPage({ params }: Props) {
       {/* Authoritative backend purchase tracking (deduplicated) */}
       <OrderConfirmationTracker order={order} />
 
-      {/* Header Banner */}
+      {/* Keepsake Drop 001 Edition Record Card */}
       <div className="bg-warm-white border border-cocoa/25 rounded-2xl p-6 sm:p-10 shadow-apple-sm space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cocoa/15 pb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-cocoa/10 border border-cocoa/30 flex items-center justify-center text-cocoa">
-              <CheckCircle2 className="w-6 h-6 text-cocoa" />
+        {/* Drop 001 Edition Record Header */}
+        <div className="border-b border-cocoa/15 pb-6 space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+            <div className="flex items-start gap-3.5">
+              <div className="w-11 h-11 rounded-full bg-bone border border-cocoa/30 flex items-center justify-center text-cocoa shrink-0 mt-0.5">
+                <CheckCircle2 className="w-5 h-5 text-cocoa" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-[11px] uppercase tracking-[0.22em] text-cocoa font-semibold block">
+                  Drop 001 · Edition Record
+                </span>
+                <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal tracking-tight text-ink-black">
+                  Thank you, {order.customer.fullName.split(' ')[0]}.
+                </h1>
+                <p className="text-xs text-muted-taupe leading-relaxed">
+                  Your order is confirmed and scheduled for hand-finishing at our Lagos studio.
+                </p>
+              </div>
             </div>
-            <div>
-              <span className="text-[11px] uppercase tracking-[0.2em] text-cocoa font-bold block">
-                Payment Verified & Order Confirmed
-              </span>
-              <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal tracking-tight text-ink-black">
-                Thank you, {order.customer.fullName.split(' ')[0]}.
-              </h1>
+
+            {/* Lagos Atelier Stamp + Reference Seal */}
+            <div className="flex flex-col sm:items-end gap-2">
+              <div className="inline-flex flex-col sm:items-end px-4 py-2.5 bg-bone/80 border border-cocoa/30 rounded-lg">
+                <span className="text-[10px] uppercase tracking-[0.18em] text-muted-taupe font-medium">
+                  Order Reference
+                </span>
+                <span className="font-mono text-sm font-bold text-ink-black select-all">
+                  {order.id}
+                </span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 border border-espresso/30 rounded-full text-[10px] uppercase tracking-[0.18em] text-espresso font-medium">
+                <span>noveq · Lagos Atelier</span>
+                <span aria-hidden="true">·</span>
+                <span>{formattedDate}</span>
+              </div>
             </div>
           </div>
 
-          <div className="text-left sm:text-right bg-bone/70 p-3.5 rounded-lg border border-cocoa/20">
-            <span className="text-[10px] uppercase tracking-wider text-muted-taupe block font-medium">
-              Order Reference
-            </span>
-            <span className="font-mono text-sm font-bold text-ink-black select-all">
-              {order.id}
-            </span>
+          {/* Craftsmanship Record & Keepsake Summary Strip */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-bone/65 border border-cocoa/15 rounded-xl text-xs">
+            <div className="space-y-0.5">
+              <span className="text-[10px] uppercase tracking-[0.16em] text-muted-taupe block">
+                Edition Allocated
+              </span>
+              <span className="font-medium text-ink-black">
+                Drop 001 · {totalPairs} {totalPairs === 1 ? 'Pair' : 'Pairs'} Reserved
+              </span>
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-[10px] uppercase tracking-[0.16em] text-muted-taupe block">
+                Craftsmanship
+              </span>
+              <span className="font-medium text-ink-black">
+                Cut, shaped, and smoothed by hand in soft Nigerian leather
+              </span>
+            </div>
+            <div className="space-y-0.5">
+              <span className="text-[10px] uppercase tracking-[0.16em] text-muted-taupe block">
+                Presentation
+              </span>
+              <span className="font-medium text-ink-black">
+                Boxed in a breathable cotton dust bag
+              </span>
+            </div>
           </div>
         </div>
 
@@ -87,10 +135,10 @@ export default async function OrderConfirmationPage({ params }: Props) {
             <Truck className="w-4 h-4 text-warm-white/80 shrink-0" />
             <div>
               <span className="font-semibold block uppercase tracking-wider text-[11px]">
-                Delivery Expectation
+                When Your Pair Arrives
               </span>
-              <span className="text-muted-taupe">
-                Made to order in Lagos (5 business days crafting + 2 business days tracked courier delivery to {order.customer.city}, {order.customer.state}).
+              <span className="text-muted-taupe-on-dark">
+                Made in Lagos over 5 business days, then delivered tracked in about 2 business days to {order.customer.city}, {order.customer.state}.
               </span>
             </div>
           </div>
@@ -192,17 +240,27 @@ export default async function OrderConfirmationPage({ params }: Props) {
             )}
           </div>
 
-          {/* Quality Assurance Notice */}
-          <div className="p-4.5 bg-bone/40 border border-cocoa/20 rounded-xl space-y-2 text-xs text-ink-black/85">
-            <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-semibold block mb-1">
-              Craftsmanship Assurance
-            </span>
-            <p className="text-xs text-muted-taupe leading-relaxed">
-              Every single pair is hand-checked, conditioned, and polished by our craftsmen before dispatch to ensure absolute comfort and structural durability.
-            </p>
-            <div className="flex items-center gap-1.5 text-[11px] text-cocoa pt-2 font-medium">
+          {/* Quick Leather Care & Lagos Atelier Note */}
+          <div className="p-4.5 bg-bone/40 border border-cocoa/20 rounded-xl space-y-2.5 text-xs text-ink-black/85">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-semibold">
+                Quick Care Notes
+              </span>
+              <Link
+                href="/care"
+                className="text-[11px] font-medium text-cocoa hover:text-ink-black underline underline-offset-4"
+              >
+                Full Care Guide
+              </Link>
+            </div>
+            <ul className="space-y-1.5 text-xs text-muted-taupe leading-relaxed">
+              <li><strong className="text-ink-black font-medium">1. After wear:</strong> Wipe away street dust gently with a dry cloth.</li>
+              <li><strong className="text-ink-black font-medium">2. Monthly:</strong> Rub in a drop of plain leather cream to keep straps soft.</li>
+              <li><strong className="text-ink-black font-medium">3. Rain &amp; storage:</strong> Air-dry wet pairs in shade and store flat inside the cotton dust bag.</li>
+            </ul>
+            <div className="flex items-center gap-1.5 text-[11px] text-cocoa pt-1 font-medium">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Inspected and polished before handover to courier.</span>
+              <span>Checked by hand before leaving our Lagos studio.</span>
             </div>
           </div>
         </div>

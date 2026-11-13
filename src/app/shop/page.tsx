@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "Nigerian Female Leather Pams | Shop Drop 001 - NOVEQ",
   description:
-    "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features full-grain vegetable-tanned women's leather slide pams, sculpted comfort, and fast nationwide delivery across Nigeria.",
+    "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features soft natural leather slide pams, cushioned arch comfort, and fast nationwide delivery across Nigeria.",
   alternates: {
     canonical: '/shop',
   },
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Nigerian Female Leather Pams | Shop Drop 001 - NOVEQ",
     description:
-      "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features full-grain vegetable-tanned women's leather slide pams with nationwide dispatch.",
+      "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features soft natural leather slide pams with nationwide dispatch.",
     url: '/shop',
     siteName: 'NOVEQ',
     type: 'website',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Nigerian Female Leather Pams | Shop Drop 001 - NOVEQ",
     description:
-      "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features full-grain vegetable-tanned women's leather slide pams.",
+      "Shop authentic Nigerian female leather pams handcrafted in Lagos. NOVEQ Drop 001 features soft natural leather slide pams.",
     images: ['/images/brand/noveq-brand-sheet.jpg'],
   },
 };

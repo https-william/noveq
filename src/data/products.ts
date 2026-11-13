@@ -1,91 +1,21 @@
 import { Product, Collection } from '@/types/commerce';
+import { WORLDWIDE_WOMEN_SIZES } from '@/config/sizing';
+
+function buildWorldwideSizeList(available: boolean) {
+  return WORLDWIDE_WOMEN_SIZES.map((spec) => ({
+    size: spec.eu,
+    available,
+    stockCount: available ? 1 : 0,
+  }));
+}
 
 /**
  * NOVEQ Product Catalog
- * 
- * Exclusively featuring The Ring Slide Pam, The Weave Slide Pam, and The Twist Slide Pam
- * for Drop 001, highlighting hand-beveled craft and refined daily movement.
+ *
+ * Exclusively featuring The Weave Slide Pam (open for orders),
+ * alongside The Ring Slide Pam and The Twist Slide Pam (restocking soon) for Drop 001.
  */
-
 export const DROP_001_PRODUCTS: Product[] = [
-  {
-    name: 'The Ring Slide Pam',
-    slug: 'the-ring-slide-pam',
-    collection: 'Drop 001',
-    price: 20000,
-    compare_at_price: 27000,
-    currency: 'NGN',
-    colour: 'Warm Cognac',
-    colourHex: '#7C3F1D',
-    colours: [
-      {
-        name: 'Warm Cognac',
-        hex: '#7C3F1D',
-        imageSrc: '/images/products/the-ring-warm-cognac.jpg',
-      },
-      {
-        name: 'Burgundy',
-        hex: '#5B1E28',
-        imageSrc: '/images/products/the-ring-burgundy.jpg',
-      },
-      {
-        name: 'Black',
-        hex: '#141414',
-        imageSrc: '/images/products/the-ring-black.jpg',
-      },
-      {
-        name: 'Off White',
-        hex: '#EFE9DF',
-        imageSrc: '/images/products/the-ring-off-white.jpg',
-      },
-    ],
-    stock: 5,
-    material: 'Hand-selected Nigerian calfskin, anchored with a polished solid gold-toned statement ring. Molded ergonomic footbed with hand-beveled edges and durable low-heel sole.',
-    care: 'Wipe with a soft dry cotton cloth after wear. Apply a light neutral wax balm monthly to maintain rich suppleness. Buff hardware gently with dry microfiber.',
-    dimensions_weight: 'Weight: ~375g per pair. Low heel elevation: 12mm heel, 8mm forefoot.',
-    description: 'A clean cut design with a statement ring. Modern, chic, and refined. You know those outfits where the clothes are simple but the footwear completely changes the look? That’s what we designed this for.',
-    design_note: 'The contoured gold statement ring anchors the upper strap without instep pressure, giving simple linen or denim an intentional, editorial finish.',
-    charm_option: {
-      supported: false,
-    },
-    publish_status: 'published',
-    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2-3 wears.',
-    shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
-    sizes: [
-      { size: 'EU 37', available: true, stockCount: 1 },
-      { size: 'EU 38', available: true, stockCount: 1 },
-      { size: 'EU 39', available: true, stockCount: 1 },
-      { size: 'EU 40', available: true, stockCount: 1 },
-      { size: 'EU 41', available: true, stockCount: 1 },
-    ],
-    images: [
-      {
-        src: '/images/products/the-ring-warm-cognac.jpg',
-        alt: 'NOVEQ The Ring Slide Pam in Warm Cognac full-grain leather',
-        viewType: 'hero',
-      },
-      {
-        src: '/images/products/the-ring-burgundy.jpg',
-        alt: 'NOVEQ The Ring Slide Pam in Burgundy full-grain leather',
-        viewType: 'detail',
-      },
-      {
-        src: '/images/products/the-ring-black.jpg',
-        alt: 'NOVEQ The Ring Slide Pam in Noir Black full-grain leather',
-        viewType: 'detail',
-      },
-      {
-        src: '/images/products/the-ring-off-white.jpg',
-        alt: 'NOVEQ The Ring Slide Pam in Off White cream leather',
-        viewType: 'detail',
-      },
-      {
-        src: '/images/campaign/the-ring-campaign-poster.png',
-        alt: 'NOVEQ The Ring Campaign Poster - Modern. Chic. Refined.',
-        viewType: 'detail',
-      },
-    ],
-  },
   {
     name: 'The Weave Slide Pam',
     slug: 'the-weave-slide-pam',
@@ -123,24 +53,24 @@ export const DROP_001_PRODUCTS: Product[] = [
       },
     ],
     stock: 5,
-    material: 'Interlocking multi-strap braided Nigerian cowhide, beveled square-toe footbed, flexible non-slip low heel sole.',
-    care: 'Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.',
+    material:
+      'Hand-braided straps in soft Nigerian leather, cushioned square-toe footbed, and flexible non-slip low sole.',
+    care:
+      'Wipe clean with a soft dry cloth after wear. Store flat inside your cotton dust bag away from direct sunlight.',
     dimensions_weight: 'Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.',
-    description: 'Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, polished look.',
-    design_note: 'Handcrafted braided strap architecture flexes naturally with every step, distributing stride pressure across the arch while adding rich tactile dimension to your wardrobe.',
+    description:
+      'Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, polished look.',
+    design_note:
+      'Hand-braided straps move gently as you walk, spreading pressure evenly across your foot while adding warm texture to everyday outfits.',
     charm_option: {
       supported: false,
     },
     publish_status: 'published',
-    fit_notes: 'True to standard size. Woven leather provides gentle give to mirror foot contours.',
-    shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
-    sizes: [
-      { size: 'EU 37', available: true, stockCount: 1 },
-      { size: 'EU 38', available: true, stockCount: 1 },
-      { size: 'EU 39', available: true, stockCount: 1 },
-      { size: 'EU 40', available: true, stockCount: 1 },
-      { size: 'EU 41', available: true, stockCount: 1 },
-    ],
+    fit_notes:
+      'Made to order across worldwide women’s sizes (EU 34 – EU 44). Woven leather provides gentle give to mirror foot contours.',
+    shipping_notes:
+      'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
+    sizes: buildWorldwideSizeList(true),
     images: [
       {
         src: '/images/products/the-weave-black.jpg',
@@ -175,6 +105,85 @@ export const DROP_001_PRODUCTS: Product[] = [
     ],
   },
   {
+    name: 'The Ring Slide Pam',
+    slug: 'the-ring-slide-pam',
+    collection: 'Drop 001',
+    price: 20000,
+    compare_at_price: 27000,
+    currency: 'NGN',
+    colour: 'Warm Cognac',
+    colourHex: '#7C3F1D',
+    colours: [
+      {
+        name: 'Warm Cognac',
+        hex: '#7C3F1D',
+        imageSrc: '/images/products/the-ring-warm-cognac.jpg',
+      },
+      {
+        name: 'Burgundy',
+        hex: '#5B1E28',
+        imageSrc: '/images/products/the-ring-burgundy.jpg',
+      },
+      {
+        name: 'Black',
+        hex: '#141414',
+        imageSrc: '/images/products/the-ring-black.jpg',
+      },
+      {
+        name: 'Off White',
+        hex: '#EFE9DF',
+        imageSrc: '/images/products/the-ring-off-white.jpg',
+      },
+    ],
+    stock: 0,
+    restocking: true,
+    material:
+      'Soft, hand-selected Nigerian leather paired with a smooth solid brass statement ring. Cushioned sole with gently rounded edges and a steady, low heel.',
+    care:
+      'Wipe with a soft dry cloth after wear. Rub in a little clear leather cream monthly to keep the straps soft. Polish the brass ring lightly with a dry cloth.',
+    dimensions_weight: 'Weight: ~375g per pair. Low heel elevation: 12mm heel, 8mm forefoot.',
+    description:
+      'A clean cut design with a statement ring. Modern, chic, and refined. You know those outfits where the clothes are simple but the footwear completely changes the look? That’s what we designed this for.',
+    design_note:
+      'The smooth gold-toned ring rests gently across the front strap without pressing the top of your foot, lifting simple linen or denim effortlessly.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes:
+      'Made to order across worldwide women’s sizes (EU 34 – EU 44). The natural leather softens gently to match your foot width after 2–3 wears.',
+    shipping_notes:
+      'Currently restocking in our Lagos workshop. Sign up on this page to be notified first when pairs return.',
+    sizes: buildWorldwideSizeList(false),
+    images: [
+      {
+        src: '/images/products/the-ring-warm-cognac.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Warm Cognac soft natural leather',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/products/the-ring-burgundy.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Burgundy soft natural leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-ring-black.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Noir Black soft natural leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-ring-off-white.jpg',
+        alt: 'NOVEQ The Ring Slide Pam in Off White cream leather',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/campaign/the-ring-campaign-poster.png',
+        alt: 'NOVEQ The Ring Campaign Poster - Modern. Chic. Refined.',
+        viewType: 'detail',
+      },
+    ],
+  },
+  {
     name: 'The Twist Slide Pam',
     slug: 'the-twist-slide-pam',
     collection: 'Drop 001',
@@ -200,34 +209,35 @@ export const DROP_001_PRODUCTS: Product[] = [
         imageSrc: '/images/products/the-twist-black.jpg',
       },
     ],
-    stock: 5,
-    material: 'Full-grain Nigerian calfskin, sculptural gathered twist strap architecture, molded ergonomic footbed with beveled edges and low-profile non-slip sole.',
-    care: 'Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.',
+    stock: 0,
+    restocking: true,
+    material:
+      'Soft Nigerian leather with a gathered twist top strap, cushioned footbed with smooth finished edges, and a steady non-slip sole.',
+    care:
+      'Wipe clean with a soft dry cloth after wear. Condition lightly once a month and store flat inside your cotton dust bag.',
     dimensions_weight: 'Weight: ~370g per pair. Low heel elevation: 12mm heel, 8mm forefoot.',
-    description: 'A modern take on the classic pam, the Twist blends effortless comfort with a sculptural detail that sets it apart. Minimal, refined, and made to move with you.',
-    design_note: 'The gathered, sculptural twist strap flexes naturally with every step while giving simple linen or denim an intentional, editorial finish.',
+    description:
+      'A modern take on the classic pam, the Twist blends effortless comfort with a sculptural detail that sets it apart. Minimal, refined, and made to move with you.',
+    design_note:
+      'The gathered leather twist bends comfortably with every step, lifting simple linen or denim with a clean, sculptural line.',
     charm_option: {
       supported: false,
     },
     publish_status: 'published',
-    fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width after 2-3 wears.',
-    shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
-    sizes: [
-      { size: 'EU 37', available: true, stockCount: 1 },
-      { size: 'EU 38', available: true, stockCount: 1 },
-      { size: 'EU 39', available: true, stockCount: 1 },
-      { size: 'EU 40', available: true, stockCount: 1 },
-      { size: 'EU 41', available: true, stockCount: 1 },
-    ],
+    fit_notes:
+      'Made to order across worldwide women’s sizes (EU 34 – EU 44). The natural leather softens gently to match your foot width after 2–3 wears.',
+    shipping_notes:
+      'Currently restocking in our Lagos workshop. Sign up on this page to be notified first when pairs return.',
+    sizes: buildWorldwideSizeList(false),
     images: [
       {
         src: '/images/products/the-twist.jpg',
-        alt: 'NOVEQ The Twist Slide Pam in rich leather brown full-grain leather',
+        alt: 'NOVEQ The Twist Slide Pam in rich brown natural leather',
         viewType: 'hero',
       },
       {
         src: '/images/products/the-twist-detail.jpg',
-        alt: 'NOVEQ The Twist Slide Pam architectural gathered strap detail and insole embossing',
+        alt: 'NOVEQ The Twist Slide Pam gathered leather strap detail and stamped sole',
         viewType: 'detail',
       },
       {
@@ -248,24 +258,31 @@ export const DROP_001_COLLECTION: Collection = {
   name: 'Drop 001',
   slug: 'drop-001',
   title: 'Drop 001 - noveq collection',
-  short_intro: 'Drop 001 introduces NOVEQ through an exclusive focus on The Ring, The Weave, and The Twist.',
+  short_intro: 'Drop 001 introduces NOVEQ through an exclusive focus on The Weave, The Ring, and The Twist.',
   products: DROP_001_PRODUCTS,
-  editorial_copy: 'Our inaugural release is intentionally focused: Drop 001 showcases designs crafted by our artisan shoemakers in Nigeria. Built around everyday movement, refined form, and honest craftsmanship.',
+  editorial_copy:
+    'Our inaugural release is intentionally focused: Drop 001 showcases designs crafted by our artisan shoemakers in Nigeria. Built around everyday movement, refined form, and honest craftsmanship.',
   publish_date: '2026-09-25',
   publish_status: 'published',
 };
 
 export function getProductBySlug(slug: string): Product | undefined {
+  const bySlug = (targetSlug: string) =>
+    DROP_001_PRODUCTS.find((p) => p.slug === targetSlug);
+
   if (slug === 'the-braid-slide-pam') {
-    return DROP_001_PRODUCTS.find((p) => p.slug === 'the-weave-slide-pam') || DROP_001_PRODUCTS[1];
+    return bySlug('the-weave-slide-pam') || DROP_001_PRODUCTS[0];
   }
-  const directMatch = DROP_001_PRODUCTS.find((p) => p.slug === slug);
+  const directMatch = bySlug(slug);
   if (directMatch) return directMatch;
   if (slug.includes('weave') || slug.includes('braid') || slug.includes('loop')) {
-    return DROP_001_PRODUCTS[1];
+    return bySlug('the-weave-slide-pam') || DROP_001_PRODUCTS[0];
   }
   if (slug.includes('twist')) {
-    return DROP_001_PRODUCTS[2];
+    return bySlug('the-twist-slide-pam') || DROP_001_PRODUCTS[0];
+  }
+  if (slug.includes('ring')) {
+    return bySlug('the-ring-slide-pam') || DROP_001_PRODUCTS[0];
   }
   return DROP_001_PRODUCTS[0];
 }

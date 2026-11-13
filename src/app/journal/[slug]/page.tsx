@@ -105,12 +105,12 @@ export default async function JournalArticlePage({ params }: Props) {
           </span>
         </div>
 
-        <h1 className="font-rayleigh text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-ink-black leading-tight">
+        <h1 className="font-editorial text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[-0.02em] text-ink-black leading-[1.12] text-balance">
           {article.title}
         </h1>
 
         {article.subtitle && (
-          <p className="text-base sm:text-lg text-muted-taupe font-normal leading-relaxed">
+          <p className="text-[15px] sm:text-lg text-muted-taupe font-normal leading-relaxed text-pretty">
             {article.subtitle}
           </p>
         )}
@@ -119,19 +119,19 @@ export default async function JournalArticlePage({ params }: Props) {
       {/* Optional Featured Cover Image */}
       {article.coverImage && (
         <div className="my-8 sm:my-10">
-          <figure className="space-y-2">
-            <div className="relative aspect-[16/9] bg-bone border border-cocoa/20 rounded-2xl overflow-hidden shadow-apple-md">
+          <figure className="space-y-2.5">
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] bg-bone border border-cocoa/20 rounded-2xl overflow-hidden shadow-apple-md">
               <Image
                 src={article.coverImage}
                 alt={article.coverAlt || article.title}
                 fill
                 priority
-                sizes="(max-width: 768px) 100vw, 800px"
-                className="object-contain p-6 sm:p-10"
+                sizes="(max-width: 768px) 100vw, 768px"
+                className={article.coverImage.endsWith('.svg') ? 'object-contain p-6 sm:p-10' : 'object-cover object-center'}
               />
             </div>
             {article.coverAlt && (
-              <figcaption className="text-[11px] uppercase tracking-wider text-muted-taupe px-1">
+              <figcaption className="text-[11px] uppercase tracking-[0.14em] text-muted-taupe px-1">
                 {article.coverAlt}
               </figcaption>
             )}
@@ -140,14 +140,14 @@ export default async function JournalArticlePage({ params }: Props) {
       )}
 
       {/* Article Body Content */}
-      <div className="pt-4 space-y-6 text-ink-black/85 leading-relaxed text-base sm:text-lg font-normal">
+      <div className="pt-2 space-y-6 text-ink-black/85 leading-[1.72] text-[15px] sm:text-[17px] font-normal text-pretty">
         {article.body.slice(0, 2).map((paragraph, idx) => (
           <p key={idx}>{paragraph}</p>
         ))}
 
         {/* Pull Quote */}
         {article.pullQuote && (
-          <blockquote className="my-8 sm:my-10 pl-6 border-l-2 border-cocoa py-3 bg-bone/50 rounded-r-xl">
+          <blockquote className="my-8 sm:my-10 pl-5 sm:pl-6 border-l-2 border-cocoa py-3.5 pr-4 bg-warm-white rounded-r-xl border border-l-2 border-cocoa/15">
             <p className="font-serif text-2xl sm:text-3xl text-espresso italic font-normal leading-snug">
               “{article.pullQuote}”
             </p>
@@ -156,14 +156,14 @@ export default async function JournalArticlePage({ params }: Props) {
 
         {/* Inline Article Image */}
         {article.inlineImage && (
-          <figure className="my-8 space-y-2">
+          <figure className="my-8 space-y-2.5">
             <div className="relative aspect-[4/3] bg-bone border border-cocoa/20 rounded-2xl overflow-hidden shadow-apple-md">
               <Image
                 src={article.inlineImage.src}
                 alt={article.inlineImage.alt}
                 fill
-                sizes="(max-width: 768px) 100vw, 800px"
-                className="object-contain p-6"
+                sizes="(max-width: 768px) 100vw, 768px"
+                className={article.inlineImage.src.endsWith('.svg') ? 'object-contain p-6' : 'object-cover object-center'}
               />
             </div>
             {article.inlineImage.caption && (
@@ -183,7 +183,7 @@ export default async function JournalArticlePage({ params }: Props) {
       {relatedProduct && (
         <section
           aria-labelledby="shop-the-story-heading"
-          className="mt-14 pt-8 border-t border-cocoa/20"
+          className="mt-12 sm:mt-14 pt-8 border-t border-cocoa/20"
         >
           <span
             id="shop-the-story-heading"
@@ -191,13 +191,14 @@ export default async function JournalArticlePage({ params }: Props) {
           >
             Shop The Story
           </span>
-          <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/25 rounded-2xl flex flex-col sm:flex-row items-center gap-6 shadow-apple-sm">
-            <div className="relative w-28 h-28 bg-bone border border-cocoa/20 rounded-xl shrink-0 overflow-hidden">
+          <div className="p-5 sm:p-7 bg-warm-white border border-cocoa/25 rounded-2xl flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6 shadow-apple-sm">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 bg-bone border border-cocoa/20 rounded-xl shrink-0 overflow-hidden mx-auto sm:mx-0">
               <Image
-                src={relatedProduct.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
+                src={relatedProduct.images[0]?.src || '/images/products/the-weave-black.jpg'}
                 alt={relatedProduct.name}
                 fill
-                className="object-contain p-2"
+                sizes="112px"
+                className="object-cover"
               />
             </div>
 
@@ -205,7 +206,7 @@ export default async function JournalArticlePage({ params }: Props) {
               <span className="text-[11px] uppercase tracking-wider text-muted-taupe">
                 {relatedProduct.collection}
               </span>
-              <h3 className="font-rayleigh text-lg font-normal text-ink-black">
+              <h3 className="font-editorial text-xl sm:text-2xl font-normal text-ink-black">
                 {relatedProduct.name}
               </h3>
               <p className="text-xs text-muted-taupe">
@@ -218,7 +219,7 @@ export default async function JournalArticlePage({ params }: Props) {
 
             <Link
               href={`/shop/${relatedProduct.slug}`}
-              className="shrink-0 inline-flex items-center gap-2 px-6 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[46px] shadow-apple-sm active:scale-[0.98]"
+              className="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-[background-color,transform] duration-[180ms] rounded-full focus-dark min-h-[46px] shadow-apple-sm active:scale-[0.98]"
             >
               <span>View Pair</span>
               <ArrowRight className="w-3.5 h-3.5" />

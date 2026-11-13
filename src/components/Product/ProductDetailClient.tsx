@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -19,8 +19,10 @@ import { Product } from '@/types/commerce';
 import { useCart } from '@/context/CartContext';
 import SizeGuideModal from '@/components/Size/SizeGuideModal';
 import { CustomerProofSection } from '@/components/SocialProof/CustomerProofSection';
+import { MaisonCharmLoader } from '@/components/ui/MaisonCharmLoader';
 import { trackEvent } from '@/lib/analytics';
 import { SITE_SETTINGS } from '@/config/siteSettings';
+import { formatInternationalSizeLabel, getSizeConversion } from '@/config/sizing';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -37,10 +39,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   const initialColour = product.colours?.[0]?.name || product.colour;
   const [selectedColour, setSelectedColour] = useState<string>(initialColour);
 
-  // Size selection & validation state
-  const initialSize = product.sizes.find((s) => s.available)?.size || '';
-  const [selectedSize, setSelectedSize] = useState<string>(initialSize);
+  // Size selection & validation state (starts unselected so customers pick their exact worldwide size)
+  const [selectedSize, setSelectedSize] = useState<string>('');
   const [sizeError, setSizeError] = useState<string | null>(null);
+  const sizeSelectRef = useRef<HTMLSelectElement>(null);
 
   // Charm & personalisation state
   const [charmActive, setCharmActive] = useState(
@@ -50,6 +52,11 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
   // Add to bag button states: 'idle' | 'loading' | 'success'
   const [buttonState, setButtonState] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  // Restock alert signup state (for paused/restocking styles)
+  const [restockEmail, setRestockEmail] = useState('');
+  const [restockStatus, setRestockStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [restockMessage, setRestockMessage] = useState<string | null>(null);
 
   // Size guide modal state
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
@@ -118,11 +125,45 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     setOpenAccordion((prev) => (prev === index ? null : index));
   };
 
+  const isRestocking =
+    Boolean(product.restocking) ||
+    product.stock <= 0 ||
+    product.sizes.every((s) => !s.available);
   const selectedSizeObj = product.sizes.find((s) => s.size === selectedSize);
-  const isSelectedSizeAvailable = selectedSizeObj?.available ?? false;
+  const isSelectedSizeAvailable = !isRestocking && (selectedSizeObj?.available ?? false);
+
+  const handleRestockSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!restockEmail.trim() || restockStatus === 'submitting') return;
+
+    setRestockStatus('submitting');
+    setRestockMessage(null);
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: restockEmail.trim(),
+          source: `restock_${product.slug}`,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setRestockStatus('error');
+        setRestockMessage(data.error || 'Please enter a valid email address.');
+        return;
+      }
+      setRestockStatus('success');
+      setRestockMessage(`Saved. We will email you as soon as ${product.name} returns.`);
+      setRestockEmail('');
+    } catch {
+      setRestockStatus('error');
+      setRestockMessage('Could not save right now. Please try again shortly.');
+    }
+  };
 
   const handleAddToBag = () => {
-    if (buttonState !== 'idle') return;
+    if (isRestocking || buttonState !== 'idle') return;
 
     if (!selectedSize) {
       setSizeError('Please select a shoe size to add to your bag.');
@@ -187,7 +228,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   const activeImage = product.images[activeImageIndex] || product.images[0];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 pb-28 sm:pb-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 lg:py-16 pb-28 sm:pb-16">
       {/* Breadcrumb Navigation */}
       <nav aria-label="Breadcrumb" className="pb-6 text-xs uppercase tracking-[0.16em] text-muted-taupe">
         <ol className="flex items-center gap-2">
@@ -308,7 +349,13 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           <div className="space-y-2 border-b border-cocoa/20 pb-5">
             <div className="flex items-center justify-between text-xs tracking-[0.16em] uppercase text-cocoa font-medium">
               <span>{product.collection}</span>
-              <span className="text-muted-taupe">Drop 001 · Limited</span>
+              {isRestocking ? (
+                <span className="px-3 py-1 bg-bone border border-cocoa/25 rounded-full text-[10px] tracking-[0.18em] text-espresso font-semibold">
+                  Restocking Soon
+                </span>
+              ) : (
+                <span className="text-muted-taupe">Drop 001 · Available</span>
+              )}
             </div>
 
             <h1 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.12]">
@@ -379,20 +426,23 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               })}
             </div>
             <p className="text-[11px] text-muted-taupe">
-              Handcrafted in small batches with genuine Nigerian full-grain leather.
+              Handmade in small batches from soft, natural Nigerian leather.
             </p>
           </div>
 
-          {/* Size Selector - MUST be explicit tap/click buttons showing states */}
+          {/* Size Selector - Accessible Worldwide Sizing Dropdown */}
           <div id="size-selector-section" className="space-y-3 scroll-mt-28">
-            <div className="flex items-center justify-between text-xs">
-              <span className="uppercase tracking-[0.16em] text-muted-taupe font-medium">
-                Select Size
-              </span>
+            <div className="flex items-center justify-between gap-2 text-xs">
+              <label
+                htmlFor="product-size-select"
+                className="uppercase tracking-[0.16em] text-muted-taupe font-medium"
+              >
+                Select Size (EU · UK · US)
+              </label>
               <button
                 type="button"
                 onClick={() => setIsSizeGuideOpen(true)}
-                className="text-[11px] text-cocoa hover:text-ink-black font-semibold underline underline-offset-4 inline-flex items-center gap-1 focus-dark"
+                className="text-[11px] text-cocoa hover:text-ink-black font-semibold underline underline-offset-4 inline-flex items-center gap-1 focus-dark min-h-[32px]"
               >
                 <Ruler className="w-3 h-3" />
                 <span>Size Guide</span>
@@ -411,41 +461,92 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </div>
             )}
 
-            <div className="grid grid-cols-5 gap-2" role="group" aria-label="Available shoe sizes">
-              {product.sizes.map((sz) => {
-                const isSelected = selectedSize === sz.size;
-                return (
-                  <button
-                    key={sz.size}
-                    type="button"
-                    disabled={!sz.available}
-                    onClick={() => handleSelectSize(sz.size)}
-                    aria-pressed={isSelected}
-                    aria-label={`${sz.size}${sz.available ? '' : ' - Out of stock'}`}
-                      className={`py-3 px-2 text-xs uppercase tracking-wider font-semibold rounded-lg border transition-[background-color,border-color,color,box-shadow,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[48px] flex flex-col items-center justify-center focus-dark active:scale-[0.96] ${
-                      !sz.available
-                        ? 'bg-bone/40 text-muted-taupe/40 border-cocoa/15 cursor-not-allowed line-through'
-                        : isSelected
-                        ? 'bg-ink-black text-warm-white border-ink-black shadow-apple-sm ring-1 ring-ink-black'
-                        : 'bg-warm-white text-ink-black border-cocoa/30 hover:border-ink-black hover:shadow-xs'
-                    }`}
-                  >
-                    <span>{sz.size}</span>
-                    {!sz.available && (
-                      <span className="text-[9px] no-underline font-normal">Sold out</span>
-                    )}
-                  </button>
-                );
-              })}
+            <div className="relative">
+              <select
+                ref={sizeSelectRef}
+                id="product-size-select"
+                value={selectedSize}
+                disabled={isRestocking}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val) {
+                    handleSelectSize(val);
+                  } else {
+                    setSelectedSize('');
+                  }
+                }}
+                aria-label="Choose your shoe size"
+                className={`w-full appearance-none pl-4 pr-11 py-3.5 text-sm font-medium rounded-xl border transition-[border-color,background-color,box-shadow] duration-[180ms] min-h-[50px] focus:outline-none focus:border-ink-black focus:ring-1 focus:ring-ink-black ${
+                  isRestocking
+                    ? 'bg-bone/60 text-muted-taupe border-cocoa/20 cursor-not-allowed'
+                    : sizeError
+                    ? 'bg-warm-white text-ink-black border-oxblood ring-1 ring-oxblood/30 cursor-pointer'
+                    : 'bg-warm-white text-ink-black border-cocoa/35 hover:border-ink-black shadow-xs cursor-pointer'
+                }`}
+              >
+                <option value="">
+                  {isRestocking
+                    ? 'Restocking soon (EU 34 – EU 44)'
+                    : 'Choose your size (EU 34 – EU 44)'}
+                </option>
+                {product.sizes.map((sz) => {
+                  const label = formatInternationalSizeLabel(sz.size);
+                  const suffix = !sz.available
+                    ? isRestocking
+                      ? ' — Restocking soon'
+                      : ' — Sold out'
+                    : '';
+                  return (
+                    <option
+                      key={sz.size}
+                      value={sz.size}
+                      disabled={!sz.available}
+                    >
+                      {label}
+                      {suffix}
+                    </option>
+                  );
+                })}
+              </select>
+              <ChevronDown
+                className="pointer-events-none w-4 h-4 text-cocoa absolute right-4 top-1/2 -translate-y-1/2"
+                aria-hidden="true"
+              />
             </div>
+
+            {selectedSize && getSizeConversion(selectedSize) ? (
+              <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2 bg-bone/70 border border-cocoa/15 rounded-lg text-[11px] text-ink-black/80">
+                <span>
+                  Selected: <strong className="text-ink-black">{selectedSize}</strong> ({getSizeConversion(selectedSize)!.uk} · {getSizeConversion(selectedSize)!.us})
+                </span>
+                <span className="text-muted-taupe tabular-nums">
+                  Foot length ~{getSizeConversion(selectedSize)!.cm}
+                </span>
+              </div>
+            ) : (
+              !isRestocking && (
+                <p className="text-[11px] text-muted-taupe leading-relaxed">
+                  Made to order across worldwide women&apos;s sizes EU 34 to EU 44 (UK 1.5–10 / US 4–12).
+                </p>
+              )
+            )}
           </div>
 
           {/* Real Stock Signal */}
           <div className="flex items-center gap-2 text-xs text-muted-taupe">
-            <span className="w-1.5 h-1.5 rounded-full bg-cocoa" aria-hidden="true" />
-            <span>
-              Initial release: <span className="font-semibold text-ink-black">{product.stock} pairs</span> crafted for Drop 001.
-            </span>
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${isRestocking ? 'bg-muted-taupe/60' : 'bg-cocoa'}`}
+              aria-hidden="true"
+            />
+            {isRestocking ? (
+              <span>
+                Currently restocking with our shoemaker in Lagos. Join the restock alert below for first access.
+              </span>
+            ) : (
+              <span>
+                Initial release: <span className="font-semibold text-ink-black">{product.stock} pairs</span> crafted for Drop 001.
+              </span>
+            )}
           </div>
 
           {/* ── 3. CHARM / PERSONALISATION (Only on products that support it) ── */}
@@ -493,30 +594,32 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </div>
           )}
 
-          {/* Add to Bag Button (Loading / Success / Out-of-Stock / Prompt States) */}
+          {/* Add to Bag Button / Restocking Soon State */}
           <div className="space-y-3 pt-2">
             <button
               type="button"
               onClick={handleAddToBag}
-              disabled={buttonState !== 'idle' || (Boolean(selectedSize) && !isSelectedSizeAvailable)}
+              disabled={isRestocking || buttonState !== 'idle' || (Boolean(selectedSize) && !isSelectedSizeAvailable)}
               aria-label={
-                selectedSize && !isSelectedSizeAvailable
+                isRestocking
+                  ? `${product.name} is currently restocking soon`
+                  : selectedSize && !isSelectedSizeAvailable
                   ? 'Size currently unavailable'
                   : !selectedSize
                   ? 'Select a size to add to bag'
                   : `Add ${product.name} to bag - ${formattedPrice}`
               }
-              className={`w-full py-4 px-8 text-xs uppercase tracking-[0.2em] font-semibold rounded-full transition-[background-color,border-color,color,box-shadow,transform] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[52px] flex items-center justify-center gap-2 focus-dark shadow-apple-md hover:shadow-apple-lg active:scale-[0.97] cursor-pointer ${
-                selectedSize && !isSelectedSizeAvailable
-                  ? 'bg-bone text-muted-taupe border border-cocoa/20 cursor-not-allowed shadow-none'
+              className={`w-full py-4 px-8 text-xs uppercase tracking-[0.2em] font-semibold rounded-full transition-[background-color,border-color,color,box-shadow,transform] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[52px] flex items-center justify-center gap-2 focus-dark ${
+                isRestocking || (selectedSize && !isSelectedSizeAvailable)
+                  ? 'bg-bone text-muted-taupe border border-cocoa/25 cursor-not-allowed shadow-none'
                   : buttonState === 'success'
-                  ? 'bg-cocoa text-warm-white border border-cocoa'
-                  : 'bg-ink-black text-warm-white hover:bg-espresso border border-ink-black'
+                  ? 'bg-cocoa text-warm-white border border-cocoa shadow-apple-md cursor-pointer'
+                  : 'bg-ink-black text-warm-white hover:bg-espresso border border-ink-black shadow-apple-md hover:shadow-apple-lg active:scale-[0.97] cursor-pointer'
               }`}
             >
               {buttonState === 'loading' && (
-                <span className="inline-flex items-center gap-2">
-                  <span className="w-3.5 h-3.5 border-2 border-warm-white border-t-transparent rounded-full animate-spin" />
+                <span className="inline-flex items-center gap-2.5">
+                  <MaisonCharmLoader size="xs" tone="light" />
                   <span>Adding to Bag...</span>
                 </span>
               )}
@@ -528,7 +631,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               )}
               {buttonState === 'idle' && (
                 <span>
-                  {!selectedSize
+                  {isRestocking
+                    ? 'Restocking Soon'
+                    : !selectedSize
                     ? 'Select a Size'
                     : !isSelectedSizeAvailable
                     ? 'Size Unavailable'
@@ -537,11 +642,64 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               )}
             </button>
 
-            {/* Delivery Note (One Line) */}
-            <div className="flex items-center justify-center gap-2 text-xs text-muted-taupe">
-              <Truck className="w-3.5 h-3.5 text-cocoa" aria-hidden="true" />
-              <span>7 business days nationwide delivery (5 days benchcraft + 2 days tracked courier)</span>
-            </div>
+            {isRestocking ? (
+              <div
+                id="restock-notify"
+                className="p-4 sm:p-5 bg-warm-white border border-cocoa/20 rounded-xl space-y-3 shadow-xs"
+              >
+                <div className="space-y-1">
+                  <span className="text-[11px] uppercase tracking-[0.18em] text-cocoa font-semibold block">
+                    Restock Notification
+                  </span>
+                  <p className="text-xs text-muted-taupe leading-relaxed">
+                    Leave your email to hear the moment {product.name} is back from the workshop, or explore The Weave which is open for orders today.
+                  </p>
+                </div>
+
+                {restockStatus === 'success' ? (
+                  <p className="text-xs font-medium text-espresso py-1">{restockMessage}</p>
+                ) : (
+                  <form onSubmit={handleRestockSubmit} className="flex flex-col sm:flex-row gap-2">
+                    <input
+                      type="email"
+                      required
+                      value={restockEmail}
+                      onChange={(e) => setRestockEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      aria-label={`Email address for ${product.name} restock alert`}
+                      className="flex-1 px-3.5 py-2.5 bg-bone/50 border border-cocoa/30 rounded-lg text-xs text-ink-black placeholder:text-muted-taupe/70 focus:outline-none focus:border-ink-black"
+                    />
+                    <button
+                      type="submit"
+                      disabled={restockStatus === 'submitting'}
+                      className="px-5 py-2.5 bg-espresso hover:bg-ink-black text-warm-white text-[11px] uppercase tracking-[0.16em] font-semibold rounded-lg transition-colors cursor-pointer disabled:opacity-60"
+                    >
+                      {restockStatus === 'submitting' ? 'Saving...' : 'Notify Me'}
+                    </button>
+                  </form>
+                )}
+
+                {restockStatus === 'error' && restockMessage && (
+                  <p className="text-xs text-oxblood">{restockMessage}</p>
+                )}
+
+                <div className="pt-1 border-t border-cocoa/10 flex items-center justify-between text-xs">
+                  <span className="text-muted-taupe">Available to order today:</span>
+                  <Link
+                    href="/shop/the-weave-slide-pam"
+                    className="font-semibold text-ink-black hover:text-espresso underline underline-offset-4"
+                  >
+                    Shop The Weave Slide Pam
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              /* Delivery Note (One Line) */
+              <div className="flex items-center justify-center gap-2 text-xs text-muted-taupe">
+                <Truck className="w-3.5 h-3.5 text-cocoa" aria-hidden="true" />
+                <span>7 business days nationwide delivery (5 days benchcraft + 2 days tracked courier)</span>
+              </div>
+            )}
           </div>
 
           {/* ── 4. CRAFT & MATERIAL ASSURANCE ── */}
@@ -549,9 +707,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             <ShieldCheck className="w-5 h-5 text-cocoa shrink-0 mt-0.5" aria-hidden="true" />
             <div className="text-sm leading-relaxed text-ink-black/85">
               <span className="font-semibold block uppercase tracking-wider text-xs text-cocoa mb-1">
-                Material &amp; Craft Integrity
+                Checked by Hand in Lagos
               </span>
-              Handcrafted from full-grain Nigerian leather with tempered arch support. Individually inspected pair-by-pair in our Lagos studio before dispatch.
+              Cut and stitched from soft Nigerian leather with gently cushioned arch support. Individually checked pair-by-pair in our Lagos studio before dispatch.
             </div>
           </div>
 
@@ -645,11 +803,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 />
               </button>
               {openAccordion === 3 && (
-                <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-2">
-                  <p><strong>Routine Cleaning:</strong> Wipe with a soft, dry cotton cloth after wear to lift fine dust and street grit. For smudges, dampen slightly with clean water and wipe gently.</p>
-                  <p><strong>Moisture Care:</strong> Avoid submersion in standing water. If wet, blot immediately and air-dry away from direct heat or sun.</p>
-                  <p><strong>Conditioning:</strong> Apply a thin coat of neutral wax balm or natural beeswax conditioner every 4-6 weeks to maintain grain suppleness.</p>
-                  <p><strong>Storage:</strong> Store resting flat on outsoles in a cool, ventilated space.</p>
+                <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-2.5">
+                  <p><strong>After Wear:</strong> Wipe with a soft, dry cloth to brush away fine dust and city grit. For small marks, blot gently with a slightly damp cloth.</p>
+                  <p><strong>Rainy Days:</strong> Avoid standing puddles. If wet, pat dry right away with a clean towel and let air-dry indoors in shade away from sun or direct heat.</p>
+                  <p><strong>Conditioning:</strong> Every 4–6 weeks, rub in a drop of plain leather cream to keep straps soft and comfortable.</p>
+                  <p><strong>Storage:</strong> Rest pairs flat inside their cotton dust bag out of direct sunlight.</p>
+                  <p className="pt-1">
+                    <Link href="/care" className="font-semibold text-cocoa hover:text-ink-black underline underline-offset-4">
+                      Read our full Leather Care Guide
+                    </Link>
+                  </p>
                 </div>
               )}
             </div>
@@ -671,9 +834,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </button>
               {openAccordion === 4 && (
                 <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-2">
-                  <p><strong>When will it arrive:</strong> Every pair is made to order in Lagos. Workshop benchcraft takes 5 business days, followed by 2 business days for tracked courier delivery (7 business days nationwide).</p>
+                  <p><strong>When will it arrive:</strong> Every pair is made to order in Lagos. Hand-finishing takes 5 business days, followed by 2 business days for tracked courier delivery (7 business days nationwide).</p>
                   <p>
-                    <strong>What happens if it doesn’t work:</strong> Because Drop 001 is a small run of ten pairs, size exchanges are accommodated subject to remaining pairs. Unworn footwear with tags intact and unmarked outsoles may be returned or exchanged within 7 days.
+                    <strong>What happens if it doesn’t work:</strong> Because Drop 001 is a small run of ten pairs, size exchanges are accommodated whenever sizes remain. Unworn pairs with tags intact and clean soles may be returned or exchanged within 7 days.
                   </p>
                 </div>
               )}
@@ -718,6 +881,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 onClick={() => {
                   const el = document.getElementById('size-selector-section');
                   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  setTimeout(() => sizeSelectRef.current?.focus(), 250);
                 }}
                 className="font-semibold text-ink-black underline underline-offset-2"
               >
@@ -730,16 +894,20 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         <button
           type="button"
           onClick={handleAddToBag}
-          disabled={buttonState !== 'idle' || (Boolean(selectedSize) && !isSelectedSizeAvailable)}
+          disabled={isRestocking || buttonState !== 'idle' || (Boolean(selectedSize) && !isSelectedSizeAvailable)}
           aria-label={
-            !selectedSize
+            isRestocking
+              ? `${product.name} is currently restocking soon`
+              : !selectedSize
               ? 'Select a size to add to bag'
               : !isSelectedSizeAvailable
               ? 'Size currently unavailable'
               : `Add ${product.name} (${selectedColour}, size ${selectedSize}) to bag`
           }
           className={`py-3 px-6 text-xs uppercase tracking-wider font-semibold rounded-full transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[44px] shrink-0 flex items-center justify-center gap-1.5 focus-dark active:scale-[0.97] shadow-apple-sm ${
-            !selectedSize
+            isRestocking
+              ? 'bg-bone text-muted-taupe border border-cocoa/25 cursor-not-allowed'
+              : !selectedSize
               ? 'bg-ink-black text-warm-white hover:bg-espresso'
               : !isSelectedSizeAvailable
               ? 'bg-bone text-muted-taupe border border-cocoa/20 cursor-not-allowed'
@@ -748,12 +916,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               : 'bg-ink-black text-warm-white hover:bg-espresso'
           }`}
         >
-          {buttonState === 'loading' && (
-            <span className="w-3.5 h-3.5 border-2 border-warm-white border-t-transparent rounded-full animate-spin" />
-          )}
+          {buttonState === 'loading' && <MaisonCharmLoader size="xs" tone="light" />}
           {buttonState === 'success' && <Check className="w-4 h-4" />}
           <span>
-            {buttonState === 'loading'
+            {isRestocking
+              ? 'Restocking Soon'
+              : buttonState === 'loading'
               ? 'Adding...'
               : buttonState === 'success'
               ? 'Added'
@@ -785,7 +953,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             image: product.images.map((img) =>
               img.src.startsWith('http') ? img.src : `https://www.noveq.com.ng${img.src}`
             ),
-            description: `${product.description} Handcrafted in Lagos, Nigeria from full-grain calfskin leather.`,
+            description: `${product.description} Handcrafted in Lagos, Nigeria from soft natural leather.`,
             category: "Apparel & Accessories > Shoes > Slip-ons & Slides",
             countryOfOrigin: "NG",
             brand: {
@@ -800,7 +968,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               price: product.price,
               priceValidUntil: '2027-12-31',
               availability:
-                product.stock <= 0
+                isRestocking
                   ? 'https://schema.org/OutOfStock'
                   : product.stock <= 3
                   ? 'https://schema.org/LimitedAvailability'

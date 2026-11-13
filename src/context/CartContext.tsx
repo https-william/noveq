@@ -63,6 +63,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                     price: live.price,
                     compare_at_price: live.compare_at_price,
                     stock: live.stock,
+                    restocking: live.restocking,
                   },
                 };
               }

@@ -59,7 +59,7 @@ export function FooterNewsletter() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
           aria-label="Email for release updates"
-          className="flex-1 px-3 py-2 bg-espresso/60 border border-cocoa/30 text-warm-white placeholder:text-muted-taupe-on-dark text-xs focus:outline-none focus:border-warm-white/70 rounded-full min-h-[38px] px-3.5"
+          className="flex-1 min-w-0 px-3.5 py-2 bg-espresso/60 border border-cocoa/30 text-warm-white placeholder:text-muted-taupe-on-dark text-xs focus:outline-none focus:border-warm-white/70 rounded-full min-h-[42px]"
         />
         <button
           type="submit"

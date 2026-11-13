@@ -8,6 +8,7 @@
   --noveq-charcoal: #1c1c1c;    /* Mid-tone For Surface Elements, Subtle Borders */
   --noveq-ivory: #f4f3ef;       /* Soft, Non-reflective Warm Ivory For Brand Mark/copy */
   --noveq-sand: #cecbbe;        /* Muted Sand For Secondary Metadata/borders */
+  --noveq-brass: #b89b72;       /* Champagne Brass Accents & Progress Hairline */
   --noveq-depth-shadow: rgba(0, 0, 0, 0.4);
 
   /* Legacy calibrated tokens preserved for seamless compatibility */
@@ -30,6 +31,7 @@
   --color-noveq-charcoal: var(--noveq-charcoal);
   --color-noveq-ivory: var(--noveq-ivory);
   --color-noveq-sand: var(--noveq-sand);
+  --color-noveq-brass: var(--noveq-brass);
 
   --color-ink-black: var(--ink-black);
   --color-espresso: var(--espresso);
@@ -93,6 +95,77 @@
   transform: scale(0.97);
 }
 
+/* Signature NOVEQ Twisting Leather Ribbon Motion (Van Cleef-inspired minimalism) */
+@keyframes ribbonTwist {
+  0%, 100% {
+    transform: scaleY(1) rotate(-1.5deg);
+  }
+  50% {
+    transform: scaleY(0.76) rotate(1.5deg);
+  }
+}
+
+@keyframes ribbonSheen {
+  0% {
+    stroke-dashoffset: 148;
+  }
+  100% {
+    stroke-dashoffset: -148;
+  }
+}
+
+.animate-ribbon-twist {
+  transform-origin: 40px 24px;
+  animation: ribbonTwist 2.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+.animate-ribbon-sheen {
+  animation: ribbonSheen 2.6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* Pre-Paint First-Visit Maison Arrival Curtain & Navigation Hairline */
+#nvq-arrival-curtain {
+  display: none;
+  opacity: 0;
+  transform: translateY(0);
+  pointer-events: none;
+}
+
+html[data-nvq-arrival="pending"] #nvq-arrival-curtain {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+html[data-nvq-arrival="exiting"] #nvq-arrival-curtain {
+  display: flex;
+  opacity: 1;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition: transform 720ms var(--ease-in-out);
+}
+
+html[data-nvq-arrival="exiting"] #nvq-arrival-curtain .nvq-curtain-emblem {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 280ms var(--ease-out), transform 360ms var(--ease-out);
+}
+
+@keyframes nvqNavProgress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+.nvq-nav-progress {
+  width: 32%;
+  animation: nvqNavProgress 1.35s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 /* Gate hover zoom strictly to true pointer devices so iPad/mobile taps never stick */
 .hover-image-zoom {
   transition: transform 550ms var(--ease-out);
@@ -106,20 +179,33 @@
 
 /* Global body styling */
 html {
-  scroll-behavior: smooth;
   background-color: var(--bone);
   color: var(--ink-black);
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
 }
 
 body {
-  min-height: 100vh;
-  overflow-x: hidden;
+  min-height: 100dvh;
+  overflow-x: clip;
   display: flex;
   flex-direction: column;
+}
+
+/* Prevent browser scroll-anchoring from locking onto persistent Footer when main swaps routes */
+footer {
+  overflow-anchor: none;
+}
+
+/* Keep third-party Instagram embeds strictly responsive down to 320px viewports */
+.instagram-media,
+iframe.instagram-media-rendered {
+  min-width: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 /* Selection aesthetics */
@@ -155,6 +241,22 @@ textarea:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .animate-ribbon-twist,
+  .animate-ribbon-sheen {
+    animation: none !important;
+    transform: none;
+  }
+
+  #nvq-arrival-curtain {
+    display: none !important;
+  }
+
+  .nvq-nav-progress {
+    animation: none !important;
+    width: 100%;
+    transform: translateX(0);
   }
 }
 

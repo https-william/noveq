@@ -15,6 +15,7 @@ const FOOTER_NAV_LINKS = [
   { name: 'Shop', href: '/shop' },
   { name: 'Story', href: '/story' },
   { name: 'Journal', href: '/journal' },
+  { name: 'Care Guide', href: '/care' },
   { name: 'Contact', href: '/contact' },
   { name: 'Policies', href: '/policies' },
 ];

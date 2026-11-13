@@ -30,14 +30,14 @@ export default function PoliciesPage() {
   const policies = getAllPolicies();
 
   return (
-    <div className="py-12 sm:py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-10 sm:py-16 lg:py-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="pb-8 border-b border-cocoa/20">
         <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
-          Governance & Care
+          Governance &amp; Care
         </span>
-        <h1 className="font-rayleigh text-3xl sm:text-5xl font-normal tracking-tight text-ink-black">
-          Policies & Service Standards
+        <h1 className="font-editorial text-3xl sm:text-5xl font-normal tracking-[-0.015em] text-ink-black">
+          Policies &amp; Service Standards
         </h1>
         <p className="mt-3 text-sm sm:text-base text-muted-taupe max-w-2xl leading-relaxed">
           Versioned policies governing Drop 001 releases, tracked logistics, unworn exchanges, and leather care.

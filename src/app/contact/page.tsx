@@ -36,13 +36,13 @@ export default function ContactPage() {
   )}`;
 
   return (
-    <div className="py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-10 sm:py-16 lg:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
       <div className="pb-8 border-b border-cocoa/20">
         <span className="text-xs uppercase tracking-[0.2em] text-cocoa block mb-2 font-medium">
           Customer Care
         </span>
-        <h1 className="font-rayleigh text-3xl sm:text-5xl font-normal tracking-tight text-ink-black">
+        <h1 className="font-editorial text-3xl sm:text-5xl font-normal tracking-[-0.015em] text-ink-black">
           Contact Support
         </h1>
         <p className="mt-3 text-sm sm:text-base text-muted-taupe leading-relaxed">

@@ -3,22 +3,13 @@
 import { useEffect, useRef } from 'react';
 import { X, Ruler, Footprints } from 'lucide-react';
 import { ProductSize } from '@/types/commerce';
+import { WORLDWIDE_WOMEN_SIZES } from '@/config/sizing';
 
 interface SizeGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
   productSizes?: ProductSize[];
 }
-
-const GLOBAL_SIZE_CHART = [
-  { eu: 'EU 36', cm: '23.0 cm', uk: 'UK 3.5', us: 'US 5.5' },
-  { eu: 'EU 37', cm: '23.7 cm', uk: 'UK 4.0', us: 'US 6.0' },
-  { eu: 'EU 38', cm: '24.4 cm', uk: 'UK 5.0', us: 'US 7.0' },
-  { eu: 'EU 39', cm: '25.0 cm', uk: 'UK 6.0', us: 'US 8.0' },
-  { eu: 'EU 40', cm: '25.7 cm', uk: 'UK 6.5', us: 'US 8.5' },
-  { eu: 'EU 41', cm: '26.4 cm', uk: 'UK 7.5', us: 'US 9.5' },
-  { eu: 'EU 42', cm: '27.0 cm', uk: 'UK 8.0', us: 'US 10.0' },
-];
 
 export default function SizeGuideModal({
   isOpen,
@@ -47,15 +38,17 @@ export default function SizeGuideModal({
 
   if (!isOpen) return null;
 
-  // Extract set of sizes present in current product
-  const activeProductSizes = new Set(productSizes?.map((s) => s.size) || []);
+  // Extract map of size availability on current product
+  const sizeAvailabilityMap = new Map(
+    (productSizes || []).map((s) => [s.size, s.available])
+  );
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label="NOVEQ Size & Fit Guide"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-black/70 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-ink-black/70 backdrop-blur-xs"
     >
       <div
         className="absolute inset-0"
@@ -63,17 +56,17 @@ export default function SizeGuideModal({
         aria-hidden="true"
       />
 
-      <div className="relative z-10 w-full max-w-2xl bg-warm-white text-ink-black border border-cocoa/30 rounded-sm shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div className="relative z-10 w-full sm:max-w-2xl bg-warm-white text-ink-black border-t sm:border border-cocoa/30 rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden max-h-[90dvh] flex flex-col">
         {/* Header */}
-        <div className="p-6 border-b border-cocoa/20 bg-bone/50 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+        <div className="px-5 py-4 sm:p-6 border-b border-cocoa/20 bg-bone/50 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
             <Ruler className="w-5 h-5 text-cocoa" aria-hidden="true" />
             <div>
               <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-bold block">
-                NOVEQ Fit Standard
+                Worldwide Women&apos;s Standard
               </span>
-              <h2 className="text-lg font-bold text-ink-black">
-                Size & Measurement Guide
+              <h2 className="font-editorial text-xl sm:text-2xl font-normal text-ink-black">
+                Size &amp; Measurement Guide
               </h2>
             </div>
           </div>
@@ -82,68 +75,71 @@ export default function SizeGuideModal({
             type="button"
             onClick={onClose}
             aria-label="Close size guide"
-            className="p-2 text-muted-taupe hover:text-ink-black rounded-sm focus-dark"
+            className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-muted-taupe hover:text-ink-black rounded-full focus-dark"
           >
             <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
         {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
           {/* Fit Notes & Sizing Decision Placeholder */}
           <div className="p-4 bg-bone border border-cocoa/25 rounded-xl space-y-2 text-xs">
             <div className="flex items-center gap-1.5 text-cocoa font-bold uppercase tracking-wider text-[11px]">
               <Footprints className="w-4 h-4" />
-              <span>How NOVEQ Pams Run</span>
+              <span>How NOVEQ Pams Fit</span>
             </div>
             <p className="leading-relaxed text-ink-black/85">
-              Drop 001 footwear is crafted with full-grain leather that naturally molds to foot width after 2-3 wears.
+              Every Drop 001 pair is made to order in Lagos across EU 34 to EU 44 (UK 1.5–10.0 / US 4.0–12.0) using soft natural leather that gently relaxes to match your foot width after 2–3 wears.
             </p>
             <div className="p-3.5 bg-warm-white border border-cocoa/20 rounded-lg text-[11px] text-muted-taupe leading-relaxed">
               <span className="font-semibold text-cocoa block uppercase tracking-wider text-[10px] mb-0.5">
                 Fit Advisory
               </span>
-              Our footwear runs true to standard European sizing. If you typically wear a half size or have wider feet, we suggest taking the next size up, or messaging our team on WhatsApp for quick advice before ordering.
+              Our pams follow standard worldwide sizing. If you typically sit between sizes or have wider feet, we recommend choosing the next size up, or messaging our team on WhatsApp for quick help before ordering.
             </div>
           </div>
 
           {/* Size Conversion Table (Dynamically Highlights Active Product Sizes) */}
           <div>
             <h3 className="text-xs uppercase tracking-[0.16em] font-bold text-ink-black mb-3">
-              Size Conversion Matrix
+              International Size Conversion (EU · UK · US · Foot Length)
             </h3>
             <div className="border border-cocoa/20 rounded-xl overflow-x-auto">
-              <table className="w-full text-xs text-left min-w-[420px]">
+              <table className="w-full text-xs text-left">
                 <thead className="bg-bone text-ink-black uppercase tracking-wider text-[10px] border-b border-cocoa/20">
                   <tr>
-                    <th className="py-2.5 px-3 font-semibold">EU Size</th>
-                    <th className="py-2.5 px-3 font-semibold">Foot Length</th>
-                    <th className="py-2.5 px-3 font-semibold">UK Equivalent</th>
-                    <th className="py-2.5 px-3 font-semibold">US Equivalent</th>
-                    <th className="py-2.5 px-3 font-semibold">Drop 001</th>
+                    <th className="py-2.5 px-3 font-semibold whitespace-nowrap">EU</th>
+                    <th className="py-2.5 px-3 font-semibold whitespace-nowrap">UK</th>
+                    <th className="py-2.5 px-3 font-semibold whitespace-nowrap">US Women</th>
+                    <th className="py-2.5 px-3 font-semibold whitespace-nowrap">Foot Length</th>
+                    <th className="py-2.5 px-3 font-semibold whitespace-nowrap">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-cocoa/15 bg-warm-white">
-                  {GLOBAL_SIZE_CHART.map((row) => {
-                    const isInCurrentProduct = activeProductSizes.has(row.eu);
+                  {WORLDWIDE_WOMEN_SIZES.map((row) => {
+                    const hasEntry = sizeAvailabilityMap.has(row.eu);
+                    const isAvailable = sizeAvailabilityMap.get(row.eu) === true;
                     return (
                       <tr
                         key={row.eu}
-                        className={isInCurrentProduct ? 'bg-cocoa/5 font-medium' : ''}
+                        className={isAvailable ? 'bg-cocoa/[0.04] font-medium' : ''}
                       >
-                        <td className="py-2.5 px-3 font-semibold text-ink-black">
+                        <td className="py-2.5 px-3 font-semibold text-ink-black whitespace-nowrap">
                           {row.eu}
                         </td>
-                        <td className="py-2.5 px-3 text-muted-taupe">{row.cm}</td>
-                        <td className="py-2.5 px-3 text-muted-taupe">{row.uk}</td>
-                        <td className="py-2.5 px-3 text-muted-taupe">{row.us}</td>
-                        <td className="py-2.5 px-3">
-                          {isInCurrentProduct ? (
+                        <td className="py-2.5 px-3 text-muted-taupe whitespace-nowrap">{row.uk}</td>
+                        <td className="py-2.5 px-3 text-muted-taupe whitespace-nowrap">{row.us}</td>
+                        <td className="py-2.5 px-3 text-muted-taupe whitespace-nowrap tabular-nums">{row.cm}</td>
+                        <td className="py-2.5 px-3 whitespace-nowrap">
+                          {isAvailable ? (
                             <span className="px-2 py-0.5 bg-espresso text-warm-white text-[9px] uppercase tracking-wider rounded-full font-semibold">
-                              Available in Drop
+                              Made to Order
                             </span>
+                          ) : hasEntry ? (
+                            <span className="text-[10px] text-muted-taupe">Restocking</span>
                           ) : (
-                            <span className="text-[10px] text-muted-taupe/60"> - </span>
+                            <span className="text-[10px] text-muted-taupe/70">Custom Request</span>
                           )}
                         </td>
                       </tr>

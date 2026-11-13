@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Order, PaymentStatus } from '@/types/commerce';
 import { useCart } from '@/context/CartContext';
+import { MaisonCharmLoader } from '@/components/ui/MaisonCharmLoader';
 import { trackEvent } from '@/lib/analytics';
 import { SITE_SETTINGS } from '@/config/siteSettings';
 
@@ -176,10 +177,7 @@ function PaymentContent() {
   if (loading) {
     return (
       <div className="py-28 max-w-md mx-auto text-center space-y-4 px-4">
-        <div className="w-10 h-10 border-2 border-cocoa border-t-transparent rounded-full animate-spin mx-auto" />
-        <p className="text-xs uppercase tracking-widest text-muted-taupe">
-          Connecting to Paystack Security Gateway...
-        </p>
+        <MaisonCharmLoader size="md" tone="dark" label="Connecting to Paystack Security Gateway..." />
       </div>
     );
   }
@@ -192,17 +190,19 @@ function PaymentContent() {
           {/* 1. PROCESSING / VERIFYING */}
           {paymentStatus === 'processing' && (
             <div className="space-y-4">
-              <div className="w-14 h-14 border-3 border-cocoa border-t-transparent rounded-full animate-spin mx-auto" />
-              <span className="inline-block px-3 py-1 bg-espresso text-warm-white text-[10px] uppercase tracking-widest font-semibold rounded-full">
+              <div className="flex justify-center">
+                <MaisonCharmLoader size="md" tone="dark" />
+              </div>
+              <span className="inline-block px-3 py-1 bg-espresso text-warm-white text-xs uppercase tracking-widest font-semibold rounded-full">
                 Verifying Transaction
               </span>
-              <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal text-ink-black">
+              <h1 className="font-editorial text-2xl sm:text-3xl font-normal text-ink-black">
                 Confirming Your Payment
               </h1>
-              <p className="text-xs text-muted-taupe max-w-sm mx-auto leading-relaxed">
+              <p className="text-sm text-muted-taupe max-w-sm mx-auto leading-relaxed">
                 {statusMessage}
               </p>
-              <p className="text-[11px] text-cocoa font-medium">
+              <p className="text-xs text-cocoa font-medium">
                 Please do not refresh, close, or navigate away from this screen.
               </p>
             </div>
@@ -214,13 +214,13 @@ function PaymentContent() {
               <div className="w-14 h-14 rounded-full bg-cocoa/10 border border-cocoa/30 flex items-center justify-center text-cocoa mx-auto">
                 <CheckCircle2 className="w-8 h-8 text-cocoa" />
               </div>
-              <span className="inline-block px-3 py-1 bg-cocoa text-warm-white text-[10px] uppercase tracking-widest font-semibold rounded-full">
+              <span className="inline-block px-3 py-1 bg-cocoa text-warm-white text-xs uppercase tracking-widest font-semibold rounded-full">
                 Payment Confirmed
               </span>
-              <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal text-ink-black">
-                Order Reserved & Verified
+              <h1 className="font-editorial text-2xl sm:text-3xl font-normal text-ink-black">
+                Order Reserved &amp; Verified
               </h1>
-              <p className="text-xs text-muted-taupe max-w-sm mx-auto">
+              <p className="text-sm text-muted-taupe max-w-sm mx-auto">
                 Your payment was successfully received and verified with Paystack. Preparing your confirmation details...
               </p>
             </div>
@@ -232,10 +232,10 @@ function PaymentContent() {
               <div className="w-14 h-14 rounded-full bg-oxblood/10 border border-oxblood/30 flex items-center justify-center text-oxblood mx-auto">
                 <XCircle className="w-8 h-8 text-oxblood" />
               </div>
-              <span className="inline-block px-3 py-1 bg-oxblood text-warm-white text-[10px] uppercase tracking-widest font-semibold rounded-full">
+              <span className="inline-block px-3 py-1 bg-oxblood text-warm-white text-xs uppercase tracking-widest font-semibold rounded-full">
                 Payment Incomplete
               </span>
-              <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal text-ink-black">
+              <h1 className="font-editorial text-2xl sm:text-3xl font-normal text-ink-black">
                 Unable to Complete Payment
               </h1>
               <div className="p-3 bg-bone border border-cocoa/20 rounded-xl text-xs text-ink-black/90 max-w-md mx-auto">

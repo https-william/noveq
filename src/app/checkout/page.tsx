@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ShieldCheck, Truck, ArrowLeft, Heart, Lock, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ShieldCheck, Truck, ArrowLeft, Heart, Lock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { MaisonCharmLoader } from '@/components/ui/MaisonCharmLoader';
 import { DELIVERY_ZONES, getDeliveryZoneById } from '@/config/deliveryZones';
 import { CustomerDetails } from '@/types/commerce';
 import { trackEvent } from '@/lib/analytics';
@@ -82,6 +83,10 @@ export default function CheckoutPage() {
   const selectedZone = getDeliveryZoneById(formData.zoneId);
   const deliveryFee = selectedZone.fee;
   const totalAmount = subtotal + deliveryFee;
+
+  const hasUnavailableItems = cartItems.some(
+    (item) => Boolean(item.product.restocking) || item.product.stock <= 0
+  );
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -191,6 +196,23 @@ export default function CheckoutPage() {
               Please enter your delivery address and contact details to receive your order.
             </p>
           </div>
+
+          {hasUnavailableItems && (
+            <div
+              role="alert"
+              className="p-4 bg-oxblood/10 border border-oxblood/30 text-oxblood text-xs rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+            >
+              <span>
+                One or more pairs in your bag are currently restocking. Please remove paused items before placing an order.
+              </span>
+              <Link
+                href="/bag"
+                className="font-semibold underline underline-offset-4 shrink-0"
+              >
+                Review Bag
+              </Link>
+            </div>
+          )}
 
           {errorMessage && (
             <div
@@ -445,11 +467,11 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 py-4 px-8 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[50px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.98] disabled:opacity-70 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2.5 py-4 px-8 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[50px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.97] disabled:opacity-80 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin text-warm-white" />
+                    <MaisonCharmLoader size="xs" tone="light" />
                     <span>Preparing Secure Checkout...</span>
                   </>
                 ) : (

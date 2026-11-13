@@ -2,96 +2,105 @@ import { JournalArticle } from '@/types/content';
 
 /**
  * NOVEQ Journal Articles
- * 
+ *
  * Genuine notes on shoemaking craft, silhouette design, and leather care.
- * Strictly free from filler, fake quotes, or synthetic marketing hype.
+ * Coherent real photography and plain-English descriptions throughout.
  */
 export const JOURNAL_ARTICLES: JournalArticle[] = [
   {
     slug: 'drop-001-the-first-ten-pairs',
     title: 'Drop 001: The First Ten Pairs',
-    subtitle: 'Why we began with ten pairs, the asymmetric cut, and the deliberate pace of small-batch shoemaking.',
-    excerpt: 'Why we started with ten pairs, the geometry behind the cut, and building a foundation before scaling.',
-    coverImage: '/images/products/the-ring-warm-cognac.jpg',
-    coverAlt: 'NOVEQ The Ring Slide Pam in Warm Cognac full-grain leather',
+    subtitle:
+      'Why we began with small batches, clean cuts, and the deliberate pace of hand-finished shoemaking in Lagos.',
+    excerpt:
+      'Why we started small instead of mass-producing, the balance behind our first silhouettes, and setting our craft standard.',
+    coverImage: '/images/models/the-ring-hero-model.jpg',
+    coverAlt: 'NOVEQ The Ring Slide Pam worn on stone steps in warm sunlight',
     body: [
-      'When we prepared the launch for NOVEQ, conventional retail logic urged releasing twenty styles across hundreds of units. We decided against it.',
-      'Drop 001 began with a singular focus: footwear made by hand in intimate collaboration with our artisan partner in Nigeria. We wanted to touch every hide, test the flexion on real feet across sunlit pavements, and ensure each design felt personal and intentional.',
-      'Central to Drop 001 is The Ring Slide Pam. Anchored by a polished gold statement ring, the strap is sculpted to allow the instep to flex naturally during stride without cutting into the foot.',
-      'Every pair in this release is inspected pair-by-pair in our studio before dispatch. For us, this is not just a product launch; it is setting our standard for everything that follows.',
+      'When we prepared to introduce NOVEQ, standard retail wisdom pushed for releasing twenty silhouettes across hundreds of pairs. We chose the opposite path.',
+      'Drop 001 started with focused small runs crafted by hand alongside our shoemaker partner in Lagos. We wanted to inspect every piece of leather ourselves, test how the cushioned footbed flexes over a full afternoon walk, and refine each curve before scaling.',
+      'Central to that approach is restraint: letting clean leather edges, balanced footbeds, and quiet hardware speak without excess. Every pair is checked individually in our studio before it is boxed in a cotton dust bag.',
+      'While The Ring and The Twist are currently resting between workshop batches, The Weave remains open to order to your exact size across EU 34 to EU 44.',
     ],
-    pullQuote: 'Small-batch production is not artificial scarcity - it is an obsession with getting every edge, sole angle, and temper right.',
+    pullQuote:
+      'Small-batch production is not artificial scarcity — it is taking the time to get every strap curve, cushioned sole, and stitch right.',
     inlineImage: {
-      src: '/images/editorial/craft-spec-grid.jpg',
-      alt: 'Artisan hand-crafting Drop 001 leather pams at the bench in Nigeria',
-      caption: 'Workbench precision: vegetable-tanned hides selected and finished by hand.',
+      src: '/images/brand/unboxing-suite-full.jpg',
+      alt: 'NOVEQ presentation box, cotton dust bag, and edition card prepared in Lagos',
+      caption: 'Studio preparation: breathable cotton dust bag and Drop 001 Edition Record.',
     },
     date: 'October 14, 2026',
     readingTime: '3 min read',
     type: 'editorial',
     tags: ['Drop 001', 'Craft', 'Launch'],
-    relatedProductSlug: 'the-ring-slide-pam',
+    relatedProductSlug: 'the-weave-slide-pam',
     seoTitle: 'Drop 001: The First Ten Pairs | NOVEQ Journal',
     seoDescription:
-      'Why NOVEQ launched with ten pairs, the craft behind The Ring, and our small-batch artisan philosophy.',
+      'Why NOVEQ launched in small batches in Lagos and our deliberate pace of handcrafted Nigerian shoemaking.',
     publishStatus: 'published',
   },
   {
     slug: 'the-pam-considered',
     title: 'The Pam, Considered',
-    subtitle: 'How an indispensable West African staple became the foundation of modern everyday footwear.',
-    excerpt: 'Examining the cultural familiarity of the leather slip-on pam and reimagining it through minimal form.',
-    coverImage: '/images/products/the-weave-black.jpg',
-    coverAlt: 'NOVEQ The Weave Pam in Deep Noir woven leather',
+    subtitle:
+      'How an indispensable West African staple became the foundation of quiet everyday footwear.',
+    excerpt:
+      'Examining the everyday leather slip-on worn across Lagos and reimagining its proportions through modern restraint.',
+    coverImage: '/images/editorial/campaign-model.jpg',
+    coverAlt: 'Woman in relaxed cream linen seated wearing handcrafted NOVEQ leather pams',
     body: [
-      'To live in Lagos or any West African city is to know the pam. It is the pair by the front door you slide into for a quick errand, the pair you wear to meet friends on Sunday afternoon, the natural accompaniment to both crisp linen trousers and easy weekend wear.',
-      'Yet for decades, this silhouette was treated either as disposable utility or smothered in gilded embellishment to justify luxury price tags. We saw an opportunity to celebrate the pam on its own structural merits.',
-      'We began by paring the form back to its essential elements: a sculpted leather footbed, an unlined strap that breathes against bare skin, and subtle, hand-burnished edge finishing. No loud logos. No synthetic compromises.',
-      'By respecting the silhouette’s cultural familiarity while applying contemporary architectural discipline, the pam becomes what it always had the potential to be: a quiet, refined everyday staple.',
+      'To live in Lagos or any West African city is to know the pam. It is the pair waiting by your front door for early errands, relaxed Sunday lunches, and unhurried evenings paired with crisp linen or denim.',
+      'Yet for decades, the everyday slide was treated either as disposable utility or crowded with heavy, loud accents. We saw space to honour the silhouette purely on balance and feel.',
+      'We stripped the shape down to what genuinely serves the foot: a gently cushioned leather base, breathable hand-shaped straps, and smooth rounded borders that never dig against bare skin.',
+      'When quiet structure meets familiar cultural ease, the pam stops being an afterthought and becomes an effortless anchor in your wardrobe.',
     ],
-    pullQuote: 'The best design does not reinvent what is already beloved; it strips away everything that was getting in the way.',
+    pullQuote:
+      'The best design does not reinvent what is already beloved; it clears away everything that was getting in the way.',
     inlineImage: {
-      src: '/images/editorial/editorial-anatomy.jpg',
-      alt: 'Architectural anatomy and layered construction schematic of the NOVEQ pam',
-      caption: 'Exploded anatomical schematic: sculptural strap, ergonomic footbed, cushioned mid-layer, and slim beveled outsole.',
+      src: '/images/models/the-weave-hero-model.jpg',
+      alt: 'Close-up of NOVEQ The Weave hand-braided black leather strap on foot',
+      caption: 'Hand-braided soft leather strips flex naturally with your stride.',
     },
     date: 'October 02, 2026',
     readingTime: '4 min read',
     type: 'craft_story',
     tags: ['Design Philosophy', 'Heritage', 'Silhouette'],
-    relatedProductSlug: 'the-loop-pam',
+    relatedProductSlug: 'the-weave-slide-pam',
     seoTitle: 'The Pam, Considered | NOVEQ Journal',
     seoDescription:
-      'How NOVEQ reinterprets the culturally indispensable leather pam with modern restraint and craftsmanship.',
+      'How NOVEQ reinterprets the everyday West African leather pam with calm geometry and lasting comfort.',
     publishStatus: 'published',
   },
   {
     slug: 'notes-on-leather',
     title: 'Notes on Leather',
-    subtitle: 'Grain density, dual wax conditioning, and why temper defines how footwear feels on bare skin.',
-    excerpt: 'An artisan log on leather temper, edge beveling, and how full-grain calfskin molds to your stride.',
-    coverImage: '/images/editorial/editorial-craft.jpg',
-    coverAlt: 'Artisan workbench in Lagos with leather soles, lasting tools and calipers',
+    subtitle:
+      'Softness, edge finishing, and four quiet habits that help real leather last for years.',
+    excerpt:
+      'Workshop notes from Lagos on selecting supple Nigerian leather, smoothing strap edges, and caring for your pair.',
+    coverImage: '/images/editorial/artisan-workshop.jpg',
+    coverAlt: 'Lagos shoemaker hand-stitching a NOVEQ leather pam strap at a wooden bench',
     body: [
-      'In shoemaking, “temper” refers to the balance of pliability and firmness in a hide. A strap that is too stiff bites the top of your foot; one that is too soft stretches out of shape within weeks.',
-      'For Drop 001, we selected full-grain calfskin hides with uniform tensile strength. Before cutting, each hide is conditioned with natural beeswax and oils, allowing the fibers to relax while preserving their structural memory.',
-      'One critical step often skipped in modern commercial footwear is edge beveling. We shave the bottom corners of every strap at a gentle 45-degree angle before hand-burnishing the raw edge. When you slip your foot in barefoot, there are no sharp leather edges - only a smooth, supple boundary.',
-      'With proper care - a simple wipe-down after wear and periodic light conditioning - this leather does not degrade. It deepens in character, forming a gentle patina unique to the way you walk.',
+      'When you slip on leather barefoot, two details decide whether a pair becomes your daily favourite or stays in the box: softness and strap balance. Too stiff, and the top edge rubs; too thin, and the shape collapses within a season.',
+      'For Drop 001, we source supple Nigerian leather trimmed and lightly nourished with beeswax and natural oils before stitching so each strap yields smoothly from the very first walk.',
+      'One step often rushed in everyday footwear is finishing the strap border. Our makers trim, bevel, and seal every leather edge by hand so bare feet feel a smooth, rounded cushion rather than a sharp cut.',
+      'With a quick dry wipe after wear and a monthly touch of clear leather balm, real leather never flakes like coated synthetics — it quietly warms and shapes to your own step.',
     ],
-    pullQuote: 'Leather is not a static material; it is a responsive medium that records the story of how you move.',
+    pullQuote:
+      'Good leather does not wear out easily — it softens quietly to trace everywhere you have walked.',
     inlineImage: {
-      src: '/images/editorial/editorial-craft.jpg',
-      alt: 'Artisan hand lasting and cobbler tools at the workshop bench',
-      caption: 'Bench precision: hand-skiving, lasting margin alignment, and traditional cobbler hand tools.',
+      src: '/images/models/the-weave-on-model.jpg',
+      alt: 'NOVEQ The Weave Slide Pam showing woven leather grain and square-toe profile',
+      caption: 'Supple hand-braided leather paired with a steady square-toe outsole.',
     },
     date: 'September 28, 2026',
     readingTime: '3 min read',
     type: 'product_note',
     tags: ['Materials', 'Leather Care', 'Craft'],
-    relatedProductSlug: 'the-artisan-pam-oxblood',
-    seoTitle: 'Notes on Leather: Temper, Edging & Care | NOVEQ Journal',
+    relatedProductSlug: 'the-weave-slide-pam',
+    seoTitle: 'Notes on Leather: Softness, Edging & Care | NOVEQ Journal',
     seoDescription:
-      'Workshop notes on calfskin temper, hand-beveled strap edges, and longevity care for Drop 001.',
+      'Workshop notes on soft Nigerian leather, smooth rounded strap edges, and simple everyday leather care.',
     publishStatus: 'published',
   },
 ];

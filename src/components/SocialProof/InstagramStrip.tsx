@@ -1,41 +1,60 @@
-import React from 'react';
-import Image from 'next/image';
-import { ArrowUpRight } from 'lucide-react';
-import { InstagramIcon } from '@/components/icons/InstagramIcon';
-import { SITE_SETTINGS } from '@/config/siteSettings';
-import { InstagramLink } from '@/components/Analytics/InstagramLink';
+'use client';
 
-interface InstagramPostItem {
-  id: string;
-  image: string;
-  alt: string;
-  caption: string;
+import { useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowUpRight, Play } from 'lucide-react';
+import InstagramIcon from '@/components/icons/InstagramIcon';
+import { InstagramLink } from '@/components/Analytics/InstagramLink';
+import { SITE_SETTINGS } from '@/config/siteSettings';
+
+declare global {
+  interface Window {
+    instgrm?: {
+      Embeds?: {
+        process: () => void;
+      };
+    };
+  }
 }
 
-const CURATED_POSTS: InstagramPostItem[] = [
+interface InstagramReelItem {
+  id: string;
+  permalink: string;
+  label: string;
+  caption: string;
+  fallbackImage: string;
+  fallbackAlt: string;
+  productHref?: string;
+  productCta?: string;
+}
+
+const CURATED_REELS: InstagramReelItem[] = [
   {
-    id: 'post-1',
-    image: '/images/products/the-twist.jpg',
-    alt: 'NOVEQ The Twist Slide Pam sculptural strap detail',
-    caption: 'Drop 001: The Twist. Sculptural calfskin vamp contoured for effortless daily stride.',
+    id: 'DeguzSTIfNc',
+    permalink: 'https://www.instagram.com/reel/DeguzSTIfNc/?utm_source=ig_embed&utm_campaign=loading',
+    label: 'The Weave · Army Green',
+    caption: 'The Weave in Army Green. Braided soft leather seen up close and in movement.',
+    fallbackImage: '/images/products/the-weave-army-green.jpg',
+    fallbackAlt: 'NOVEQ The Weave Slide Pam in Army Green Reel preview',
+    productHref: '/shop/the-weave-slide-pam',
+    productCta: 'Shop The Weave',
   },
   {
-    id: 'post-2',
-    image: '/images/products/the-ring-warm-cognac.jpg',
-    alt: 'NOVEQ The Ring Slide Pam in Warm Cognac with gold statement ring',
-    caption: 'Drop 001: The Ring. Solid gold statement ring anchoring full-grain Nigerian leather.',
+    id: 'Dee8L1bID3i',
+    permalink: 'https://www.instagram.com/reel/Dee8L1bID3i/?utm_source=ig_embed&utm_campaign=loading',
+    label: 'Drop 001 · In Movement',
+    caption: 'Everyday ease from Lagos. Soft Nigerian leather that moves with your stride.',
+    fallbackImage: '/images/products/the-weave-black.jpg',
+    fallbackAlt: 'NOVEQ Drop 001 leather pam movement Reel preview',
   },
   {
-    id: 'post-3',
-    image: '/images/editorial/artisan-workshop.jpg',
-    alt: 'Artisan workbench in Nigeria with hand-beveled leather soles and brass calipers',
-    caption: 'Workbench notes: hand-beveled 45-degree edges, vegetal oils, and tempered arch balance.',
-  },
-  {
-    id: 'post-4',
-    image: '/images/products/the-weave-black.jpg',
-    alt: 'NOVEQ The Weave Slide Pam braided leather strap architecture',
-    caption: 'Drop 001: The Weave. Interlocking multi-strap braided cowhide for tactile elegance.',
+    id: 'DebcvY2O-v7',
+    permalink: 'https://www.instagram.com/reel/DebcvY2O-v7/?utm_source=ig_embed&utm_campaign=loading',
+    label: 'Lagos Studio · Craft',
+    caption: 'Behind our small-batch Drop 001 leather pams shaped in Lagos.',
+    fallbackImage: '/images/editorial/artisan-workshop.jpg',
+    fallbackAlt: 'NOVEQ Lagos workshop craft Reel preview',
   },
 ];
 
@@ -51,13 +70,38 @@ export function InstagramStrip({
   const instagramUrl = SITE_SETTINGS.socialProof.instagramUrl;
   const handle = SITE_SETTINGS.socialProof.instagramHandle;
 
+  useEffect(() => {
+    const processEmbeds = () => {
+      try {
+        window.instgrm?.Embeds?.process();
+      } catch {
+        // Ignore third-party script initialization timing issues
+      }
+    };
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src*="instagram.com/embed.js"]'
+    );
+
+    if (existingScript) {
+      processEmbeds();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://www.instagram.com/embed.js';
+    script.async = true;
+    script.onload = processEmbeds;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <div className={`space-y-8 ${className}`}>
       {showHeading && (
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
-              Studio Visuals
+              Studio Reels
             </span>
             <h3 className="font-editorial text-2xl sm:text-4xl font-normal tracking-[-0.01em] text-ink-black">
               On the Bench &amp; In Movement
@@ -79,38 +123,77 @@ export function InstagramStrip({
         </div>
       )}
 
-      {/* Grid of Curated Brand & Workshop Posts */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5">
-        {CURATED_POSTS.map((post) => (
-          <InstagramLink
-            key={post.id}
-            href={instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            placement="instagram_strip_grid"
-            className="group relative aspect-square bg-bone border border-cocoa/15 rounded-xl overflow-hidden block focus-dark shadow-apple-sm transition-transform duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]"
-            aria-label={`Instagram post: ${post.caption}`}
+      {/* 3-Column Live Instagram Reels Showcase */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-start">
+        {CURATED_REELS.map((reel) => (
+          <div
+            key={reel.id}
+            className="min-w-0 bg-warm-white border border-cocoa/15 rounded-2xl overflow-hidden shadow-apple-sm flex flex-col"
           >
-            <Image
-              src={post.image}
-              alt={post.alt}
-              fill
-              sizes="(max-width: 640px) 50vw, 25vw"
-              className="object-cover hover-image-zoom"
-            />
-            {/* Subtle Hover Overlay */}
-            <div className="absolute inset-0 bg-ink-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] flex flex-col justify-between p-4 text-warm-white">
-              <div className="flex justify-end">
-                <InstagramIcon className="w-4 h-4 text-warm-white/80" />
-              </div>
-              <p className="text-[11px] leading-snug line-clamp-3 text-warm-white/90">
-                {post.caption}
-              </p>
-              <span className="text-[10px] uppercase tracking-widest text-muted-taupe-on-dark font-medium">
-                {handle}
-              </span>
+            {/* Card Eyebrow Bar */}
+            <div className="px-4 py-3 border-b border-cocoa/10 flex items-center justify-between gap-2 text-xs">
+              <span className="font-medium text-ink-black truncate">{reel.label}</span>
+              {reel.productHref && reel.productCta ? (
+                <Link
+                  href={reel.productHref}
+                  className="text-[11px] uppercase tracking-[0.14em] font-semibold text-cocoa hover:text-ink-black underline underline-offset-4 shrink-0"
+                >
+                  {reel.productCta}
+                </Link>
+              ) : (
+                <span className="text-[10px] uppercase tracking-[0.16em] text-muted-taupe shrink-0">
+                  {handle}
+                </span>
+              )}
             </div>
-          </InstagramLink>
+
+            {/* Responsive Embed Container (falls back gracefully if embed.js is blocked) */}
+            <div className="w-full overflow-hidden bg-warm-white">
+              <blockquote
+                className="instagram-media"
+                data-instgrm-captioned
+                data-instgrm-permalink={reel.permalink}
+                data-instgrm-version="14"
+                style={{
+                  background: '#FAF8F4',
+                  border: 0,
+                  borderRadius: '0px',
+                  boxShadow: 'none',
+                  margin: 0,
+                  maxWidth: '100%',
+                  minWidth: 0,
+                  padding: 0,
+                  width: '100%',
+                }}
+              >
+                <a
+                  href={reel.permalink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group relative aspect-[4/5] w-full bg-bone overflow-hidden focus-dark"
+                >
+                  <Image
+                    src={reel.fallbackImage}
+                    alt={reel.fallbackAlt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover hover-image-zoom"
+                  />
+                  <div className="absolute inset-0 bg-ink-black/30 flex flex-col items-center justify-center p-6 text-center text-warm-white">
+                    <span className="w-12 h-12 rounded-full bg-warm-white/95 text-ink-black flex items-center justify-center shadow-apple-md mb-3 group-hover:scale-105 transition-transform">
+                      <Play className="w-4 h-4 fill-ink-black ml-0.5" />
+                    </span>
+                    <span className="text-[11px] uppercase tracking-[0.18em] font-semibold">
+                      Watch Reel on Instagram
+                    </span>
+                    <p className="mt-2 text-xs text-warm-white/85 max-w-[240px] leading-relaxed">
+                      {reel.caption}
+                    </p>
+                  </div>
+                </a>
+              </blockquote>
+            </div>
+          </div>
         ))}
       </div>
     </div>

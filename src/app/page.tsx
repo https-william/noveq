@@ -7,14 +7,14 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
   description:
-    'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain hides. Discover Drop 001, built for effortless movement and refined style.',
+    'Contemporary Nigerian female leather pams handcrafted in Lagos from soft natural leather. Discover Drop 001, built for effortless movement and refined style.',
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
     description:
-      'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain hides. Discover Drop 001, built for effortless movement and refined style.',
+      'Contemporary Nigerian female leather pams handcrafted in Lagos from soft natural leather. Discover Drop 001, built for effortless movement and refined style.',
     url: 'https://www.noveq.com.ng',
     siteName: 'NOVEQ',
     type: 'website',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "NOVEQ | Contemporary Women's Leather Pams - Crafted to Move",
     description:
-      'Contemporary Nigerian female leather pams handcrafted in Lagos with full-grain hides. Discover Drop 001, built for effortless movement and refined style.',
+      'Contemporary Nigerian female leather pams handcrafted in Lagos from soft natural leather. Discover Drop 001, built for effortless movement and refined style.',
     images: ['https://www.noveq.com.ng/images/hero/landing-hero-photoshoot.jpg'],
   },
 };

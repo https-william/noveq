@@ -22,6 +22,11 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
   const [products, setProducts] = useState<Product[]>(
     initialProducts && initialProducts.length > 0 ? initialProducts : DROP_001_PRODUCTS
   );
+  const [isConstrainedNetwork, setIsConstrainedNetwork] = useState(false);
+
+  useEffect(() => {
+    setIsConstrainedNetwork(document.documentElement.dataset.nvqSlowNet === '1');
+  }, []);
 
   useEffect(() => {
     fetch('/api/products')
@@ -56,18 +61,29 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       <section className="relative bg-ink-black text-warm-white border-b border-warm-white/10 overflow-hidden min-h-[82svh] sm:min-h-[80svh] lg:min-h-[86svh] flex items-end">
         {/* Full-Bleed Campaign Film / Photoshoot Backdrop */}
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster="/images/hero/landing-hero-photoshoot.jpg"
-            aria-label="NOVEQ contemporary handcrafted leather footwear in movement"
-            className="w-full h-full object-cover object-center block [transform:translateZ(0)]"
-          >
-            <source src="/videos/landing-hero-video.mp4" type="video/mp4" />
-          </video>
+          {isConstrainedNetwork ? (
+            <Image
+              src="/images/hero/landing-hero-photoshoot.jpg"
+              alt="NOVEQ contemporary handcrafted leather footwear in movement"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-center"
+            />
+          ) : (
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              poster="/images/hero/landing-hero-photoshoot.jpg"
+              aria-label="NOVEQ contemporary handcrafted leather footwear in movement"
+              className="w-full h-full object-cover object-center block [transform:translateZ(0)]"
+            >
+              <source src="/videos/landing-hero-video.mp4" type="video/mp4" />
+            </video>
+          )}
 
           {/* Warm Espresso Atmospheric Scrims for Serene Contrast */}
           <div
@@ -106,7 +122,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               {campaignState === 'sold-out' &&
                 'All ten pairs of Drop 001 have been allocated. Join the private register for early access to Drop 002.'}
               {campaignState === 'reveal' &&
-                'Explore the silhouettes, hand-shaped straps, and full-grain Nigerian hides ahead of opening day.'}
+                'Explore the silhouettes, hand-shaped straps, and soft Nigerian leather ahead of opening day.'}
               {campaignState === 'live' &&
                 'Contemporary leather footwear, thoughtfully made for everyday movement.'}
             </p>
@@ -202,11 +218,11 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
             <span className="text-xs uppercase tracking-[0.22em] text-cocoa font-medium block">
               Drop 001 · Lagos Atelier
             </span>
-            <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] leading-[1.15] text-ink-black">
+            <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] leading-[1.15] text-ink-black text-balance">
               The Foundational Silhouettes
             </h2>
-            <p className="text-[15px] sm:text-base text-muted-taupe max-w-xl mx-auto leading-relaxed">
-              Ten pairs per silhouette crafted with vegetable-tanned hides, sculpted arch support, and hand-beveled edges.
+            <p className="text-[15px] sm:text-base text-muted-taupe max-w-xl mx-auto leading-relaxed text-pretty">
+              Ten pairs per silhouette cut from soft natural leather, shaped with cushioned arch support and smooth, rounded edges.
             </p>
             <div className="pt-1">
               <Link
@@ -230,11 +246,11 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       {/* ── 3. RESTRAINED EDITORIAL ACCENT PHRASE INTERLUDE ── */}
       <ScrollReveal className="py-20 sm:py-28 bg-warm-white border-b border-cocoa/15 text-center">
         <div className="max-w-3xl mx-auto px-5 sm:px-8 space-y-5">
-          <blockquote className="font-serif text-3xl sm:text-5xl lg:text-6xl text-espresso font-normal italic tracking-tight leading-tight">
+          <blockquote className="font-serif text-3xl sm:text-5xl lg:text-6xl text-espresso font-normal italic tracking-tight leading-tight text-balance">
             “Same purpose. A new perspective.”
           </blockquote>
-          <p className="text-[15px] sm:text-base text-muted-taupe max-w-lg mx-auto leading-relaxed">
-            We began with a staple familiar to every Nigerian closet: the slip-on leather pam. We asked what happens when you treat that familiar form with architectural discipline and vegetable-tanned hides.
+          <p className="text-[15px] sm:text-base text-muted-taupe max-w-lg mx-auto leading-relaxed text-pretty">
+            We began with a staple familiar to every Nigerian wardrobe: the everyday leather slip-on. We asked what happens when you craft that familiar shape with quiet restraint and soft, lasting leather.
           </p>
         </div>
       </ScrollReveal>
@@ -250,7 +266,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
               <div className="relative aspect-[4/3] md:aspect-[4/5] bg-warm-white border border-cocoa/20 rounded-xl overflow-hidden shadow-apple-md group">
                 <Image
                   src="/images/editorial/artisan-workshop.jpg"
-                  alt="NOVEQ artisan partner in Lagos hand-cutting and shaping full-grain leather pams at his workbench"
+                  alt="NOVEQ artisan partner in Lagos hand-cutting and shaping soft leather pams at his workbench"
                   fill
                   sizes="(max-width: 768px) 100vw, 42vw"
                   className="object-cover hover-image-zoom"
@@ -260,17 +276,17 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
 
             <div className="md:col-span-7 order-1 md:order-2 space-y-5 sm:space-y-6">
               <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
-                Benchcraft · Lagos
+                Lagos Workshop
               </span>
-              <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.15]">
-                Handcrafted in Nigeria. Built for modern movement.
+              <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.15] text-balance">
+                Made by hand in Nigeria. Built for everyday movement.
               </h2>
-              <div className="space-y-4 text-[15px] sm:text-base text-ink-black/85 leading-[1.65] max-w-xl">
+              <div className="space-y-4 text-[15px] sm:text-base text-ink-black/85 leading-[1.65] max-w-xl text-pretty">
                 <p>
-                  Every pair of NOVEQ footwear is shaped in direct partnership with master artisans in Nigeria. We reject industrial mass assembly in favor of meticulous benchcraft.
+                  Every pair of NOVEQ footwear is shaped side-by-side with experienced shoemakers in Lagos. We skip factory conveyor lines so every cut and stitch gets real attention.
                 </p>
                 <p>
-                  We select thick, vegetable-tanned cowhide, shape the asymmetric straps by hand, and temper the sole profile for walking comfort across sun-baked asphalt and polished marble alike.
+                  We choose thick, supple Nigerian leather, shape each strap by hand, and cushion every footbed for easy walking from sunny streets to smooth marble floors.
                 </p>
               </div>
               <div className="pt-1">
@@ -311,15 +327,15 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 What is a Nigerian female leather pam?
               </h3>
               <p className="text-sm text-muted-taupe leading-relaxed">
-                In Nigeria, &ldquo;pams&rdquo; are classic slip-on leather footwear cherished for effortless daily ease. NOVEQ crafts contemporary female leather pams using full-grain vegetable-tanned cowhide, sculpted arch support, and hand-beveled edges.
+                In Nigeria, &ldquo;pams&rdquo; are classic slip-on leather shoes worn for effortless everyday comfort. NOVEQ refines the shape with soft natural leather, cushioned arch support, and smooth, rounded strap edges.
               </p>
             </div>
             <div className="space-y-2">
               <h3 className="font-editorial text-lg sm:text-xl text-ink-black font-normal leading-snug">
-                Where are NOVEQ shoes handcrafted?
+                Where are NOVEQ shoes made?
               </h3>
               <p className="text-sm text-muted-taupe leading-relaxed">
-                Every pair is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans, undergoing hand cutting, strap shaping, and hot-iron edge burnishing.
+                Every pair is shaped by hand in Lagos, Nigeria by skilled local shoemakers, cut, cushioned, and smoothly sealed pair by pair.
               </p>
             </div>
             <div className="space-y-2">
@@ -327,7 +343,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 How do I order and when will my pair arrive?
               </h3>
               <p className="text-sm text-muted-taupe leading-relaxed">
-                Orders are placed directly online via secure Paystack checkout or bank transfer. Made to order in 5 business days plus 2 business days tracked courier delivery nationwide (7 business days total).
+                Orders are placed directly online via secure Paystack checkout or bank transfer. Each pair is made in 5 business days plus 2 business days tracked courier delivery nationwide (7 business days total).
               </p>
             </div>
             <div className="space-y-2">
@@ -335,7 +351,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 How do NOVEQ female pams fit?
               </h3>
               <p className="text-sm text-muted-taupe leading-relaxed">
-                Our silhouettes fit true to European sizing (EU 37–41). Natural full-grain calfskin relaxes gently after 2–3 wears to contour smoothly to your foot width.
+                Our pairs are made to order across worldwide women&apos;s sizing from EU 34 to EU 44 (UK 1.5–10 / US 4–12). The natural leather softens gently after 2–3 wears to contour comfortably to your foot width.
               </p>
             </div>
           </div>
@@ -355,7 +371,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'What is NOVEQ?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: "NOVEQ is a contemporary Nigerian footwear brand based in Lagos, Nigeria. The brand specializes in handcrafted female leather pams, slip-on leather slides, and vegetable-tanned footwear.",
+                  text: "NOVEQ is a contemporary Nigerian footwear brand based in Lagos, Nigeria, specializing in handcrafted women's leather pams and everyday slip-on leather slides.",
                 },
               },
               {
@@ -363,7 +379,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'What is a Nigerian female leather pam?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'In Nigeria, pams are classic slip-on leather footwear known for everyday ease and comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles.',
+                  text: 'In Nigeria, pams are classic slip-on leather shoes known for everyday ease and comfort. NOVEQ refines traditional Nigerian female leather pams with clean modern straps, soft natural leather, and cushioned soles.',
                 },
               },
               {
@@ -371,7 +387,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'Where are NOVEQ shoes handcrafted?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Every pair of NOVEQ footwear is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans. Each pair undergoes hands-on cutting, strap shaping, and edge burnishing.',
+                  text: 'Every pair of NOVEQ footwear is made by hand in Lagos, Nigeria with skilled local shoemakers, undergoing individual leather cutting, strap shaping, and smooth edge finishing.',
                 },
               },
               {
@@ -379,7 +395,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 name: 'How do I order and how fast is delivery across Nigeria?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Orders are placed directly online with secure Paystack checkout. Manufacturing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide.',
+                  text: 'Orders are placed directly online with secure Paystack checkout. Hand-finishing takes 5 business days, followed by 2 business days for tracked courier delivery across Nigeria (7 business days total).',
                 },
               },
             ],
@@ -391,13 +407,13 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       <section className="py-20 sm:py-28 bg-warm-white text-ink-black border-b border-cocoa/15 text-center">
         <div className="max-w-xl mx-auto px-5 sm:px-6 space-y-5">
           <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
-            Lagos Benchcraft
+            Lagos Studio
           </span>
-          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.14]">
+          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.14] text-balance">
             Ten Pairs. Handcrafted for Everyday Movement.
           </h2>
-          <p className="text-[15px] sm:text-base text-muted-taupe max-w-md mx-auto leading-relaxed">
-            Drop 001 is produced in small ten-pair editions so every hide is hand-cut, burnished, and tempered at the bench. Delivered nationwide within 7 business days.
+          <p className="text-[15px] sm:text-base text-muted-taupe max-w-md mx-auto leading-relaxed text-pretty">
+            Drop 001 is made in small batches of ten pairs per design so every strap is shaped, softened, and checked by hand. Delivered nationwide within 7 business days.
           </p>
           <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
             <Link

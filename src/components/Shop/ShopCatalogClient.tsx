@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/Product/ProductCard';
+import { MaisonCharmLoader } from '@/components/ui/MaisonCharmLoader';
 import { DROP_001_PRODUCTS } from '@/data/products';
 import { Product } from '@/types/commerce';
 import { SlidersHorizontal, RotateCcw, X } from 'lucide-react';
@@ -45,11 +46,15 @@ function ShopCatalogInner({
   const [selectedColour, setSelectedColour] = useState<string>('all');
   const [onlyAvailable, setOnlyAvailable] = useState<boolean>(false);
 
-  // Extract unique filter options from catalog
+  // Extract unique filter options from catalog (ordered numerically EU 34 -> EU 44)
   const sizes = useMemo(() => {
     const set = new Set<string>();
     products.forEach((p) => p.sizes.forEach((s) => set.add(s.size)));
-    return Array.from(set).sort();
+    return Array.from(set).sort((a, b) => {
+      const numA = parseInt(a.replace(/\D+/g, ''), 10) || 0;
+      const numB = parseInt(b.replace(/\D+/g, ''), 10) || 0;
+      return numA - numB;
+    });
   }, [products]);
 
   const colours = useMemo(() => {
@@ -132,11 +137,11 @@ function ShopCatalogInner({
           <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-muted-taupe pt-2">
             <span>Handcrafted in Nigeria</span>
             <span>•</span>
-            <span>Vegetable-Tanned Nigerian Hide</span>
+            <span>Soft Nigerian Leather</span>
             <span>•</span>
-            <span>Pair-by-Pair Inspected</span>
+            <span>Checked by Hand</span>
             <span>•</span>
-            <span className="font-semibold text-cocoa">Direct Buy Active</span>
+            <span className="font-semibold text-cocoa">The Weave Open Now</span>
           </div>
         </div>
       ) : (
@@ -157,7 +162,7 @@ function ShopCatalogInner({
 
           {/* ONE SENTENCE MAX COLLECTION INTRO */}
           <p className="mt-3 text-[15px] sm:text-base text-ink-black/80 font-normal max-w-2xl leading-relaxed">
-            {intro || 'Handcrafted in Lagos, Nigeria from full-grain vegetable-tanned hides. Contemporary female leather pams designed for effortless daily movement, personal detail, and nationwide delivery within 7 business days.'}
+            {intro || 'Handcrafted in Lagos, Nigeria from soft natural leather. Everyday women’s leather pams built for easy movement, personal comfort, and tracked nationwide delivery within 7 business days.'}
           </p>
         </div>
       )}
@@ -292,7 +297,7 @@ function ShopCatalogInner({
             Ten Pairs Initial Inventory · Handcrafted in Lagos
           </h2>
           <p className="text-sm text-muted-taupe-on-dark max-w-xl mt-2 leading-relaxed">
-            Every pair of NOVEQ female leather pams is built from full-grain Nigerian hides, conditioned with natural wax, and individually boxed in our slim brown kraft suite with handwritten care instructions.
+            Every pair of NOVEQ female leather pams is cut from soft Nigerian leather, finished gently with natural wax, and packed inside a breathable cotton dust bag with a clear care card.
           </p>
         </div>
 
@@ -306,7 +311,7 @@ function ShopCatalogInner({
         <div className="max-w-3xl space-y-6">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-1.5">
-              Maison Notes · Nigerian Female Leather Pams
+              Workshop Notes · Nigerian Female Leather Pams
             </span>
             <h2 className="font-editorial text-2xl sm:text-3xl font-normal tracking-[-0.01em] text-ink-black">
               Frequently Asked Questions
@@ -319,7 +324,7 @@ function ShopCatalogInner({
                 What are Nigerian female leather pams?
               </h3>
               <p className="text-muted-taupe">
-                In Nigeria, "pams" are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that complement casual and formal silhouettes alike.
+                In Nigeria, "pams" are classic slip-on leather shoes worn for everyday ease and comfort. NOVEQ refines traditional Nigerian female leather pams with clean modern straps, soft natural leather, and cushioned soles suited to casual and dressed-up outfits alike.
               </p>
             </div>
 
@@ -328,7 +333,7 @@ function ShopCatalogInner({
                 Where are NOVEQ female leather pams made?
               </h3>
               <p className="text-muted-taupe">
-                Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of hands-on cutting, strap shaping, and edge burnishing per pair.
+                Every pair of NOVEQ footwear is handmade by skilled shoemakers in Lagos, Nigeria. We skip factory conveyor belts so each strap and sole edge is shaped, cushioned, and checked by hand.
               </p>
             </div>
 
@@ -337,7 +342,7 @@ function ShopCatalogInner({
                 How do I order and how fast is nationwide delivery in Nigeria?
               </h3>
               <p className="text-muted-taupe">
-                You can order directly online through our secure Paystack checkout. Each pair is made to order: manufacturing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide across Lagos, Abuja, Port Harcourt, and all Nigerian states.
+                You can order directly online through our secure Paystack checkout. Each pair is made to order: hand-finishing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide across Lagos, Abuja, Port Harcourt, and all Nigerian states.
               </p>
             </div>
 
@@ -346,7 +351,7 @@ function ShopCatalogInner({
                 What sizes are available in Drop 001?
               </h3>
               <p className="text-muted-taupe">
-                Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2-3 wears to contour naturally to your foot width.
+                Drop 001 is made to order across worldwide women&apos;s sizing from EU 34 to EU 44 (UK 1.5–10 / US 4–12). Our soft natural leather gently relaxes after 2–3 wears to contour comfortably to your foot width.
               </p>
             </div>
           </div>
@@ -366,7 +371,7 @@ function ShopCatalogInner({
                 name: 'What are Nigerian female leather pams?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'In Nigeria, pams are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that complement casual and formal silhouettes alike.',
+                  text: 'In Nigeria, pams are classic slip-on leather shoes known for everyday ease and comfort. NOVEQ refines traditional Nigerian female leather pams with clean modern straps, soft natural leather, and cushioned soles suited to casual and dressed-up outfits alike.',
                 },
               },
               {
@@ -374,7 +379,7 @@ function ShopCatalogInner({
                 name: 'Where are NOVEQ female leather pams made?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Every pair of NOVEQ footwear is handcrafted by master artisans in Lagos, Nigeria. We reject mass industrial conveyor belts in favor of hands-on cutting, strap shaping, and edge burnishing per pair.',
+                  text: 'Every pair of NOVEQ footwear is handmade by skilled shoemakers in Lagos, Nigeria, with hands-on leather cutting, strap shaping, and smooth edge finishing per pair.',
                 },
               },
               {
@@ -382,7 +387,7 @@ function ShopCatalogInner({
                 name: 'How do I order and how fast is nationwide delivery in Nigeria?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'You can order directly online through our secure checkout. Manufacturing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide.',
+                  text: 'You can order directly online through our secure checkout. Hand-finishing takes 5 business days, followed by 2 business days for tracked courier delivery. You will receive your order within 7 business days nationwide.',
                 },
               },
               {
@@ -390,7 +395,7 @@ function ShopCatalogInner({
                 name: 'What sizes are available in Drop 001?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'Drop 001 features standard European sizing from EU 37 to EU 41. Our full-grain leather relaxes gently after 2-3 wears to contour naturally to your foot width.',
+                  text: "Drop 001 is made to order across worldwide women's sizing from EU 34 to EU 44 (UK 1.5-10 / US 4-12). Our soft natural leather relaxes gently after 2-3 wears to contour comfortably to your foot width.",
                 },
               },
             ],
@@ -403,7 +408,13 @@ function ShopCatalogInner({
 
 export default function ShopCatalogClient(props: ShopCatalogClientProps) {
   return (
-    <Suspense fallback={<div className="py-24 text-center text-sm text-muted-taupe">Loading collection...</div>}>
+    <Suspense
+      fallback={
+        <div className="py-28 flex justify-center">
+          <MaisonCharmLoader size="md" tone="dark" label="Loading Collection" />
+        </div>
+      }
+    >
       <ShopCatalogInner {...props} />
     </Suspense>
   );
