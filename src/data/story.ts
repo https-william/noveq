@@ -52,7 +52,7 @@ export const STORY_BLOCKS: StoryBlock[] = [
     eyebrow: 'Drop 001',
     heading: 'Crafted to move.',
     body: [
-      'Drop 001 represents our foundational offering: designs including The Ring and The Weave in curated leather tones.',
+      'Drop 001 represents our foundational offering: designs including The Ring and The Weave in rich vegetable-tanned leather tones.',
       'Each pair is inspected pair-by-pair in our studio, tempered for natural arch comfort, and dispatched directly to your door.',
     ],
     image: '/images/products/the-ring-warm-cognac.jpg',

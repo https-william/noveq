@@ -38,7 +38,7 @@ export default function UnsubscribePage() {
 
   return (
     <div className="py-20 sm:py-32 max-w-xl mx-auto px-4 sm:px-6">
-      <div className="bg-warm-white border border-cocoa/20 rounded-xs p-8 sm:p-10 shadow-xs space-y-6">
+      <div className="bg-warm-white border border-cocoa/20 rounded-2xl p-8 sm:p-10 shadow-apple-sm space-y-6">
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-xs text-muted-taupe hover:text-ink-black uppercase tracking-wider"
@@ -52,14 +52,14 @@ export default function UnsubscribePage() {
             <div className="w-12 h-12 rounded-full bg-cocoa/10 border border-cocoa/30 flex items-center justify-center mx-auto text-cocoa">
               <CheckCircle2 className="w-6 h-6" />
             </div>
-            <h1 className="text-2xl font-bold text-ink-black">You are unsubscribed</h1>
+            <h1 className="font-rayleigh text-2xl font-normal text-ink-black">You are unsubscribed</h1>
             <p className="text-sm text-muted-taupe leading-relaxed">
               We have removed <span className="font-semibold text-ink-black">{email}</span> from our email list. You will no longer receive release announcements or promotions from us.
             </p>
             <div className="pt-4">
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center px-6 py-3 bg-espresso text-warm-white text-xs uppercase tracking-widest font-semibold rounded-xs hover:bg-ink-black transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 bg-espresso text-warm-white text-xs uppercase tracking-widest font-semibold rounded-full hover:bg-ink-black shadow-apple-sm transition-all active:scale-[0.98]"
               >
                 Return to Collection
               </Link>
@@ -72,7 +72,7 @@ export default function UnsubscribePage() {
                 <MailX className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-ink-black">Manage Email Preferences</h1>
+                <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal text-ink-black">Manage Email Preferences</h1>
                 <p className="text-xs text-muted-taupe">Opt out of NOVEQ announcements anytime.</p>
               </div>
             </div>
@@ -93,12 +93,12 @@ export default function UnsubscribePage() {
                   placeholder="your.email@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 text-sm bg-bone border border-cocoa/30 rounded-xs focus-dark text-ink-black"
+                  className="w-full px-4 py-3 text-sm bg-bone border border-cocoa/30 rounded-md focus-dark text-ink-black"
                 />
               </div>
 
               {status === 'error' && (
-                <div className="p-3 bg-oxblood/10 border border-oxblood/30 text-oxblood text-xs rounded-xs">
+                <div className="p-3 bg-oxblood/10 border border-oxblood/30 text-oxblood text-xs rounded-xl">
                   {errorMessage}
                 </div>
               )}
@@ -106,7 +106,7 @@ export default function UnsubscribePage() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs disabled:opacity-50 min-h-[44px]"
+                className="w-full py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-full shadow-apple-sm active:scale-[0.98] disabled:opacity-50 min-h-[48px] transition-all"
               >
                 {status === 'loading' ? 'Updating...' : 'Unsubscribe from Emails'}
               </button>

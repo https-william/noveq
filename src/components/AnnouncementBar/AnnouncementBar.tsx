@@ -43,7 +43,7 @@ export default function AnnouncementBar({
             type="button"
             onClick={() => setIsVisible(false)}
             aria-label="Dismiss announcement"
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 text-muted-taupe hover:text-warm-white transition-colors focus-dark rounded-xs inline-flex items-center justify-center"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 text-muted-taupe hover:text-warm-white transition-colors focus-dark rounded-full inline-flex items-center justify-center"
           >
             <X className="w-3.5 h-3.5" aria-hidden="true" />
           </button>

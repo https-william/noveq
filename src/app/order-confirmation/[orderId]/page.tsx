@@ -55,7 +55,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
       <OrderConfirmationTracker order={order} />
 
       {/* Header Banner */}
-      <div className="bg-warm-white border border-cocoa/30 rounded-sm p-6 sm:p-10 shadow-sm space-y-6">
+      <div className="bg-warm-white border border-cocoa/25 rounded-2xl p-6 sm:p-10 shadow-apple-sm space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cocoa/15 pb-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-cocoa/10 border border-cocoa/30 flex items-center justify-center text-cocoa">
@@ -65,13 +65,13 @@ export default async function OrderConfirmationPage({ params }: Props) {
               <span className="text-[11px] uppercase tracking-[0.2em] text-cocoa font-bold block">
                 Payment Verified & Order Confirmed
               </span>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black">
+              <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal tracking-tight text-ink-black">
                 Thank you, {order.customer.fullName.split(' ')[0]}.
               </h1>
             </div>
           </div>
 
-          <div className="text-left sm:text-right bg-bone p-3 rounded-xs border border-cocoa/20">
+          <div className="text-left sm:text-right bg-bone/70 p-3.5 rounded-lg border border-cocoa/20">
             <span className="text-[10px] uppercase tracking-wider text-muted-taupe block font-medium">
               Order Reference
             </span>
@@ -82,7 +82,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
         </div>
 
         {/* Delivery Expectation Callout */}
-        <div className="p-4 bg-espresso text-warm-white rounded-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <div className="p-4.5 bg-espresso text-warm-white rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs shadow-apple-sm">
           <div className="flex items-center gap-2.5">
             <Truck className="w-4 h-4 text-warm-white/80 shrink-0" />
             <div>
@@ -90,11 +90,11 @@ export default async function OrderConfirmationPage({ params }: Props) {
                 Delivery Expectation
               </span>
               <span className="text-muted-taupe">
-                Courier dispatch scheduled within {order.deliveryExpectation} to {order.customer.city}, {order.customer.state}. (Delivery fee paid directly to rider on arrival).
+                Made to order in Lagos (5 business days crafting + 2 business days tracked courier delivery to {order.customer.city}, {order.customer.state}).
               </span>
             </div>
           </div>
-          <span className="px-2.5 py-1 bg-ink-black/60 border border-cocoa/40 rounded-xs text-[10px] uppercase tracking-widest text-warm-white font-medium shrink-0">
+          <span className="px-3 py-1 bg-ink-black/60 border border-cocoa/40 rounded-full text-[10px] uppercase tracking-widest text-warm-white font-medium shrink-0">
             Drop 001 Priority
           </span>
         </div>
@@ -106,13 +106,13 @@ export default async function OrderConfirmationPage({ params }: Props) {
             <span>Items Reserved ({order.items.reduce((acc, i) => acc + i.quantity, 0)})</span>
           </h2>
 
-          <div className="border border-cocoa/20 rounded-xs divide-y divide-cocoa/15 bg-bone/30">
+          <div className="border border-cocoa/20 rounded-xl divide-y divide-cocoa/15 bg-bone/30 overflow-hidden">
             {order.items.map((item) => (
               <div
                 key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                 className="p-4 flex gap-4 items-center"
               >
-                <div className="relative w-16 h-16 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
+                <div className="relative w-16 h-16 bg-bone border border-cocoa/20 rounded-md shrink-0 overflow-hidden">
                   <Image
                     src={item.product.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                     alt={item.product.name}
@@ -137,7 +137,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
                   </p>
 
                   {item.withHeartCharm && (
-                    <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 bg-bone border border-cocoa/20 text-[10px] text-cocoa rounded-xs font-medium">
+                    <div className="mt-1 inline-flex items-center gap-1 px-2 py-0.5 bg-bone border border-cocoa/20 text-[10px] text-cocoa rounded-full font-medium">
                       <Heart className="w-2.5 h-2.5 fill-oxblood text-oxblood" />
                       <span>
                         Heart charm{item.engravedText ? ` - engraved '${item.engravedText}'` : ''}
@@ -151,7 +151,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
         </div>
 
         {/* Financial Breakdown */}
-        <div className="p-4 bg-bone/50 border border-cocoa/20 rounded-xs space-y-2 text-xs">
+        <div className="p-4 bg-bone/50 border border-cocoa/20 rounded-xl space-y-2 text-xs">
           <div className="flex justify-between text-muted-taupe">
             <span>Items Subtotal</span>
             <span className="font-semibold text-ink-black">{formattedSubtotal}</span>
@@ -159,7 +159,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
 
           <div className="flex justify-between text-muted-taupe">
             <span>Delivery Fee</span>
-            <span className="font-semibold text-cocoa">Pay rider on delivery</span>
+            <span className="font-semibold text-ink-black">{formattedDelivery}</span>
           </div>
 
           <div className="pt-2 border-t border-cocoa/20 flex justify-between items-baseline text-sm">
@@ -176,7 +176,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
         {/* Delivery Destination & Quality Assurance */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           {/* Customer Address Details */}
-          <div className="p-4 bg-bone/30 border border-cocoa/20 rounded-xs space-y-1.5 text-xs text-ink-black/85">
+          <div className="p-4.5 bg-bone/40 border border-cocoa/20 rounded-xl space-y-1.5 text-xs text-ink-black/85">
             <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-semibold block mb-1">
               Dispatch Destination
             </span>
@@ -193,7 +193,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
           </div>
 
           {/* Quality Assurance Notice */}
-          <div className="p-4 bg-bone/30 border border-cocoa/20 rounded-xs space-y-2 text-xs text-ink-black/85">
+          <div className="p-4.5 bg-bone/40 border border-cocoa/20 rounded-xl space-y-2 text-xs text-ink-black/85">
             <span className="text-[10px] uppercase tracking-widest text-muted-taupe font-semibold block mb-1">
               Craftsmanship Assurance
             </span>
@@ -225,7 +225,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
               rel="noopener noreferrer"
               placement="order_confirmation_support"
               orderId={order.id}
-              className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-espresso text-warm-white text-xs uppercase tracking-[0.16em] font-semibold hover:bg-ink-black transition-colors rounded-xs focus-dark min-h-[44px]"
+              className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-espresso text-warm-white text-xs uppercase tracking-[0.16em] font-semibold hover:bg-ink-black transition-all duration-200 rounded-full focus-dark min-h-[48px] shadow-apple-sm active:scale-[0.98]"
             >
               <MessageCircle className="w-4 h-4 text-warm-white" />
               <span>Message Support on WhatsApp</span>
@@ -233,7 +233,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
 
             <a
               href={`mailto:${SITE_SETTINGS.supportContact.email}?subject=Order%20Inquiry%20${order.id}`}
-              className="flex-1 inline-flex items-center justify-center gap-2 py-3 px-4 bg-warm-white border border-cocoa/40 text-ink-black text-xs uppercase tracking-[0.16em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[44px]"
+              className="flex-1 inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-warm-white border border-cocoa/40 text-ink-black text-xs uppercase tracking-[0.16em] font-semibold hover:bg-bone transition-all duration-200 rounded-full focus-dark min-h-[48px] shadow-apple-sm active:scale-[0.98]"
             >
               <Mail className="w-4 h-4 text-cocoa" />
               <span>Email Support</span>
@@ -254,7 +254,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
           <Link
             href={`/order-confirmation/${order.id}/receipt`}
             target="_blank"
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-espresso hover:bg-ink-black text-warm-white text-xs uppercase tracking-[0.16em] font-bold rounded-xs transition-colors min-h-[40px]"
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-espresso hover:bg-ink-black text-warm-white text-xs uppercase tracking-[0.16em] font-bold rounded-full transition-all duration-200 min-h-[40px] shadow-apple-sm active:scale-[0.98]"
           >
             <Download className="w-3.5 h-3.5" />
             <span>Download Receipt</span>

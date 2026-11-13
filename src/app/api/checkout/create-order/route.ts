@@ -47,6 +47,7 @@ export async function POST(request: Request) {
       const validatedItem: CartItem = {
         product: liveProduct,
         selectedSize: item.selectedSize,
+        selectedColour: item.selectedColour,
         quantity: Math.max(1, item.quantity),
         withHeartCharm: item.withHeartCharm,
         engravedText: item.engravedText,
@@ -56,7 +57,7 @@ export async function POST(request: Request) {
       validatedItems.push(validatedItem);
     }
 
-    // Authoritative Delivery Fee lookup
+    // Authoritative Delivery Fee lookup from configured zone
     const zone = getDeliveryZoneById(customer.zoneId);
     const deliveryFee = zone.fee;
     const total = calculatedSubtotal + deliveryFee;
@@ -100,7 +101,7 @@ export async function POST(request: Request) {
         name: customer.fullName,
         tags: ['customer', 'drop-001-checkout'],
       });
-    } catch (subErr) {
+    } catch {
       // Non-blocking for order flow
     }
 

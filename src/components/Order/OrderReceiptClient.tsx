@@ -30,7 +30,7 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
           <button
             type="button"
             onClick={() => window.print()}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-ink-black hover:bg-espresso text-warm-white text-xs uppercase tracking-[0.14em] font-bold rounded-xs transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-ink-black hover:bg-espresso text-warm-white text-xs uppercase tracking-[0.14em] font-bold rounded-full transition-all duration-200 cursor-pointer shadow-apple-sm active:scale-[0.98]"
           >
             <Printer className="w-4 h-4" />
             Save as PDF
@@ -101,7 +101,7 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
             </div>
             <div className="flex justify-between text-muted-taupe">
               <span>Delivery</span>
-              <span className="text-cocoa font-semibold">Pay rider</span>
+              <span className="font-mono tabular-nums font-semibold text-ink-black">₦{order.deliveryFee.toLocaleString()}</span>
             </div>
             <div className="flex justify-between border-t border-cocoa/30 pt-2 text-sm font-bold">
               <span>Total Paid</span>

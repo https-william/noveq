@@ -47,7 +47,7 @@ export default function JournalPage() {
         <span className="text-xs uppercase tracking-[0.2em] text-cocoa block mb-3 font-semibold">
           Notes & Stories
         </span>
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-ink-black leading-tight">
+        <h1 className="font-rayleigh text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-ink-black leading-tight">
           The Journal
         </h1>
         <p className="mt-4 text-sm sm:text-base text-muted-taupe max-w-2xl leading-relaxed">
@@ -58,7 +58,7 @@ export default function JournalPage() {
       {/* Clean Article Grid / List */}
       <div className="py-12 sm:py-16">
         {articles.length === 0 ? (
-          <div className="py-16 text-center border border-dashed border-cocoa/20 rounded-xs bg-warm-white">
+          <div className="py-16 text-center border border-dashed border-cocoa/20 rounded-2xl bg-warm-white">
             <p className="text-sm text-muted-taupe">New craft notes will be published soon.</p>
           </div>
         ) : (
@@ -71,7 +71,7 @@ export default function JournalPage() {
                     <div className="md:col-span-4 w-full">
                       <Link
                         href={`/journal/${article.slug}`}
-                        className="block relative aspect-[4/3] bg-bone border border-cocoa/20 rounded-xs overflow-hidden focus-dark"
+                        className="block relative aspect-[4/3] bg-bone border border-cocoa/20 rounded-xl overflow-hidden focus-dark shadow-apple-sm"
                       >
                         <Image
                           src={article.coverImage}
@@ -97,7 +97,7 @@ export default function JournalPage() {
                       <span className="text-cocoa font-medium">{article.tags[0]}</span>
                     </div>
 
-                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-ink-black group-hover:text-espresso transition-colors">
+                    <h2 className="font-rayleigh text-xl sm:text-2xl font-normal tracking-tight text-ink-black group-hover:text-espresso transition-colors">
                       <Link href={`/journal/${article.slug}`} className="focus-dark">
                         {article.title}
                       </Link>
@@ -136,7 +136,7 @@ export default function JournalPage() {
         </div>
         <Link
           href="/shop"
-          className="inline-flex items-center gap-2 px-5 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
+          className="inline-flex items-center gap-2 px-6 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[46px] shadow-apple-sm active:scale-[0.98]"
         >
           <span>Shop Drop 001</span>
           <ArrowRight className="w-3.5 h-3.5" />

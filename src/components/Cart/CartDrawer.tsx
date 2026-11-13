@@ -71,7 +71,7 @@ export default function CartDrawer() {
       />
 
       {/* Desktop: Compact slide-in drawer from right. Mobile: Bottom-sheet */}
-      <div className="relative z-10 w-full sm:max-w-md bg-warm-white text-ink-black border-t sm:border-t-0 sm:border-l border-cocoa/30 rounded-t-lg sm:rounded-none flex flex-col max-h-[88vh] sm:max-h-full h-auto sm:h-full shadow-2xl overflow-hidden transition-transform duration-200">
+      <div className="relative z-10 w-full sm:max-w-md bg-warm-white text-ink-black border-t sm:border-t-0 sm:border-l border-cocoa/30 rounded-t-xl sm:rounded-none flex flex-col max-h-[88vh] sm:max-h-full h-auto sm:h-full shadow-2xl overflow-hidden transition-transform duration-[260ms] ease-[cubic-bezier(0.32,0.72,0,1)]">
         {/* Mobile drag handle */}
         <div className="sm:hidden w-12 h-1 bg-cocoa/30 rounded-full mx-auto mt-3 mb-1" />
 
@@ -144,7 +144,7 @@ export default function CartDrawer() {
               <Link
                 href="/shop"
                 onClick={closeDrawer}
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.16em] font-medium rounded-xs hover:bg-espresso transition-colors"
+                className="inline-flex items-center gap-1.5 px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.16em] font-medium rounded-full hover:bg-espresso transition-[background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] shadow-apple-sm active:scale-[0.97]"
               >
                 <span>Discover Drop 001</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -157,7 +157,7 @@ export default function CartDrawer() {
                 className="py-4 flex gap-4 items-start"
               >
                 {/* Thumbnail */}
-                <div className="relative w-20 h-20 bg-espresso/30 border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
+                <div className="relative w-20 h-20 bg-espresso/30 border border-cocoa/20 rounded-md shrink-0 overflow-hidden">
                   <Image
                     src={item.product.images[0]?.src || '/images/products/the-ring-warm-cognac.jpg'}
                     alt={item.product.name}
@@ -189,7 +189,7 @@ export default function CartDrawer() {
 
                   {/* Line Item Charm / Personalisation Display */}
                   {item.withHeartCharm && (
-                    <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 bg-bone border border-cocoa/25 text-[11px] text-cocoa rounded-xs font-medium">
+                    <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 bg-bone border border-cocoa/25 text-[11px] text-cocoa rounded-full font-medium">
                       <Heart className="w-3 h-3 fill-oxblood text-oxblood shrink-0" />
                       <span>
                         Heart charm{item.engravedText ? ` - engraved '${item.engravedText}'` : ''}
@@ -199,7 +199,7 @@ export default function CartDrawer() {
 
                   {/* Quantity & Item Subtotal */}
                   <div className="flex items-center justify-between mt-3">
-                    <div className="inline-flex items-center border border-cocoa/30 rounded-xs bg-bone/60 overflow-hidden">
+                    <div className="inline-flex items-center border border-cocoa/30 rounded-full bg-bone/60 overflow-hidden">
                       <button
                         type="button"
                         onClick={() =>
@@ -258,7 +258,7 @@ export default function CartDrawer() {
             </div>
 
             <p className="text-[11px] text-muted-taupe leading-tight">
-              Delivery fee is paid directly to the dispatch rider upon delivery.
+              Made to order in Lagos. Delivered nationwide within 7 business days.
             </p>
 
             <div className="space-y-2 pt-2">
@@ -272,7 +272,7 @@ export default function CartDrawer() {
                   });
                   closeDrawer();
                 }}
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[48px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.97] cursor-pointer"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />

@@ -30,7 +30,7 @@ export function CustomerProofSection({
           <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
             Customer Reflections
           </span>
-          <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black">
+          <h3 className="font-rayleigh text-2xl sm:text-3xl font-normal tracking-tight text-ink-black">
             Worn In Movement
           </h3>
           <p className="text-xs text-muted-taupe">
@@ -42,7 +42,7 @@ export function CustomerProofSection({
           {testimonials.map((item) => (
             <div
               key={item.id}
-              className="p-6 bg-warm-white border border-cocoa/20 rounded-xs flex flex-col justify-between space-y-4"
+              className="p-6 bg-warm-white border border-cocoa/20 rounded-2xl flex flex-col justify-between space-y-4 shadow-apple-sm"
             >
               <blockquote className="space-y-2">
                 <p className="text-sm text-ink-black/85 leading-relaxed font-normal">
@@ -88,7 +88,7 @@ export function CustomerProofSection({
   if (variant === 'inline-pdp') {
     return (
       <div
-        className={`p-5 bg-bone border border-cocoa/20 rounded-xs text-left space-y-3 ${className}`}
+        className={`p-5 bg-bone border border-cocoa/20 rounded-xl text-left space-y-3 shadow-xs ${className}`}
       >
         <div className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-cocoa font-medium">
           <InstagramIcon className="w-3.5 h-3.5 text-cocoa" />
@@ -118,7 +118,7 @@ export function CustomerProofSection({
   // Launch state (Standalone section for Homepage or Community page)
   return (
     <div
-      className={`max-w-2xl mx-auto text-center border border-cocoa/20 p-8 sm:p-12 rounded-xs bg-warm-white/70 space-y-4 ${className}`}
+      className={`max-w-2xl mx-auto text-center border border-cocoa/20 p-8 sm:p-12 rounded-2xl bg-warm-white/70 space-y-4 shadow-apple-sm ${className}`}
     >
       <div className="w-10 h-10 mx-auto rounded-full bg-bone border border-cocoa/30 flex items-center justify-center text-cocoa">
         <Sparkles className="w-4 h-4" />
@@ -128,7 +128,7 @@ export function CustomerProofSection({
         Patron Reflections
       </span>
 
-      <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-ink-black">
+      <h3 className="font-rayleigh text-xl sm:text-2xl font-normal tracking-tight text-ink-black">
         Drop 001 in Daily Movement
       </h3>
 
@@ -142,7 +142,7 @@ export function CustomerProofSection({
           target="_blank"
           rel="noopener noreferrer"
           placement="homepage_social_proof_invite"
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[46px] shadow-apple-sm active:scale-[0.98]"
         >
           <InstagramIcon className="w-3.5 h-3.5" />
           <span>Tag {handle} on Instagram</span>

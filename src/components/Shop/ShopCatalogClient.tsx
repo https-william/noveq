@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/Product/ProductCard';
 import { DROP_001_PRODUCTS } from '@/data/products';
 import { Product } from '@/types/commerce';
-import { SlidersHorizontal, RotateCcw } from 'lucide-react';
+import { SlidersHorizontal, RotateCcw, X } from 'lucide-react';
 
 interface ShopCatalogClientProps {
   eyebrow?: string;
@@ -14,13 +15,17 @@ interface ShopCatalogClientProps {
   initialProducts?: Product[];
 }
 
-export default function ShopCatalogClient({
+function ShopCatalogInner({
   eyebrow,
   title,
   intro,
   isDropCampaign = false,
   initialProducts,
 }: ShopCatalogClientProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlQuery = (searchParams?.get('q') || '').trim();
+
   const [products, setProducts] = useState<Product[]>(
     initialProducts && initialProducts.length > 0 ? initialProducts : DROP_001_PRODUCTS
   );
@@ -52,9 +57,25 @@ export default function ShopCatalogClient({
     return Array.from(new Set(list));
   }, [products]);
 
-  // Filter products based strictly on active filters
+  // Filter products based strictly on active filters and URL search query
   const filteredProducts = useMemo(() => {
+    const qLower = urlQuery.toLowerCase();
     return products.filter((product) => {
+      if (qLower) {
+        const haystack = [
+          product.name,
+          product.colour,
+          product.collection,
+          product.description,
+          product.material,
+          'leather pams',
+          ...(product.colours?.map((c) => c.name) || []),
+        ]
+          .join(' ')
+          .toLowerCase();
+        if (!haystack.includes(qLower)) return false;
+      }
+
       // Availability filter
       if (onlyAvailable && product.stock <= 0) return false;
 
@@ -71,16 +92,18 @@ export default function ShopCatalogClient({
 
       return true;
     });
-  }, [products, selectedSize, selectedColour, onlyAvailable]);
-
+  }, [products, urlQuery, selectedSize, selectedColour, onlyAvailable]);
 
   const hasActiveFilters =
-    selectedSize !== 'all' || selectedColour !== 'all' || onlyAvailable;
+    Boolean(urlQuery) || selectedSize !== 'all' || selectedColour !== 'all' || onlyAvailable;
 
   const resetFilters = () => {
     setSelectedSize('all');
     setSelectedColour('all');
     setOnlyAvailable(false);
+    if (urlQuery) {
+      router.replace('/shop', { scroll: false });
+    }
   };
 
   return (
@@ -88,14 +111,14 @@ export default function ShopCatalogClient({
       {/* Dedicated Event Destination Banner for /drop-001 */}
       {isDropCampaign ? (
         <div className="pb-10 border-b border-cocoa/20 space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-espresso border border-cocoa/40 rounded-xs text-[11px] uppercase tracking-[0.2em] text-muted-taupe-on-dark">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-espresso border border-cocoa/40 rounded-full text-[11px] uppercase tracking-[0.2em] text-muted-taupe-on-dark">
             <span className="font-semibold text-warm-white">OFFICIAL LAUNCH DESTINATION</span>
             <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
             <span>DROP 001</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-ink-black leading-tight lowercase font-serif">
-            noveq collection
+          <h1 className="font-rayleigh text-4xl sm:text-6xl font-normal tracking-tight text-ink-black leading-tight">
+            The Drop 001 Collection
           </h1>
 
           <p className="font-serif text-2xl sm:text-3xl text-espresso italic font-normal">
@@ -118,22 +141,22 @@ export default function ShopCatalogClient({
         </div>
       ) : (
         /* Header & Collection Intro (Strictly ONE sentence max, single H1) */
-        <div className="pb-8 border-b border-cocoa/20">
+        <div className="pb-8 border-b border-cocoa/15">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium">
-              {eyebrow || 'Launch Catalog // Nigerian Female Leather Pams'}
+              {eyebrow || 'Launch Catalog · Nigerian Female Leather Pams'}
             </span>
-            <span className="text-xs text-muted-taupe tracking-wider font-mono">
-              {filteredProducts.length} of {DROP_001_PRODUCTS.length} Styles Available
+            <span className="text-xs uppercase tracking-[0.14em] text-muted-taupe tabular-nums">
+              {filteredProducts.length} of {DROP_001_PRODUCTS.length} Styles
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black mt-2">
-            {title || "Nigerian Female Leather Pams - Drop 001"}
+          <h1 className="font-editorial text-3xl sm:text-5xl font-normal tracking-[-0.015em] text-ink-black mt-3 leading-[1.12]">
+            {title || 'The Drop 001 Collection'}
           </h1>
 
           {/* ONE SENTENCE MAX COLLECTION INTRO */}
-          <p className="mt-3 text-sm sm:text-base text-ink-black/80 font-normal max-w-2xl leading-relaxed">
+          <p className="mt-3 text-[15px] sm:text-base text-ink-black/80 font-normal max-w-2xl leading-relaxed">
             {intro || 'Handcrafted in Lagos, Nigeria from full-grain vegetable-tanned hides. Contemporary female leather pams designed for effortless daily movement, personal detail, and nationwide delivery within 7 business days.'}
           </p>
         </div>
@@ -156,7 +179,7 @@ export default function ShopCatalogClient({
               id="filter-size"
               value={selectedSize}
               onChange={(e) => setSelectedSize(e.target.value)}
-              className="px-3 py-2 bg-warm-white border border-cocoa/30 text-ink-black rounded-xs text-xs focus:outline-none focus:border-ink-black transition-colors"
+              className="px-3.5 py-2 bg-warm-white border border-cocoa/30 text-ink-black rounded-full text-xs focus:outline-none focus:border-ink-black shadow-xs transition-colors cursor-pointer"
             >
               <option value="all">All Sizes</option>
               {sizes.map((sz) => (
@@ -176,7 +199,7 @@ export default function ShopCatalogClient({
               id="filter-colour"
               value={selectedColour}
               onChange={(e) => setSelectedColour(e.target.value)}
-              className="px-3 py-2 bg-warm-white border border-cocoa/30 text-ink-black rounded-xs text-xs focus:outline-none focus:border-ink-black transition-colors"
+              className="px-3.5 py-2 bg-warm-white border border-cocoa/30 text-ink-black rounded-full text-xs focus:outline-none focus:border-ink-black shadow-xs transition-colors cursor-pointer"
             >
               <option value="all">All Colours</option>
               {colours.map((col) => (
@@ -188,22 +211,34 @@ export default function ShopCatalogClient({
           </div>
 
           {/* Availability Toggle */}
-          <label className="inline-flex items-center gap-2 cursor-pointer select-none py-1.5 px-3 bg-warm-white border border-cocoa/30 rounded-xs hover:border-cocoa/60 transition-colors">
+          <label className="inline-flex items-center gap-2 cursor-pointer select-none py-1.5 px-3.5 bg-warm-white border border-cocoa/30 rounded-full hover:border-cocoa/60 shadow-xs transition-colors">
             <input
               type="checkbox"
               checked={onlyAvailable}
               onChange={(e) => setOnlyAvailable(e.target.checked)}
-              className="w-3.5 h-3.5 accent-espresso rounded-xs"
+              className="w-3.5 h-3.5 accent-espresso rounded-sm"
             />
             <span className="text-xs uppercase tracking-wider text-ink-black">In Stock</span>
           </label>
+
+          {/* Active search query chip */}
+          {urlQuery && (
+            <button
+              type="button"
+              onClick={() => router.replace('/shop', { scroll: false })}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-espresso text-warm-white rounded-full text-xs focus-dark"
+            >
+              <span>Search: &ldquo;{urlQuery}&rdquo;</span>
+              <X className="w-3 h-3" aria-hidden="true" />
+            </button>
+          )}
 
           {/* Reset Filters button when active */}
           {hasActiveFilters && (
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider text-cocoa hover:text-ink-black underline underline-offset-4 py-1.5"
+              className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-cocoa hover:text-ink-black underline underline-offset-4 py-2 px-1"
             >
               <RotateCcw className="w-3 h-3" />
               <span>Reset</span>
@@ -211,31 +246,31 @@ export default function ShopCatalogClient({
           )}
         </div>
 
-        <div className="text-xs text-muted-taupe tracking-wider font-light">
+        <div className="text-xs text-muted-taupe tracking-wider">
           Leather pams, refined for everyday wear.
         </div>
       </div>
 
       {/* Product Catalog Grid */}
-      <div className="pt-10">
+      <div className="pt-8 sm:pt-12">
         {filteredProducts.length === 0 ? (
-          <div className="py-24 text-center space-y-4 bg-warm-white border border-cocoa/20 rounded-sm p-8">
+          <div className="py-16 sm:py-24 text-center space-y-4 bg-warm-white border border-cocoa/15 rounded-xl p-8">
             <p className="text-base text-ink-black font-semibold">
               No leather pams match your selected filters.
             </p>
-            <p className="text-xs text-muted-taupe">
-              Try adjusting your size or colour criteria. Drop 001 is a small 10-pair initial run.
+            <p className="text-sm text-muted-taupe">
+              Try adjusting your search, size, or colour criteria. Drop 001 is a small 10-pair initial run.
             </p>
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.16em] font-medium rounded-xs"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.16em] font-medium rounded-full shadow-apple-sm active:scale-[0.97] transition-[background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)]"
             >
               View Full Collection
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
             {filteredProducts.map((product, idx) => (
               <ProductCard
                 key={product.slug}
@@ -248,32 +283,32 @@ export default function ShopCatalogClient({
       </div>
 
       {/* Collection Assurance Banner */}
-      <div className="mt-20 p-8 bg-espresso text-warm-white rounded-sm border border-cocoa/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="mt-16 sm:mt-20 p-8 sm:p-10 bg-espresso text-warm-white rounded-xl border border-cocoa/25 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
-          <span className="text-[11px] uppercase tracking-[0.2em] text-muted-taupe-on-dark block mb-1">
-            Artisan Production Assurance
+          <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark block mb-1.5">
+            Lagos Benchcraft Assurance
           </span>
-          <h2 className="text-lg font-bold text-warm-white">
-            Ten Pairs Initial Inventory - Handcrafted in Lagos
+          <h2 className="font-editorial text-2xl sm:text-3xl text-warm-white font-normal leading-snug">
+            Ten Pairs Initial Inventory · Handcrafted in Lagos
           </h2>
-          <p className="text-xs text-muted-taupe-on-dark max-w-xl mt-1 leading-relaxed">
+          <p className="text-sm text-muted-taupe-on-dark max-w-xl mt-2 leading-relaxed">
             Every pair of NOVEQ female leather pams is built from full-grain Nigerian hides, conditioned with natural wax, and individually boxed in our slim brown kraft suite with handwritten care instructions.
           </p>
         </div>
 
-        <div className="text-xs uppercase tracking-widest text-warm-white/90 font-medium whitespace-nowrap">
+        <div className="text-xs uppercase tracking-[0.2em] text-warm-white/90 font-medium whitespace-nowrap">
           noveq / crafted to move.
         </div>
       </div>
 
       {/* ── AEO / GEO High-Intent Knowledge Section (FAQ & Answers) ── */}
-      <div className="mt-16 pt-12 border-t border-cocoa/20">
+      <div className="mt-16 pt-12 border-t border-cocoa/15">
         <div className="max-w-3xl space-y-6">
           <div>
-            <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block mb-1">
-              Craft Notes // Nigerian Female Leather Pams
+            <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-1.5">
+              Maison Notes · Nigerian Female Leather Pams
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black font-serif">
+            <h2 className="font-editorial text-2xl sm:text-3xl font-normal tracking-[-0.01em] text-ink-black">
               Frequently Asked Questions
             </h2>
           </div>
@@ -284,7 +319,7 @@ export default function ShopCatalogClient({
                 What are Nigerian female leather pams?
               </h3>
               <p className="text-muted-taupe">
-                In Nigeria, "pams" are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that elevate casual and formal silhouettes alike.
+                In Nigeria, "pams" are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that complement casual and formal silhouettes alike.
               </p>
             </div>
 
@@ -331,7 +366,7 @@ export default function ShopCatalogClient({
                 name: 'What are Nigerian female leather pams?',
                 acceptedAnswer: {
                   '@type': 'Answer',
-                  text: 'In Nigeria, pams are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that elevate casual and formal silhouettes alike.',
+                  text: 'In Nigeria, pams are classic slip-on leather footwear known for effortless everyday comfort. NOVEQ re-engineers traditional Nigerian female leather pams with modern architectural strap geometry, full-grain vegetable-tanned cowhide, and beveled sole profiles that complement casual and formal silhouettes alike.',
                 },
               },
               {
@@ -363,5 +398,13 @@ export default function ShopCatalogClient({
         }}
       />
     </div>
+  );
+}
+
+export default function ShopCatalogClient(props: ShopCatalogClientProps) {
+  return (
+    <Suspense fallback={<div className="py-24 text-center text-sm text-muted-taupe">Loading collection...</div>}>
+      <ShopCatalogInner {...props} />
+    </Suspense>
   );
 }

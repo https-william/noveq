@@ -4,13 +4,7 @@ import { useState, useMemo, useEffect, Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import {
-  ArrowRight,
-  Check,
-  Sparkles,
-  Clock,
-  Archive,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import ProductCard from '@/components/Product/ProductCard';
 import { AtelierSpecimenInspector } from '@/components/Atelier/AtelierSpecimenInspector';
 import { SocialProofSection } from '@/components/SocialProof/SocialProofSection';
@@ -19,7 +13,6 @@ import { DROP_001_PRODUCTS } from '@/data/products';
 import { Product } from '@/types/commerce';
 import { SITE_SETTINGS } from '@/config/siteSettings';
 import { CampaignState } from '@/types/content';
-import { trackEvent } from '@/lib/analytics';
 
 interface HomeClientProps {
   initialProducts?: Product[];
@@ -41,39 +34,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       .catch(() => {});
   }, []);
 
-  const ringProduct = products.find((p) => p.slug === 'the-ring-slide-pam') || products[0];
-  const weaveProduct = products.find((p) => p.slug === 'the-weave-slide-pam') || products[1];
-  const twistProduct = products.find((p) => p.slug === 'the-twist-slide-pam') || products[2];
-
-  const formattedRingPrice = ringProduct
-    ? new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: ringProduct.currency,
-        maximumFractionDigits: 0,
-      }).format(ringProduct.price)
-    : '₦25,000';
-
-  const formattedWeavePrice = weaveProduct
-    ? new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: weaveProduct.currency,
-        maximumFractionDigits: 0,
-      }).format(weaveProduct.price)
-    : '₦20,000';
-
-  const formattedTwistPrice = twistProduct
-    ? new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: twistProduct.currency,
-        maximumFractionDigits: 0,
-      }).format(twistProduct.price)
-    : '₦25,000';
-
   const searchParams = useSearchParams();
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-  const [newsletterLoading, setNewsletterLoading] = useState(false);
-  const [newsletterError, setNewsletterError] = useState<string | null>(null);
 
   // Dynamic campaign state: URL query param (?state=pre-launch | sold-out | reveal | live)
   const campaignState: CampaignState = useMemo(() => {
@@ -89,362 +50,222 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
     return (SITE_SETTINGS.campaign?.state as CampaignState) || 'live';
   }, [searchParams]);
 
-  const handleNewsletterSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newsletterEmail) return;
-
-    setNewsletterLoading(true);
-    setNewsletterError(null);
-
-    try {
-      const res = await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: newsletterEmail,
-          source: 'homepage_waitlist',
-          campaignState,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Failed to register.');
-      }
-
-      trackEvent('newsletter_signup', {
-        location: `homepage_${campaignState}`,
-      });
-      setNewsletterSubmitted(true);
-      setNewsletterEmail('');
-    } catch (err: unknown) {
-      setNewsletterError(err instanceof Error ? err.message : 'Please check your email and try again.');
-    } finally {
-      setNewsletterLoading(false);
-    }
-  };
-
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* ── 1. HERO SECTION (EDITORIAL LUXURY AESTHETIC + REVERTED HERO COPY) ── */}
-      <section className="relative bg-ink-black text-warm-white border-b border-cocoa/30 overflow-hidden design-grid-dark">
-        {/* Giant Background Shape with Apple 180° Shadow */}
-        <div
-          aria-hidden="true"
-          className="absolute -top-32 right-1/4 sm:right-1/3 w-[460px] h-[460px] sm:w-[680px] sm:h-[680px] rounded-full bg-radial from-cocoa/30 via-espresso/45 to-transparent blur-3xl shadow-apple-xl animate-subtle-breath pointer-events-none"
-        />
+    <div className="flex flex-col min-h-[100dvh]">
+      {/* ── 1. HERO SECTION (FULL-BLEED MAISON CAMPAIGN CANVAS) ── */}
+      <section className="relative bg-ink-black text-warm-white border-b border-warm-white/10 overflow-hidden min-h-[82svh] sm:min-h-[80svh] lg:min-h-[86svh] flex items-end">
+        {/* Full-Bleed Campaign Film / Photoshoot Backdrop */}
+        <div className="absolute inset-0 z-0 select-none pointer-events-none">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/images/hero/landing-hero-photoshoot.jpg"
+            aria-label="NOVEQ contemporary handcrafted leather footwear in movement"
+            className="w-full h-full object-cover object-center block [transform:translateZ(0)]"
+          >
+            <source src="/videos/landing-hero-video.mp4" type="video/mp4" />
+          </video>
 
-        {/* Ambient Realistic Field Lighting */}
-        <div
-          aria-hidden="true"
-          className="absolute -bottom-24 -left-20 w-80 h-80 rounded-full bg-radial from-oxblood/15 to-transparent blur-3xl pointer-events-none"
-        />
+          {/* Warm Espresso Atmospheric Scrims for Serene Contrast */}
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-ink-black via-ink-black/50 to-ink-black/25"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-radial from-transparent via-transparent to-ink-black/55"
+          />
+        </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16 min-h-[calc(100dvh-5rem)] flex items-center z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
-            {/* Left Column: Contextual Launch Copy */}
-            <div className="lg:col-span-7 space-y-5">
-              {/* Dynamic Eyebrow Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-espresso/90 backdrop-blur-xs border border-cocoa/40 rounded-xs text-[11px] uppercase tracking-[0.2em] text-muted-taupe-on-dark shadow-apple-sm">
-                {campaignState === 'pre-launch' && (
-                  <>
-                    <span className="font-semibold text-warm-white">PRE-LAUNCH PREVIEW</span>
-                    <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                    <span>Drop 001 Handcrafted in Nigeria</span>
-                  </>
-                )}
-                {campaignState === 'sold-out' && (
-                  <>
-                    <span className="font-semibold text-oxblood text-warm-white">DROP 001 SOLD OUT</span>
-                    <span className="w-1 h-1 rounded-full bg-oxblood" />
-                    <span>Register for Drop 002</span>
-                  </>
-                )}
-                {campaignState === 'reveal' && (
-                  <>
-                    <span className="font-semibold text-warm-white">DROP 001 REVEAL</span>
-                    <span className="w-1 h-1 rounded-full bg-muted-taupe-on-dark" />
-                    <span>Examine Designs & Craft Details</span>
-                  </>
-                )}
-                {campaignState === 'live' && (
-                  <>
-                    <span className="font-semibold text-warm-white">DROP 001</span>
-                    <span className="text-muted-taupe-on-dark font-normal">•</span>
-                    <span>HANDCRAFTED IN NIGERIA</span>
-                  </>
-                )}
-              </div>
+        {/* Poised Centered Maison Lockup */}
+        <div className="relative z-10 w-full max-w-4xl mx-auto px-5 sm:px-8 pb-12 sm:pb-16 lg:pb-20 pt-28 text-center">
+          <div className="space-y-4 sm:space-y-5">
+            {/* Subtle Architectural Eyebrow */}
+            <p className="text-xs uppercase tracking-[0.22em] text-warm-white/85 font-medium">
+              {campaignState === 'pre-launch' && 'Pre-Launch Preview · Drop 001'}
+              {campaignState === 'sold-out' && 'Drop 001 · Allocation Complete'}
+              {campaignState === 'reveal' && 'Drop 001 · Private Preview'}
+              {campaignState === 'live' && 'Drop 001 · Handcrafted in Lagos'}
+            </p>
 
-              {/* Editorial Launch Headline */}
-              <h1 className="font-rayleigh text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-warm-white leading-[1.04]">
-                {campaignState === 'pre-launch' && 'The first release is almost here.'}
-                {campaignState === 'sold-out' && 'Ten pairs claimed.'}
-                {campaignState === 'reveal' && 'A quiet debut.'}
-                {campaignState === 'live' && 'Crafted to move.'}
-              </h1>
+            {/* Editorial Display Headline */}
+            <h1 className="font-rayleigh text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-warm-white leading-[1.06]">
+              {campaignState === 'pre-launch' && 'The first release is almost here.'}
+              {campaignState === 'sold-out' && 'Ten pairs claimed.'}
+              {campaignState === 'reveal' && 'A quiet debut.'}
+              {campaignState === 'live' && 'Crafted to move.'}
+            </h1>
 
-              {/* Subheading */}
-              <p className="text-sm sm:text-base text-muted-taupe-on-dark max-w-lg font-normal leading-relaxed">
-                {campaignState === 'pre-launch' &&
-                  'Drop 001 enters final artisan finishing in Nigeria. Ten pairs of contemporary leather footwear, made for everyday movement.'}
-                {campaignState === 'sold-out' &&
-                  'All ten pairs of Drop 001 have been allocated. Join the private register to receive priority access to Drop 002 when leather tempering completes.'}
-                {campaignState === 'reveal' &&
-                  'Explore the designs, refined straps, and full-grain Nigerian hides before the purchase window opens.'}
-                {campaignState === 'live' &&
-                  'Contemporary leather footwear, thoughtfully made for everyday movement.'}
+            {/* Restrained Poetic Subheading */}
+            <p className="text-[15px] sm:text-base text-warm-white/90 max-w-lg mx-auto font-normal leading-relaxed">
+              {campaignState === 'pre-launch' &&
+                'Drop 001 enters final artisan finishing in Lagos. Ten pairs of contemporary leather footwear, made for everyday movement.'}
+              {campaignState === 'sold-out' &&
+                'All ten pairs of Drop 001 have been allocated. Join the private register for early access to Drop 002.'}
+              {campaignState === 'reveal' &&
+                'Explore the silhouettes, hand-shaped straps, and full-grain Nigerian hides ahead of opening day.'}
+              {campaignState === 'live' &&
+                'Contemporary leather footwear, thoughtfully made for everyday movement.'}
+            </p>
+
+            {/* Primary CTA + Quiet Secondary Link */}
+            <div className="pt-2 sm:pt-3 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-7">
+              {campaignState === 'live' && (
+                <>
+                  <Link
+                    href="/shop"
+                    className="group inline-flex items-center gap-3 px-8 py-3.5 bg-warm-white text-ink-black text-[11px] uppercase tracking-[0.22em] font-semibold hover:bg-bone transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.97]"
+                  >
+                    <span>Discover Drop 001</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5" />
+                  </Link>
+                  <Link
+                    href="/story"
+                    className="inline-flex items-center justify-center py-2 text-[11px] uppercase tracking-[0.22em] font-medium text-warm-white/85 hover:text-warm-white underline underline-offset-8 decoration-warm-white/40 hover:decoration-warm-white transition-[color,text-decoration-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] focus-dark"
+                  >
+                    <span>Read Our Story</span>
+                  </Link>
+                </>
+              )}
+
+              {campaignState === 'pre-launch' && (
+                <>
+                  <a
+                    href="#launch-access"
+                    className="group inline-flex items-center gap-3 px-8 py-3.5 bg-warm-white text-ink-black text-[11px] uppercase tracking-[0.22em] font-semibold hover:bg-bone transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md active:scale-[0.97]"
+                  >
+                    <span>Join Launch List</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5" />
+                  </a>
+                  <Link
+                    href="/story"
+                    className="inline-flex items-center justify-center py-2 text-[11px] uppercase tracking-[0.22em] font-medium text-warm-white/85 hover:text-warm-white underline underline-offset-8 decoration-warm-white/40 hover:decoration-warm-white transition-[color,text-decoration-color] duration-[180ms] focus-dark"
+                  >
+                    <span>Read Our Story</span>
+                  </Link>
+                </>
+              )}
+
+              {campaignState === 'sold-out' && (
+                <>
+                  <a
+                    href="#launch-access"
+                    className="group inline-flex items-center gap-3 px-8 py-3.5 bg-warm-white text-ink-black text-[11px] uppercase tracking-[0.22em] font-semibold hover:bg-bone transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md active:scale-[0.97]"
+                  >
+                    <span>Join Drop 002 Waitlist</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5" />
+                  </a>
+                  <Link
+                    href="/drop-001"
+                    className="inline-flex items-center justify-center py-2 text-[11px] uppercase tracking-[0.22em] font-medium text-warm-white/85 hover:text-warm-white underline underline-offset-8 decoration-warm-white/40 hover:decoration-warm-white transition-[color,text-decoration-color] duration-[180ms] focus-dark"
+                  >
+                    <span>View Drop 001 Archive</span>
+                  </Link>
+                </>
+              )}
+
+              {campaignState === 'reveal' && (
+                <>
+                  <a
+                    href="#drop-001-grid"
+                    className="group inline-flex items-center gap-3 px-8 py-3.5 bg-warm-white text-ink-black text-[11px] uppercase tracking-[0.22em] font-semibold hover:bg-bone transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md active:scale-[0.97]"
+                  >
+                    <span>Preview Designs</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5" />
+                  </a>
+                  <a
+                    href="#launch-access"
+                    className="inline-flex items-center justify-center py-2 text-[11px] uppercase tracking-[0.22em] font-medium text-warm-white/85 hover:text-warm-white underline underline-offset-8 decoration-warm-white/40 hover:decoration-warm-white transition-[color,text-decoration-color] duration-[180ms] focus-dark"
+                  >
+                    <span>Get Private Access</span>
+                  </a>
+                </>
+              )}
+            </div>
+
+            {campaignState === 'pre-launch' && (
+              <p className="pt-2 text-[11px] uppercase tracking-[0.22em] text-warm-white/65">
+                Release: {SITE_SETTINGS.campaign?.preLaunchDateText || 'October 2026'}
               </p>
-
-              {/* Contextual Action CTAs */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:gap-4">
-                {campaignState === 'live' && (
-                  <>
-                    <Link
-                      href="/shop"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-all duration-200 rounded-xs focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.99]"
-                    >
-                      <span>Explore Drop 001</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                    <Link
-                      href="/story"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
-                    >
-                      <span>Read Our Story</span>
-                    </Link>
-                  </>
-                )}
-
-                {campaignState === 'pre-launch' && (
-                  <>
-                    <a
-                      href="#launch-access"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[46px] shadow-apple-md active:scale-[0.99]"
-                    >
-                      <span>Join Launch List</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                    <Link
-                      href="/story"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
-                    >
-                      <span>Read Our Story</span>
-                    </Link>
-                  </>
-                )}
-
-                {campaignState === 'sold-out' && (
-                  <>
-                    <a
-                      href="#launch-access"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[46px] shadow-apple-md active:scale-[0.99]"
-                    >
-                      <span>Join Drop 002 Waitlist</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                    <Link
-                      href="/drop-001"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
-                    >
-                      <span>View Drop 001 Archive</span>
-                    </Link>
-                  </>
-                )}
-
-                {campaignState === 'reveal' && (
-                  <>
-                    <a
-                      href="#drop-001-grid"
-                      className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.2em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[46px] shadow-apple-md active:scale-[0.99]"
-                    >
-                      <span>Preview Designs</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </a>
-                    <a
-                      href="#launch-access"
-                      className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[46px]"
-                    >
-                      <span>Get Private Access</span>
-                    </a>
-                  </>
-                )}
-              </div>
-
-              {/* Provenance Footer Badges */}
-              <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4 text-xs text-muted-taupe-on-dark font-mono">
-                <span>Handcrafted in Nigeria</span>
-                <span>•</span>
-                <span className="text-warm-white font-medium">Nigerian Female Leather Pams</span>
-                <span>•</span>
-                <span>Full-Grain Calfskin</span>
-                {campaignState === 'pre-launch' && (
-                  <>
-                    <span>•</span>
-                    <span className="text-warm-white font-medium">
-                      Release: {SITE_SETTINGS.campaign?.preLaunchDateText || 'October 2026'}
-                    </span>
-                  </>
-                )}
-                {campaignState === 'sold-out' && (
-                  <>
-                    <span>•</span>
-                    <span className="text-warm-white font-medium">10/10 Pairs Claimed</span>
-                  </>
-                )}
-              </div>
-            </div>
-
-            {/* Right Column: Hero Visual with Pure Slipper Product Photography */}
-            <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
-              {/* Subtle Atmospheric Watermark Behind Object */}
-              <div
-                aria-hidden="true"
-                className="absolute -top-6 -left-6 sm:-left-8 z-0 select-none pointer-events-none"
-              >
-                <span className="font-rayleigh text-6xl sm:text-8xl font-bold tracking-widest text-warm-white/[0.05] block leading-none">
-                  NOVEQ
-                </span>
-              </div>
-
-              {/* Hero Visual Card (Rock-solid Fluid Video with Poster Fallback & Quiet Luxury Framing) */}
-              <div className="relative z-10 aspect-[4/5] max-w-sm sm:max-w-md w-full bg-espresso/60 border border-cocoa/40 rounded-xs overflow-hidden shadow-apple-xl pointer-events-none select-none transform-gpu will-change-transform [transform:translateZ(0)] [backface-visibility:hidden]">
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="metadata"
-                  poster="/images/hero/landing-hero-photoshoot.jpg"
-                  aria-label="NOVEQ contemporary handcrafted leather footwear in movement"
-                  className="w-full h-full object-cover object-center pointer-events-none select-none block [transform:translateZ(0)]"
-                >
-                  <source src="/videos/landing-hero-video.mp4" type="video/mp4" />
-                </video>
-
-                {/* State-specific subtle visual overlay pill */}
-                {campaignState === 'pre-launch' && (
-                  <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1 bg-ink-black/90 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
-                    <Clock className="w-3 h-3 text-muted-taupe-on-dark" />
-                    <span>In Final Assembly</span>
-                  </div>
-                )}
-                {campaignState === 'sold-out' && (
-                  <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1 bg-oxblood/90 backdrop-blur-xs border border-oxblood text-[10px] uppercase tracking-widest text-warm-white rounded-xs font-semibold">
-                    <Archive className="w-3 h-3 text-warm-white" />
-                    <span>Archive Piece · Sold Out</span>
-                  </div>
-                )}
-                {campaignState === 'reveal' && (
-                  <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1 bg-ink-black/90 backdrop-blur-xs border border-cocoa/40 text-[10px] uppercase tracking-widest text-warm-white rounded-xs">
-                    <Sparkles className="w-3 h-3 text-muted-taupe-on-dark" />
-                    <span>Preview Gallery</span>
-                  </div>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* ── STRATEGY D: LIVING WORKSHOP STATUS PULSE (BELOW HERO) ── */}
-      <aside
-        aria-label="Workshop Production Status"
-        className="w-full bg-espresso text-warm-white border-b border-cocoa/30 py-3.5 px-4 sm:px-6"
-      >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs uppercase tracking-[0.18em]">
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 sm:gap-3">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-            <span className="font-semibold text-warm-white">Lagos Workshop Active</span>
-            <span className="text-muted-taupe-on-dark">•</span>
-            <span className="text-warm-white font-medium">Drop 001 Allocation Live</span>
-            <span className="text-muted-taupe-on-dark hidden lg:inline">•</span>
-            <span className="text-muted-taupe-on-dark font-normal hidden lg:inline">
-              7 business days nationwide delivery
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px]">
-            <span className="font-mono text-muted-taupe-on-dark/70 hidden sm:inline">
-              LAT 6.5244° N, LON 3.3792° E
-            </span>
-            <Link
-              href="/shop"
-              className="inline-flex items-center gap-1.5 text-warm-white font-medium hover:text-bone underline underline-offset-4 transition-colors focus-dark"
-            >
-              <span>Explore Collection</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </aside>
-
-      {/* ── 2. FEATURED NOVEQ COLLECTION (CLEAN, MINIMAL CATALOG) ── */}
-      <section id="drop-001-grid" className="py-20 sm:py-28 bg-bone border-b border-cocoa/15 design-grid-subtle">
+      {/* ── 2. FEATURED NOVEQ COLLECTION (SERENE MAISON GALLERY) ── */}
+      <section id="drop-001-grid" className="py-16 sm:py-24 bg-bone border-b border-cocoa/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-black lowercase font-serif">
-                noveq collection
-              </h2>
+          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-4">
+            <span className="text-xs uppercase tracking-[0.22em] text-cocoa font-medium block">
+              Drop 001 · Lagos Atelier
+            </span>
+            <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] leading-[1.15] text-ink-black">
+              The Foundational Silhouettes
+            </h2>
+            <p className="text-[15px] sm:text-base text-muted-taupe max-w-xl mx-auto leading-relaxed">
+              Ten pairs per silhouette crafted with vegetable-tanned hides, sculpted arch support, and hand-beveled edges.
+            </p>
+            <div className="pt-1">
+              <Link
+                href="/shop"
+                className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-espresso hover:text-ink-black underline underline-offset-8 decoration-cocoa/40 hover:decoration-ink-black transition-[color,text-decoration-color] duration-[180ms] focus-dark py-2"
+              >
+                <span>View Full Catalog</span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
+              </Link>
             </div>
-
-            <Link
-              href="/shop"
-              className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-espresso hover:text-ink-black underline underline-offset-4 focus-dark min-h-[44px]"
-            >
-              <span>View Collection</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product) => (
-              <ProductCard key={product.slug} product={product} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
+            {products.map((product, idx) => (
+              <ProductCard key={product.slug} product={product} priority={idx === 0} />
             ))}
           </div>
         </div>
       </section>
 
       {/* ── 3. RESTRAINED EDITORIAL ACCENT PHRASE INTERLUDE ── */}
-      <ScrollReveal className="py-16 sm:py-24 bg-warm-white border-b border-cocoa/20 text-center">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+      <ScrollReveal className="py-20 sm:py-28 bg-warm-white border-b border-cocoa/15 text-center">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 space-y-5">
           <blockquote className="font-serif text-3xl sm:text-5xl lg:text-6xl text-espresso font-normal italic tracking-tight leading-tight">
             “Same purpose. A new perspective.”
           </blockquote>
-          <p className="text-xs sm:text-sm text-muted-taupe max-w-lg mx-auto leading-relaxed pt-2">
+          <p className="text-[15px] sm:text-base text-muted-taupe max-w-lg mx-auto leading-relaxed">
             We began with a staple familiar to every Nigerian closet: the slip-on leather pam. We asked what happens when you treat that familiar form with architectural discipline and vegetable-tanned hides.
           </p>
         </div>
       </ScrollReveal>
 
-      {/* ── STRATEGY A: INTERACTIVE WORKSHOP LEATHER & MATERIALITY INSPECTOR ── */}
+      {/* ── 4. SAVOIR-FAIRE MATERIAL INDEX ── */}
       <AtelierSpecimenInspector />
 
-      {/* ── 4. BRAND STORY MINI-EDITORIAL BLOCK ── */}
-      <section className="py-20 sm:py-28 bg-bone border-b border-cocoa/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 order-2 lg:order-1">
-              <div className="relative aspect-[4/3] bg-warm-white border border-cocoa/30 rounded-xs overflow-hidden shadow-apple-md group">
+      {/* ── 5. BRAND STORY MINI-EDITORIAL BLOCK ── */}
+      <section className="py-16 sm:py-24 bg-bone border-b border-cocoa/15">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="md:col-span-5 order-2 md:order-1">
+              <div className="relative aspect-[4/3] md:aspect-[4/5] bg-warm-white border border-cocoa/20 rounded-xl overflow-hidden shadow-apple-md group">
                 <Image
                   src="/images/editorial/artisan-workshop.jpg"
                   alt="NOVEQ artisan partner in Lagos hand-cutting and shaping full-grain leather pams at his workbench"
                   fill
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 42vw"
+                  className="object-cover hover-image-zoom"
                 />
               </div>
             </div>
 
-            <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
-              <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black leading-tight">
+            <div className="md:col-span-7 order-1 md:order-2 space-y-5 sm:space-y-6">
+              <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
+                Benchcraft · Lagos
+              </span>
+              <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.15]">
                 Handcrafted in Nigeria. Built for modern movement.
               </h2>
-              <div className="space-y-4 text-xs sm:text-sm text-ink-black/80 leading-relaxed">
+              <div className="space-y-4 text-[15px] sm:text-base text-ink-black/85 leading-[1.65] max-w-xl">
                 <p>
                   Every pair of NOVEQ footwear is shaped in direct partnership with master artisans in Nigeria. We reject industrial mass assembly in favor of meticulous benchcraft.
                 </p>
@@ -452,13 +273,13 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                   We select thick, vegetable-tanned cowhide, shape the asymmetric straps by hand, and temper the sole profile for walking comfort across sun-baked asphalt and polished marble alike.
                 </p>
               </div>
-              <div className="pt-2">
+              <div className="pt-1">
                 <Link
                   href="/story"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-cocoa hover:text-ink-black underline underline-offset-4 focus-dark min-h-[44px]"
+                  className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-cocoa hover:text-ink-black underline underline-offset-8 decoration-cocoa/40 hover:decoration-ink-black transition-[color,text-decoration-color] duration-[180ms] focus-dark py-2"
                 >
                   <span>Read our origin story</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
@@ -469,44 +290,52 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       {/* ── 6. SOCIAL PROOF ARCHITECTURE ── */}
       <SocialProofSection />
 
-      {/* ── 5. CRAFT NOTES & SEARCH KNOWLEDGE ── */}
-      <section className="py-16 sm:py-24 bg-bone border-b border-cocoa/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div>
-            <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block mb-2">
-              Craft Notes // NOVEQ
+      {/* ── 7. NOTES ON CRAFT (HAIRLINE EDITORIAL INDEX) ── */}
+      <section className="py-20 sm:py-28 bg-bone border-b border-cocoa/15">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
+              Maison Guide
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black font-serif">
-              Nigerian Female Leather Pams & Footwear Craft
+            <h2 className="font-editorial text-3xl sm:text-4xl font-normal tracking-[-0.015em] text-ink-black leading-[1.18]">
+              Nigerian Female Leather Pams &amp; Craft
             </h2>
-            <p className="mt-2 text-xs sm:text-sm text-ink-black/80 leading-relaxed max-w-2xl">
-              NOVEQ is a contemporary Nigerian footwear brand based in Lagos, Nigeria. We re-engineer the traditional slip-on leather pam into architectural, minimalist silhouettes for modern women.
+            <p className="text-[15px] sm:text-base text-muted-taupe leading-relaxed">
+              NOVEQ is a contemporary Nigerian footwear maison based in Lagos, refining the slip-on leather pam into serene, architectural silhouettes.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 text-xs text-ink-black/85">
-            <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
-              <h3 className="font-semibold text-sm text-ink-black">What is a Nigerian female leather pam?</h3>
-              <p className="text-muted-taupe leading-relaxed">
-                In Nigeria, "pams" are classic slip-on leather footwear known for everyday ease and comfort. NOVEQ crafts contemporary female leather pams using thick vegetable-tanned cowhide, sculpted arch support, and hand-beveled edges for an elevated, intentional look.
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8 border-t border-b border-cocoa/15 py-10 text-ink-black/85">
+            <div className="space-y-2">
+              <h3 className="font-editorial text-lg sm:text-xl text-ink-black font-normal leading-snug">
+                What is a Nigerian female leather pam?
+              </h3>
+              <p className="text-sm text-muted-taupe leading-relaxed">
+                In Nigeria, &ldquo;pams&rdquo; are classic slip-on leather footwear cherished for effortless daily ease. NOVEQ crafts contemporary female leather pams using full-grain vegetable-tanned cowhide, sculpted arch support, and hand-beveled edges.
               </p>
             </div>
-            <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
-              <h3 className="font-semibold text-sm text-ink-black">Where are NOVEQ shoes handcrafted?</h3>
-              <p className="text-muted-taupe leading-relaxed">
-                Every pair of NOVEQ footwear is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans. Each pair undergoes hands-on cutting, strap shaping, and edge burnishing.
+            <div className="space-y-2">
+              <h3 className="font-editorial text-lg sm:text-xl text-ink-black font-normal leading-snug">
+                Where are NOVEQ shoes handcrafted?
+              </h3>
+              <p className="text-sm text-muted-taupe leading-relaxed">
+                Every pair is benchcrafted in Lagos, Nigeria in direct partnership with master leather artisans, undergoing hand cutting, strap shaping, and hot-iron edge burnishing.
               </p>
             </div>
-            <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
-              <h3 className="font-semibold text-sm text-ink-black">How do I order and when will I receive my pair?</h3>
-              <p className="text-muted-taupe leading-relaxed">
-                Orders are placed directly online with secure Paystack checkout or bank transfer. Every pair is made to order: manufacturing takes 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.
+            <div className="space-y-2">
+              <h3 className="font-editorial text-lg sm:text-xl text-ink-black font-normal leading-snug">
+                How do I order and when will my pair arrive?
+              </h3>
+              <p className="text-sm text-muted-taupe leading-relaxed">
+                Orders are placed directly online via secure Paystack checkout or bank transfer. Made to order in 5 business days plus 2 business days tracked courier delivery nationwide (7 business days total).
               </p>
             </div>
-            <div className="p-5 bg-warm-white border border-cocoa/25 rounded-xs space-y-2 shadow-apple-sm">
-              <h3 className="font-semibold text-sm text-ink-black">How do NOVEQ female pams fit?</h3>
-              <p className="text-muted-taupe leading-relaxed">
-                Our footwear fits true to standard European sizing (EU 37-41). Hand-selected full-grain cowhide softens naturally to foot contours over 2-3 wears with zero break-in friction.
+            <div className="space-y-2">
+              <h3 className="font-editorial text-lg sm:text-xl text-ink-black font-normal leading-snug">
+                How do NOVEQ female pams fit?
+              </h3>
+              <p className="text-sm text-muted-taupe leading-relaxed">
+                Our silhouettes fit true to European sizing (EU 37–41). Natural full-grain calfskin relaxes gently after 2–3 wears to contour smoothly to your foot width.
               </p>
             </div>
           </div>
@@ -558,71 +387,33 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         }}
       />
 
-      {/* ── 6. NEWSLETTER / LAUNCH LIST / WAITLIST ── */}
-      <section
-        id="launch-access"
-        className="py-20 sm:py-24 bg-warm-white text-ink-black border-b border-cocoa/20"
-      >
-        <div className="max-w-xl mx-auto px-4 sm:px-6 text-center space-y-6">
-          <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block">
-            {campaignState === 'sold-out' ? 'Drop 002 Register' : 'Private Access'}
+      {/* ── 8. CLOSING EDITORIAL INVITATION ── */}
+      <section className="py-20 sm:py-28 bg-warm-white text-ink-black border-b border-cocoa/15 text-center">
+        <div className="max-w-xl mx-auto px-5 sm:px-6 space-y-5">
+          <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block">
+            Lagos Benchcraft
           </span>
-
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-black">
-            {campaignState === 'sold-out' ? 'Join the Drop 002 waitlist.' : 'Be first to know.'}
+          <h2 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.14]">
+            Ten Pairs. Handcrafted for Everyday Movement.
           </h2>
-
-          <p className="text-xs sm:text-sm text-muted-taupe max-w-md mx-auto leading-relaxed">
-            {campaignState === 'sold-out'
-              ? 'Drop 001 is completely allocated. Leave your email to receive first notification when Drop 002 opens for reservations. No marketing noise.'
-              : 'Receive private notifications for Drop 001 releases, restocking alerts, and craft journal notes. No promotional noise.'}
+          <p className="text-[15px] sm:text-base text-muted-taupe max-w-md mx-auto leading-relaxed">
+            Drop 001 is produced in small ten-pair editions so every hide is hand-cut, burnished, and tempered at the bench. Delivered nationwide within 7 business days.
           </p>
-
-          {newsletterSubmitted ? (
-            <div className="p-4 bg-bone border border-cocoa/30 rounded-xs inline-flex items-center gap-2 text-xs text-espresso font-medium shadow-apple-sm">
-              <Check className="w-4 h-4 text-cocoa" />
-              <span>
-                {campaignState === 'sold-out'
-                  ? 'You are on the NOVEQ Drop 002 priority waitlist.'
-                  : 'You are on the NOVEQ launch list.'}
-              </span>
-            </div>
-          ) : (
-            <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-              <label htmlFor="newsletter-email" className="sr-only">
-                Email address for launch list notifications
-              </label>
-              <input
-                id="newsletter-email"
-                type="email"
-                required
-                value={newsletterEmail}
-                onChange={(e) => setNewsletterEmail(e.target.value)}
-                placeholder="Enter your email address"
-                aria-label="Email address for launch list notifications"
-                className="flex-1 px-4 py-3 bg-bone border border-cocoa/30 text-ink-black placeholder:text-muted-taupe text-xs focus:outline-none focus:border-ink-black rounded-xs transition-colors min-h-[44px]"
-              />
-              <button
-                type="submit"
-                disabled={newsletterLoading}
-                className="px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px] active:scale-[0.98] disabled:opacity-50 shadow-apple-sm"
-              >
-                {newsletterLoading
-                  ? 'Saving...'
-                  : campaignState === 'sold-out'
-                  ? 'Register'
-                  : 'Join List'}
-              </button>
-            </form>
-          )}
-
-          {newsletterError && (
-            <p className="text-xs text-oxblood">{newsletterError}</p>
-          )}
-
-          <p className="text-[11px] text-muted-taupe">
-            Leather pams, refined for everyday wear.
-          </p>
+          <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <Link
+              href="/shop"
+              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.97]"
+            >
+              <span>Explore Drop 001</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5" />
+            </Link>
+            <Link
+              href="/story"
+              className="inline-flex items-center justify-center py-2 text-xs uppercase tracking-[0.18em] font-medium text-espresso hover:text-ink-black underline underline-offset-8 decoration-cocoa/40 hover:decoration-ink-black transition-[color,text-decoration-color] duration-[180ms] focus-dark"
+            >
+              <span>Read Our Story</span>
+            </Link>
+          </div>
         </div>
       </section>
     </div>

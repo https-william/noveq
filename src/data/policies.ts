@@ -31,7 +31,7 @@ export const POLICIES: Record<string, Policy> = {
       {
         heading: 'Delivery Fees',
         content:
-          'Delivery fees are paid directly to your dispatch courier upon arrival. NOVEQ charges ₦0 delivery fee during website checkout.',
+          'Delivery fees are flat regional courier rates calculated and settled at checkout (Lagos Mainland ₦4,000, Lagos Island ₦4,500, South-West ₦5,000, Abuja ₦5,500, South-South/East ₦6,000, North ₦6,500). Delivery is fully settled online so no cash is exchanged upon delivery.',
         isPendingClientDecision: false,
       },
       {

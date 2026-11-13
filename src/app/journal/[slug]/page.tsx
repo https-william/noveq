@@ -105,7 +105,7 @@ export default async function JournalArticlePage({ params }: Props) {
           </span>
         </div>
 
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink-black leading-tight">
+        <h1 className="font-rayleigh text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-ink-black leading-tight">
           {article.title}
         </h1>
 
@@ -120,7 +120,7 @@ export default async function JournalArticlePage({ params }: Props) {
       {article.coverImage && (
         <div className="my-8 sm:my-10">
           <figure className="space-y-2">
-            <div className="relative aspect-[16/9] bg-bone border border-cocoa/20 rounded-xs overflow-hidden">
+            <div className="relative aspect-[16/9] bg-bone border border-cocoa/20 rounded-2xl overflow-hidden shadow-apple-md">
               <Image
                 src={article.coverImage}
                 alt={article.coverAlt || article.title}
@@ -147,7 +147,7 @@ export default async function JournalArticlePage({ params }: Props) {
 
         {/* Pull Quote */}
         {article.pullQuote && (
-          <blockquote className="my-8 sm:my-10 pl-6 border-l-2 border-cocoa py-2 bg-bone/50 rounded-r-xs">
+          <blockquote className="my-8 sm:my-10 pl-6 border-l-2 border-cocoa py-3 bg-bone/50 rounded-r-xl">
             <p className="font-serif text-2xl sm:text-3xl text-espresso italic font-normal leading-snug">
               “{article.pullQuote}”
             </p>
@@ -157,7 +157,7 @@ export default async function JournalArticlePage({ params }: Props) {
         {/* Inline Article Image */}
         {article.inlineImage && (
           <figure className="my-8 space-y-2">
-            <div className="relative aspect-[4/3] bg-bone border border-cocoa/20 rounded-xs overflow-hidden">
+            <div className="relative aspect-[4/3] bg-bone border border-cocoa/20 rounded-2xl overflow-hidden shadow-apple-md">
               <Image
                 src={article.inlineImage.src}
                 alt={article.inlineImage.alt}
@@ -191,8 +191,8 @@ export default async function JournalArticlePage({ params }: Props) {
           >
             Shop The Story
           </span>
-          <div className="p-6 bg-warm-white border border-cocoa/25 rounded-xs flex flex-col sm:flex-row items-center gap-6">
-            <div className="relative w-28 h-28 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
+          <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/25 rounded-2xl flex flex-col sm:flex-row items-center gap-6 shadow-apple-sm">
+            <div className="relative w-28 h-28 bg-bone border border-cocoa/20 rounded-xl shrink-0 overflow-hidden">
               <Image
                 src={relatedProduct.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                 alt={relatedProduct.name}
@@ -205,7 +205,7 @@ export default async function JournalArticlePage({ params }: Props) {
               <span className="text-[11px] uppercase tracking-wider text-muted-taupe">
                 {relatedProduct.collection}
               </span>
-              <h3 className="text-base font-bold text-ink-black">
+              <h3 className="font-rayleigh text-lg font-normal text-ink-black">
                 {relatedProduct.name}
               </h3>
               <p className="text-xs text-muted-taupe">
@@ -218,7 +218,7 @@ export default async function JournalArticlePage({ params }: Props) {
 
             <Link
               href={`/shop/${relatedProduct.slug}`}
-              className="shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
+              className="shrink-0 inline-flex items-center gap-2 px-6 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[46px] shadow-apple-sm active:scale-[0.98]"
             >
               <span>View Pair</span>
               <ArrowRight className="w-3.5 h-3.5" />

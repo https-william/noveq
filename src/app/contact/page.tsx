@@ -42,7 +42,7 @@ export default function ContactPage() {
         <span className="text-xs uppercase tracking-[0.2em] text-cocoa block mb-2 font-medium">
           Customer Care
         </span>
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black">
+        <h1 className="font-rayleigh text-3xl sm:text-5xl font-normal tracking-tight text-ink-black">
           Contact Support
         </h1>
         <p className="mt-3 text-sm sm:text-base text-muted-taupe leading-relaxed">
@@ -53,7 +53,7 @@ export default function ContactPage() {
       {/* Primary Channels (Derived from SITE_SETTINGS single source of truth) */}
       <div className="pt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* WhatsApp Channel */}
-        <div className="p-6 bg-warm-white border border-cocoa/20 rounded-xs flex flex-col justify-between">
+        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/20 rounded-2xl flex flex-col justify-between shadow-xs hover:shadow-apple-sm transition-shadow">
           <div>
             <MessageCircle className="w-5 h-5 text-espresso mb-3" />
             <h2 className="text-sm font-bold text-ink-black uppercase tracking-wider mb-1">
@@ -77,7 +77,7 @@ export default function ContactPage() {
         </div>
 
         {/* Email Channel */}
-        <div className="p-6 bg-warm-white border border-cocoa/20 rounded-xs flex flex-col justify-between">
+        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/20 rounded-2xl flex flex-col justify-between shadow-xs hover:shadow-apple-sm transition-shadow">
           <div>
             <Mail className="w-5 h-5 text-espresso mb-3" />
             <h2 className="text-sm font-bold text-ink-black uppercase tracking-wider mb-1">
@@ -98,7 +98,7 @@ export default function ContactPage() {
         </div>
 
         {/* Instagram Channel */}
-        <div className="p-6 bg-warm-white border border-cocoa/20 rounded-xs flex flex-col justify-between">
+        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/20 rounded-2xl flex flex-col justify-between shadow-xs hover:shadow-apple-sm transition-shadow">
           <div>
             <InstagramIcon className="w-5 h-5 text-espresso mb-3" />
             <h2 className="text-sm font-bold text-ink-black uppercase tracking-wider mb-1">
@@ -123,7 +123,7 @@ export default function ContactPage() {
       </div>
 
       {/* Operating Hours & Dispatch Notice */}
-      <div className="mt-8 p-6 bg-bone border border-cocoa/25 rounded-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-ink-black/85">
+      <div className="mt-8 p-6 bg-bone/70 border border-cocoa/25 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-ink-black/85 shadow-xs">
         <div className="flex items-center gap-3">
           <Clock className="w-5 h-5 text-cocoa shrink-0" />
           <div>

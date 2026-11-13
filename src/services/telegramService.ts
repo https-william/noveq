@@ -56,7 +56,7 @@ ${itemsList}
 
 💰 <b>Financials:</b>
 • <b>Total Paid:</b> ₦${order.total.toLocaleString()} (Verified)
-• <b>Delivery Fee:</b> Pay on Delivery (to rider)
+• <b>Delivery Fee:</b> ₦${order.deliveryFee.toLocaleString()} (Paid Online)
 • <b>Payment:</b> Paystack Instant Settlement
 ━━━━━━━━━━━━━━━━━━
 <i>Drop 001 inventory updated automatically.</i>

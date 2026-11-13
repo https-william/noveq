@@ -156,7 +156,7 @@ export default function CheckoutPage() {
         </p>
         <Link
           href="/shop"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-widest font-semibold rounded-xs"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-widest font-semibold rounded-full shadow-apple-sm active:scale-[0.97] transition-[background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)]"
         >
           Return to Shop
         </Link>
@@ -177,17 +177,17 @@ export default function CheckoutPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         {/* Left Column: Direct Checkout Form */}
         <div className="lg:col-span-7 space-y-8">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-semibold block mb-1">
               Direct Checkout
             </span>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black">
-              Delivery & Contact Details
+            <h1 className="font-editorial text-2xl sm:text-3xl font-normal tracking-[-0.01em] text-ink-black">
+              Delivery &amp; Contact Details
             </h1>
-            <p className="text-xs text-muted-taupe mt-1">
+            <p className="text-sm text-muted-taupe mt-1">
               Please enter your delivery address and contact details to receive your order.
             </p>
           </div>
@@ -196,7 +196,7 @@ export default function CheckoutPage() {
             <div
               role="alert"
               aria-live="polite"
-              className="p-4 bg-oxblood/10 border border-oxblood/30 text-oxblood text-xs rounded-xs"
+              className="p-4 bg-oxblood/10 border border-oxblood/30 text-oxblood text-xs rounded-xl"
             >
               {errorMessage}
             </div>
@@ -204,7 +204,7 @@ export default function CheckoutPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Contact Information */}
-            <div className="bg-warm-white border border-cocoa/20 rounded-sm p-6 space-y-4">
+            <div className="bg-warm-white border border-cocoa/20 rounded-xl p-6 space-y-4 shadow-xs">
               <h2 className="text-xs uppercase tracking-[0.18em] font-bold text-ink-black">
                 1. Contact Information
               </h2>
@@ -230,7 +230,7 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     onBlur={handleBlur}
                     placeholder="e.g. Zainab Balogun"
-                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
                       touched.fullName && validateField('fullName', formData.fullName)
                         ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                         : touched.fullName
@@ -266,7 +266,7 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     onBlur={handleBlur}
                     placeholder="080 1234 5678"
-                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
                       touched.phone && validateField('phone', formData.phone)
                         ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                         : touched.phone
@@ -303,7 +303,7 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   placeholder="zainab@example.com"
-                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
                     touched.email && validateField('email', formData.email)
                       ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                       : touched.email
@@ -321,7 +321,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Delivery Address */}
-            <div className="bg-warm-white border border-cocoa/20 rounded-sm p-6 space-y-4">
+            <div className="bg-warm-white border border-cocoa/20 rounded-xl p-6 space-y-4 shadow-xs">
               <h2 className="text-xs uppercase tracking-[0.18em] font-bold text-ink-black">
                 2. Delivery Destination
               </h2>
@@ -341,11 +341,11 @@ export default function CheckoutPage() {
                   name="zoneId"
                   value={formData.zoneId}
                   onChange={handleZoneChange}
-                  className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                  className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
                 >
                   {DELIVERY_ZONES.map((zone) => (
                     <option key={zone.id} value={zone.id}>
-                      {zone.name} - Pay rider on arrival ({zone.estimatedDays})
+                      {zone.name} - ₦{zone.fee.toLocaleString()} ({zone.estimatedDays})
                     </option>
                   ))}
                 </select>
@@ -374,7 +374,7 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   placeholder="House number, Street name, Estate / Landmark"
-                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-xs focus:outline-none transition-colors ${
+                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
                     touched.address && validateField('address', formData.address)
                       ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                       : touched.address
@@ -403,7 +403,7 @@ export default function CheckoutPage() {
                     value={formData.city}
                     onChange={handleInputChange}
                     placeholder="e.g. Ikeja"
-                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
                   />
                 </div>
 
@@ -419,7 +419,7 @@ export default function CheckoutPage() {
                     value={formData.state}
                     onChange={handleInputChange}
                     placeholder="e.g. Lagos State"
-                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
                   />
                 </div>
               </div>
@@ -435,7 +435,7 @@ export default function CheckoutPage() {
                   value={formData.deliveryNotes}
                   onChange={handleInputChange}
                   placeholder="Gate code, security desk instructions, or preferred drop-off time."
-                  className="w-full px-3 py-2 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-xs focus:outline-none focus:border-ink-black"
+                  className="w-full px-3 py-2 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
                 />
               </div>
             </div>
@@ -445,7 +445,7 @@ export default function CheckoutPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 py-4 px-8 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[48px] disabled:opacity-70 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-4 px-8 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[50px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.98] disabled:opacity-70 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>
@@ -456,7 +456,7 @@ export default function CheckoutPage() {
                   <>
                     <Lock className="w-3.5 h-3.5" />
                     <span>
-                      Proceed to Payment - <span className="font-mono tabular-nums">₦{subtotal.toLocaleString()}</span>
+                      Proceed to Payment - <span className="font-mono tabular-nums">₦{totalAmount.toLocaleString()}</span>
                     </span>
                   </>
                 )}
@@ -476,7 +476,7 @@ export default function CheckoutPage() {
 
         {/* Right Column: Permanently Visible Order Summary (Never Collapsed) */}
         <div className="lg:col-span-5 sticky top-24 space-y-6">
-          <div className="bg-warm-white border border-cocoa/20 rounded-sm p-6 space-y-6 shadow-xs">
+          <div className="bg-warm-white border border-cocoa/20 rounded-xl p-6 space-y-6 shadow-xs">
             <div className="flex items-baseline justify-between border-b border-cocoa/15 pb-4">
               <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-ink-black">
                 Order Summary ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
@@ -493,7 +493,7 @@ export default function CheckoutPage() {
                   key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                   className="py-3 flex gap-3 items-start"
                 >
-                  <div className="relative w-14 h-14 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
+                  <div className="relative w-14 h-14 bg-bone border border-cocoa/20 rounded-md shrink-0 overflow-hidden">
                     <Image
                       src={item.product.images[0]?.src || '/images/products/the-ring-warm-cognac.jpg'}
                       alt={item.product.name}
@@ -539,32 +539,32 @@ export default function CheckoutPage() {
                 </span>
               </div>
 
-              {/* Delivery Fee Notice - Pay Rider Directly */}
+              {/* Delivery Fee */}
               <div className="flex justify-between items-baseline text-muted-taupe">
                 <div>
-                  <span>Delivery ({selectedZone.name})</span>
-                  <span className="block text-[10px] text-cocoa">
-                    Pay delivery rider on arrival
+                  <span>Courier Delivery ({selectedZone.name})</span>
+                  <span className="block text-[10px] text-muted-taupe">
+                    Tracked dispatch to your address
                   </span>
                 </div>
-                <span className="font-semibold text-ink-black">
-                  Pay on delivery
+                <span className="font-semibold text-ink-black font-mono tabular-nums">
+                  ₦{deliveryFee.toLocaleString()}
                 </span>
               </div>
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between items-baseline text-sm">
                 <span className="font-bold text-ink-black">Total to Pay Online</span>
                 <span className="text-base font-bold text-ink-black font-mono tabular-nums">
-                  ₦{subtotal.toLocaleString()}
+                  ₦{totalAmount.toLocaleString()}
                 </span>
               </div>
             </div>
 
             {/* Delivery Promise */}
-            <div className="p-3 bg-bone border border-cocoa/20 rounded-xs flex items-start gap-2.5 text-[11px] text-ink-black/80">
+            <div className="p-4 bg-bone/70 border border-cocoa/20 rounded-lg flex items-start gap-2.5 text-[11px] text-ink-black/80">
               <Truck className="w-4 h-4 text-cocoa shrink-0 mt-0.5" />
               <span>
-                Made to order: crafted in 5 business days, followed by 2 business days for delivery (receive within 7 business days nationwide). You pay your delivery rider directly upon delivery.
+                Made to order: crafted in 5 business days, followed by 2 business days for tracked courier delivery (receive within 7 business days nationwide).
               </span>
             </div>
           </div>

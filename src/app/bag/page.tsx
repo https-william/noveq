@@ -41,7 +41,7 @@ export default function BagPage() {
           <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-1">
             Shopping Bag
           </span>
-          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink-black">
+          <h1 className="font-rayleigh text-2xl sm:text-4xl font-normal tracking-tight text-ink-black">
             Review Bag ({totalItems})
           </h1>
         </div>
@@ -56,7 +56,7 @@ export default function BagPage() {
 
       {/* Undo Banner */}
       {lastRemovedItem && (
-        <div className="my-6 p-4 bg-warm-white border border-cocoa/30 rounded-xs flex items-center justify-between text-xs">
+        <div className="my-6 p-4 bg-warm-white border border-cocoa/25 rounded-xl shadow-xs flex items-center justify-between text-xs">
           <span className="text-ink-black">
             Removed <strong>{lastRemovedItem.product.name}</strong> ({lastRemovedItem.selectedSize})
           </span>
@@ -82,7 +82,7 @@ export default function BagPage() {
 
       {/* Cart Content */}
       {cartItems.length === 0 ? (
-        <div className="py-20 text-center space-y-5 bg-warm-white border border-cocoa/20 rounded-sm p-8 mt-6">
+        <div className="py-20 text-center space-y-5 bg-warm-white border border-cocoa/20 rounded-2xl p-8 mt-6 shadow-xs">
           <div className="w-16 h-16 mx-auto rounded-full bg-bone border border-cocoa/25 flex items-center justify-center text-muted-taupe">
             <ShoppingBag className="w-6 h-6 stroke-[1.2]" />
           </div>
@@ -94,7 +94,7 @@ export default function BagPage() {
           </div>
           <Link
             href="/shop"
-            className="inline-flex items-center gap-2 px-7 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-medium rounded-xs hover:bg-espresso transition-colors focus-dark min-h-[44px]"
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-medium rounded-full hover:bg-espresso transition-all duration-300 focus-dark min-h-[48px] shadow-apple-sm active:scale-[0.98]"
           >
             <span>Explore Collection</span>
             <ArrowRight className="w-4 h-4" />
@@ -103,13 +103,13 @@ export default function BagPage() {
       ) : (
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Item List */}
-          <div className="lg:col-span-8 bg-warm-white border border-cocoa/20 rounded-sm divide-y divide-cocoa/15">
+          <div className="lg:col-span-8 bg-warm-white border border-cocoa/20 rounded-2xl divide-y divide-cocoa/15 shadow-xs overflow-hidden">
             {cartItems.map((item) => (
               <div
                 key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                 className="p-6 flex flex-col sm:flex-row gap-5 items-start"
               >
-                <div className="relative w-24 h-24 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
+                <div className="relative w-24 h-24 bg-bone border border-cocoa/20 rounded-xl shrink-0 overflow-hidden">
                   <Image
                     src={item.product.images[0]?.src || '/images/products/the-ring-warm-cognac.jpg'}
                     alt={item.product.name}
@@ -141,7 +141,7 @@ export default function BagPage() {
                   </div>
 
                   {item.withHeartCharm && (
-                    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-bone border border-cocoa/25 text-[11px] text-cocoa rounded-xs font-medium">
+                    <div className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-bone border border-cocoa/25 text-[11px] text-cocoa rounded-full font-medium">
                       <Heart className="w-3 h-3 fill-oxblood text-oxblood shrink-0" />
                       <span>
                         Heart charm{item.engravedText ? ` - engraved '${item.engravedText}'` : ''}
@@ -150,7 +150,7 @@ export default function BagPage() {
                   )}
 
                   <div className="pt-2 flex items-center justify-between">
-                    <div className="inline-flex items-center border border-cocoa/30 rounded-xs bg-bone/60">
+                    <div className="inline-flex items-center border border-cocoa/30 rounded-full bg-bone/60 overflow-hidden">
                       <button
                         type="button"
                         onClick={() =>
@@ -196,7 +196,7 @@ export default function BagPage() {
           </div>
 
           {/* Order Summary Sidebar */}
-          <div className="lg:col-span-4 bg-warm-white border border-cocoa/20 rounded-sm p-6 space-y-5">
+          <div className="lg:col-span-4 bg-warm-white border border-cocoa/20 rounded-2xl p-6 space-y-5 shadow-xs">
             <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-ink-black border-b border-cocoa/15 pb-3">
               Order Summary
             </h2>
@@ -209,7 +209,7 @@ export default function BagPage() {
 
               <div className="flex justify-between text-muted-taupe">
                 <span>Delivery</span>
-                <span className="text-cocoa font-medium">Pay rider on delivery</span>
+                <span className="text-cocoa font-medium">Calculated at checkout</span>
               </div>
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between text-sm">
@@ -228,7 +228,7 @@ export default function BagPage() {
                     items_count: totalItems,
                   });
                 }}
-                className="w-full flex items-center justify-center gap-2 py-4 px-6 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[48px]"
+                className="w-full flex items-center justify-center gap-2 py-4 px-6 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[50px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.98]"
               >
                 <span>Proceed to Checkout</span>
                 <ArrowRight className="w-4 h-4" />

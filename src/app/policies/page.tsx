@@ -36,7 +36,7 @@ export default function PoliciesPage() {
         <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
           Governance & Care
         </span>
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black">
+        <h1 className="font-rayleigh text-3xl sm:text-5xl font-normal tracking-tight text-ink-black">
           Policies & Service Standards
         </h1>
         <p className="mt-3 text-sm sm:text-base text-muted-taupe max-w-2xl leading-relaxed">
@@ -50,7 +50,7 @@ export default function PoliciesPage() {
           <a
             key={policy.id}
             href={`#${policy.id}`}
-            className="px-3 py-1.5 bg-warm-white border border-cocoa/30 text-ink-black rounded-xs hover:border-ink-black transition-colors"
+            className="px-4 py-2 bg-warm-white border border-cocoa/30 text-ink-black rounded-full hover:border-ink-black shadow-xs transition-colors"
           >
             {policy.title}
           </a>
@@ -63,17 +63,17 @@ export default function PoliciesPage() {
           <article
             key={policy.id}
             id={policy.id}
-            className="scroll-mt-24 bg-warm-white border border-cocoa/25 rounded-sm p-6 sm:p-10 shadow-xs space-y-6"
+            className="scroll-mt-24 bg-warm-white border border-cocoa/25 rounded-2xl p-6 sm:p-10 shadow-xs space-y-6"
           >
             {/* Policy Title & Version Metadata */}
             <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-cocoa/15 pb-5">
               <div>
                 <div className="flex items-center gap-2 mb-1.5">
-                  <span className="px-2 py-0.5 bg-bone border border-cocoa/30 font-mono text-[10px] text-cocoa font-semibold rounded-xs">
+                  <span className="px-2.5 py-0.5 bg-bone border border-cocoa/30 font-mono text-[10px] text-cocoa font-semibold rounded-full">
                     {policy.version}
                   </span>
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight text-ink-black">
+                <h2 className="font-rayleigh text-2xl font-normal tracking-tight text-ink-black">
                   {policy.title}
                 </h2>
               </div>
@@ -106,7 +106,7 @@ export default function PoliciesPage() {
       </div>
 
       {/* Support Route Callout */}
-      <div className="mt-16 p-8 bg-espresso text-warm-white rounded-sm border border-cocoa/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div className="mt-16 p-8 sm:p-10 bg-espresso text-warm-white rounded-2xl border border-cocoa/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-apple-md">
         <div className="space-y-1">
           <span className="text-[11px] uppercase tracking-[0.2em] text-muted-taupe-on-dark block font-medium">
             Customer Support
@@ -121,7 +121,7 @@ export default function PoliciesPage() {
 
         <Link
           href="/contact"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-warm-white text-ink-black text-xs uppercase tracking-[0.18em] font-semibold rounded-xs hover:bg-bone transition-colors shrink-0"
+          className="inline-flex items-center gap-2 px-6 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.18em] font-semibold rounded-full hover:bg-bone transition-all duration-300 shrink-0 shadow-apple-sm active:scale-[0.98]"
         >
           <span>Contact Support</span>
           <ArrowRight className="w-3.5 h-3.5" />

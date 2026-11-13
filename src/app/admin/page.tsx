@@ -69,7 +69,7 @@ function getWhatsAppMessageForStatus(order: Order, status: Order['status']): str
 
     case 'out for delivery':
     case 'shipped':
-      return `Hello ${customerName}, your NOVEQ order *${orderId}* (${itemsSummary}) is out for delivery today with our dispatch courier to ${city}. Please ensure your phone is accessible. Friendly reminder: the delivery fee is settled directly with the rider upon arrival.`;
+      return `Hello ${customerName}, your NOVEQ order *${orderId}* (${itemsSummary}) is out for delivery today with our dispatch courier to ${city}. Please ensure your phone is accessible. Delivery is fully settled online; no cash is required upon arrival.`;
 
     case 'delivered':
       return `Hello ${customerName}, our courier has confirmed delivery of your NOVEQ order (${itemsSummary}). We hope the fit and leather feel exceptional. If you need any care advice or have questions, our team is right here with you.`;
@@ -917,7 +917,7 @@ Items:
 ${itemsList}
 Notes: ${order.customer.deliveryNotes || 'None'}
 Payment: Paid in Full (₦${order.total.toLocaleString()})
-Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
+Delivery Fee: ₦${order.deliveryFee.toLocaleString()} (Paid in full online)`.trim();
   };
 
   if (isAuthChecking) {
@@ -2370,7 +2370,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                 <div>
                   <strong className="text-ink-black font-semibold">Tab: P&amp;L (Balance Sheet / gid=1282207252)</strong>
                   <p className="text-[11px] text-muted-taupe mt-0.5">
-                    Co-Founder / CEO financial ledger: EXPENSES (Columns A–C: Date, Particulars, Amount) and INCOME (Columns F–H: Date, Particulars, Amount).
+                    Co-Founder / CEO financial ledger: EXPENSES (Columns A-C: Date, Particulars, Amount) and INCOME (Columns F–H: Date, Particulars, Amount).
                   </p>
                 </div>
                 <span className="text-[10px] font-mono uppercase bg-warm-white px-2 py-1 border border-cocoa/20 rounded-xs shrink-0">
@@ -3065,7 +3065,7 @@ Delivery Fee: Customer pays dispatch rider directly on arrival`.trim();
                 </div>
                 <div className="flex justify-between text-muted-taupe">
                   <span>Delivery Fee</span>
-                  <span>Pay rider on delivery</span>
+                  <span>₦{selectedOrderModal.deliveryFee.toLocaleString()} (Paid online)</span>
                 </div>
                 <div className="flex justify-between text-sm font-bold text-ink-black pt-2 border-t border-cocoa/20">
                   <span>Total Amount</span>

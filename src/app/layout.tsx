@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Instrument_Serif } from 'next/font/google';
+import { Inter, Instrument_Serif, Newsreader } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/Header/Header';
@@ -16,6 +16,14 @@ const instrumentSerif = Instrument_Serif({
   variable: '--font-instrument-serif',
   subsets: ['latin'],
   weight: '400',
+  display: 'swap',
+});
+
+const newsreader = Newsreader({
+  variable: '--font-editorial',
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
   display: 'swap',
 });
 
@@ -173,7 +181,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${instrumentSerif.variable} ${rayleighGlamour.variable} h-full antialiased`}
+      className={`${inter.variable} ${instrumentSerif.variable} ${newsreader.variable} ${rayleighGlamour.variable} h-full antialiased`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

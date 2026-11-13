@@ -91,7 +91,7 @@ export default function SizeGuideModal({
         {/* Content Body */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Fit Notes & Sizing Decision Placeholder */}
-          <div className="p-4 bg-bone border border-cocoa/30 rounded-xs space-y-2 text-xs">
+          <div className="p-4 bg-bone border border-cocoa/25 rounded-xl space-y-2 text-xs">
             <div className="flex items-center gap-1.5 text-cocoa font-bold uppercase tracking-wider text-[11px]">
               <Footprints className="w-4 h-4" />
               <span>How NOVEQ Pams Run</span>
@@ -99,7 +99,7 @@ export default function SizeGuideModal({
             <p className="leading-relaxed text-ink-black/85">
               Drop 001 footwear is crafted with full-grain leather that naturally molds to foot width after 2-3 wears.
             </p>
-            <div className="p-3 bg-warm-white border border-cocoa/20 rounded-xs text-[11px] text-muted-taupe leading-relaxed">
+            <div className="p-3.5 bg-warm-white border border-cocoa/20 rounded-lg text-[11px] text-muted-taupe leading-relaxed">
               <span className="font-semibold text-cocoa block uppercase tracking-wider text-[10px] mb-0.5">
                 Fit Advisory
               </span>
@@ -112,7 +112,7 @@ export default function SizeGuideModal({
             <h3 className="text-xs uppercase tracking-[0.16em] font-bold text-ink-black mb-3">
               Size Conversion Matrix
             </h3>
-            <div className="border border-cocoa/20 rounded-xs overflow-x-auto">
+            <div className="border border-cocoa/20 rounded-xl overflow-x-auto">
               <table className="w-full text-xs text-left min-w-[420px]">
                 <thead className="bg-bone text-ink-black uppercase tracking-wider text-[10px] border-b border-cocoa/20">
                   <tr>
@@ -139,7 +139,7 @@ export default function SizeGuideModal({
                         <td className="py-2.5 px-3 text-muted-taupe">{row.us}</td>
                         <td className="py-2.5 px-3">
                           {isInCurrentProduct ? (
-                            <span className="px-2 py-0.5 bg-espresso text-warm-white text-[9px] uppercase tracking-wider rounded-xs font-semibold">
+                            <span className="px-2 py-0.5 bg-espresso text-warm-white text-[9px] uppercase tracking-wider rounded-full font-semibold">
                               Available in Drop
                             </span>
                           ) : (
@@ -184,7 +184,7 @@ export default function SizeGuideModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 bg-ink-black text-warm-white text-xs uppercase tracking-wider rounded-xs hover:bg-espresso transition-colors"
+            className="px-6 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-wider rounded-full hover:bg-espresso transition-all duration-200 shadow-apple-sm active:scale-[0.98]"
           >
             Close Guide
           </button>

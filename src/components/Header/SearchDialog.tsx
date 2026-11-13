@@ -54,43 +54,43 @@ export default function SearchDialog({ isOpen, onClose }: SearchDialogProps) {
       aria-label="Search catalog"
       className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-ink-black/80 backdrop-blur-sm"
     >
-      <div className="w-full max-w-2xl bg-espresso border border-cocoa/40 p-6 rounded-sm shadow-2xl relative text-warm-white">
-        <div className="flex items-center justify-between pb-4 border-b border-cocoa/30 mb-6">
-          <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark">Search NOVEQ</span>
+      <div className="w-full max-w-2xl bg-espresso border border-cocoa/35 p-6 sm:p-8 rounded-2xl shadow-apple-xl relative text-warm-white">
+        <div className="flex items-center justify-between pb-4 border-b border-cocoa/25 mb-6">
+          <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark font-medium">Search NOVEQ</span>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close search dialog"
-            className="p-2 text-muted-taupe-on-dark hover:text-warm-white transition-colors focus-dark rounded-sm min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className="p-2 text-muted-taupe-on-dark hover:text-warm-white transition-[color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.95] focus-dark rounded-full min-w-[44px] min-h-[44px] flex items-center justify-center"
           >
             <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="relative flex items-center">
+        <form onSubmit={handleSubmit} className="relative flex items-center gap-3">
           <label htmlFor="catalog-search-input" className="sr-only">
             Search footwear, pams, materials
           </label>
-          <Search className="w-5 h-5 text-muted-taupe-on-dark absolute left-3 pointer-events-none" aria-hidden="true" />
+          <Search className="w-5 h-5 text-muted-taupe-on-dark absolute left-4 pointer-events-none" aria-hidden="true" />
           <input
             id="catalog-search-input"
             ref={inputRef}
             type="search"
             name="q"
-            placeholder="Search footwear, pams, materials..."
-            className="w-full pl-11 pr-4 py-3 bg-ink-black/60 border border-cocoa/40 text-warm-white placeholder:text-muted-taupe-on-dark/70 text-sm focus:outline-none focus:border-warm-white transition-colors rounded-sm"
+            placeholder="Search silhouettes, colours, or leather pams..."
+            className="w-full pl-12 pr-4 py-3 bg-ink-black/60 border border-cocoa/35 text-warm-white placeholder:text-muted-taupe-on-dark/70 text-sm focus:outline-none focus:border-warm-white transition-colors rounded-xl"
           />
         </form>
 
         <div className="mt-6 pt-4 border-t border-cocoa/20">
-          <p className="text-[11px] uppercase tracking-[0.16em] text-muted-taupe-on-dark mb-2">Suggested</p>
+          <p className="text-xs uppercase tracking-[0.16em] text-muted-taupe-on-dark mb-3">Suggested</p>
           <div className="flex flex-wrap gap-2">
-            {['Drop 001', 'The Cut', 'Leather Pams', 'Espresso', 'Craft Story'].map((tag) => (
+            {['The Ring', 'The Weave', 'The Twist', 'Warm Cognac', 'Leather Pams'].map((tag) => (
               <button
                 key={tag}
                 type="button"
                 onClick={() => executeSearch(tag)}
-                className="text-xs px-2.5 py-1 bg-ink-black/40 border border-cocoa/30 text-warm-white/80 hover:text-warm-white hover:border-cocoa/60 transition-colors rounded-xs focus-dark"
+                className="text-xs px-3.5 py-2 bg-ink-black/45 border border-cocoa/30 text-warm-white/85 hover:text-warm-white hover:border-warm-white/45 transition-[color,border-color,transform] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] rounded-full focus-dark"
               >
                 {tag}
               </button>

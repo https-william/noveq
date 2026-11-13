@@ -126,7 +126,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     material: 'Interlocking multi-strap braided Nigerian cowhide, beveled square-toe footbed, flexible non-slip low heel sole.',
     care: 'Wipe clean with a soft dry cotton cloth. Store flat in a dry space away from direct sunlight.',
     dimensions_weight: 'Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.',
-    description: 'Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, elevated look.',
+    description: 'Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, polished look.',
     design_note: 'Handcrafted braided strap architecture flexes naturally with every step, distributing stride pressure across the arch while adding rich tactile dimension to your wardrobe.',
     charm_option: {
       supported: false,

@@ -59,8 +59,8 @@ export function InstagramStrip({
             <span className="text-xs uppercase tracking-[0.2em] text-cocoa font-medium block mb-2">
               Studio Visuals
             </span>
-            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink-black">
-              On the Bench & In Movement
+            <h3 className="font-editorial text-2xl sm:text-4xl font-normal tracking-[-0.01em] text-ink-black">
+              On the Bench &amp; In Movement
             </h3>
           </div>
 
@@ -69,18 +69,18 @@ export function InstagramStrip({
             target="_blank"
             rel="noopener noreferrer"
             placement="instagram_strip_heading"
-            className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] font-semibold text-espresso hover:text-ink-black underline underline-offset-4 focus-dark min-h-[44px]"
+            className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-semibold text-espresso hover:text-ink-black underline underline-offset-8 decoration-cocoa/40 hover:decoration-ink-black transition-[color,text-decoration-color] duration-[180ms] focus-dark py-2"
             aria-label={`Follow ${handle} on Instagram (opens in new tab)`}
           >
             <InstagramIcon className="w-4 h-4" />
-            <span>Follow {handle} on Instagram</span>
+            <span>Follow {handle}</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </InstagramLink>
         </div>
       )}
 
       {/* Grid of Curated Brand & Workshop Posts */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5">
         {CURATED_POSTS.map((post) => (
           <InstagramLink
             key={post.id}
@@ -88,18 +88,18 @@ export function InstagramStrip({
             target="_blank"
             rel="noopener noreferrer"
             placement="instagram_strip_grid"
-            className="group relative aspect-square bg-bone border border-cocoa/20 rounded-xs overflow-hidden block focus-dark"
+            className="group relative aspect-square bg-bone border border-cocoa/15 rounded-xl overflow-hidden block focus-dark shadow-apple-sm transition-transform duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]"
             aria-label={`Instagram post: ${post.caption}`}
           >
             <Image
               src={post.image}
               alt={post.alt}
               fill
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 280px"
-              className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+              sizes="(max-width: 640px) 50vw, 25vw"
+              className="object-cover hover-image-zoom"
             />
             {/* Subtle Hover Overlay */}
-            <div className="absolute inset-0 bg-espresso/80 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between p-4 text-warm-white">
+            <div className="absolute inset-0 bg-ink-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] flex flex-col justify-between p-4 text-warm-white">
               <div className="flex justify-end">
                 <InstagramIcon className="w-4 h-4 text-warm-white/80" />
               </div>

@@ -16,8 +16,8 @@
   --cocoa: #5B4033;
   --bone: #F4F1EA;
   --warm-white: #FAF8F4;
-  --muted-taupe: #665B53;
-  --muted-taupe-on-dark: #C7BCB3;
+  --muted-taupe: #544942;
+  --muted-taupe-on-dark: #D0C6BD;
   --oxblood: #5A2028;
 
   /* Global defaults: Quiet, warm bone canvas */
@@ -42,7 +42,8 @@
 
   --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif: var(--font-instrument-serif), Georgia, serif;
-  --font-rayleigh: var(--font-rayleigh-glamour), var(--font-instrument-serif), Georgia, serif;
+  --font-editorial: var(--font-editorial), var(--font-instrument-serif), Georgia, serif;
+  --font-rayleigh: var(--font-rayleigh-glamour), var(--font-editorial), Georgia, serif;
 
   --radius-xs: 2px;
   --radius-sm: 4px;
@@ -51,7 +52,12 @@
 }
 
 .font-rayleigh {
-  font-family: var(--font-rayleigh-glamour), var(--font-instrument-serif), Georgia, serif;
+  font-family: var(--font-rayleigh-glamour), var(--font-editorial), Georgia, serif;
+}
+
+.font-editorial {
+  font-family: var(--font-editorial), Georgia, serif;
+  font-optical-sizing: auto;
 }
 
 /* Hairline borders & utility classes */
@@ -60,7 +66,13 @@
   border-style: solid;
 }
 
-/* ── Ginyboi Genius Design Utilities & Apple 180° Shadows ── */
+/* ── Maison Motion Curves & Tactile Elevation ── */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 .shadow-apple-sm {
   box-shadow: 0 8px 24px -4px rgba(42, 27, 21, 0.06);
 }
@@ -74,57 +86,22 @@
   box-shadow: 0 36px 90px -18px rgba(42, 27, 21, 0.14);
 }
 
-/* ── Visible Design Grids (Raw In-Progress Drafting Feel) ── */
-.design-grid-subtle {
-  background-image: 
-    linear-gradient(to right, rgba(91, 64, 51, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(91, 64, 51, 0.05) 1px, transparent 1px);
-  background-size: 44px 44px;
+.press-tactile {
+  transition: transform 160ms var(--ease-out), background-color 180ms var(--ease-out), border-color 180ms var(--ease-out), color 180ms var(--ease-out);
 }
-.design-grid-dark {
-  background-image: 
-    linear-gradient(to right, rgba(250, 248, 244, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(250, 248, 244, 0.05) 1px, transparent 1px);
-  background-size: 44px 44px;
+.press-tactile:active {
+  transform: scale(0.97);
 }
 
-/* ── Constant Micro-Movements (Never let designs stay still) ── */
-@keyframes microFloat {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-8px) rotate(0.35deg);
-  }
+/* Gate hover zoom strictly to true pointer devices so iPad/mobile taps never stick */
+.hover-image-zoom {
+  transition: transform 550ms var(--ease-out);
 }
-.animate-micro-float {
-  animation: microFloat 7s ease-in-out infinite;
-}
-
-@keyframes slowDrift {
-  0%, 100% {
-    transform: scale(1) translate(0px, 0px);
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .hover-image-zoom,
+  .hover-image-zoom:hover {
+    transform: scale(1.03);
   }
-  50% {
-    transform: scale(1.02) translate(-3px, -5px);
-  }
-}
-.animate-slow-drift {
-  animation: slowDrift 14s ease-in-out infinite;
-}
-
-@keyframes subtleBreath {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.92;
-  }
-  50% {
-    transform: scale(1.04);
-    opacity: 1;
-  }
-}
-.animate-subtle-breath {
-  animation: subtleBreath 9s ease-in-out infinite;
 }
 
 /* Global body styling */

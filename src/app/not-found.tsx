@@ -10,12 +10,12 @@ export default function NotFound() {
     <div className="py-16 sm:py-28 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-10">
       {/* 404 Header */}
       <div className="space-y-4 max-w-xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-espresso/10 text-espresso text-[11px] uppercase tracking-widest font-semibold rounded-xs">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-espresso/10 text-espresso text-[11px] uppercase tracking-widest font-semibold rounded-full shadow-xs">
           <Compass className="w-3.5 h-3.5 text-cocoa" />
           <span>404 · Path Not Found</span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-ink-black">
+        <h1 className="font-rayleigh text-3xl sm:text-5xl font-normal tracking-tight text-ink-black">
           Out of Step.
         </h1>
 
@@ -32,14 +32,14 @@ export default function NotFound() {
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <Link
           href="/shop"
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.2em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[48px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.98]"
         >
           <span>Explore Drop 001</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
         <Link
           href="/story"
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-cocoa/30 text-ink-black text-xs uppercase tracking-[0.18em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[44px]"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-cocoa/30 text-ink-black text-xs uppercase tracking-[0.18em] font-semibold hover:bg-bone transition-all duration-300 rounded-full focus-dark min-h-[48px] active:scale-[0.98]"
         >
           <span>Read Our Story</span>
         </Link>
@@ -51,8 +51,8 @@ export default function NotFound() {
           <span className="text-[11px] uppercase tracking-widest text-cocoa font-medium block mb-3">
             Available in Limited Release
           </span>
-          <div className="p-4 bg-warm-white border border-cocoa/25 rounded-xs flex items-center gap-4 text-left">
-            <div className="relative w-20 h-20 bg-bone border border-cocoa/20 rounded-xs shrink-0 overflow-hidden">
+          <div className="p-4 bg-warm-white border border-cocoa/25 rounded-2xl flex items-center gap-4 text-left shadow-apple-sm">
+            <div className="relative w-20 h-20 bg-bone border border-cocoa/20 rounded-xl shrink-0 overflow-hidden">
               <Image
                 src={featuredProduct.images[0]?.src || '/images/products/the-ring-burgundy.jpg'}
                 alt={featuredProduct.name}

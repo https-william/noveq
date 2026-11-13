@@ -41,7 +41,7 @@ export default function Footer({
                 noveq
               </span>
               <span className="text-[0.55rem] uppercase tracking-[0.3em] text-[var(--noveq-sand)]">
-                Lagos &middot; Milano
+                Handcrafted in Lagos, Nigeria
               </span>
             </Link>
             <p className="mt-3 text-sm text-[var(--noveq-sand)] max-w-sm font-normal leading-relaxed">

@@ -42,7 +42,7 @@ export function FooterNewsletter() {
 
   if (submitted) {
     return (
-      <div className="p-3 bg-espresso/70 border border-cocoa/30 rounded-xs flex items-center gap-2 text-xs text-warm-white">
+      <div className="p-3 bg-espresso/70 border border-cocoa/30 rounded-xl flex items-center gap-2 text-xs text-warm-white">
         <Check className="w-3.5 h-3.5 text-cocoa shrink-0" />
         <span>You are registered for priority release notifications.</span>
       </div>
@@ -59,12 +59,12 @@ export function FooterNewsletter() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
           aria-label="Email for release updates"
-          className="flex-1 px-3 py-2 bg-espresso/60 border border-cocoa/30 text-warm-white placeholder:text-muted-taupe-on-dark text-xs focus:outline-none focus:border-warm-white/70 rounded-xs min-h-[38px]"
+          className="flex-1 px-3 py-2 bg-espresso/60 border border-cocoa/30 text-warm-white placeholder:text-muted-taupe-on-dark text-xs focus:outline-none focus:border-warm-white/70 rounded-full min-h-[38px] px-3.5"
         />
         <button
           type="submit"
           disabled={loading}
-          className="px-3.5 py-2 bg-warm-white text-ink-black hover:bg-bone text-[11px] uppercase tracking-wider font-semibold rounded-xs transition-colors shrink-0 min-h-[38px] min-w-[38px] flex items-center justify-center disabled:opacity-50"
+          className="px-3.5 py-2 bg-warm-white text-ink-black hover:bg-bone text-[11px] uppercase tracking-wider font-semibold rounded-full transition-[background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] shrink-0 shadow-apple-sm active:scale-[0.97] min-h-[38px] min-w-[38px] flex items-center justify-center disabled:opacity-50"
           aria-label="Submit email"
         >
           {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ArrowRight className="w-3.5 h-3.5" />}

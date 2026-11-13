@@ -45,7 +45,7 @@ export default function StoryPage() {
         <span className="text-xs uppercase tracking-[0.2em] text-cocoa block mb-3 font-semibold">
           Origin & Philosophy
         </span>
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-ink-black leading-tight">
+        <h1 className="font-rayleigh text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-ink-black leading-tight">
           Our Story
         </h1>
         <p className="mt-4 font-serif text-2xl sm:text-3xl text-espresso italic font-normal">
@@ -88,12 +88,12 @@ export default function StoryPage() {
 
       {/* Closing Call to Action & Brand Sign-off */}
       <ScrollReveal>
-        <section className="mt-12 sm:mt-16 p-8 sm:p-14 bg-espresso text-warm-white border border-cocoa/30 rounded-xs space-y-6">
+        <section className="mt-12 sm:mt-16 p-8 sm:p-14 bg-espresso text-warm-white border border-cocoa/30 rounded-2xl shadow-apple-md space-y-6">
           <div className="max-w-2xl space-y-4">
             <span className="text-xs uppercase tracking-[0.2em] text-muted-taupe-on-dark font-medium block">
               Begin With Drop 001
             </span>
-            <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-warm-white">
+            <h2 className="font-rayleigh text-2xl sm:text-4xl font-normal tracking-tight text-warm-white">
               Ten pairs. Considered from sole to strap.
             </h2>
             <p className="text-xs sm:text-sm text-muted-taupe-on-dark leading-relaxed">
@@ -104,14 +104,14 @@ export default function StoryPage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
             <Link
               href="/shop"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.18em] font-semibold hover:bg-bone transition-colors rounded-xs focus-dark min-h-[44px]"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-warm-white text-ink-black text-xs uppercase tracking-[0.18em] font-semibold hover:bg-bone transition-all duration-300 rounded-full focus-dark min-h-[46px] shadow-apple-sm active:scale-[0.98]"
             >
               <span>Explore The Collection</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/journal"
-              className="inline-flex items-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-colors rounded-xs focus-dark min-h-[44px]"
+              className="inline-flex items-center gap-2 px-6 py-3.5 border border-warm-white/30 text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-warm-white/10 transition-all duration-300 rounded-full focus-dark min-h-[46px] active:scale-[0.98]"
             >
               <span>Read Journal</span>
             </Link>

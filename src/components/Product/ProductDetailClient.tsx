@@ -209,9 +209,9 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
         </ol>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 lg:gap-16 items-start">
         {/* ── 1. GALLERY SECTION (5-8 images, desktop thumbnail rail, mobile scrollable) ── */}
-        <div className="lg:col-span-7 flex flex-col-reverse lg:flex-row gap-4">
+        <div className="md:col-span-6 lg:col-span-7 md:sticky md:top-28 flex flex-col-reverse lg:flex-row gap-4">
           {/* Desktop Thumbnail Rail / Selector */}
           <div className="flex lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-2 lg:pb-0 shrink-0">
             {product.images.map((img, idx) => (
@@ -221,7 +221,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 onClick={() => setActiveImageIndex(idx)}
                 aria-label={`View photo ${idx + 1}: ${img.viewType}`}
                 aria-current={activeImageIndex === idx}
-                className={`relative w-16 h-16 sm:w-20 sm:h-20 bg-bone border rounded-xs shrink-0 overflow-hidden transition-all duration-150 focus-dark ${
+                className={`relative w-16 h-16 sm:w-20 sm:h-20 bg-bone border rounded-md shrink-0 overflow-hidden transition-[border-color,opacity,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] focus-dark active:scale-[0.96] ${
                   activeImageIndex === idx
                     ? 'border-ink-black ring-1 ring-ink-black'
                     : 'border-cocoa/30 hover:border-cocoa/70 opacity-80 hover:opacity-100'
@@ -239,11 +239,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
           </div>
 
           {/* Main Selected Image Stage */}
-          <div
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
-            className="relative aspect-square sm:aspect-[4/3] lg:aspect-square w-full bg-espresso/20 border border-cocoa/20 rounded-sm overflow-hidden flex items-center justify-center select-none shadow-md"
-          >
+          <div className="relative w-full p-2 sm:p-2.5 bg-bone border border-cocoa/25 rounded-[1.5rem] shadow-apple-md select-none">
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              className="relative aspect-square sm:aspect-[4/3] lg:aspect-square w-full bg-espresso/15 border border-cocoa/20 rounded-[calc(1.5rem-0.5rem)] overflow-hidden flex items-center justify-center shadow-[inset_0_1px_1px_rgba(255,255,255,0.35)]"
+            >
             {/* Pre-rendered Stacked Image Layers for 0ms Instantaneous Switching */}
             {product.images.map((img, idx) => {
               const isActive = activeImageIndex === idx;
@@ -272,8 +273,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             })}
 
             {/* View Type Indicator Tag */}
-            <div className="absolute top-4 left-4 px-2.5 py-1 bg-warm-white/90 border border-cocoa/30 text-[10px] uppercase tracking-widest text-cocoa font-medium rounded-xs pointer-events-none">
-              View // {activeImage.viewType}
+            <div className="absolute top-4 left-4 px-3 py-1 bg-warm-white/90 border border-cocoa/25 text-[10px] uppercase tracking-[0.2em] text-cocoa font-medium rounded-full pointer-events-none">
+              {activeImage.viewType} View
             </div>
 
             {/* Mobile swipe dots */}
@@ -288,7 +289,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   className="p-2 min-w-[36px] min-h-[36px] flex items-center justify-center focus-dark"
                 >
                   <span
-                    className={`w-2 h-2 rounded-full transition-all duration-150 ${
+                    className={`w-2 h-2 rounded-full transition-[transform,background-color] duration-[160ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${
                       activeImageIndex === idx
                         ? 'bg-ink-black ring-2 ring-warm-white scale-125'
                         : 'bg-cocoa/40'
@@ -297,29 +298,30 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 </button>
               ))}
             </div>
+            </div>
           </div>
         </div>
 
-        {/* ── 2. ABOVE THE FOLD DETAILS (Zero scrolling required on desktop) ── */}
-        <div className="lg:col-span-5 space-y-6">
+        {/* ── 2. ABOVE THE FOLD DETAILS (Zero scrolling required on desktop/tablet) ── */}
+        <div className="md:col-span-6 lg:col-span-5 space-y-6">
           {/* Header & Value Statement */}
           <div className="space-y-2 border-b border-cocoa/20 pb-5">
-            <div className="flex items-center justify-between text-xs tracking-widest uppercase text-cocoa font-medium">
+            <div className="flex items-center justify-between text-xs tracking-[0.16em] uppercase text-cocoa font-medium">
               <span>{product.collection}</span>
-              <span className="font-mono text-muted-taupe">Drop 001 // Limited</span>
+              <span className="text-muted-taupe">Drop 001 · Limited</span>
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-ink-black">
+            <h1 className="font-editorial text-3xl sm:text-4xl lg:text-[2.75rem] font-normal tracking-[-0.015em] text-ink-black leading-[1.12]">
               NOVEQ {product.name}
             </h1>
 
             {/* Price (Never hidden or hover-gated) */}
             <div className="flex items-baseline gap-3 pt-1">
-              <span className="text-2xl font-bold text-ink-black font-mono tabular-nums">
+              <span className="text-2xl font-semibold text-ink-black tabular-nums">
                 {formattedPrice}
               </span>
               {formattedComparePrice && (
-                <span className="text-base text-muted-taupe line-through font-mono tabular-nums">
+                <span className="text-base text-muted-taupe line-through tabular-nums">
                   {formattedComparePrice}
                 </span>
               )}
@@ -329,7 +331,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </div>
 
             {/* Concise Value Statement */}
-            <p className="text-xs sm:text-sm text-ink-black/80 font-normal leading-relaxed pt-2">
+            <p className="text-[15px] sm:text-base text-ink-black/85 font-normal leading-relaxed pt-2">
               {product.description}
             </p>
           </div>
@@ -357,10 +359,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     role="radio"
                     aria-checked={isSelected}
                     onClick={() => handleSelectColour(c.name, c.imageSrc)}
-                    className={`group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-xs border text-xs font-medium transition-all duration-150 min-h-[44px] focus-dark ${
+                    className={`group relative flex items-center gap-2.5 px-4 py-2.5 rounded-full border text-xs font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[44px] focus-dark active:scale-[0.97] ${
                       isSelected
-                        ? 'border-ink-black bg-warm-white text-ink-black ring-1 ring-ink-black shadow-xs font-semibold'
-                        : 'border-cocoa/30 bg-bone/40 text-ink-black/80 hover:border-cocoa/70 hover:bg-warm-white'
+                        ? 'border-ink-black bg-warm-white text-ink-black shadow-apple-sm font-semibold ring-1 ring-ink-black'
+                        : 'border-cocoa/30 bg-bone/40 text-ink-black/80 hover:border-cocoa/60 hover:bg-warm-white'
                     }`}
                   >
                     <span
@@ -402,7 +404,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               <div
                 role="alert"
                 aria-live="polite"
-                className="p-3 bg-oxblood/10 border border-oxblood/30 text-oxblood text-xs rounded-xs flex items-center gap-2 animate-in fade-in duration-150"
+                className="p-3 bg-oxblood/10 border border-oxblood/30 text-oxblood text-xs rounded-lg flex items-center gap-2 animate-in fade-in duration-150"
               >
                 <AlertCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
                 <span>{sizeError}</span>
@@ -420,12 +422,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     onClick={() => handleSelectSize(sz.size)}
                     aria-pressed={isSelected}
                     aria-label={`${sz.size}${sz.available ? '' : ' - Out of stock'}`}
-                    className={`py-3 px-2 text-xs uppercase tracking-wider font-semibold rounded-xs border transition-all duration-150 min-h-[44px] flex flex-col items-center justify-center focus-dark ${
+                      className={`py-3 px-2 text-xs uppercase tracking-wider font-semibold rounded-lg border transition-[background-color,border-color,color,box-shadow,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[48px] flex flex-col items-center justify-center focus-dark active:scale-[0.96] ${
                       !sz.available
                         ? 'bg-bone/40 text-muted-taupe/40 border-cocoa/15 cursor-not-allowed line-through'
                         : isSelected
-                        ? 'bg-ink-black text-warm-white border-ink-black shadow-sm ring-1 ring-ink-black'
-                        : 'bg-warm-white text-ink-black border-cocoa/30 hover:border-ink-black'
+                        ? 'bg-ink-black text-warm-white border-ink-black shadow-apple-sm ring-1 ring-ink-black'
+                        : 'bg-warm-white text-ink-black border-cocoa/30 hover:border-ink-black hover:shadow-xs'
                     }`}
                   >
                     <span>{sz.size}</span>
@@ -440,7 +442,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
           {/* Real Stock Signal */}
           <div className="flex items-center gap-2 text-xs text-muted-taupe">
-            <span className="w-2 h-2 rounded-full bg-cocoa animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-cocoa" aria-hidden="true" />
             <span>
               Initial release: <span className="font-semibold text-ink-black">{product.stock} pairs</span> crafted for Drop 001.
             </span>
@@ -448,31 +450,31 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
           {/* ── 3. CHARM / PERSONALISATION (Only on products that support it) ── */}
           {product.charm_option.supported && (
-            <div className="p-4 bg-bone/70 border border-cocoa/25 rounded-xs space-y-3">
-              <div className="flex items-center justify-between">
-                <label htmlFor="charm-active-checkbox" className="flex items-center gap-2.5 cursor-pointer select-none">
+            <div className="p-4 sm:p-6 bg-warm-white border border-cocoa/20 rounded-xl space-y-4 shadow-apple-sm">
+              <div className="flex items-center justify-between gap-2">
+                <label htmlFor="charm-active-checkbox" className="flex items-center gap-3 cursor-pointer select-none">
                   <input
                     id="charm-active-checkbox"
                     type="checkbox"
                     checked={charmActive}
                     onChange={(e) => setCharmActive(e.target.checked)}
-                    className="w-4 h-4 accent-espresso rounded-xs"
+                    className="w-4 h-4 accent-espresso rounded-sm"
                   />
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-ink-black">
-                    <Heart className="w-3.5 h-3.5 fill-oxblood text-oxblood" />
+                  <div className="flex items-center gap-2 text-sm font-medium text-ink-black">
+                    <Heart className="w-4 h-4 fill-oxblood text-oxblood" />
                     <span>Heart charm (+ Personalisation)</span>
                   </div>
                 </label>
-                <span className="text-[10px] uppercase tracking-wider text-cocoa font-medium">
-                  Drop 001 Custom
+                <span className="text-xs uppercase tracking-wider text-cocoa font-medium px-3 py-1 bg-bone rounded-full shrink-0">
+                  Bespoke
                 </span>
               </div>
 
               {charmActive && product.charm_option.supportsEngraving && (
-                <div className="pt-2 border-t border-cocoa/15 space-y-1.5">
-                  <div className="flex items-center justify-between text-[11px] text-muted-taupe">
+                <div className="pt-3 border-t border-cocoa/15 space-y-2">
+                  <div className="flex items-center justify-between text-xs text-muted-taupe">
                     <label htmlFor="engraved-name-input">Add a name / initials:</label>
-                    <span id="charm-char-count">
+                    <span id="charm-char-count" className="tabular-nums">
                       {engravedName.length}/{product.charm_option.maxEngravingLength || 10}
                     </span>
                   </div>
@@ -484,27 +486,29 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                     value={engravedName}
                     onChange={(e) => setEngravedName(e.target.value)}
                     placeholder="e.g. AMINAT"
-                    className="w-full px-3 py-2 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-widest focus:outline-none focus:border-ink-black rounded-xs"
+                    className="w-full px-4 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-widest focus:outline-none focus:border-ink-black rounded-lg"
                   />
                 </div>
               )}
             </div>
           )}
 
-          {/* Add to Bag Button (Loading / Success / Out-of-Stock / Disabled States) */}
+          {/* Add to Bag Button (Loading / Success / Out-of-Stock / Prompt States) */}
           <div className="space-y-3 pt-2">
             <button
               type="button"
               onClick={handleAddToBag}
-              disabled={!selectedSize || !isSelectedSizeAvailable || buttonState !== 'idle'}
+              disabled={buttonState !== 'idle' || (Boolean(selectedSize) && !isSelectedSizeAvailable)}
               aria-label={
-                !isSelectedSizeAvailable
+                selectedSize && !isSelectedSizeAvailable
                   ? 'Size currently unavailable'
+                  : !selectedSize
+                  ? 'Select a size to add to bag'
                   : `Add ${product.name} to bag - ${formattedPrice}`
               }
-              className={`w-full py-4 px-8 text-xs uppercase tracking-[0.2em] font-semibold rounded-xs transition-all duration-200 min-h-[48px] flex items-center justify-center gap-2 focus-dark ${
-                !isSelectedSizeAvailable
-                  ? 'bg-bone text-muted-taupe border border-cocoa/20 cursor-not-allowed'
+              className={`w-full py-4 px-8 text-xs uppercase tracking-[0.2em] font-semibold rounded-full transition-[background-color,border-color,color,box-shadow,transform] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[52px] flex items-center justify-center gap-2 focus-dark shadow-apple-md hover:shadow-apple-lg active:scale-[0.97] cursor-pointer ${
+                selectedSize && !isSelectedSizeAvailable
+                  ? 'bg-bone text-muted-taupe border border-cocoa/20 cursor-not-allowed shadow-none'
                   : buttonState === 'success'
                   ? 'bg-cocoa text-warm-white border border-cocoa'
                   : 'bg-ink-black text-warm-white hover:bg-espresso border border-ink-black'
@@ -536,17 +540,16 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             {/* Delivery Note (One Line) */}
             <div className="flex items-center justify-center gap-2 text-xs text-muted-taupe">
               <Truck className="w-3.5 h-3.5 text-cocoa" aria-hidden="true" />
-              <span>{product.shipping_notes}</span>
+              <span>7 business days nationwide delivery (5 days benchcraft + 2 days tracked courier)</span>
             </div>
           </div>
 
-          {/* ── 4. CRAFT & MATERIAL ASSURANCE ──
-              Highlighting genuine leather integrity, comfort balance, and pair-by-pair inspection. */}
-          <div className="p-4 bg-warm-white border border-cocoa/25 rounded-xs flex items-start gap-3">
+          {/* ── 4. CRAFT & MATERIAL ASSURANCE ── */}
+          <div className="p-4 sm:p-5 bg-warm-white border border-cocoa/15 rounded-xl flex items-start gap-3 shadow-xs">
             <ShieldCheck className="w-5 h-5 text-cocoa shrink-0 mt-0.5" aria-hidden="true" />
-            <div className="text-xs leading-relaxed text-ink-black/85">
-              <span className="font-semibold block uppercase tracking-wider text-[10px] text-cocoa mb-0.5">
-                Material & Craft Integrity
+            <div className="text-sm leading-relaxed text-ink-black/85">
+              <span className="font-semibold block uppercase tracking-wider text-xs text-cocoa mb-1">
+                Material &amp; Craft Integrity
               </span>
               Handcrafted from full-grain Nigerian leather with tempered arch support. Individually inspected pair-by-pair in our Lagos studio before dispatch.
             </div>
@@ -570,7 +573,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 />
               </button>
               {openAccordion === 1 && (
-                <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-2">
+                <div className="pt-2 pb-3 text-sm leading-relaxed text-ink-black/80 space-y-2">
                   <p><strong>What it is:</strong> {product.description}</p>
                   <p><strong>What it is made from:</strong> {product.material}</p>
                   {product.dimensions_weight && (
@@ -597,7 +600,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 />
               </button>
               {openAccordion === 2 && (
-                <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-3">
+                <div className="pt-2 pb-3 text-sm leading-relaxed text-ink-black/80 space-y-3">
                   <p><strong>How it fits:</strong> {product.fit_notes}</p>
                   <p>
                     Built with a contoured instep that allows natural toe splay. If you require half-sizes or have broad arches, we advise reaching our{' '}
@@ -668,7 +671,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               </button>
               {openAccordion === 4 && (
                 <div className="pt-2 pb-3 text-xs leading-relaxed text-ink-black/80 space-y-2">
-                  <p><strong>When will it arrive:</strong> {product.shipping_notes}</p>
+                  <p><strong>When will it arrive:</strong> Every pair is made to order in Lagos. Workshop benchcraft takes 5 business days, followed by 2 business days for tracked courier delivery (7 business days nationwide).</p>
                   <p>
                     <strong>What happens if it doesn’t work:</strong> Because Drop 001 is a small run of ten pairs, size exchanges are accommodated subject to remaining pairs. Unworn footwear with tags intact and unmarked outsoles may be returned or exchanged within 7 days.
                   </p>
@@ -735,7 +738,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
               ? 'Size currently unavailable'
               : `Add ${product.name} (${selectedColour}, size ${selectedSize}) to bag`
           }
-          className={`py-3 px-5 text-xs uppercase tracking-wider font-semibold rounded-xs transition-colors min-h-[44px] shrink-0 flex items-center justify-center gap-1.5 focus-dark ${
+          className={`py-3 px-6 text-xs uppercase tracking-wider font-semibold rounded-full transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[44px] shrink-0 flex items-center justify-center gap-1.5 focus-dark active:scale-[0.97] shadow-apple-sm ${
             !selectedSize
               ? 'bg-ink-black text-warm-white hover:bg-espresso'
               : !isSelectedSizeAvailable

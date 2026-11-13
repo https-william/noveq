@@ -5,30 +5,33 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.noveq.com.ng';
 const BRAND_EMAIL = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'noveqthebrand@gmail.com';
 
 /**
- * Generate plain-English, warm, understated customer receipt and welcome email
- * Strictly adheres to /design-genius, /ui-ux-ui-styling, /clarity, and /humanizer:
- * Zero jargon, zero emojis (prevents character encoding corruption), clean editorial luxury aesthetic
+ * NOVEQ Customer Receipt — "The Studio Letter"
+ * Design: Receipt-as-Artifact (A) + Founder Note voice (C)
+ * - 472px editorial width, bone card with 1px ink border, no dark header bar
+ * - NOVEQ wordmark in Georgia on bone, wide tracking, ruled separators
+ * - Founder-voice copy: human, specific, first-person, zero AI slop
+ * - Sparse ruled item lines, plain-text CTA link, sign-off from the team
+ * - No cross-sell block (move to a separate post-purchase flow)
+ * - Zero emojis, zero jargon, zero filler
  */
 export function generateCustomerReceiptHtml(order: Order): string {
   const firstName = order.customer.fullName.split(' ')[0] || order.customer.fullName;
-  const formattedTotal = `₦${order.total.toLocaleString()}`;
   const receiptUrl = `${SITE_URL}/order-confirmation/${order.id}/receipt`;
   const cleanPhone = SITE_SETTINGS.supportContact.phone;
 
+  // Sparse ruled line items — no table headers, just clean product lines
   const itemsHtml = order.items
     .map(
       (item) => `
-      <tr style="border-bottom: 1px solid #EAE6DE;">
-        <td style="padding: 16px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-          <strong style="color: #1A1615; font-size: 15px; font-weight: 600; display: block; margin-bottom: 4px;">${item.product.name}</strong>
-          <span style="color: #635B54; font-size: 13px;">Size: ${item.selectedSize} · Colour: ${item.selectedColour || item.product.colour}</span>
-          ${item.withHeartCharm ? `<div style="color: #7C3F1D; font-size: 12px; margin-top: 4px; font-weight: 500;">+ Heart Charm Attached</div>` : ''}
+      <tr>
+        <td style="padding: 14px 0; border-bottom: 1px solid #E8E4DC; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+          <span style="color: #1A1615; font-size: 14px; font-weight: 600; display: block; letter-spacing: 0.01em;">${item.product.name}</span>
+          <span style="color: #8F877D; font-size: 12px; display: block; margin-top: 3px; letter-spacing: 0.02em;">
+            Size ${item.selectedSize}&nbsp;&nbsp;·&nbsp;&nbsp;${item.selectedColour || item.product.colour}${item.quantity > 1 ? `&nbsp;&nbsp;·&nbsp;&nbsp;Qty ${item.quantity}` : ''}${item.withHeartCharm ? '&nbsp;&nbsp;·&nbsp;&nbsp;Heart Charm' : ''}
+          </span>
         </td>
-        <td style="padding: 16px 0; text-align: center; color: #635B54; font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          x${item.quantity}
-        </td>
-        <td style="padding: 16px 0; text-align: right; color: #1A1615; font-weight: 600; font-size: 15px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          ₦${(item.product.price * item.quantity).toLocaleString()}
+        <td style="padding: 14px 0; border-bottom: 1px solid #E8E4DC; text-align: right; vertical-align: top; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          <span style="color: #1A1615; font-size: 14px; font-weight: 500;">&#8358;${(item.product.price * item.quantity).toLocaleString()}</span>
         </td>
       </tr>
     `
@@ -40,132 +43,146 @@ export function generateCustomerReceiptHtml(order: Order): string {
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Your NOVEQ Order is Confirmed</title>
+  <title>Order confirmed &mdash; NOVEQ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body style="margin: 0; padding: 0; background-color: #F7F5F0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1A1615; -webkit-font-smoothing: antialiased;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F7F5F0; padding: 40px 16px;">
+<body style="margin: 0; padding: 0; background-color: #F0EDE8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1A1615; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F0EDE8; padding: 48px 16px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="100%" style="max-width: 580px; background-color: #FFFFFF; border: 1px solid #EAE6DE; border-radius: 6px; overflow: hidden; box-shadow: 0 4px 24px rgba(26, 22, 21, 0.04);">
-          <!-- Minimalist Editorial Header -->
+
+        <!-- Outer card: bone white, ruled ink border, no radius, 472px -->
+        <table role="presentation" width="100%" style="max-width: 472px; background-color: #FAFAF8; border: 1px solid #1A1615;">
+
+          <!-- WORDMARK HEADER: bone on bone, no dark bar -->
           <tr>
-            <td style="background-color: #1A1615; padding: 32px 24px; text-align: center;">
-              <span style="font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 700; letter-spacing: 0.22em; color: #F7F5F0; text-transform: uppercase; display: block;">
+            <td style="padding: 36px 32px 0 32px; text-align: center;">
+              <span style="font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: 400; letter-spacing: 0.36em; color: #1A1615; text-transform: uppercase; display: block; text-indent: 0.36em;">
                 NOVEQ
               </span>
-              <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.24em; color: #A89F91; margin-top: 6px; display: block;">
-                Handcrafted Leather Footwear · Lagos
+              <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.28em; color: #A89F91; margin-top: 7px; display: block; text-indent: 0.28em;">
+                Lagos &middot; Drop 001
+              </span>
+              <!-- Wordmark rule -->
+              <div style="border-top: 1px solid #1A1615; margin: 24px 0 0 0;"></div>
+            </td>
+          </tr>
+
+          <!-- ORDER ID BADGE -->
+          <tr>
+            <td style="padding: 18px 32px 0 32px;">
+              <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: #8F877D; display: block;">
+                Order &nbsp;${order.id}
               </span>
             </td>
           </tr>
 
-          <!-- Main Body -->
+          <!-- FOUNDER-VOICE GREETING -->
           <tr>
-            <td style="padding: 36px 32px 28px 32px;">
-              <h1 style="font-size: 22px; font-weight: 600; color: #1A1615; margin: 0 0 14px 0; letter-spacing: -0.01em;">
-                Thank you for your order, ${firstName}.
+            <td style="padding: 14px 32px 0 32px;">
+              <h1 style="font-family: Georgia, 'Times New Roman', serif; font-size: 20px; font-weight: 400; font-style: italic; color: #1A1615; margin: 0; line-height: 1.35; letter-spacing: -0.01em;">
+                ${firstName}, your pair just moved<br />to the top of the list.
               </h1>
-              
-              <p style="font-size: 14px; line-height: 1.6; color: #635B54; margin: 0 0 24px 0;">
-                Your pair is confirmed and currently in line at our Lagos workshop. We make each piece by hand with soft leather designed for everyday comfort.
-              </p>
-
-              <!-- Order Summary Table -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 0 0 20px 0; border-top: 1px solid #1A1615;">
-                <thead>
-                  <tr style="border-bottom: 1px solid #EAE6DE; text-transform: uppercase; font-size: 10px; letter-spacing: 0.16em; color: #8F877D;">
-                    <th align="left" style="padding: 12px 0; font-weight: 600;">Your Pair</th>
-                    <th align="center" style="padding: 12px 0; font-weight: 600;">Quantity</th>
-                    <th align="right" style="padding: 12px 0; font-weight: 600;">Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${itemsHtml}
-                </tbody>
-              </table>
-
-              <!-- Totals Breakdown -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 4px;">
-                <tr>
-                  <td style="padding: 6px 0; font-size: 13px; color: #8F877D;">Subtotal</td>
-                  <td align="right" style="padding: 6px 0; font-size: 13px; color: #1A1615; font-weight: 500;">₦${order.subtotal.toLocaleString()}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 6px 0; font-size: 13px; color: #8F877D;">Delivery</td>
-                  <td align="right" style="padding: 6px 0; font-size: 13px; color: #1A1615;">
-                    ${order.deliveryFee > 0 ? `₦${order.deliveryFee.toLocaleString()}` : 'Included / Courier'}
-                  </td>
-                </tr>
-                <tr style="border-top: 1px solid #1A1615;">
-                  <td style="padding: 14px 0 0 0; font-weight: 600; color: #1A1615; font-size: 15px;">Total Paid</td>
-                  <td align="right" style="padding: 14px 0 0 0; font-weight: 600; color: #1A1615; font-size: 16px;">${formattedTotal}</td>
-                </tr>
-              </table>
-
-              <!-- Delivery Destination Box -->
-              <div style="background-color: #FAF8F5; border: 1px solid #EAE6DE; border-radius: 4px; padding: 16px 20px; margin: 26px 0;">
-                <span style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: #7C3F1D; font-weight: 700; display: block; margin-bottom: 6px;">
-                  Delivery Destination
-                </span>
-                <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #1A1615;">
-                  <strong>${order.customer.fullName}</strong> (${order.customer.phone})<br />
-                  ${order.customer.address}, ${order.customer.city}, ${order.customer.state}
-                </p>
-              </div>
-
-              <!-- Button to view online receipt -->
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin: 28px 0 20px 0;">
-                <tr>
-                  <td align="center">
-                    <a href="${receiptUrl}" style="background-color: #1A1615; color: #F7F5F0; padding: 14px 32px; text-decoration: none; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; border-radius: 3px; display: inline-block;">
-                      View Digital Receipt
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
-              <!-- Cross-Sell / Other Pieces from Drop 001 -->
-              <div style="border-top: 1px solid #EAE6DE; margin-top: 32px; padding-top: 26px;">
-                <h3 style="font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: #1A1615; margin: 0 0 6px 0; text-align: center;">
-                  Other Pieces From Drop 001
-                </h3>
-                <p style="font-size: 12px; color: #8F877D; line-height: 1.5; text-align: center; margin: 0 0 18px 0;">
-                  Crafted with the same focus on comfort and quiet style:
-                </p>
-                
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <td style="padding: 14px; width: 48%; vertical-align: top; background: #FAF8F5; border: 1px solid #EAE6DE; border-radius: 4px;">
-                      <strong style="font-size: 13px; color: #1A1615; display: block; margin-bottom: 4px;">The Ring Slide Pam</strong>
-                      <span style="font-size: 11px; color: #635B54; line-height: 1.4; display: block; margin-bottom: 8px;">Clean wide leather strap anchored with a solid brass ring.</span>
-                      <a href="${SITE_URL}/shop/the-ring-slide-pam" style="color: #7C3F1D; font-size: 11px; font-weight: 600; text-decoration: none;">View Pair &rarr;</a>
-                    </td>
-                    <td style="width: 4%;"></td>
-                    <td style="padding: 14px; width: 48%; vertical-align: top; background: #FAF8F5; border: 1px solid #EAE6DE; border-radius: 4px;">
-                      <strong style="font-size: 13px; color: #1A1615; display: block; margin-bottom: 4px;">The Twist Slide Pam</strong>
-                      <span style="font-size: 11px; color: #635B54; line-height: 1.4; display: block; margin-bottom: 8px;">Smooth crossover leather strap that hugs your foot softly.</span>
-                      <a href="${SITE_URL}/shop/the-twist-slide-pam" style="color: #7C3F1D; font-size: 11px; font-weight: 600; text-decoration: none;">View Pair &rarr;</a>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-
-              <!-- Personal Support Note -->
-              <p style="font-size: 12px; line-height: 1.6; color: #8F877D; text-align: center; margin: 28px 0 0 0;">
-                If you have any questions about your pair or want to update your delivery details, message us directly on 
-                <a href="https://wa.me/${cleanPhone}" style="color: #7C3F1D; font-weight: 600; text-decoration: underline;">WhatsApp (+${cleanPhone})</a>.
-              </p>
             </td>
           </tr>
 
-          <!-- Minimalist Footer -->
+          <!-- FOUNDER NOTE BODY -->
           <tr>
-            <td style="background-color: #F7F5F0; padding: 20px 24px; text-align: center; border-top: 1px solid #EAE6DE; font-size: 11px; color: #8F877D;">
-              NOVEQ · Handcrafted in Lagos, Nigeria.<br />
-              <a href="${SITE_URL}" style="color: #635B54; text-decoration: underline; margin-top: 4px; display: inline-block;">noveq.com.ng</a>
+            <td style="padding: 18px 32px 0 32px;">
+              <p style="font-size: 13px; line-height: 1.75; color: #635B54; margin: 0;">
+                We made around 40 pairs for Drop 001. Yours is one of them. Each piece is built by hand at our workshop here in Lagos, so it takes a few days &mdash; but we do not rush anything that goes on your feet.
+              </p>
             </td>
           </tr>
+
+          <!-- SECTION RULE -->
+          <tr>
+            <td style="padding: 28px 32px 0 32px;">
+              <div style="border-top: 1px solid #1A1615;"></div>
+              <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: #8F877D; display: block; margin-top: 14px;">
+                What you ordered
+              </span>
+            </td>
+          </tr>
+
+          <!-- SPARSE ITEM LINES -->
+          <tr>
+            <td style="padding: 6px 32px 0 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                ${itemsHtml}
+              </table>
+            </td>
+          </tr>
+
+          <!-- TOTALS -->
+          <tr>
+            <td style="padding: 0 32px 0 32px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+                ${order.deliveryFee > 0 ? `
+                <tr>
+                  <td style="padding: 10px 0 4px 0; font-size: 12px; color: #8F877D;">Delivery</td>
+                  <td align="right" style="padding: 10px 0 4px 0; font-size: 12px; color: #8F877D;">&#8358;${order.deliveryFee.toLocaleString()}</td>
+                </tr>` : ''}
+                <tr>
+                  <td style="padding: 10px 0 16px 0; font-size: 14px; font-weight: 600; color: #1A1615; border-top: 1px solid #E8E4DC;">Total paid</td>
+                  <td align="right" style="padding: 10px 0 16px 0; font-size: 14px; font-weight: 600; color: #1A1615; border-top: 1px solid #E8E4DC;">&#8358;${order.total.toLocaleString()}</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- SECTION RULE: DELIVERY -->
+          <tr>
+            <td style="padding: 0 32px 0 32px;">
+              <div style="border-top: 1px solid #1A1615;"></div>
+              <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: #8F877D; display: block; margin-top: 14px;">
+                Delivering to
+              </span>
+              <p style="font-size: 13px; line-height: 1.65; color: #1A1615; margin: 8px 0 0 0;">
+                <strong style="font-weight: 600;">${order.customer.fullName}</strong><br />
+                ${order.customer.address}<br />
+                ${order.customer.city}, ${order.customer.state}<br />
+                <span style="color: #8F877D;">${order.customer.phone}</span>
+              </p>
+              ${order.customer.deliveryNotes ? `<p style="font-size: 12px; color: #8F877D; margin: 8px 0 0 0; font-style: italic;">&ldquo;${order.customer.deliveryNotes}&rdquo;</p>` : ''}
+            </td>
+          </tr>
+
+          <!-- PLAIN-TEXT CTA (no button) -->
+          <tr>
+            <td style="padding: 28px 32px 0 32px;">
+              <div style="border-top: 1px solid #E8E4DC;"></div>
+              <p style="font-size: 12px; color: #635B54; margin: 20px 0 0 0; line-height: 1.65;">
+                You can view your full digital receipt here &mdash;
+                <a href="${receiptUrl}" style="color: #7C3F1D; text-decoration: underline; font-weight: 600;">View receipt</a>
+              </p>
+              <p style="font-size: 12px; color: #635B54; margin: 10px 0 0 0; line-height: 1.65;">
+                Any questions, or need to update your delivery details?
+                Message us on <a href="https://wa.me/${cleanPhone}" style="color: #7C3F1D; text-decoration: underline; font-weight: 600;">WhatsApp</a>.
+                We respond quickly.
+              </p>
+            </td>
+          </tr>
+
+          <!-- SIGN-OFF -->
+          <tr>
+            <td style="padding: 24px 32px 36px 32px;">
+              <p style="font-size: 13px; line-height: 1.65; color: #1A1615; margin: 0;">
+                &mdash; The NOVEQ Team
+              </p>
+            </td>
+          </tr>
+
+          <!-- FOOTER RULE + FOOTER -->
+          <tr>
+            <td style="border-top: 1px solid #1A1615; padding: 18px 32px; text-align: center;">
+              <span style="font-size: 9px; text-transform: uppercase; letter-spacing: 0.24em; color: #A89F91; text-indent: 0.24em; display: block;">
+                NOVEQ &nbsp;&middot;&nbsp; Handcrafted in Lagos, Nigeria &nbsp;&middot;&nbsp;
+                <a href="${SITE_URL}" style="color: #A89F91; text-decoration: none;">noveq.com.ng</a>
+              </span>
+            </td>
+          </tr>
+
         </table>
       </td>
     </tr>

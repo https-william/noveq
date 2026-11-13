@@ -62,7 +62,7 @@ export function EditorialBlock({
         >
           <figure className="space-y-2">
             <div
-              className={`relative ${aspectClass} w-full bg-espresso/30 border border-cocoa/20 rounded-xs overflow-hidden shadow-md group`}
+              className={`relative ${aspectClass} w-full bg-espresso/30 border border-cocoa/20 rounded-2xl overflow-hidden shadow-apple-md group`}
             >
               <Image
                 src={image.src}
@@ -99,7 +99,7 @@ export function EditorialBlock({
           </span>
         )}
 
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-ink-black leading-tight">
+        <h2 className="font-rayleigh text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-ink-black leading-tight">
           {heading}
         </h2>
 
@@ -128,7 +128,7 @@ export function EditorialBlock({
             {cta.variant === 'button' ? (
               <Link
                 href={cta.href}
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-colors rounded-xs focus-dark min-h-[44px]"
+                className="inline-flex items-center gap-2 px-6 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-all duration-300 rounded-full focus-dark min-h-[46px] shadow-apple-sm hover:shadow-apple-md active:scale-[0.98]"
               >
                 <span>{cta.text}</span>
                 <ArrowRight className="w-4 h-4" />
