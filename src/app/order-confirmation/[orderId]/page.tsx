@@ -201,12 +201,24 @@ export default async function OrderConfirmationPage({ params }: Props) {
         {/* Financial Breakdown */}
         <div className="p-4 bg-bone/50 border border-cocoa/20 rounded-xl space-y-2 text-xs">
           <div className="flex justify-between text-muted-taupe">
-            <span>Items Subtotal</span>
-            <span className="font-semibold text-ink-black">{formattedSubtotal}</span>
+            <span>{order.discountAmount ? 'Pairs Regular Total' : 'Items Subtotal'}</span>
+            <span className="font-semibold text-ink-black">
+              ₦{(order.originalSubtotal ?? order.subtotal).toLocaleString()}
+            </span>
           </div>
 
+          {order.discountAmount && order.discountAmount > 0 ? (
+            <div className="flex justify-between text-cocoa font-medium">
+              <span>{order.discountLabel ?? '24-Hour Edit (25% Off Pairs)'}</span>
+              <span>-₦{order.discountAmount.toLocaleString()}</span>
+            </div>
+          ) : null}
+
           <div className="flex justify-between text-muted-taupe">
-            <span>Delivery Fee</span>
+            <span>
+              Delivery Fee
+              {order.discountAmount ? ' (Standard Rate · Excluded)' : ''}
+            </span>
             <span className="font-semibold text-ink-black">{formattedDelivery}</span>
           </div>
 

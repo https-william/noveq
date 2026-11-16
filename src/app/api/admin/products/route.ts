@@ -6,9 +6,11 @@ import {
   updateProduct,
   updatePriceAndStock,
   toggleProductVisibility,
+  toggleProductRestocking,
   deleteProduct,
 } from '@/lib/productStore';
 import { Product, ProductSize } from '@/types/commerce';
+import { WORLDWIDE_WOMEN_SIZES } from '@/config/sizing';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,13 +36,14 @@ export async function POST(req: NextRequest) {
       colour,
       colourHex = '#141414',
       images = [],
-      stock = 5,
-      material = 'Hand-selected Nigerian calfskin',
-      care = 'Wipe with soft cotton cloth. Condition with neutral wax balm.',
+      stock = 11,
+      material = 'Soft natural Nigerian leather with cushioned underfoot bedding and smooth rounded edges.',
+      care = 'Wipe with a soft dry cloth after wear and nourish lightly with clear leather balm.',
       description,
       design_note = '',
       sizes,
       hidden = false,
+      restocking = false,
     } = body;
 
     if (!name || !price) {
@@ -58,14 +61,16 @@ export async function POST(req: NextRequest) {
       slug = `${baseSlug}-${count++}`;
     }
 
-    // Default sizes if not provided
-    const defaultSizes: ProductSize[] = sizes && sizes.length > 0 ? sizes : [
-      { size: 'EU 37', available: true, stockCount: Math.max(1, Math.floor(stock / 5)) },
-      { size: 'EU 38', available: true, stockCount: Math.max(1, Math.floor(stock / 5)) },
-      { size: 'EU 39', available: true, stockCount: Math.max(1, Math.floor(stock / 5)) },
-      { size: 'EU 40', available: true, stockCount: Math.max(1, Math.floor(stock / 5)) },
-      { size: 'EU 41', available: true, stockCount: Math.max(1, Math.floor(stock / 5)) },
-    ];
+    // Default worldwide sizing (EU 34 to EU 44) if not explicitly provided
+    const perSizeStock = Math.max(1, Math.floor(Number(stock) / WORLDWIDE_WOMEN_SIZES.length));
+    const defaultSizes: ProductSize[] =
+      sizes && sizes.length > 0
+        ? sizes
+        : WORLDWIDE_WOMEN_SIZES.map((spec) => ({
+            size: spec.eu,
+            available: true,
+            stockCount: perSizeStock,
+          }));
 
     const newProduct: Product = {
       name: name.trim(),
@@ -94,13 +99,14 @@ export async function POST(req: NextRequest) {
       stock: Number(stock),
       material,
       care,
-      description: description || `Contemporary handcrafted leather pam with barefoot ergonomics.`,
+      description: description || `Handcrafted in Lagos from soft natural Nigerian leather with cushioned everyday support.`,
       design_note,
       charm_option: { supported: false },
       publish_status: hidden ? 'draft' : 'published',
       hidden: Boolean(hidden),
-      fit_notes: 'True to standard European size. The full-grain leather gently relaxes to your foot width.',
-      shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
+      restocking: Boolean(restocking),
+      fit_notes: 'True to standard European sizing across EU 34 to EU 44. Soft leather gently relaxes to fit your foot width after 2–3 wears.',
+      shipping_notes: 'Crafted to order in 5 business days, followed by 2 business days for delivery. Delivered within 7 business days nationwide.',
     };
 
     const saved = await saveProduct(newProduct);
@@ -114,7 +120,7 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
-    const { slug, action, updates, price, stock, sizes, hidden } = body;
+    const { slug, action, updates, price, stock, sizes, hidden, restocking } = body;
 
     if (!slug) {
       return NextResponse.json({ success: false, error: 'Product slug is required.' }, { status: 400 });
@@ -122,6 +128,14 @@ export async function PATCH(req: NextRequest) {
 
     if (action === 'toggle-visibility') {
       const updated = await toggleProductVisibility(slug, hidden);
+      if (!updated) {
+        return NextResponse.json({ success: false, error: 'Product not found.' }, { status: 404 });
+      }
+      return NextResponse.json({ success: true, product: updated });
+    }
+
+    if (action === 'toggle-restocking') {
+      const updated = await toggleProductRestocking(slug, restocking);
       if (!updated) {
         return NextResponse.json({ success: false, error: 'Product not found.' }, { status: 404 });
       }

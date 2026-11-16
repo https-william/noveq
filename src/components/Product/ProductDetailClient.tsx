@@ -23,6 +23,7 @@ import { MaisonCharmLoader } from '@/components/ui/MaisonCharmLoader';
 import { trackEvent } from '@/lib/analytics';
 import { SITE_SETTINGS } from '@/config/siteSettings';
 import { formatInternationalSizeLabel, getSizeConversion } from '@/config/sizing';
+import { useBlackFriday } from '@/hooks/useBlackFriday';
 
 interface ProductDetailClientProps {
   product: Product;
@@ -30,6 +31,7 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
   const { addToCart } = useCart();
+  const { phase, isLive, isPreview, getUnitPrice } = useBlackFriday();
 
   // Gallery state & touch swipe
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -211,18 +213,24 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   };
 
 
-  const formattedPrice = new Intl.NumberFormat('en-NG', {
-    style: 'currency',
-    currency: product.currency,
-    maximumFractionDigits: 0,
-  }).format(product.price);
+  const bfUnitPrice = getUnitPrice(product.price);
+  const displayPrice = isLive ? bfUnitPrice : product.price;
 
-  const formattedComparePrice = product.compare_at_price
-    ? new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: product.currency,
-        maximumFractionDigits: 0,
-      }).format(product.compare_at_price)
+  const formatNaira = (amount: number) =>
+    new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: product.currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+
+  const formattedPrice = formatNaira(displayPrice);
+  const formattedRegularPrice = formatNaira(product.price);
+  const formattedBfUpcomingPrice = formatNaira(bfUnitPrice);
+
+  const formattedComparePrice = isLive
+    ? formattedRegularPrice
+    : product.compare_at_price
+    ? formatNaira(product.compare_at_price)
     : null;
 
   const activeImage = product.images[activeImageIndex] || product.images[0];
@@ -363,18 +371,42 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </h1>
 
             {/* Price (Never hidden or hover-gated) */}
-            <div className="flex items-baseline gap-3 pt-1">
-              <span className="text-2xl font-semibold text-ink-black tabular-nums">
-                {formattedPrice}
-              </span>
-              {formattedComparePrice && (
-                <span className="text-base text-muted-taupe line-through tabular-nums">
-                  {formattedComparePrice}
+            <div className="space-y-2 pt-1">
+              <div className="flex flex-wrap items-baseline gap-3">
+                <span className="text-2xl font-semibold text-ink-black tabular-nums">
+                  {formattedPrice}
                 </span>
+                {formattedComparePrice && (
+                  <span className="text-base text-muted-taupe line-through tabular-nums">
+                    {formattedComparePrice}
+                  </span>
+                )}
+                {isLive ? (
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#111111] border border-[#b89b72]/45 text-[10px] uppercase tracking-[0.16em] text-[#b89b72] font-semibold">
+                    24-Hour Edit · 25% Off{isPreview ? ' · Preview' : ''}
+                  </span>
+                ) : (
+                  <span className="text-xs uppercase tracking-wider text-muted-taupe">
+                    Launch Price
+                  </span>
+                )}
+              </div>
+
+              {isLive ? (
+                <p className="text-[11px] text-cocoa font-medium">
+                  Applies automatically at checkout · Courier delivery fees stay standard rate.
+                </p>
+              ) : (
+                !isRestocking &&
+                phase === 'upcoming' && (
+                  <div className="p-2.5 px-3 rounded-lg bg-[#111111] border border-[#b89b72]/30 text-[11px] text-[#cecbbe]">
+                    <span className="text-[#b89b72] font-semibold">
+                      Nov 27 · 24-Hour Edit:
+                    </span>{' '}
+                    {formattedBfUpcomingPrice} (25% off pair · excludes delivery).
+                  </div>
+                )
               )}
-              <span className="text-xs uppercase tracking-wider text-muted-taupe">
-                Launch Price
-              </span>
             </div>
 
             {/* Concise Value Statement */}

@@ -18,6 +18,8 @@ import {
 import { useCart } from '@/context/CartContext';
 import { trackEvent } from '@/lib/analytics';
 import { formatCompactInternationalSize } from '@/config/sizing';
+import { useBlackFriday } from '@/hooks/useBlackFriday';
+import { BLACK_FRIDAY_DISCOUNT_RATE } from '@/config/blackFriday';
 
 export default function BagPage() {
   const {
@@ -30,6 +32,11 @@ export default function BagPage() {
     totalItems,
     subtotal,
   } = useCart();
+
+  const { phase, isLive, isPreview } = useBlackFriday();
+  const discountAmount = isLive ? Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE) : 0;
+  const finalSubtotal = Math.max(0, subtotal - discountAmount);
+  const upcomingDiscount = Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE);
 
   useEffect(() => {
     trackEvent('view_cart', {
@@ -283,20 +290,40 @@ export default function BagPage() {
 
             <div className="space-y-3 text-xs">
               <div className="flex justify-between text-muted-taupe">
-                <span>Items Subtotal</span>
+                <span>{isLive ? 'Pairs Regular Total' : 'Items Subtotal'}</span>
                 <span className="font-semibold text-ink-black tabular-nums">{formattedSubtotal}</span>
               </div>
 
+              {isLive && (
+                <div className="flex justify-between text-cocoa font-medium">
+                  <span>
+                    24-Hour Edit (25% Off Pairs){isPreview ? ' · Preview' : ''}
+                  </span>
+                  <span className="tabular-nums">-₦{discountAmount.toLocaleString()}</span>
+                </div>
+              )}
+
               <div className="flex justify-between text-muted-taupe">
-                <span>Delivery</span>
+                <span>Delivery{isLive ? ' (Standard Rate · Excluded)' : ''}</span>
                 <span className="text-cocoa font-medium">Calculated at checkout</span>
               </div>
 
+              {phase === 'upcoming' && !isLive && (
+                <div className="p-3 rounded-xl bg-[#111111] border border-[#b89b72]/30 text-[11px] text-[#cecbbe] leading-relaxed">
+                  <span className="text-[#b89b72] font-semibold block mb-0.5">
+                    Nov 27 · 24-Hour Edit
+                  </span>
+                  Orders placed on Nov 27 take 25% off all pairs (-₦{upcomingDiscount.toLocaleString()} on this bag). Delivery stays standard rate.
+                </div>
+              )}
+
               <div className="pt-3.5 border-t border-cocoa/15 flex justify-between items-baseline text-sm">
                 <span className="font-semibold text-ink-black uppercase tracking-[0.14em] text-xs">
-                  Estimated Total
+                  Estimated Pairs Total
                 </span>
-                <span className="text-xl font-semibold text-ink-black tabular-nums">{formattedSubtotal}</span>
+                <span className="text-xl font-semibold text-ink-black tabular-nums">
+                  ₦{(isLive ? finalSubtotal : subtotal).toLocaleString()}
+                </span>
               </div>
             </div>
 

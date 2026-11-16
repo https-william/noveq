@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import { CartItem, CustomerDetails, Order } from '@/types/commerce';
 import { ensureProductsLoaded, getProductBySlug } from '@/lib/productStore';
 import { getDeliveryZoneById } from '@/config/deliveryZones';
+import {
+  BlackFridayPhase,
+  calculateBlackFridayOrderTotals,
+} from '@/config/blackFriday';
 import { saveOrder } from '@/lib/orders';
 import { saveSubscriber } from '@/lib/subscribers';
 import { PaymentService } from '@/services/paymentService';
@@ -68,10 +72,21 @@ export async function POST(request: Request) {
       validatedItems.push(validatedItem);
     }
 
-    // Authoritative Delivery Fee lookup from configured zone
+    // Authoritative Delivery Fee lookup from configured zone (excluded from 25% discount)
     const zone = getDeliveryZoneById(customer.zoneId);
     const deliveryFee = zone.fee;
-    const total = calculatedSubtotal + deliveryFee;
+
+    const rawForceState = process.env.BLACK_FRIDAY_FORCE_STATE;
+    const forceServerState: BlackFridayPhase | undefined =
+      rawForceState === 'live' || rawForceState === 'upcoming' || rawForceState === 'ended'
+        ? rawForceState
+        : undefined;
+
+    const pricingTotals = calculateBlackFridayOrderTotals({
+      itemsSubtotal: calculatedSubtotal,
+      deliveryFee,
+      forceServerState,
+    });
 
     // Generate readable order ID: e.g. NVQ-2026-94812
     const orderId = `NVQ-2026-${Math.floor(10000 + Math.random() * 90000)}`;
@@ -81,9 +96,16 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
       customer,
       items: validatedItems,
-      subtotal: calculatedSubtotal,
+      ...(pricingTotals.discountAmount > 0
+        ? {
+            originalSubtotal: pricingTotals.originalSubtotal,
+            discountAmount: pricingTotals.discountAmount,
+            discountLabel: pricingTotals.discountLabel,
+          }
+        : {}),
+      subtotal: pricingTotals.finalSubtotal,
       deliveryFee,
-      total,
+      total: pricingTotals.total,
       currency: 'NGN',
       status: 'pending_payment',
       payment: {
@@ -108,7 +130,7 @@ export async function POST(request: Request) {
 
     // Save customer email to subscriber retention database
     try {
-      saveSubscriber(customer.email, 'checkout', {
+      await saveSubscriber(customer.email, 'checkout', {
         name: customer.fullName,
         tags: ['customer', 'drop-001-checkout'],
       });

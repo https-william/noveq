@@ -10,6 +10,11 @@ import { MaisonCharmLoader } from '@/components/ui/MaisonCharmLoader';
 import { DELIVERY_ZONES, getDeliveryZoneById } from '@/config/deliveryZones';
 import { CustomerDetails } from '@/types/commerce';
 import { trackEvent } from '@/lib/analytics';
+import { useBlackFriday } from '@/hooks/useBlackFriday';
+import {
+  BLACK_FRIDAY_DISCOUNT_RATE,
+  calculateBlackFridayOrderTotals,
+} from '@/config/blackFriday';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -82,7 +87,14 @@ export default function CheckoutPage() {
 
   const selectedZone = getDeliveryZoneById(formData.zoneId);
   const deliveryFee = selectedZone.fee;
-  const totalAmount = subtotal + deliveryFee;
+  const { phase, isPreview } = useBlackFriday();
+  const isAuthoritativeLive = phase === 'live';
+  const orderTotals = calculateBlackFridayOrderTotals({
+    itemsSubtotal: subtotal,
+    deliveryFee,
+  });
+  const totalAmount = orderTotals.total;
+  const upcomingDiscountPreview = Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE);
 
   const hasUnavailableItems = cartItems.some(
     (item) => Boolean(item.product.restocking) || item.product.stock <= 0
@@ -555,24 +567,46 @@ export default function CheckoutPage() {
             {/* Price Breakdown */}
             <div className="pt-4 border-t border-cocoa/15 space-y-2 text-xs">
               <div className="flex justify-between text-muted-taupe">
-                <span>Items Subtotal</span>
+                <span>{isAuthoritativeLive ? 'Pairs Regular Total' : 'Items Subtotal'}</span>
                 <span className="font-semibold text-ink-black font-mono tabular-nums">
                   ₦{subtotal.toLocaleString()}
                 </span>
               </div>
 
+              {isAuthoritativeLive && orderTotals.discountAmount > 0 && (
+                <div className="flex justify-between text-cocoa font-medium">
+                  <span>24-Hour Edit (25% Off Pairs)</span>
+                  <span className="font-mono tabular-nums">
+                    -₦{orderTotals.discountAmount.toLocaleString()}
+                  </span>
+                </div>
+              )}
+
               {/* Delivery Fee */}
               <div className="flex justify-between items-baseline text-muted-taupe">
                 <div>
-                  <span>Courier Delivery ({selectedZone.name})</span>
+                  <span>
+                    Courier Delivery ({selectedZone.name})
+                  </span>
                   <span className="block text-[10px] text-muted-taupe">
-                    Tracked dispatch to your address
+                    {isAuthoritativeLive
+                      ? 'Standard rate · excluded from 25% discount'
+                      : 'Tracked dispatch to your address'}
                   </span>
                 </div>
                 <span className="font-semibold text-ink-black font-mono tabular-nums">
                   ₦{deliveryFee.toLocaleString()}
                 </span>
               </div>
+
+              {!isAuthoritativeLive && phase === 'upcoming' && (
+                <div className="p-2.5 rounded-lg bg-[#111111] border border-[#b89b72]/30 text-[11px] text-[#cecbbe] leading-relaxed">
+                  <span className="text-[#b89b72] font-semibold">
+                    Nov 27 · 24-Hour Edit{isPreview ? ' (Preview)' : ''}:
+                  </span>{' '}
+                  Orders placed on Nov 27 take 25% off pairs (-₦{upcomingDiscountPreview.toLocaleString()}), excluding delivery fees.
+                </div>
+              )}
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between items-baseline text-sm">
                 <span className="font-bold text-ink-black">Total to Pay Online</span>

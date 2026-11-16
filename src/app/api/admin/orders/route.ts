@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAllOrders, saveOrder, updateOrderStatus, deleteOrder } from '@/lib/orders';
-import { getProductBySlug } from '@/lib/productStore';
+import { getAllAdminProductsAsync, getProductBySlug } from '@/lib/productStore';
 import { Order } from '@/types/commerce';
 import { saveSubscriber } from '@/lib/subscribers';
 import { syncOrderToGoogleSheets } from '@/services/googleSheetsService';
 import { sendTelegramOrderNotification } from '@/services/telegramService';
+import { WORLDWIDE_WOMEN_SIZES } from '@/config/sizing';
+import {
+  BLACK_FRIDAY_DISCOUNT_LABEL,
+  BLACK_FRIDAY_DISCOUNT_RATE,
+} from '@/config/blackFriday';
 
 export async function GET() {
   try {
@@ -58,6 +63,7 @@ export async function POST(req: NextRequest) {
       paymentMethod = 'Direct Bank Transfer',
       paymentStatus = 'success',
       orderStatus = 'paid',
+      applyBlackFridayDiscount = false,
     } = body;
 
     if (!customerName || !phone || !address) {
@@ -68,22 +74,35 @@ export async function POST(req: NextRequest) {
     }
 
     const orderId = `NOV-OFF-${Date.now().toString().slice(-5)}`;
-    const isWeave = (productName || '').toLowerCase().includes('weave');
-    const slug = isWeave ? 'the-weave-slide-pam' : 'the-ring-slide-pam';
-    const baseProduct = getProductBySlug(slug);
+    const allProducts = await getAllAdminProductsAsync();
+    const matchedByName = productName
+      ? allProducts.find((p) => p.name.toLowerCase() === String(productName).toLowerCase())
+      : undefined;
+    const baseProduct =
+      matchedByName || getProductBySlug('the-weave-slide-pam') || allProducts[0];
+
+    const qty = Math.max(1, Number(quantity) || 1);
+    const totalNum = Number(total) || 20000;
+    const unitPrice = baseProduct?.price || Math.round(totalNum / qty);
+    const regularPairsTotal = unitPrice * qty;
+    const shouldIncludeBfDiscount =
+      Boolean(applyBlackFridayDiscount) && regularPairsTotal > totalNum;
+    const discountAmount = shouldIncludeBfDiscount
+      ? Math.max(0, regularPairsTotal - totalNum)
+      : Math.round(regularPairsTotal * BLACK_FRIDAY_DISCOUNT_RATE);
 
     const product = baseProduct || {
-      id: slug,
-      name: isWeave ? 'The Weave Slide Pam' : 'The Ring Slide Pam',
-      slug,
-      price: Number(total) / Math.max(1, Number(quantity)),
-      colour: colour || 'Warm Cognac',
+      id: 'the-weave-slide-pam',
+      name: productName || 'The Weave Slide Pam',
+      slug: 'the-weave-slide-pam',
+      price: Math.round(totalNum / qty),
+      colour: colour || 'Black',
       images: [],
       collection: 'Drop 001',
-      description: 'Handcrafted contemporary leather pam.',
+      description: 'Handcrafted soft natural leather pam.',
       details: [],
-      materials: 'Full-grain cowhide leather',
-      availableSizes: ['EU 37', 'EU 38', 'EU 39', 'EU 40', 'EU 41', 'EU 42', 'EU 43', 'EU 44', 'EU 45'],
+      materials: 'Soft natural Nigerian leather',
+      availableSizes: WORLDWIDE_WOMEN_SIZES.map((s) => s.eu),
       isSoldOut: false,
     };
 
@@ -106,14 +125,21 @@ export async function POST(req: NextRequest) {
           product: product as any,
           selectedSize: size || 'EU 40',
           selectedColour: colour || product.colour,
-          quantity: Math.max(1, Number(quantity)),
+          quantity: qty,
         },
       ],
-      subtotal: Number(total),
+      ...(Boolean(applyBlackFridayDiscount)
+        ? {
+            originalSubtotal: regularPairsTotal,
+            discountAmount,
+            discountLabel: BLACK_FRIDAY_DISCOUNT_LABEL,
+          }
+        : {}),
+      subtotal: totalNum,
       deliveryFee: 0,
-      total: Number(total),
+      total: totalNum,
       currency: 'NGN',
-      deliveryExpectation: '24-48 hours nationwide courier',
+      deliveryExpectation: '5 business days benchcraft + 2 days tracked delivery',
       payment: {
         provider: 'bank_transfer',
         status: paymentStatus,
@@ -128,7 +154,7 @@ export async function POST(req: NextRequest) {
     // Save subscriber if legitimate email provided
     if (email && email.includes('@') && !email.includes('@client.noveq.com.ng')) {
       try {
-        saveSubscriber(email.trim(), 'checkout', {
+        await saveSubscriber(email.trim(), 'checkout', {
           name: customerName.trim(),
           tags: ['offline-customer', paymentMethod.toLowerCase().replace(/\s+/g, '-')],
         });

@@ -6,6 +6,7 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import LegacyFallbackBanner from '@/components/LegacyFallbackBanner';
 import { MaisonTransitionShell } from '@/components/ui/MaisonTransitionShell';
+import { BlackFridayRibbon } from '@/components/BlackFriday/BlackFridayRibbon';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -224,6 +225,9 @@ export default function RootLayout({
           >
             Skip to main content
           </a>
+
+          {/* November 27 · The 24-Hour Edit Announcement Strip */}
+          <BlackFridayRibbon />
 
           {/* Global Brand Shell: Sticky Header (Flush at viewport top) */}
           <Header />

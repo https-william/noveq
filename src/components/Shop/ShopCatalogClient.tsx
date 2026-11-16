@@ -6,7 +6,9 @@ import ProductCard from '@/components/Product/ProductCard';
 import { MaisonCharmLoader } from '@/components/ui/MaisonCharmLoader';
 import { DROP_001_PRODUCTS } from '@/data/products';
 import { Product } from '@/types/commerce';
-import { SlidersHorizontal, RotateCcw, X } from 'lucide-react';
+import { SlidersHorizontal, RotateCcw, X, CalendarPlus } from 'lucide-react';
+import { useBlackFriday } from '@/hooks/useBlackFriday';
+import { downloadBlackFridayCalendarInvite } from '@/config/blackFriday';
 
 interface ShopCatalogClientProps {
   eyebrow?: string;
@@ -30,6 +32,7 @@ function ShopCatalogInner({
   const [products, setProducts] = useState<Product[]>(
     initialProducts && initialProducts.length > 0 ? initialProducts : DROP_001_PRODUCTS
   );
+  const { phase, isLive, isPreview, mounted, countdown } = useBlackFriday();
 
   useEffect(() => {
     fetch('/api/products')
@@ -164,6 +167,48 @@ function ShopCatalogInner({
           <p className="mt-3 text-[15px] sm:text-base text-ink-black/80 font-normal max-w-2xl leading-relaxed">
             {intro || 'Handcrafted in Lagos, Nigeria from soft natural leather. Everyday women’s leather pams built for easy movement, personal comfort, and tracked nationwide delivery within 7 business days.'}
           </p>
+        </div>
+      )}
+
+      {/* Nov 27 · 24-Hour Edit Quiet Catalog Notice */}
+      {(phase !== 'ended' || isPreview) && (
+        <div className="mt-6 p-4 sm:px-6 sm:py-4 bg-[#111111] text-[#f4f3ef] rounded-xl border border-[#b89b72]/35 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-[#b89b72] font-semibold">
+                {isLive ? 'Live Today · Nov 27' : 'Friday, November 27 · 24 Hours'}
+              </span>
+              {isPreview && (
+                <span className="px-1.5 py-0.5 rounded bg-[#b89b72]/20 border border-[#b89b72]/40 text-[#b89b72] text-[9px] uppercase tracking-[0.12em]">
+                  Preview
+                </span>
+              )}
+            </div>
+            <p className="text-xs sm:text-sm text-[#cecbbe]">
+              {isLive
+                ? '25% off all pairs is active automatically at checkout. Courier delivery fees remain at standard zone rates.'
+                : 'Every available pair will be 25% off for 24 hours on November 27. Delivery fees are excluded and stay standard.'}
+            </p>
+          </div>
+          <div className="flex items-center gap-4 shrink-0">
+            {mounted && (
+              <span className="font-mono tabular-nums text-xs text-[#b89b72]">
+                {isLive
+                  ? `Ends in ${countdown.hours}:${countdown.minutes}:${countdown.seconds}`
+                  : `${countdown.days}d ${countdown.hours}h ${countdown.minutes}m`}
+              </span>
+            )}
+            {!isLive && (
+              <button
+                type="button"
+                onClick={downloadBlackFridayCalendarInvite}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[#b89b72]/40 text-[10px] uppercase tracking-[0.16em] text-[#f4f3ef] hover:bg-[#b89b72] hover:text-[#111111] transition-colors"
+              >
+                <CalendarPlus className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>Add Date</span>
+              </button>
+            )}
+          </div>
         </div>
       )}
 

@@ -16,6 +16,8 @@ import {
 import { useCart } from '@/context/CartContext';
 import { trackEvent } from '@/lib/analytics';
 import { formatCompactInternationalSize } from '@/config/sizing';
+import { useBlackFriday } from '@/hooks/useBlackFriday';
+import { BLACK_FRIDAY_DISCOUNT_RATE } from '@/config/blackFriday';
 
 export default function CartDrawer() {
   const {
@@ -30,6 +32,11 @@ export default function CartDrawer() {
     totalItems,
     subtotal,
   } = useCart();
+
+  const { phase, isLive, isPreview } = useBlackFriday();
+  const drawerDiscountAmount = isLive ? Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE) : 0;
+  const drawerFinalSubtotal = Math.max(0, subtotal - drawerDiscountAmount);
+  const upcomingDrawerDiscount = Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE);
 
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -316,14 +323,48 @@ export default function CartDrawer() {
               <span>Includes cotton dust bag &amp; Drop 001 Edition Record</span>
             </div>
 
-            <div className="flex justify-between items-baseline text-sm pt-1 border-t border-cocoa/15">
-              <span className="text-xs uppercase tracking-[0.16em] text-muted-taupe font-medium">
-                Subtotal
-              </span>
-              <span className="text-lg font-semibold text-ink-black tabular-nums">
-                {formattedSubtotal}
-              </span>
-            </div>
+            {isLive ? (
+              <div className="space-y-1.5 pt-2 border-t border-cocoa/15 text-xs">
+                <div className="flex justify-between text-muted-taupe">
+                  <span>Pairs Regular Total</span>
+                  <span className="tabular-nums">{formattedSubtotal}</span>
+                </div>
+                <div className="flex justify-between text-cocoa font-medium">
+                  <span>
+                    24-Hour Edit (25% Off Pairs){isPreview ? ' · Preview' : ''}
+                  </span>
+                  <span className="tabular-nums">-₦{drawerDiscountAmount.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-baseline pt-1 border-t border-cocoa/10">
+                  <span className="text-xs uppercase tracking-[0.16em] text-muted-taupe font-medium">
+                    Pairs Subtotal
+                  </span>
+                  <span className="text-lg font-semibold text-ink-black tabular-nums">
+                    ₦{drawerFinalSubtotal.toLocaleString()}
+                  </span>
+                </div>
+                <p className="text-[11px] text-muted-taupe">
+                  Standard delivery fee added at checkout (excluded from 25% off).
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-2 pt-1 border-t border-cocoa/15">
+                <div className="flex justify-between items-baseline text-sm">
+                  <span className="text-xs uppercase tracking-[0.16em] text-muted-taupe font-medium">
+                    Subtotal
+                  </span>
+                  <span className="text-lg font-semibold text-ink-black tabular-nums">
+                    {formattedSubtotal}
+                  </span>
+                </div>
+                {phase === 'upcoming' && (
+                  <p className="text-[11px] bg-[#111111] text-[#cecbbe] px-3 py-2 rounded-lg border border-[#b89b72]/30">
+                    <span className="text-[#b89b72] font-semibold">Nov 27 · 24-Hour Edit:</span>{' '}
+                    Save 25% (-₦{upcomingDrawerDiscount.toLocaleString()}) on these pairs on Nov 27. Delivery stays standard.
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="space-y-2 pt-1">
               {hasUnavailableItems ? (

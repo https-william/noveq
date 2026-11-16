@@ -9,6 +9,7 @@ import ProductCard from '@/components/Product/ProductCard';
 import { AtelierSpecimenInspector } from '@/components/Atelier/AtelierSpecimenInspector';
 import { SocialProofSection } from '@/components/SocialProof/SocialProofSection';
 import { ScrollReveal } from '@/components/Editorial/ScrollReveal';
+import { BlackFridayEditorialSection } from '@/components/BlackFriday/BlackFridayEditorialSection';
 import { DROP_001_PRODUCTS } from '@/data/products';
 import { Product } from '@/types/commerce';
 import { SITE_SETTINGS } from '@/config/siteSettings';
@@ -210,6 +211,9 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
           </div>
         </div>
       </section>
+
+      {/* ── BLACK FRIDAY · THE 24-HOUR EDIT (NOV 27) ── */}
+      <BlackFridayEditorialSection />
 
       {/* ── 2. FEATURED NOVEQ COLLECTION (SERENE MAISON GALLERY) ── */}
       <section id="drop-001-grid" className="py-16 sm:py-24 bg-bone border-b border-cocoa/15">

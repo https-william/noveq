@@ -344,6 +344,23 @@ export async function toggleProductVisibility(
   return prod;
 }
 
+export async function toggleProductRestocking(
+  slug: string,
+  restocking?: boolean
+): Promise<Product | undefined> {
+  await ensureProductsLoaded();
+  const prod = productsStore.get(slug);
+  if (!prod) return undefined;
+
+  prod.restocking = restocking !== undefined ? restocking : !prod.restocking;
+
+  productsStore.set(slug, prod);
+  const list = Array.from(productsStore.values());
+  writeLocalDiskProducts(list);
+  await syncCatalogToSupabase(list);
+  return prod;
+}
+
 export async function deleteProduct(slug: string): Promise<boolean> {
   await ensureProductsLoaded();
   if (!productsStore.has(slug)) return false;

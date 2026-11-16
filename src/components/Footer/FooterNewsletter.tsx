@@ -44,7 +44,7 @@ export function FooterNewsletter() {
     return (
       <div className="p-3 bg-espresso/70 border border-cocoa/30 rounded-xl flex items-center gap-2 text-xs text-warm-white">
         <Check className="w-3.5 h-3.5 text-cocoa shrink-0" />
-        <span>You are registered for priority release notifications.</span>
+        <span>You&apos;re on the list — check your inbox for a confirmation from NOVEQ.</span>
       </div>
     );
   }

@@ -109,6 +109,9 @@ export interface Order {
   createdAt: string;
   customer: CustomerDetails;
   items: CartItem[];
+  originalSubtotal?: number;
+  discountAmount?: number;
+  discountLabel?: string;
   subtotal: number;
   deliveryFee: number;
   total: number;

@@ -107,13 +107,23 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
 
         {/* Totals */}
         <div className="flex justify-end mb-6">
-          <div className="w-56 space-y-1.5 text-xs">
+          <div className="w-64 space-y-1.5 text-xs">
             <div className="flex justify-between text-muted-taupe">
-              <span>Subtotal</span>
-              <span className="font-mono tabular-nums font-semibold text-ink-black">₦{order.subtotal.toLocaleString()}</span>
+              <span>{order.discountAmount ? 'Pairs Regular Total' : 'Subtotal'}</span>
+              <span className="font-mono tabular-nums font-semibold text-ink-black">
+                ₦{(order.originalSubtotal ?? order.subtotal).toLocaleString()}
+              </span>
             </div>
+            {order.discountAmount && order.discountAmount > 0 ? (
+              <div className="flex justify-between text-cocoa">
+                <span>24-Hour Edit (25% Off)</span>
+                <span className="font-mono tabular-nums font-semibold">
+                  -₦{order.discountAmount.toLocaleString()}
+                </span>
+              </div>
+            ) : null}
             <div className="flex justify-between text-muted-taupe">
-              <span>Delivery</span>
+              <span>{order.discountAmount ? 'Delivery (Excluded)' : 'Delivery'}</span>
               <span className="font-mono tabular-nums font-semibold text-ink-black">₦{order.deliveryFee.toLocaleString()}</span>
             </div>
             <div className="flex justify-between border-t border-cocoa/30 pt-2 text-sm font-bold">

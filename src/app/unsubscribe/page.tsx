@@ -1,11 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, MailX } from 'lucide-react';
 
 export default function UnsubscribePage() {
   const [email, setEmail] = useState('');
+
+  useEffect(() => {
+    const paramEmail = new URLSearchParams(window.location.search).get('email');
+    if (paramEmail) {
+      setEmail(paramEmail);
+    }
+  }, []);
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 

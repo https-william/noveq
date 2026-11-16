@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
-import { saveSubscriber, getAllSubscribers, getSubscriberCount, deleteSubscriber, Subscriber } from '@/lib/subscribers';
-import { supabaseAdmin } from '@/lib/supabase';
+import {
+  saveSubscriber,
+  getAllSubscribersAsync,
+  deleteSubscriber,
+} from '@/lib/subscribers';
+import { sendSubscriberConfirmationEmail } from '@/services/emailService';
 
 export async function POST(request: Request) {
   try {
@@ -22,18 +26,32 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = saveSubscriber(email, source || 'homepage_waitlist', {
+    const cleanSource = (source || 'homepage_waitlist').trim();
+    const result = await saveSubscriber(email, cleanSource, {
       name,
       campaignState,
-      tags: ['vip_waitlist', source || 'direct_signup'],
+      tags: ['vip_waitlist', cleanSource],
     });
+
+    // Send a branded confirmation letter for new signups or new campaign/restock requests
+    let emailSent = false;
+    if ((result.isNew || result.isNewIntent) && cleanSource !== 'checkout') {
+      const dispatch = await sendSubscriberConfirmationEmail({
+        email,
+        source: cleanSource,
+        name,
+      });
+      emailSent = dispatch.sent;
+    }
 
     return NextResponse.json({
       success: true,
       isNew: result.isNew,
+      emailSent,
+      syncedToCloud: result.syncedToCloud,
       message: result.isNew
-        ? 'Thank you for subscribing. You will receive private drop releases and updates.'
-        : 'Welcome back. Your subscription is active.',
+        ? 'You are on the list. Check your inbox for a note from NOVEQ.'
+        : 'Welcome back. Your preferences are up to date.',
     });
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -47,44 +65,20 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    // 1. Fetch from Supabase first
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      const { data: supaSubs, error } = await supabaseAdmin
-        .from('subscribers')
-        .select('*')
-        .order('subscribed_at', { ascending: false });
-
-      if (!error && supaSubs && supaSubs.length > 0) {
-        const mapped: Subscriber[] = supaSubs.map((s) => ({
-          id: s.id || `SUB_${s.email}`,
-          email: s.email,
-          name: s.name || undefined,
-          source: s.source || 'website',
-          campaignState: s.campaign_state || undefined,
-          subscribedAt: s.subscribed_at,
-          tags: Array.isArray(s.tags) ? s.tags : [],
-        }));
-
-        return NextResponse.json({
-          subscribers: mapped,
-          total: mapped.length,
-          source: 'supabase',
-        });
-      }
-    }
+    const subscribers = await getAllSubscribersAsync();
+    return NextResponse.json({
+      subscribers,
+      total: subscribers.length,
+      source: 'merged_cloud_and_local',
+    });
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.warn('Supabase subscribers fetch fallback:', err);
+    console.warn('Subscribers fetch warning:', err);
+    return NextResponse.json(
+      { subscribers: [], total: 0, source: 'error' },
+      { status: 500 }
+    );
   }
-
-  // 2. Fallback to local store
-  const subscribers = getAllSubscribers();
-  const total = getSubscriberCount();
-  return NextResponse.json({
-    subscribers,
-    total,
-    source: 'local',
-  });
 }
 
 export async function DELETE(request: Request) {
@@ -99,7 +93,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const removed = deleteSubscriber(email);
+    const removed = await deleteSubscriber(email);
     if (!removed) {
       return NextResponse.json(
         { success: false, error: 'Subscriber not found or already deleted.' },
@@ -109,8 +103,8 @@ export async function DELETE(request: Request) {
 
     return NextResponse.json({ success: true, removedEmail: email });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Failed to delete subscriber';
+    const message =
+      err instanceof Error ? err.message : 'Failed to delete subscriber';
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
-

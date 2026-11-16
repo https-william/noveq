@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Product } from '@/types/commerce';
+import { useBlackFriday } from '@/hooks/useBlackFriday';
 
 interface ProductCardProps {
   product: Product;
@@ -10,6 +11,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
+  const { phase, isLive, isPreview, getUnitPrice } = useBlackFriday();
   const primaryImage = product.images[0] || {
     src: '/images/products/the-twist.jpg',
     alt: product.name,
@@ -21,18 +23,24 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
     product.sizes.every((s) => !s.available);
   const isLowStock = !isRestocking && product.stock > 0 && product.stock <= 3;
 
-  const formattedPrice = new Intl.NumberFormat('en-NG', {
-    style: 'currency',
-    currency: product.currency,
-    maximumFractionDigits: 0,
-  }).format(product.price);
+  const bfUnitPrice = getUnitPrice(product.price);
+  const displayPrice = isLive ? bfUnitPrice : product.price;
 
-  const formattedComparePrice = product.compare_at_price
-    ? new Intl.NumberFormat('en-NG', {
-        style: 'currency',
-        currency: product.currency,
-        maximumFractionDigits: 0,
-      }).format(product.compare_at_price)
+  const formatNaira = (amount: number) =>
+    new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: product.currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+
+  const formattedPrice = formatNaira(displayPrice);
+  const formattedRegularPrice = formatNaira(product.price);
+  const formattedBfUpcomingPrice = formatNaira(bfUnitPrice);
+
+  const formattedComparePrice = isLive
+    ? formattedRegularPrice
+    : product.compare_at_price
+    ? formatNaira(product.compare_at_price)
     : null;
 
   return (
@@ -56,6 +64,11 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           {isRestocking && (
             <span className="absolute top-3.5 left-3.5 px-3 py-1 bg-warm-white/95 border border-cocoa/25 rounded-full text-[10px] uppercase tracking-[0.18em] text-espresso font-medium shadow-xs">
               Restocking Soon
+            </span>
+          )}
+          {!isRestocking && isLive && (
+            <span className="absolute top-3.5 right-3.5 px-2.5 py-1 bg-[#111111]/95 border border-[#b89b72]/50 rounded-full text-[10px] uppercase tracking-[0.16em] text-[#b89b72] font-semibold shadow-xs">
+              25% Off{isPreview ? ' · Preview' : ''}
             </span>
           )}
         </div>
@@ -83,6 +96,18 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
                 </span>
               )}
             </div>
+
+            {!isRestocking && isLive && (
+              <p className="text-[11px] uppercase tracking-[0.14em] text-cocoa font-medium">
+                24-Hour Edit · Excludes delivery
+              </p>
+            )}
+
+            {!isRestocking && !isLive && phase === 'upcoming' && (
+              <p className="text-[11px] text-cocoa font-medium">
+                Nov 27 price: {formattedBfUpcomingPrice} (25% off pair)
+              </p>
+            )}
 
             {isRestocking ? (
               <p className="font-editorial italic text-sm text-muted-taupe">
