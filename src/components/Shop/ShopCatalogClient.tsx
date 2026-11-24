@@ -32,7 +32,7 @@ function ShopCatalogInner({
   const [products, setProducts] = useState<Product[]>(
     initialProducts && initialProducts.length > 0 ? initialProducts : DROP_001_PRODUCTS
   );
-  const { phase, isLive, isPreview, mounted, countdown } = useBlackFriday();
+  const { phase, isLive, isPreview } = useBlackFriday();
 
   useEffect(() => {
     fetch('/api/products')
@@ -170,45 +170,34 @@ function ShopCatalogInner({
         </div>
       )}
 
-      {/* Nov 27 · 24-Hour Edit Quiet Catalog Notice */}
+      {/* Quiet Seasonal Edit Notice */}
       {(phase !== 'ended' || isPreview) && (
-        <div className="mt-6 p-4 sm:px-6 sm:py-4 bg-[#111111] text-[#f4f3ef] rounded-xl border border-[#b89b72]/35 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="space-y-0.5">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-[#b89b72] font-semibold">
-                {isLive ? 'Live Today · Nov 27' : 'Friday, November 27 · 24 Hours'}
+        <div className="mt-6 px-5 py-3.5 bg-warm-white border border-cocoa/12 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs">
+            <span className="font-medium text-ink-black">
+              {isLive ? 'November 27 · The 24-Hour Edit' : 'Friday, November 27 · The 24-Hour Edit'}
+            </span>
+            {isPreview && (
+              <span className="px-2 py-0.5 rounded-full bg-bone border border-cocoa/15 text-cocoa text-[10px] font-medium">
+                Preview
               </span>
-              {isPreview && (
-                <span className="px-1.5 py-0.5 rounded bg-[#b89b72]/20 border border-[#b89b72]/40 text-[#b89b72] text-[9px] uppercase tracking-[0.12em]">
-                  Preview
-                </span>
-              )}
-            </div>
-            <p className="text-xs sm:text-sm text-[#cecbbe]">
+            )}
+            <span className="text-muted-taupe">
               {isLive
-                ? '25% off all pairs is active automatically at checkout. Courier delivery fees remain at standard zone rates.'
-                : 'Every available pair will be 25% off for 24 hours on November 27. Delivery fees are excluded and stay standard.'}
-            </p>
+                ? '25% off all pairs applies automatically at checkout; courier delivery rates stay standard.'
+                : '25% off all pairs for 24 hours on Nov 27; standard delivery rates apply.'}
+            </span>
           </div>
-          <div className="flex items-center gap-4 shrink-0">
-            {mounted && (
-              <span className="font-mono tabular-nums text-xs text-[#b89b72]">
-                {isLive
-                  ? `Ends in ${countdown.hours}:${countdown.minutes}:${countdown.seconds}`
-                  : `${countdown.days}d ${countdown.hours}h ${countdown.minutes}m`}
-              </span>
-            )}
-            {!isLive && (
-              <button
-                type="button"
-                onClick={downloadBlackFridayCalendarInvite}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[#b89b72]/40 text-[10px] uppercase tracking-[0.16em] text-[#f4f3ef] hover:bg-[#b89b72] hover:text-[#111111] transition-colors"
-              >
-                <CalendarPlus className="w-3.5 h-3.5" aria-hidden="true" />
-                <span>Add Date</span>
-              </button>
-            )}
-          </div>
+          {!isLive && (
+            <button
+              type="button"
+              onClick={downloadBlackFridayCalendarInvite}
+              className="press-tactile inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-bone hover:bg-ink-black hover:text-warm-white border border-cocoa/15 text-[11px] font-medium text-ink-black transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] shrink-0 cursor-pointer"
+            >
+              <CalendarPlus className="w-3.5 h-3.5" aria-hidden="true" />
+              <span>Save Date</span>
+            </button>
+          )}
         </div>
       )}
 

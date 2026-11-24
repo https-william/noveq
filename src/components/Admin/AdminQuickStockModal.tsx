@@ -46,14 +46,14 @@ export function AdminQuickStockModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-ink-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-warm-white border border-cocoa/30 max-w-lg w-full rounded-2xl shadow-2xl overflow-hidden my-8">
-        <div className="p-4 sm:p-5 border-b border-cocoa/15 bg-bone/70 flex items-center justify-between">
+    <div className="fixed inset-0 z-50 bg-ink-black/55 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-warm-white border border-cocoa/15 max-w-lg w-full rounded-2xl shadow-[0_24px_64px_-16px_rgba(42,27,21,0.22)] overflow-hidden my-8">
+        <div className="p-4 sm:p-5 border-b border-cocoa/12 bg-bone/50 flex items-center justify-between">
           <div>
-            <span className="text-[10px] uppercase tracking-[0.16em] font-semibold text-cocoa block">
-              Stock &amp; Price
+            <span className="text-[11px] font-medium text-cocoa block">
+              Stock &amp; Pricing
             </span>
-            <h3 className="font-editorial text-xl font-normal text-ink-black truncate">
+            <h3 className="font-editorial text-2xl font-normal text-ink-black truncate">
               {product.name}
             </h3>
           </div>
@@ -61,16 +61,16 @@ export function AdminQuickStockModal({
             type="button"
             onClick={onClose}
             aria-label="Close stock editor"
-            className="p-1 hover:bg-cocoa/10 rounded-full min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
+            className="press-tactile p-1.5 hover:bg-cocoa/10 rounded-full min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
           >
-            <X className="w-5 h-5 text-ink-black" />
+            <X className="w-4 h-4 text-ink-black" />
           </button>
         </div>
 
         <form onSubmit={onSave} className="p-5 sm:p-6 space-y-4 text-xs">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-[10px] uppercase font-bold text-cocoa mb-1">
+              <label className="block text-xs font-medium text-espresso mb-1.5">
                 Regular Price (₦)
               </label>
               <input
@@ -82,12 +82,12 @@ export function AdminQuickStockModal({
                 onChange={(e) =>
                   onChangeProduct({ ...product, price: Number(e.target.value) })
                 }
-                className="w-full px-3.5 py-2.5 bg-bone/60 border border-cocoa/30 rounded-xl font-mono font-bold text-ink-black text-sm min-h-[44px]"
+                className="w-full px-3.5 py-2.5 bg-bone/50 border border-cocoa/18 rounded-xl font-mono font-medium text-ink-black text-sm min-h-[44px] focus:outline-none focus:border-ink-black"
               />
             </div>
 
             <div>
-              <label className="block text-[10px] uppercase font-bold text-cocoa mb-1">
+              <label className="block text-xs font-medium text-espresso mb-1.5">
                 Total Pairs Left
               </label>
               <input
@@ -98,14 +98,14 @@ export function AdminQuickStockModal({
                 onChange={(e) =>
                   onChangeProduct({ ...product, stock: Number(e.target.value) })
                 }
-                className="w-full px-3.5 py-2.5 bg-bone/60 border border-cocoa/30 rounded-xl font-mono font-bold text-ink-black text-sm min-h-[44px]"
+                className="w-full px-3.5 py-2.5 bg-bone/50 border border-cocoa/18 rounded-xl font-mono font-medium text-ink-black text-sm min-h-[44px] focus:outline-none focus:border-ink-black"
               />
             </div>
           </div>
 
-          <div className="space-y-2.5 pt-2 border-t border-cocoa/15">
+          <div className="space-y-2.5 pt-2 border-t border-cocoa/12">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <label className="block text-[10px] uppercase font-bold text-cocoa">
+              <label className="block text-xs font-medium text-espresso">
                 Pairs Per Size (EU 34–44)
               </label>
               {hasMissingWorldwideSizes && (
@@ -161,18 +161,18 @@ export function AdminQuickStockModal({
             </div>
           </div>
 
-          <div className="flex gap-3 pt-3 border-t border-cocoa/15">
+          <div className="flex gap-3 pt-3 border-t border-cocoa/12">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-bone transition-colors min-h-[44px] cursor-pointer"
+              className="press-tactile flex-1 py-2.5 bg-warm-white border border-cocoa/18 text-ink-black text-xs font-medium rounded-full hover:bg-bone transition-colors min-h-[42px] cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSaving}
-              className="flex-1 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-wider font-bold rounded-full hover:bg-espresso transition-colors disabled:opacity-50 min-h-[44px] cursor-pointer"
+              className="press-tactile flex-1 py-2.5 bg-ink-black text-warm-white text-xs font-medium rounded-full hover:bg-espresso transition-colors disabled:opacity-50 min-h-[42px] cursor-pointer"
             >
               {isSaving ? 'Saving...' : 'Save Stock & Price'}
             </button>

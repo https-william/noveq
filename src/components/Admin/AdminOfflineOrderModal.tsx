@@ -379,7 +379,7 @@ export function AdminOfflineOrderModal({
             </div>
 
             {/* Nov 27 Discount Toggle */}
-            <label className="flex items-center gap-2.5 p-3 rounded-xl bg-[#111111] text-[#f4f3ef] border border-[#b89b72]/35 cursor-pointer">
+            <label className="flex items-center gap-2.5 p-3.5 rounded-xl bg-bone/65 text-ink-black border border-cocoa/18 cursor-pointer">
               <input
                 type="checkbox"
                 checked={form.applyBlackFridayDiscount}
@@ -392,15 +392,15 @@ export function AdminOfflineOrderModal({
                     total: calculateTotal(unitPrice, form.quantity, checked),
                   });
                 }}
-                className="w-4 h-4 accent-[#b89b72]"
+                className="w-4 h-4 accent-espresso"
               />
               <span className="text-xs">
-                Apply <strong className="text-[#b89b72]">Nov 27 · 25% off</strong> pair pricing
+                Apply <strong className="font-medium text-espresso">Nov 27 · 25% off</strong> pair pricing
               </span>
             </label>
 
             <div>
-              <label className="block text-[10px] uppercase font-bold text-cocoa mb-1">
+              <label className="block text-xs font-medium text-espresso mb-1.5">
                 Courier Note (Optional)
               </label>
               <input
@@ -410,21 +410,21 @@ export function AdminOfflineOrderModal({
                 onChange={(e) =>
                   onChangeForm({ ...form, deliveryNotes: e.target.value })
                 }
-                className="w-full px-3.5 py-2.5 bg-bone/60 border border-cocoa/30 rounded-xl text-ink-black font-medium min-h-[44px]"
+                className="w-full px-3.5 py-2.5 bg-bone/50 border border-cocoa/18 rounded-xl text-ink-black font-medium min-h-[44px]"
               />
             </div>
 
-            <div className="flex gap-3 pt-3 border-t border-cocoa/15">
+            <div className="flex gap-3 pt-3 border-t border-cocoa/12">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-3 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-bone transition-colors min-h-[44px] cursor-pointer"
+                className="press-tactile flex-1 py-2.5 bg-warm-white border border-cocoa/18 text-ink-black text-xs font-medium rounded-full hover:bg-bone transition-colors min-h-[42px] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-wider font-bold rounded-full hover:bg-espresso transition-colors shadow-xs min-h-[44px] cursor-pointer"
+                className="press-tactile flex-1 py-2.5 bg-ink-black text-warm-white text-xs font-medium rounded-full hover:bg-espresso transition-colors min-h-[42px] cursor-pointer"
               >
                 Review &amp; Save
               </button>

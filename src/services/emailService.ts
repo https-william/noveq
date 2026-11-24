@@ -983,3 +983,220 @@ export async function sendBlackFridayCampaignEmail(
     results,
   };
 }
+
+function escapeEmailHtml(raw: string): string {
+  return raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/**
+ * Branded Custom Note Composer for Admin Bot Studio & Telegram /email commands.
+ * Uses the /taste-soft Double-Bezel obsidian plaque aesthetic, /clarity copy,
+ * and automatic List-Unsubscribe + Lagos studio compliance footer.
+ */
+export function buildCustomBrandNoteEmail(params: {
+  recipientEmail: string;
+  subject: string;
+  heading?: string;
+  body: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
+}): { subject: string; html: string } {
+  const cleanEmail = params.recipientEmail.trim().toLowerCase();
+  const logoSrc = `${SITE_URL}/images/brand/noveq-logo.jpg`;
+  const cleanPhone = SITE_SETTINGS.supportContact.phone;
+  const unsubscribeUrl = `${SITE_URL}/unsubscribe?email=${encodeURIComponent(cleanEmail)}`;
+
+  const safeHeading = escapeEmailHtml(
+    params.heading?.trim() || params.subject.trim()
+  );
+  const paragraphsHtml = params.body
+    .trim()
+    .split(/\n{2,}/)
+    .map(
+      (p) =>
+        `<p style="font-size: 15px; line-height: 1.75; color: #CFC7BA; margin: 0 0 14px 0;">${escapeEmailHtml(
+          p.trim()
+        ).replace(/\n/g, '<br />')}</p>`
+    )
+    .join('');
+
+  const ctaLabel = params.ctaLabel?.trim();
+  const ctaUrl = params.ctaUrl?.trim();
+  const serifStack = `'Instrument Serif', Georgia, 'Times New Roman', serif`;
+  const sansStack = `'Plus Jakarta Sans', 'Geist', -apple-system, BlinkMacSystemFont, 'SF Pro Text', Georgia, serif`;
+
+  const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>${escapeEmailHtml(params.subject)}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin: 0; padding: 0; background-color: #F3EFE7; font-family: ${sansStack}; color: #FAF7F0; -webkit-font-smoothing: antialiased;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F3EFE7; padding: 48px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 504px; background-color: #201D19; border: 1px solid #352F27; border-radius: 28px; box-shadow: 0 24px 56px rgba(24, 20, 16, 0.14);">
+          <tr>
+            <td style="padding: 8px;">
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #111111; border: 1px solid #2C2721; border-radius: 20px;">
+                <tr>
+                  <td style="padding: 32px 36px 18px 36px;">
+                    <a href="${SITE_URL}" style="text-decoration: none; display: inline-block;">
+                      <img src="${logoSrc}" alt="NOVEQ" width="90" height="90" style="display: block; width: 90px; height: 90px; border: 0; border-radius: 12px;" />
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 36px 0 36px;">
+                    <h1 style="font-family: ${serifStack}; font-size: 28px; font-weight: 400; color: #FAF7F0; margin: 0; line-height: 1.2;">
+                      ${safeHeading}
+                    </h1>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 20px 36px 0 36px;">
+                    ${paragraphsHtml}
+                  </td>
+                </tr>
+                ${
+                  ctaLabel && ctaUrl
+                    ? `
+                <tr>
+                  <td style="padding: 18px 36px 0 36px;">
+                    <table role="presentation" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td style="background-color: #FAF7F0; border-radius: 999px;">
+                          <a href="${escapeEmailHtml(ctaUrl)}" style="display: inline-block; padding: 12px 24px; font-size: 13px; font-weight: 600; color: #111111; text-decoration: none;">
+                            ${escapeEmailHtml(ctaLabel)} &#8599;
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>`
+                    : ''
+                }
+                <tr>
+                  <td style="padding: 26px 36px 34px 36px;">
+                    <p style="font-size: 13px; line-height: 1.7; color: #9E9589; margin: 0 0 16px 0;">
+                      Questions? Reply directly to this email or write us on <a href="https://wa.me/${cleanPhone}" style="color: #C9A97A; text-decoration: underline;">WhatsApp</a>.
+                    </p>
+                    <p style="font-family: ${serifStack}; font-size: 16px; color: #FAF7F0; margin: 0;">
+                      The NOVEQ Team
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-top: 1px solid #221E1A; padding: 20px 36px 24px 36px; font-size: 11px; line-height: 1.8; color: #787066;">
+                    NOVEQ &middot; Handcrafted in Lagos, Nigeria &middot; <a href="${SITE_URL}" style="color: #9E9589; text-decoration: none;">noveq.com.ng</a><br />
+                    <a href="${unsubscribeUrl}" style="color: #C9A97A; text-decoration: underline;">Unsubscribe</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+
+  return { subject: params.subject.trim(), html };
+}
+
+export async function sendCustomBrandEmails(params: {
+  recipients: string[];
+  subject: string;
+  heading?: string;
+  body: string;
+  ctaLabel?: string;
+  ctaUrl?: string;
+}): Promise<{
+  total: number;
+  sent: number;
+  skippedPlaceholders: number;
+  failed: number;
+  results: Array<{ email: string; ok: boolean; error?: string }>;
+}> {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (!resendApiKey) {
+    throw new Error('RESEND_API_KEY is not configured.');
+  }
+
+  let skippedPlaceholders = 0;
+  const cleanTargets: string[] = [];
+  const seen = new Set<string>();
+
+  for (const raw of params.recipients) {
+    const clean = raw.trim().toLowerCase();
+    if (!clean.includes('@') || seen.has(clean)) continue;
+    seen.add(clean);
+    if (clean.endsWith('@client.noveq.com.ng')) {
+      skippedPlaceholders += 1;
+      continue;
+    }
+    cleanTargets.push(clean);
+  }
+
+  const results: Array<{ email: string; ok: boolean; error?: string }> = [];
+
+  for (const cleanEmail of cleanTargets) {
+    const { subject, html } = buildCustomBrandNoteEmail({
+      recipientEmail: cleanEmail,
+      subject: params.subject,
+      heading: params.heading,
+      body: params.body,
+      ctaLabel: params.ctaLabel,
+      ctaUrl: params.ctaUrl,
+    });
+    const unsubscribeUrl = `${SITE_URL}/unsubscribe?email=${encodeURIComponent(cleanEmail)}`;
+
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${resendApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'NOVEQ <hello@noveq.com.ng>',
+          reply_to: BRAND_EMAIL,
+          to: [cleanEmail],
+          subject,
+          html,
+          headers: {
+            'List-Unsubscribe': `<${unsubscribeUrl}>`,
+          },
+        }),
+      });
+
+      if (!res.ok) {
+        results.push({ email: cleanEmail, ok: false, error: await res.text() });
+      } else {
+        results.push({ email: cleanEmail, ok: true });
+      }
+    } catch (err) {
+      results.push({
+        email: cleanEmail,
+        ok: false,
+        error: err instanceof Error ? err.message : 'Request failed',
+      });
+    }
+  }
+
+  return {
+    total: cleanTargets.length,
+    sent: results.filter((r) => r.ok).length,
+    skippedPlaceholders,
+    failed: results.filter((r) => !r.ok).length,
+    results,
+  };
+}

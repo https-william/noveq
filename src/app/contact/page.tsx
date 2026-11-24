@@ -51,15 +51,17 @@ export default function ContactPage() {
       </div>
 
       {/* Primary Channels (Derived from SITE_SETTINGS single source of truth) */}
-      <div className="pt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="pt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* WhatsApp Channel */}
-        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/20 rounded-2xl flex flex-col justify-between shadow-xs hover:shadow-apple-sm transition-shadow">
+        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/12 hover:border-cocoa/25 rounded-2xl flex flex-col justify-between transition-[border-color,background-color] duration-[220ms] ease-[cubic-bezier(0.23,1,0.32,1)]">
           <div>
-            <MessageCircle className="w-5 h-5 text-espresso mb-3" />
-            <h2 className="text-sm font-bold text-ink-black uppercase tracking-wider mb-1">
-              WhatsApp Support
+            <div className="w-9 h-9 rounded-full bg-bone border border-cocoa/12 flex items-center justify-center mb-5">
+              <MessageCircle className="w-4 h-4 text-espresso" />
+            </div>
+            <h2 className="font-editorial text-2xl font-normal text-ink-black mb-1.5">
+              WhatsApp Studio
             </h2>
-            <p className="text-xs text-muted-taupe mb-4 leading-relaxed">
+            <p className="text-xs text-muted-taupe mb-6 leading-relaxed">
               Direct chat for sizing consultations, leather close-ups, and dispatch tracking.
             </p>
           </div>
@@ -69,7 +71,7 @@ export default function ContactPage() {
               target="_blank"
               rel="noopener noreferrer"
               placement="contact_page"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-cocoa hover:text-ink-black underline underline-offset-4 focus-dark"
+              className="press-tactile inline-flex items-center gap-2 px-4 py-2 rounded-full bg-bone hover:bg-ink-black hover:text-warm-white border border-cocoa/15 text-xs font-medium text-ink-black transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] focus-dark"
             >
               <span>Message on WhatsApp</span>
             </WhatsAppLink>
@@ -77,20 +79,22 @@ export default function ContactPage() {
         </div>
 
         {/* Email Channel */}
-        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/20 rounded-2xl flex flex-col justify-between shadow-xs hover:shadow-apple-sm transition-shadow">
+        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/12 hover:border-cocoa/25 rounded-2xl flex flex-col justify-between transition-[border-color,background-color] duration-[220ms] ease-[cubic-bezier(0.23,1,0.32,1)]">
           <div>
-            <Mail className="w-5 h-5 text-espresso mb-3" />
-            <h2 className="text-sm font-bold text-ink-black uppercase tracking-wider mb-1">
+            <div className="w-9 h-9 rounded-full bg-bone border border-cocoa/12 flex items-center justify-center mb-5">
+              <Mail className="w-4 h-4 text-espresso" />
+            </div>
+            <h2 className="font-editorial text-2xl font-normal text-ink-black mb-1.5">
               Direct Email
             </h2>
-            <p className="text-xs text-muted-taupe mb-4 leading-relaxed">
-              Written inquiries, order changes, and formal press requests.
+            <p className="text-xs text-muted-taupe mb-6 leading-relaxed">
+              Written inquiries, order updates, and formal press or stockist requests.
             </p>
           </div>
           <div>
             <a
               href={`mailto:${supportContact.email}`}
-              className="text-xs font-semibold text-espresso hover:underline focus-dark block truncate"
+              className="press-tactile inline-flex items-center px-4 py-2 rounded-full bg-bone hover:bg-ink-black hover:text-warm-white border border-cocoa/15 text-xs font-medium text-ink-black transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] focus-dark truncate max-w-full"
             >
               {supportContact.email}
             </a>
@@ -98,14 +102,16 @@ export default function ContactPage() {
         </div>
 
         {/* Instagram Channel */}
-        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/20 rounded-2xl flex flex-col justify-between shadow-xs hover:shadow-apple-sm transition-shadow">
+        <div className="p-6 sm:p-8 bg-warm-white border border-cocoa/12 hover:border-cocoa/25 rounded-2xl flex flex-col justify-between transition-[border-color,background-color] duration-[220ms] ease-[cubic-bezier(0.23,1,0.32,1)]">
           <div>
-            <InstagramIcon className="w-5 h-5 text-espresso mb-3" />
-            <h2 className="text-sm font-bold text-ink-black uppercase tracking-wider mb-1">
-              Community & Visuals
+            <div className="w-9 h-9 rounded-full bg-bone border border-cocoa/12 flex items-center justify-center mb-5">
+              <InstagramIcon className="w-4 h-4 text-espresso" />
+            </div>
+            <h2 className="font-editorial text-2xl font-normal text-ink-black mb-1.5">
+              Community &amp; Visuals
             </h2>
-            <p className="text-xs text-muted-taupe mb-4 leading-relaxed">
-              Campaign previews, behind-the-scenes craft stories, and drop announcements.
+            <p className="text-xs text-muted-taupe mb-6 leading-relaxed">
+              Campaign previews, studio craft notes, and Drop 001 release notices.
             </p>
           </div>
           <div>
@@ -114,7 +120,7 @@ export default function ContactPage() {
               target="_blank"
               rel="noopener noreferrer"
               placement="contact_page"
-              className="text-xs font-semibold text-espresso hover:underline focus-dark"
+              className="press-tactile inline-flex items-center px-4 py-2 rounded-full bg-bone hover:bg-ink-black hover:text-warm-white border border-cocoa/15 text-xs font-medium text-ink-black transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] focus-dark"
             >
               {socialLinks.instagramHandle}
             </InstagramLink>
@@ -123,19 +129,21 @@ export default function ContactPage() {
       </div>
 
       {/* Operating Hours & Dispatch Notice */}
-      <div className="mt-8 p-6 bg-bone/70 border border-cocoa/25 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-ink-black/85 shadow-xs">
-        <div className="flex items-center gap-3">
-          <Clock className="w-5 h-5 text-cocoa shrink-0" />
+      <div className="mt-6 p-5 sm:p-6 bg-warm-white border border-cocoa/12 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-ink-black/85">
+        <div className="flex items-center gap-3.5">
+          <div className="w-8 h-8 rounded-full bg-bone border border-cocoa/12 flex items-center justify-center shrink-0">
+            <Clock className="w-4 h-4 text-cocoa" />
+          </div>
           <div>
-            <span className="font-bold uppercase tracking-wider block text-[11px] text-cocoa mb-0.5">
-              Operating Hours
+            <span className="font-medium block text-[11px] text-cocoa mb-0.5">
+              Studio Operating Hours
             </span>
             <span>{supportContact.operatingHours}</span>
           </div>
         </div>
         <div className="flex items-center gap-2 text-muted-taupe text-[11px]">
-          <ShieldCheck className="w-4 h-4 text-cocoa" />
-          <span>Responses typically provided within 2 business hours.</span>
+          <ShieldCheck className="w-4 h-4 text-cocoa shrink-0" />
+          <span>Replies typically sent within 2 business hours.</span>
         </div>
       </div>
     </div>

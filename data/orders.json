@@ -2,7 +2,7 @@
   {
     "id": "NVQ-2026-18217",
     "createdAt": "2026-10-24T21:35:42.000Z",
-    "status": "paid",
+    "status": "delivered",
     "customer": {
       "fullName": "Desire Aigbe",
       "phone": "+2348163221852",
@@ -91,7 +91,7 @@
   {
     "id": "ORD-006",
     "createdAt": "2026-10-12T18:30:00.000Z",
-    "status": "paid",
+    "status": "delivered",
     "customer": {
       "fullName": "Glory Johnson",
       "phone": "+2349071097324",

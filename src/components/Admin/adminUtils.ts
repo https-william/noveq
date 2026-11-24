@@ -7,7 +7,8 @@ export type AdminTab =
   | 'dashboard'
   | 'customers'
   | 'subscribers'
-  | 'sheets';
+  | 'sheets'
+  | 'bot';
 
 export type SheetsSubTab = 'orders' | 'pnl' | 'summary' | 'sync';
 

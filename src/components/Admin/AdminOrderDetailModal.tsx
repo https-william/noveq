@@ -22,14 +22,14 @@ export function AdminOrderDetailModal({
   onClose,
 }: AdminOrderDetailModalProps) {
   return (
-    <div className="fixed inset-0 z-50 bg-ink-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-warm-white border border-cocoa/30 max-w-xl w-full rounded-2xl shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
-        <div className="p-4 sm:p-5 border-b border-cocoa/15 bg-bone/70 flex items-center justify-between">
+    <div className="fixed inset-0 z-50 bg-ink-black/55 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-warm-white border border-cocoa/15 max-w-xl w-full rounded-2xl shadow-[0_24px_64px_-16px_rgba(42,27,21,0.22)] overflow-hidden my-8 animate-in fade-in zoom-in-95 duration-200">
+        <div className="p-4 sm:p-5 border-b border-cocoa/12 bg-bone/50 flex items-center justify-between">
           <div>
-            <span className="text-[10px] uppercase font-semibold tracking-[0.18em] text-cocoa block">
+            <span className="text-[11px] font-medium text-cocoa block">
               Order Record
             </span>
-            <h3 className="text-xl font-bold font-mono text-ink-black">
+            <h3 className="text-xl font-medium font-mono text-ink-black">
               {order.id}
             </h3>
           </div>
@@ -37,15 +37,15 @@ export function AdminOrderDetailModal({
             type="button"
             onClick={onClose}
             aria-label="Close order details"
-            className="p-1.5 hover:bg-cocoa/10 rounded-full text-ink-black min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
+            className="press-tactile p-1.5 hover:bg-cocoa/10 rounded-full text-ink-black min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         <div className="p-5 sm:p-6 space-y-5 text-xs">
-          <div className="p-4 bg-bone/60 border border-cocoa/15 rounded-xl space-y-1">
-            <div className="text-[10px] uppercase tracking-[0.16em] font-bold text-cocoa">
+          <div className="p-4 bg-bone/50 border border-cocoa/12 rounded-xl space-y-1">
+            <div className="text-[11px] font-medium text-cocoa">
               Buyer &amp; Delivery Address
             </div>
             <div className="text-sm font-semibold text-ink-black">
@@ -161,11 +161,11 @@ export function AdminOrderDetailModal({
           </div>
         </div>
 
-        <div className="p-4 border-t border-cocoa/15 bg-bone/60 flex items-center justify-between">
+        <div className="p-4 border-t border-cocoa/12 bg-bone/45 flex items-center justify-between">
           <button
             type="button"
             onClick={() => onRequestDelete(order)}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-warm-white border border-oxblood/30 text-oxblood text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-oxblood/10 transition-colors min-h-[44px] cursor-pointer"
+            className="press-tactile inline-flex items-center gap-1.5 px-4 py-2 bg-warm-white border border-oxblood/20 text-oxblood text-xs font-medium rounded-full hover:bg-oxblood/10 transition-colors min-h-[40px] cursor-pointer"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Remove Order</span>
@@ -174,7 +174,7 @@ export function AdminOrderDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-2.5 bg-ink-black text-warm-white text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-espresso transition-colors min-h-[44px] cursor-pointer"
+            className="press-tactile px-6 py-2 bg-ink-black text-warm-white text-xs font-medium rounded-full hover:bg-espresso transition-colors min-h-[40px] cursor-pointer"
           >
             Close
           </button>

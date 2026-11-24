@@ -7,6 +7,7 @@ import Footer from '@/components/Footer/Footer';
 import LegacyFallbackBanner from '@/components/LegacyFallbackBanner';
 import { MaisonTransitionShell } from '@/components/ui/MaisonTransitionShell';
 import { BlackFridayRibbon } from '@/components/BlackFriday/BlackFridayRibbon';
+import { StorefrontChrome } from '@/components/Layout/StorefrontChrome';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -226,19 +227,13 @@ export default function RootLayout({
             Skip to main content
           </a>
 
-          {/* November 27 · The 24-Hour Edit Announcement Strip */}
-          <BlackFridayRibbon />
-
-          {/* Global Brand Shell: Sticky Header (Flush at viewport top) */}
-          <Header />
-
-          {/* Primary Page Canvas */}
-          <main id="main-content" className="flex-1 focus:outline-none">
+          <StorefrontChrome
+            ribbon={<BlackFridayRibbon />}
+            header={<Header />}
+            footer={<Footer />}
+          >
             {children}
-          </main>
-
-          {/* Global Brand Shell: Footer */}
-          <Footer />
+          </StorefrontChrome>
         </Providers>
       </body>
     </html>

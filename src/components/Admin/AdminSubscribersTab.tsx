@@ -93,9 +93,9 @@ export function AdminSubscribersTab({
   }, [subscribers, segment, searchQuery]);
 
   return (
-    <div className="bg-warm-white border border-cocoa/20 rounded-2xl shadow-apple-sm space-y-5 p-4 sm:p-6">
+    <div className="bg-warm-white border border-cocoa/12 rounded-2xl space-y-5 p-5 sm:p-6">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/12">
         <div>
           <h2 className="font-editorial text-2xl font-normal text-ink-black">
             Waitlists &amp; Subscribers
@@ -116,7 +116,7 @@ export function AdminSubscribersTab({
               placeholder="Search email or style..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-10 pr-3.5 py-2 text-xs bg-bone/60 border border-cocoa/30 rounded-full focus:outline-none focus:border-ink-black text-ink-black font-medium min-h-[40px]"
+              className="w-full pl-10 pr-3.5 py-2 text-xs bg-bone/50 border border-cocoa/18 rounded-full focus:outline-none focus:border-ink-black text-ink-black font-medium min-h-[40px]"
             />
           </div>
 
@@ -124,7 +124,7 @@ export function AdminSubscribersTab({
             type="button"
             disabled={filteredSubscribers.length === 0}
             onClick={() => onCopyFilteredEmails(filteredSubscribers)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-ink-black text-warm-white text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-espresso transition-colors min-h-[40px] cursor-pointer disabled:opacity-40"
+            className="press-tactile inline-flex items-center gap-1.5 px-4 py-2 bg-ink-black text-warm-white text-xs font-medium rounded-full hover:bg-espresso transition-colors min-h-[38px] cursor-pointer disabled:opacity-40"
           >
             {copiedAllEmails ? (
               <>
@@ -143,7 +143,7 @@ export function AdminSubscribersTab({
             type="button"
             disabled={filteredSubscribers.length === 0}
             onClick={() => onExportFilteredCSV(filteredSubscribers, segment)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-bone transition-colors min-h-[40px] cursor-pointer disabled:opacity-40"
+            className="press-tactile inline-flex items-center gap-1.5 px-4 py-2 bg-warm-white border border-cocoa/18 text-ink-black text-xs font-medium rounded-full hover:bg-bone transition-colors min-h-[38px] cursor-pointer disabled:opacity-40"
           >
             <Download className="w-3.5 h-3.5 text-cocoa" />
             <span>Export CSV</span>
@@ -178,10 +178,10 @@ export function AdminSubscribersTab({
                 key={pill.id}
                 type="button"
                 onClick={() => onSegmentChange(pill.id)}
-                className={`inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-full transition-colors cursor-pointer min-h-[38px] ${
+                className={`press-tactile inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-full transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] cursor-pointer min-h-[38px] ${
                   active
-                    ? 'bg-[#111111] text-[#b89b72] border border-[#b89b72]/50'
-                    : 'bg-bone/70 text-cocoa hover:text-ink-black border border-cocoa/20'
+                    ? 'bg-ink-black text-warm-white'
+                    : 'bg-bone/60 text-espresso hover:text-ink-black border border-cocoa/15'
                 }`}
               >
                 <span>{pill.label}</span>
@@ -224,11 +224,11 @@ export function AdminSubscribersTab({
             {filteredSubscribers.map((sub) => (
               <div
                 key={sub.id}
-                className="p-4 rounded-xl border border-cocoa/20 bg-bone/30 space-y-2.5 text-xs"
+                className="p-4 rounded-2xl border border-cocoa/12 bg-bone/30 space-y-2.5 text-xs"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <div className="font-mono font-semibold text-ink-black truncate">
+                    <div className="font-mono font-medium text-ink-black truncate">
                       {sub.email}
                     </div>
                     <div className="text-[11px] text-muted-taupe mt-0.5">
@@ -241,12 +241,12 @@ export function AdminSubscribersTab({
                     </div>
                   </div>
                   <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-medium shrink-0 ${
+                    className={`px-2.5 py-0.5 rounded-full text-[10px] font-medium shrink-0 ${
                       isNov27Subscriber(sub)
-                        ? 'bg-[#111111] text-[#b89b72]'
+                        ? 'bg-bone border border-cocoa/18 text-ink-black'
                         : isRestockSubscriber(sub)
-                        ? 'bg-amber-100 text-amber-900'
-                        : 'bg-bone text-espresso border border-cocoa/20'
+                        ? 'bg-amber-50 text-amber-900 border border-amber-200/80'
+                        : 'bg-bone text-espresso border border-cocoa/15'
                     }`}
                   >
                     {getSourceDisplayLabel(sub)}
@@ -257,7 +257,7 @@ export function AdminSubscribersTab({
                   <button
                     type="button"
                     onClick={() => onCopyEmail(sub.email, sub.id)}
-                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-espresso py-1 cursor-pointer"
+                    className="press-tactile inline-flex items-center gap-1 text-[11px] font-medium text-espresso py-1 cursor-pointer"
                   >
                     <Copy className="w-3 h-3" />
                     <span>{copiedId === sub.id ? 'Copied' : 'Copy Email'}</span>
@@ -265,7 +265,7 @@ export function AdminSubscribersTab({
                   <button
                     type="button"
                     onClick={() => onRequestDeleteSubscriber(sub)}
-                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-oxblood py-1 cursor-pointer"
+                    className="press-tactile inline-flex items-center gap-1 text-[11px] font-medium text-oxblood py-1 cursor-pointer"
                   >
                     <Trash2 className="w-3 h-3" />
                     <span>Remove</span>
@@ -276,10 +276,10 @@ export function AdminSubscribersTab({
           </div>
 
           {/* Desktop Table */}
-          <div className="hidden md:block overflow-x-auto border border-cocoa/15 rounded-xl">
+          <div className="hidden md:block overflow-x-auto border border-cocoa/12 rounded-2xl">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-cocoa/20 text-cocoa uppercase tracking-wider text-[10px] bg-bone/60">
+                <tr className="border-b border-cocoa/12 text-muted-taupe font-medium text-[11px] bg-bone/50">
                   <th className="p-3.5">Email</th>
                   <th className="p-3.5">Name</th>
                   <th className="p-3.5">List / Source</th>
@@ -287,10 +287,10 @@ export function AdminSubscribersTab({
                   <th className="p-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-cocoa/15">
+              <tbody className="divide-y divide-cocoa/12">
                 {filteredSubscribers.map((sub) => (
                   <tr key={sub.id} className="hover:bg-bone/30 transition-colors">
-                    <td className="p-3.5 font-mono font-semibold text-ink-black">
+                    <td className="p-3.5 font-mono font-medium text-ink-black">
                       {sub.email}
                     </td>
                     <td className="p-3.5 text-ink-black">
@@ -302,10 +302,10 @@ export function AdminSubscribersTab({
                       <span
                         className={`inline-block px-2.5 py-0.5 text-[10px] font-medium rounded-full ${
                           isNov27Subscriber(sub)
-                            ? 'bg-[#111111] text-[#b89b72]'
+                            ? 'bg-bone border border-cocoa/18 text-ink-black'
                             : isRestockSubscriber(sub)
-                            ? 'bg-amber-100 text-amber-900'
-                            : 'bg-espresso/10 text-espresso'
+                            ? 'bg-amber-50 text-amber-900 border border-amber-200/80'
+                            : 'bg-bone/70 text-espresso border border-cocoa/15'
                         }`}
                       >
                         {getSourceDisplayLabel(sub)}

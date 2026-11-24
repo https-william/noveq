@@ -71,9 +71,9 @@ export function AdminOrdersTab({
   onRequestDeleteOrder,
 }: AdminOrdersTabProps) {
   return (
-    <div className="bg-warm-white border border-cocoa/20 rounded-2xl shadow-apple-sm space-y-5 p-4 sm:p-6">
+    <div className="bg-warm-white border border-cocoa/12 rounded-2xl space-y-5 p-5 sm:p-6">
       {/* Header & Search */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-cocoa/12">
         <div>
           <h2 className="font-editorial text-2xl font-normal text-ink-black">
             Orders &amp; Delivery Queue
@@ -94,7 +94,7 @@ export function AdminOrdersTab({
             placeholder="Search order ID, name, phone, city..."
             value={searchQuery}
             onChange={(e) => onSearchQueryChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 text-xs bg-bone/60 border border-cocoa/30 rounded-full focus:outline-none focus:border-ink-black text-ink-black font-medium min-h-[42px]"
+            className="w-full pl-10 pr-4 py-2.5 text-xs bg-bone/50 border border-cocoa/18 rounded-full focus:outline-none focus:border-ink-black text-ink-black font-medium min-h-[40px]"
           />
         </div>
       </div>
@@ -119,10 +119,10 @@ export function AdminOrdersTab({
               key={tab.id}
               type="button"
               onClick={() => onFilterStatusChange(tab.id)}
-              className={`inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-full whitespace-nowrap transition-colors min-h-[40px] cursor-pointer ${
+              className={`press-tactile inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-full whitespace-nowrap transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[38px] cursor-pointer ${
                 isSelected
-                  ? 'bg-ink-black text-warm-white shadow-xs'
-                  : 'bg-bone/70 text-cocoa hover:text-ink-black hover:bg-bone border border-cocoa/20'
+                  ? 'bg-ink-black text-warm-white'
+                  : 'bg-bone/60 text-espresso hover:text-ink-black hover:bg-bone border border-cocoa/15'
               }`}
             >
               <span>{tab.label}</span>
@@ -193,10 +193,10 @@ export function AdminOrdersTab({
             return (
               <div
                 key={order.id}
-                className={`border rounded-xl transition-all overflow-hidden ${
+                className={`border rounded-2xl transition-[border-color,background-color] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden ${
                   isExpanded
-                    ? 'border-ink-black/40 bg-warm-white shadow-apple-sm'
-                    : 'border-cocoa/20 bg-bone/25 hover:bg-warm-white hover:border-cocoa/40'
+                    ? 'border-ink-black/30 bg-warm-white'
+                    : 'border-cocoa/12 bg-bone/25 hover:bg-warm-white hover:border-cocoa/25'
                 }`}
               >
                 {/* Tappable Summary Row */}
@@ -204,24 +204,24 @@ export function AdminOrdersTab({
                   onClick={() =>
                     onToggleExpandOrder(isExpanded ? null : order.id)
                   }
-                  className="p-4 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 select-none"
+                  className="p-4 sm:px-5 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 select-none"
                 >
                   {/* Left: ID, Channel, Date, Nov 27 pill */}
                   <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-                    <span className="font-mono text-xs font-bold text-ink-black">
+                    <span className="font-mono text-xs font-medium text-ink-black">
                       {order.id}
                     </span>
                     <span
-                      className={`text-[9px] uppercase px-2 py-0.5 rounded-full font-semibold ${
+                      className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
                         order.id.startsWith('NOV-OFF')
-                          ? 'bg-purple-100 text-purple-900 border border-purple-200'
-                          : 'bg-emerald-100 text-emerald-900'
+                          ? 'bg-bone border border-cocoa/18 text-espresso'
+                          : 'bg-emerald-50 text-emerald-900 border border-emerald-200/70'
                       }`}
                     >
                       {order.id.startsWith('NOV-OFF') ? 'Offline' : 'Online'}
                     </span>
                     {hasNov27Discount && (
-                      <span className="text-[9px] uppercase px-2 py-0.5 rounded-full bg-[#111111] text-[#b89b72] border border-[#b89b72]/40 font-semibold">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-bone text-espresso border border-cocoa/18 font-medium">
                         Nov 27 · -₦{order.discountAmount?.toLocaleString()}
                       </span>
                     )}
@@ -279,10 +279,10 @@ export function AdminOrdersTab({
 
                 {/* Expanded Order Panel */}
                 {isExpanded && (
-                  <div className="border-t border-cocoa/15 bg-bone/40 p-4 sm:p-6 space-y-5 animate-in fade-in duration-150">
-                    {/* 1. Ordered Pairs */}
-                    <div className="space-y-2">
-                      <div className="text-[10px] uppercase tracking-[0.16em] font-bold text-cocoa">
+                  <div className="border-t border-cocoa/12 bg-bone/35 p-4 sm:p-6 space-y-5 animate-in fade-in duration-150">
+                    {/* Ordered Pairs */}
+                    <div className="space-y-2.5">
+                      <div className="text-xs font-medium text-cocoa">
                         Pairs Ordered ({order.items.length})
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -324,20 +324,20 @@ export function AdminOrdersTab({
                       </div>
                     </div>
 
-                    {/* 2. Customer Contact & Address */}
+                    {/* Customer Contact & Address */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                      <div className="p-3.5 bg-warm-white border border-cocoa/15 rounded-xl space-y-1.5">
-                        <div className="text-[10px] uppercase tracking-[0.16em] font-bold text-cocoa">
+                      <div className="p-4 bg-warm-white border border-cocoa/12 rounded-2xl space-y-1.5">
+                        <div className="text-[11px] font-medium text-cocoa">
                           Buyer Contact
                         </div>
-                        <div className="font-semibold text-sm text-ink-black">
+                        <div className="font-medium text-sm text-ink-black">
                           {order.customer.fullName}
                         </div>
                         <div className="flex items-center gap-2">
                           <span className="text-muted-taupe">Phone:</span>
                           <a
                             href={`tel:${order.customer.phone}`}
-                            className="font-mono text-espresso font-semibold hover:underline"
+                            className="font-mono text-espresso font-medium hover:underline"
                           >
                             {order.customer.phone}
                           </a>
@@ -354,8 +354,8 @@ export function AdminOrdersTab({
                         </div>
                       </div>
 
-                      <div className="p-3.5 bg-warm-white border border-cocoa/15 rounded-xl space-y-2">
-                        <div className="text-[10px] uppercase tracking-[0.16em] font-bold text-cocoa">
+                      <div className="p-4 bg-warm-white border border-cocoa/12 rounded-2xl space-y-2">
+                        <div className="text-[11px] font-medium text-cocoa">
                           Delivery Destination
                         </div>
                         <div className="font-medium text-ink-black leading-relaxed">
@@ -363,8 +363,8 @@ export function AdminOrdersTab({
                           {order.customer.state}
                         </div>
                         {order.customer.deliveryNotes ? (
-                          <div className="p-2.5 bg-amber-50/80 border border-amber-200 text-amber-900 rounded-lg text-[11px]">
-                            <span className="font-semibold">Courier note: </span>
+                          <div className="p-2.5 bg-amber-50/80 border border-amber-200/80 text-amber-900 rounded-xl text-[11px]">
+                            <span className="font-medium">Courier note: </span>
                             &ldquo;{order.customer.deliveryNotes}&rdquo;
                           </div>
                         ) : (
@@ -375,10 +375,10 @@ export function AdminOrdersTab({
                       </div>
                     </div>
 
-                    {/* 3. Status Control & Quick Actions */}
-                    <div className="p-4 bg-warm-white border border-cocoa/20 rounded-xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                    {/* Status Control & Quick Actions */}
+                    <div className="p-4 bg-warm-white border border-cocoa/12 rounded-2xl flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                       <div className="flex items-center gap-3 flex-wrap">
-                        <label className="text-[11px] uppercase tracking-[0.14em] font-semibold text-cocoa">
+                        <label className="text-xs font-medium text-cocoa">
                           Progress:
                         </label>
 
@@ -391,7 +391,7 @@ export function AdminOrdersTab({
                               e.target.value as Order['status']
                             )
                           }
-                          className={`text-xs font-semibold px-3.5 py-2 rounded-lg border tracking-wide focus:outline-none focus:border-ink-black cursor-pointer min-h-[40px] ${getOrderStatusBadge(
+                          className={`text-xs font-medium px-3.5 py-2 rounded-xl border focus:outline-none focus:border-ink-black cursor-pointer min-h-[40px] ${getOrderStatusBadge(
                             order.status
                           )}`}
                         >
@@ -405,7 +405,7 @@ export function AdminOrdersTab({
                         </select>
 
                         {statusSaved && (
-                          <span className="text-xs font-semibold text-emerald-700 animate-in fade-in flex items-center gap-1 font-mono">
+                          <span className="text-xs font-medium text-emerald-700 animate-in fade-in flex items-center gap-1 font-mono">
                             <Check className="w-3.5 h-3.5" />
                             {statusSaved}
                           </span>
@@ -423,9 +423,9 @@ export function AdminOrdersTab({
                           href={getWhatsAppUrlForOrder(order)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-700 hover:bg-emerald-800 text-warm-white text-xs uppercase tracking-wider font-semibold rounded-full transition-colors shadow-xs min-h-[42px] cursor-pointer"
+                          className="press-tactile inline-flex items-center gap-2 px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-warm-white text-xs font-medium rounded-full transition-[background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[38px] cursor-pointer"
                         >
-                          <MessageCircle className="w-4 h-4" />
+                          <MessageCircle className="w-3.5 h-3.5" />
                           <span>WhatsApp Update</span>
                         </a>
 
@@ -437,7 +437,7 @@ export function AdminOrdersTab({
                               `waybill-${order.id}`
                             )
                           }
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-bone/70 border border-cocoa/25 hover:bg-warm-white text-ink-black text-xs font-medium rounded-full transition-colors min-h-[42px] cursor-pointer"
+                          className="press-tactile inline-flex items-center gap-1.5 px-3.5 py-2 bg-bone/60 border border-cocoa/15 hover:bg-bone text-ink-black text-xs font-medium rounded-full transition-colors min-h-[38px] cursor-pointer"
                         >
                           <FileText className="w-3.5 h-3.5 text-cocoa" />
                           <span>
@@ -450,7 +450,7 @@ export function AdminOrdersTab({
                         <button
                           type="button"
                           onClick={() => onOpenOrderModal(order)}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-bone/70 border border-cocoa/25 hover:bg-warm-white text-ink-black text-xs font-medium rounded-full transition-colors min-h-[42px] cursor-pointer"
+                          className="press-tactile inline-flex items-center gap-1.5 px-3.5 py-2 bg-bone/60 border border-cocoa/15 hover:bg-bone text-ink-black text-xs font-medium rounded-full transition-colors min-h-[38px] cursor-pointer"
                         >
                           <Eye className="w-3.5 h-3.5 text-espresso" />
                           <span>Summary</span>
@@ -460,7 +460,7 @@ export function AdminOrdersTab({
                           href={`/order-confirmation/${order.id}/receipt`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-bone/70 border border-cocoa/25 hover:bg-warm-white text-ink-black text-xs font-medium rounded-full transition-colors min-h-[42px]"
+                          className="press-tactile inline-flex items-center gap-1.5 px-3.5 py-2 bg-bone/60 border border-cocoa/15 hover:bg-bone text-ink-black text-xs font-medium rounded-full transition-colors min-h-[38px]"
                         >
                           <Download className="w-3.5 h-3.5 text-cocoa" />
                           <span>Receipt</span>
@@ -469,7 +469,7 @@ export function AdminOrdersTab({
                         <button
                           type="button"
                           onClick={() => onRequestDeleteOrder(order)}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-bone/70 border border-oxblood/25 hover:bg-oxblood/10 text-oxblood text-xs font-medium rounded-full transition-colors min-h-[42px] cursor-pointer"
+                          className="press-tactile inline-flex items-center gap-1.5 px-3.5 py-2 bg-bone/60 border border-oxblood/20 hover:bg-oxblood/10 text-oxblood text-xs font-medium rounded-full transition-colors min-h-[38px] cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                           <span>Remove</span>

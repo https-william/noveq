@@ -1,10 +1,35 @@
 [
   {
+    "id": "SUB_1793652702281_89YH",
+    "email": "popoolaariseoluwa@gmail.com",
+    "name": "Ariseoluwa William Popoola",
+    "source": "black_friday_2026",
+    "subscribedAt": "2026-11-02T20:51:42.281+00:00",
+    "tags": [
+      "customer",
+      "drop-001-checkout",
+      "black_friday_2026",
+      "vip_waitlist"
+    ]
+  },
+  {
+    "id": "SUB_DESIRE_AIGBE",
+    "email": "aigbedesire17@gmail.com",
+    "name": "Desire Aigbe",
+    "source": "checkout",
+    "subscribedAt": "2026-10-24T21:37:28+00:00",
+    "tags": [
+      "customer",
+      "drop-001",
+      "online-buyer"
+    ]
+  },
+  {
     "id": "SUB_1791120959387_7V9N",
     "email": "testuser123@gmail.com",
     "name": "Test User 123",
     "source": "checkout",
-    "subscribedAt": "2026-10-04T13:35:59.387Z",
+    "subscribedAt": "2026-10-04T13:35:59.387+00:00",
     "tags": [
       "customer",
       "drop-001-checkout"

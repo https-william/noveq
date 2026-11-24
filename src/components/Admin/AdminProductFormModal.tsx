@@ -529,18 +529,18 @@ export function AdminProductFormModal({
             </div>
           </div>
 
-          <div className="flex gap-3 pt-3 border-t border-cocoa/15">
+          <div className="flex gap-3 pt-3 border-t border-cocoa/12">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-bone transition-colors min-h-[44px] cursor-pointer"
+              className="press-tactile flex-1 py-2.5 bg-warm-white border border-cocoa/18 text-ink-black text-xs font-medium rounded-full hover:bg-bone transition-colors min-h-[42px] cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSaving}
-              className="flex-1 py-3 bg-ink-black text-warm-white text-xs uppercase tracking-wider font-bold rounded-full hover:bg-espresso transition-colors disabled:opacity-50 min-h-[44px] cursor-pointer"
+              className="press-tactile flex-1 py-2.5 bg-ink-black text-warm-white text-xs font-medium rounded-full hover:bg-espresso transition-colors disabled:opacity-50 min-h-[42px] cursor-pointer"
             >
               {isSaving ? 'Saving...' : isNew ? 'Add Style' : 'Save Changes'}
             </button>

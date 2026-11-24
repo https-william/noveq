@@ -31,7 +31,7 @@ interface ProductDetailClientProps {
 
 export default function ProductDetailClient({ product }: ProductDetailClientProps) {
   const { addToCart } = useCart();
-  const { phase, isLive, isPreview, getUnitPrice } = useBlackFriday();
+  const { isLive, isPreview, getUnitPrice } = useBlackFriday();
 
   // Gallery state & touch swipe
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -225,7 +225,6 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
 
   const formattedPrice = formatNaira(displayPrice);
   const formattedRegularPrice = formatNaira(product.price);
-  const formattedBfUpcomingPrice = formatNaira(bfUnitPrice);
 
   const formattedComparePrice = isLive
     ? formattedRegularPrice
@@ -382,8 +381,8 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   </span>
                 )}
                 {isLive ? (
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#111111] border border-[#b89b72]/45 text-[10px] uppercase tracking-[0.16em] text-[#b89b72] font-semibold">
-                    24-Hour Edit · 25% Off{isPreview ? ' · Preview' : ''}
+                  <span className="px-2.5 py-0.5 rounded-full bg-bone border border-cocoa/18 text-[11px] text-espresso font-medium">
+                    24-Hour Edit · 25% off{isPreview ? ' (Preview)' : ''}
                   </span>
                 ) : (
                   <span className="text-xs uppercase tracking-wider text-muted-taupe">
@@ -392,20 +391,10 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                 )}
               </div>
 
-              {isLive ? (
-                <p className="text-[11px] text-cocoa font-medium">
-                  Applies automatically at checkout · Courier delivery fees stay standard rate.
+              {isLive && (
+                <p className="text-[11px] text-muted-taupe">
+                  Applies automatically at checkout · Standard courier delivery rates apply.
                 </p>
-              ) : (
-                !isRestocking &&
-                phase === 'upcoming' && (
-                  <div className="p-2.5 px-3 rounded-lg bg-[#111111] border border-[#b89b72]/30 text-[11px] text-[#cecbbe]">
-                    <span className="text-[#b89b72] font-semibold">
-                      Nov 27 · 24-Hour Edit:
-                    </span>{' '}
-                    {formattedBfUpcomingPrice} (25% off pair · excludes delivery).
-                  </div>
-                )
               )}
             </div>
 

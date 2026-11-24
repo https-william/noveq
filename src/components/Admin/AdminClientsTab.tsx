@@ -24,8 +24,8 @@ export function AdminClientsTab({ customers }: AdminClientsTabProps) {
   }, [customers, search]);
 
   return (
-    <div className="bg-warm-white border border-cocoa/20 rounded-2xl shadow-apple-sm space-y-5 p-4 sm:p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
+    <div className="bg-warm-white border border-cocoa/12 rounded-2xl space-y-5 p-5 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cocoa/12">
         <div>
           <h2 className="font-editorial text-2xl font-normal text-ink-black">
             Client Directory
@@ -45,7 +45,7 @@ export function AdminClientsTab({ customers }: AdminClientsTabProps) {
             placeholder="Search client or city..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-3.5 py-2 text-xs bg-bone/60 border border-cocoa/30 rounded-full focus:outline-none focus:border-ink-black text-ink-black font-medium min-h-[40px]"
+            className="w-full pl-10 pr-3.5 py-2 text-xs bg-bone/50 border border-cocoa/18 rounded-full focus:outline-none focus:border-ink-black text-ink-black font-medium min-h-[40px]"
           />
         </div>
       </div>
@@ -113,10 +113,10 @@ export function AdminClientsTab({ customers }: AdminClientsTabProps) {
           </div>
 
           {/* Desktop Table */}
-          <div className="hidden md:block overflow-x-auto border border-cocoa/15 rounded-xl">
+          <div className="hidden md:block overflow-x-auto border border-cocoa/12 rounded-2xl">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-cocoa/20 text-cocoa uppercase tracking-wider text-[10px] bg-bone/60">
+                <tr className="border-b border-cocoa/12 text-muted-taupe font-medium text-[11px] bg-bone/50">
                   <th className="p-3.5">Client Name</th>
                   <th className="p-3.5">Contact</th>
                   <th className="p-3.5">City</th>
@@ -126,10 +126,10 @@ export function AdminClientsTab({ customers }: AdminClientsTabProps) {
                   <th className="p-3.5 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-cocoa/15">
+              <tbody className="divide-y divide-cocoa/12">
                 {filteredCustomers.map((cust, idx) => (
                   <tr key={idx} className="hover:bg-bone/30 transition-colors">
-                    <td className="p-3.5 font-semibold text-ink-black">
+                    <td className="p-3.5 font-medium text-ink-black">
                       {cust.fullName}
                     </td>
                     <td className="p-3.5 font-mono">
@@ -143,12 +143,12 @@ export function AdminClientsTab({ customers }: AdminClientsTabProps) {
                     <td className="p-3.5 text-ink-black">
                       {cust.city}, {cust.state}
                     </td>
-                    <td className="p-3.5 font-mono font-bold">
-                      <span className="px-2.5 py-0.5 bg-bone border border-cocoa/20 rounded-full">
+                    <td className="p-3.5 font-mono font-medium">
+                      <span className="px-2.5 py-0.5 bg-bone border border-cocoa/15 rounded-full">
                         {cust.orderCount}
                       </span>
                     </td>
-                    <td className="p-3.5 font-mono font-bold text-ink-black tabular-nums">
+                    <td className="p-3.5 font-mono font-medium text-ink-black tabular-nums">
                       ₦{cust.totalSpent.toLocaleString()}
                     </td>
                     <td className="p-3.5 text-muted-taupe font-mono text-[11px]">
@@ -161,7 +161,7 @@ export function AdminClientsTab({ customers }: AdminClientsTabProps) {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-warm-white text-[10px] font-semibold uppercase tracking-wider rounded-full transition-colors min-h-[34px]"
+                        className="press-tactile inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-warm-white text-[11px] font-medium rounded-full transition-colors min-h-[34px]"
                       >
                         <MessageCircle className="w-3 h-3" />
                         <span>WhatsApp</span>

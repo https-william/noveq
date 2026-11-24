@@ -89,8 +89,8 @@ export function AdminMetricsTab({
   }, [orders]);
 
   return (
-    <div className="bg-warm-white border border-cocoa/20 rounded-2xl shadow-apple-sm space-y-6 p-4 sm:p-6">
-      <div>
+    <div className="bg-warm-white border border-cocoa/12 rounded-2xl space-y-6 p-5 sm:p-6">
+      <div className="border-b border-cocoa/12 pb-4">
         <h2 className="font-editorial text-2xl font-normal text-ink-black">
           Sales, Sizes &amp; Workshop Pipeline
         </h2>
@@ -100,30 +100,30 @@ export function AdminMetricsTab({
       </div>
 
       {/* Summary Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-xl bg-bone/60 border border-cocoa/15 space-y-1">
-          <span className="text-[10px] uppercase tracking-[0.16em] text-cocoa font-semibold">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+        <div className="p-4 rounded-xl bg-bone/50 border border-cocoa/12 space-y-1">
+          <span className="text-[11px] text-cocoa font-medium">
             Website vs. Offline Sales
           </span>
           <div className="flex items-baseline justify-between pt-1">
             <span className="text-xs text-muted-taupe">Online Paystack</span>
-            <span className="font-mono font-bold text-ink-black">
+            <span className="font-mono font-medium text-ink-black tabular-nums">
               ₦{analytics.onlineRevenue.toLocaleString()}
             </span>
           </div>
           <div className="flex items-baseline justify-between">
             <span className="text-xs text-muted-taupe">Manual / Offline</span>
-            <span className="font-mono font-semibold text-espresso">
+            <span className="font-mono font-medium text-espresso tabular-nums">
               ₦{analytics.offlineRevenue.toLocaleString()}
             </span>
           </div>
         </div>
 
-        <div className="p-4 rounded-xl bg-bone/60 border border-cocoa/15 space-y-1">
-          <span className="text-[10px] uppercase tracking-[0.16em] text-cocoa font-semibold">
+        <div className="p-4 rounded-xl bg-bone/50 border border-cocoa/12 space-y-1">
+          <span className="text-[11px] text-cocoa font-medium">
             Average Order Value
           </span>
-          <div className="text-2xl font-bold font-mono text-ink-black pt-1 tabular-nums">
+          <div className="text-2xl font-medium font-mono text-ink-black pt-1 tabular-nums">
             ₦{analytics.avgOrderValue.toLocaleString()}
           </div>
           <p className="text-[11px] text-muted-taupe">
@@ -131,24 +131,29 @@ export function AdminMetricsTab({
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-[#111111] text-[#f4f3ef] border border-[#b89b72]/35 space-y-1">
-          <span className="text-[10px] uppercase tracking-[0.16em] text-[#b89b72] font-semibold">
-            Nov 27 · 25% Edit Impact
-          </span>
-          <div className="text-2xl font-bold font-mono text-[#f4f3ef] pt-1 tabular-nums">
+        <div className="p-4 rounded-xl bg-bone/50 border border-cocoa/12 space-y-1">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] text-cocoa font-medium">
+              Nov 27 · 25% Edit Impact
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-warm-white border border-cocoa/12 text-[10px] font-mono text-espresso">
+              24-Hour Edit
+            </span>
+          </div>
+          <div className="text-2xl font-medium font-mono text-ink-black pt-1 tabular-nums">
             {analytics.discountedCount} orders
           </div>
-          <p className="text-[11px] text-[#cecbbe]">
+          <p className="text-[11px] text-muted-taupe">
             ₦{analytics.totalDiscountsGiven.toLocaleString()} total savings applied
           </p>
         </div>
       </div>
 
       {/* Fulfillment Pipeline Bar */}
-      <div className="p-4 sm:p-5 bg-bone/60 border border-cocoa/20 rounded-xl space-y-3">
-        <div className="flex justify-between items-center text-xs font-semibold uppercase tracking-wider text-cocoa">
+      <div className="p-4 sm:p-5 bg-bone/50 border border-cocoa/12 rounded-xl space-y-3">
+        <div className="flex justify-between items-center text-xs font-medium text-cocoa">
           <span>Order Progress Pipeline (Tap any stage to filter)</span>
-          <span className="font-mono text-ink-black">{orders.length} Total</span>
+          <span className="font-mono text-ink-black tabular-nums">{orders.length} Total</span>
         </div>
 
         <div className="h-3.5 w-full bg-warm-white rounded-full overflow-hidden flex border border-cocoa/20">
@@ -252,9 +257,9 @@ export function AdminMetricsTab({
       {/* Size Demand & Top Cities Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         {/* Size Demand Heatmap (EU 34–44) */}
-        <div className="lg:col-span-7 p-4 sm:p-5 bg-bone/50 border border-cocoa/15 rounded-xl space-y-3">
+        <div className="lg:col-span-7 p-4 sm:p-5 bg-bone/50 border border-cocoa/12 rounded-2xl space-y-3">
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-cocoa">
+            <h3 className="text-xs font-medium text-ink-black">
               Pairs Ordered by Worldwide Size (EU 34–44)
             </h3>
             <p className="text-[11px] text-muted-taupe mt-0.5">
@@ -267,16 +272,16 @@ export function AdminMetricsTab({
               return (
                 <div
                   key={size}
-                  className={`p-2.5 rounded-lg border text-center transition-colors ${
+                  className={`p-2.5 rounded-xl border text-center transition-colors ${
                     count === 0
-                      ? 'bg-warm-white/60 border-cocoa/15 text-muted-taupe'
+                      ? 'bg-warm-white/60 border-cocoa/12 text-muted-taupe'
                       : intensity >= 0.65
-                      ? 'bg-[#111111] border-[#b89b72]/50 text-[#f4f3ef]'
-                      : 'bg-warm-white border-cocoa/30 text-ink-black'
+                      ? 'bg-espresso border-espresso text-warm-white'
+                      : 'bg-warm-white border-cocoa/20 text-ink-black'
                   }`}
                 >
                   <div className="text-[10px] font-mono opacity-80">{size}</div>
-                  <div className="text-sm font-bold font-mono mt-0.5 tabular-nums">
+                  <div className="text-sm font-medium font-mono mt-0.5 tabular-nums">
                     {count}
                   </div>
                 </div>
@@ -286,8 +291,8 @@ export function AdminMetricsTab({
         </div>
 
         {/* Top Cities */}
-        <div className="lg:col-span-5 p-4 sm:p-5 bg-bone/50 border border-cocoa/15 rounded-xl space-y-3">
-          <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-cocoa">
+        <div className="lg:col-span-5 p-4 sm:p-5 bg-bone/50 border border-cocoa/12 rounded-2xl space-y-3">
+          <h3 className="text-xs font-medium text-ink-black">
             Top Delivery Cities
           </h3>
           {analytics.topCities.length === 0 ? (
@@ -299,15 +304,15 @@ export function AdminMetricsTab({
               {analytics.topCities.map(([city, info]) => (
                 <div
                   key={city}
-                  className="flex items-center justify-between text-xs p-2.5 rounded-lg bg-warm-white border border-cocoa/15"
+                  className="flex items-center justify-between text-xs p-3 rounded-xl bg-warm-white border border-cocoa/12"
                 >
                   <div>
-                    <span className="font-semibold text-ink-black">{city}</span>
+                    <span className="font-medium text-ink-black">{city}</span>
                     <span className="text-[11px] text-muted-taupe ml-2">
                       {info.orders} order{info.orders > 1 ? 's' : ''}
                     </span>
                   </div>
-                  <span className="font-mono font-bold text-ink-black tabular-nums">
+                  <span className="font-mono font-medium text-ink-black tabular-nums">
                     ₦{info.revenue.toLocaleString()}
                   </span>
                 </div>
@@ -319,14 +324,14 @@ export function AdminMetricsTab({
 
       {/* Product Performance */}
       <div className="space-y-3">
-        <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-cocoa">
+        <h3 className="text-xs font-medium text-ink-black">
           Style Performance &amp; Stock Left
         </h3>
 
-        <div className="overflow-x-auto border border-cocoa/20 rounded-xl">
+        <div className="overflow-x-auto border border-cocoa/12 rounded-2xl">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="border-b border-cocoa/20 text-cocoa uppercase tracking-wider text-[10px] bg-bone/60">
+              <tr className="border-b border-cocoa/12 text-muted-taupe font-medium text-[11px] bg-bone/50">
                 <th className="p-3">Style</th>
                 <th className="p-3">Price</th>
                 <th className="p-3">Pairs Sold</th>

@@ -11,10 +11,7 @@ import { DELIVERY_ZONES, getDeliveryZoneById } from '@/config/deliveryZones';
 import { CustomerDetails } from '@/types/commerce';
 import { trackEvent } from '@/lib/analytics';
 import { useBlackFriday } from '@/hooks/useBlackFriday';
-import {
-  BLACK_FRIDAY_DISCOUNT_RATE,
-  calculateBlackFridayOrderTotals,
-} from '@/config/blackFriday';
+import { calculateBlackFridayOrderTotals } from '@/config/blackFriday';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -87,14 +84,13 @@ export default function CheckoutPage() {
 
   const selectedZone = getDeliveryZoneById(formData.zoneId);
   const deliveryFee = selectedZone.fee;
-  const { phase, isPreview } = useBlackFriday();
+  const { phase } = useBlackFriday();
   const isAuthoritativeLive = phase === 'live';
   const orderTotals = calculateBlackFridayOrderTotals({
     itemsSubtotal: subtotal,
     deliveryFee,
   });
   const totalAmount = orderTotals.total;
-  const upcomingDiscountPreview = Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE);
 
   const hasUnavailableItems = cartItems.some(
     (item) => Boolean(item.product.restocking) || item.product.stock <= 0
@@ -238,19 +234,21 @@ export default function CheckoutPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Contact Information */}
-            <div className="bg-warm-white border border-cocoa/20 rounded-xl p-6 space-y-4 shadow-xs">
-              <h2 className="text-xs uppercase tracking-[0.18em] font-bold text-ink-black">
-                1. Contact Information
-              </h2>
+            <div className="bg-warm-white border border-cocoa/12 rounded-2xl p-6 sm:p-7 space-y-5">
+              <div className="border-b border-cocoa/10 pb-3.5">
+                <h2 className="font-editorial text-xl font-normal text-ink-black">
+                  Contact Information
+                </h2>
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <div className="flex justify-between items-baseline mb-1">
-                    <label htmlFor="fullName" className="block text-xs uppercase tracking-wider text-muted-taupe">
+                  <div className="flex justify-between items-baseline mb-1.5">
+                    <label htmlFor="fullName" className="block text-xs font-medium text-espresso">
                       Full Name *
                     </label>
                     {touched.fullName && !validateField('fullName', formData.fullName) && (
-                      <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                      <span className="text-[10px] text-emerald-700 font-medium inline-flex items-center gap-0.5">
                         <CheckCircle2 className="w-3 h-3" /> Valid
                       </span>
                     )}
@@ -264,12 +262,12 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     onBlur={handleBlur}
                     placeholder="e.g. Zainab Balogun"
-                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
+                    className={`w-full px-3.5 py-2.5 bg-bone/50 border text-xs text-ink-black rounded-xl focus:outline-none transition-colors ${
                       touched.fullName && validateField('fullName', formData.fullName)
                         ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                         : touched.fullName
                         ? 'border-emerald-700/60 focus:border-emerald-700'
-                        : 'border-cocoa/30 focus:border-ink-black'
+                        : 'border-cocoa/18 focus:border-ink-black'
                     }`}
                   />
                   {touched.fullName && validateField('fullName', formData.fullName) && (
@@ -281,12 +279,12 @@ export default function CheckoutPage() {
                 </div>
 
                 <div>
-                  <div className="flex justify-between items-baseline mb-1">
-                    <label htmlFor="phone" className="block text-xs uppercase tracking-wider text-muted-taupe">
+                  <div className="flex justify-between items-baseline mb-1.5">
+                    <label htmlFor="phone" className="block text-xs font-medium text-espresso">
                       Phone (Courier Contact) *
                     </label>
                     {touched.phone && !validateField('phone', formData.phone) && (
-                      <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                      <span className="text-[10px] text-emerald-700 font-medium inline-flex items-center gap-0.5">
                         <CheckCircle2 className="w-3 h-3" /> Valid
                       </span>
                     )}
@@ -300,12 +298,12 @@ export default function CheckoutPage() {
                     onChange={handleInputChange}
                     onBlur={handleBlur}
                     placeholder="080 1234 5678"
-                    className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
+                    className={`w-full px-3.5 py-2.5 bg-bone/50 border text-xs text-ink-black rounded-xl focus:outline-none transition-colors ${
                       touched.phone && validateField('phone', formData.phone)
                         ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                         : touched.phone
                         ? 'border-emerald-700/60 focus:border-emerald-700'
-                        : 'border-cocoa/30 focus:border-ink-black'
+                        : 'border-cocoa/18 focus:border-ink-black'
                     }`}
                   />
                   {touched.phone && validateField('phone', formData.phone) && (
@@ -318,12 +316,12 @@ export default function CheckoutPage() {
               </div>
 
               <div>
-                <div className="flex justify-between items-baseline mb-1">
-                  <label htmlFor="email" className="block text-xs uppercase tracking-wider text-muted-taupe">
-                    Email Address (Receipt & Tracking) *
+                <div className="flex justify-between items-baseline mb-1.5">
+                  <label htmlFor="email" className="block text-xs font-medium text-espresso">
+                    Email Address (Receipt &amp; Tracking) *
                   </label>
                   {touched.email && !validateField('email', formData.email) && (
-                    <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                    <span className="text-[10px] text-emerald-700 font-medium inline-flex items-center gap-0.5">
                       <CheckCircle2 className="w-3 h-3" /> Valid
                     </span>
                   )}
@@ -337,12 +335,12 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   placeholder="zainab@example.com"
-                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
+                  className={`w-full px-3.5 py-2.5 bg-bone/50 border text-xs text-ink-black rounded-xl focus:outline-none transition-colors ${
                     touched.email && validateField('email', formData.email)
                       ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                       : touched.email
                       ? 'border-emerald-700/60 focus:border-emerald-700'
-                      : 'border-cocoa/30 focus:border-ink-black'
+                      : 'border-cocoa/18 focus:border-ink-black'
                   }`}
                 />
                 {touched.email && validateField('email', formData.email) && (
@@ -355,16 +353,18 @@ export default function CheckoutPage() {
             </div>
 
             {/* Delivery Address */}
-            <div className="bg-warm-white border border-cocoa/20 rounded-xl p-6 space-y-4 shadow-xs">
-              <h2 className="text-xs uppercase tracking-[0.18em] font-bold text-ink-black">
-                2. Delivery Destination
-              </h2>
+            <div className="bg-warm-white border border-cocoa/12 rounded-2xl p-6 sm:p-7 space-y-5">
+              <div className="border-b border-cocoa/10 pb-3.5">
+                <h2 className="font-editorial text-xl font-normal text-ink-black">
+                  Delivery Destination
+                </h2>
+              </div>
 
               {/* Delivery Zone Selector - Configurable Table */}
               <div>
-                <div className="flex justify-between items-baseline mb-1">
-                  <label htmlFor="zoneId" className="block text-xs uppercase tracking-wider text-muted-taupe">
-                    Delivery Zone & Fee *
+                <div className="flex justify-between items-baseline mb-1.5">
+                  <label htmlFor="zoneId" className="block text-xs font-medium text-espresso">
+                    Delivery Zone &amp; Fee *
                   </label>
                   <span className="text-[11px] text-cocoa font-medium">
                     Estimated: {selectedZone.estimatedDays}
@@ -375,7 +375,7 @@ export default function CheckoutPage() {
                   name="zoneId"
                   value={formData.zoneId}
                   onChange={handleZoneChange}
-                  className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
+                  className="w-full px-3.5 py-2.5 bg-bone/50 border border-cocoa/18 text-xs text-ink-black rounded-xl focus:outline-none focus:border-ink-black transition-colors"
                 >
                   {DELIVERY_ZONES.map((zone) => (
                     <option key={zone.id} value={zone.id}>
@@ -383,18 +383,18 @@ export default function CheckoutPage() {
                     </option>
                   ))}
                 </select>
-                <p className="text-[11px] text-muted-taupe mt-1">
+                <p className="text-[11px] text-muted-taupe mt-1.5">
                   Coverage: {selectedZone.description}
                 </p>
               </div>
 
               <div>
-                <div className="flex justify-between items-baseline mb-1">
-                  <label htmlFor="address" className="block text-xs uppercase tracking-wider text-muted-taupe">
+                <div className="flex justify-between items-baseline mb-1.5">
+                  <label htmlFor="address" className="block text-xs font-medium text-espresso">
                     Street Address *
                   </label>
                   {touched.address && !validateField('address', formData.address) && (
-                    <span className="text-[10px] text-emerald-700 font-semibold inline-flex items-center gap-0.5">
+                    <span className="text-[10px] text-emerald-700 font-medium inline-flex items-center gap-0.5">
                       <CheckCircle2 className="w-3 h-3" /> Valid
                     </span>
                   )}
@@ -408,12 +408,12 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   onBlur={handleBlur}
                   placeholder="House number, Street name, Estate / Landmark"
-                  className={`w-full px-3 py-2.5 bg-bone border text-xs text-ink-black rounded-md focus:outline-none transition-colors ${
+                  className={`w-full px-3.5 py-2.5 bg-bone/50 border text-xs text-ink-black rounded-xl focus:outline-none transition-colors ${
                     touched.address && validateField('address', formData.address)
                       ? 'border-oxblood/80 bg-oxblood/5 focus:border-oxblood'
                       : touched.address
                       ? 'border-emerald-700/60 focus:border-emerald-700'
-                      : 'border-cocoa/30 focus:border-ink-black'
+                      : 'border-cocoa/18 focus:border-ink-black'
                   }`}
                 />
                 {touched.address && validateField('address', formData.address) && (
@@ -426,7 +426,7 @@ export default function CheckoutPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="city" className="block text-xs uppercase tracking-wider text-muted-taupe mb-1">
+                  <label htmlFor="city" className="block text-xs font-medium text-espresso mb-1.5">
                     City / Local Area *
                   </label>
                   <input
@@ -437,12 +437,12 @@ export default function CheckoutPage() {
                     value={formData.city}
                     onChange={handleInputChange}
                     placeholder="e.g. Ikeja"
-                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
+                    className="w-full px-3.5 py-2.5 bg-bone/50 border border-cocoa/18 text-xs text-ink-black rounded-xl focus:outline-none focus:border-ink-black transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="state" className="block text-xs uppercase tracking-wider text-muted-taupe mb-1">
+                  <label htmlFor="state" className="block text-xs font-medium text-espresso mb-1.5">
                     State *
                   </label>
                   <input
@@ -453,13 +453,13 @@ export default function CheckoutPage() {
                     value={formData.state}
                     onChange={handleInputChange}
                     placeholder="e.g. Lagos State"
-                    className="w-full px-3 py-2.5 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
+                    className="w-full px-3.5 py-2.5 bg-bone/50 border border-cocoa/18 text-xs text-ink-black rounded-xl focus:outline-none focus:border-ink-black transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="deliveryNotes" className="block text-xs uppercase tracking-wider text-muted-taupe mb-1">
+                <label htmlFor="deliveryNotes" className="block text-xs font-medium text-espresso mb-1.5">
                   Delivery Instructions (Optional)
                 </label>
                 <textarea
@@ -469,7 +469,7 @@ export default function CheckoutPage() {
                   value={formData.deliveryNotes}
                   onChange={handleInputChange}
                   placeholder="Gate code, security desk instructions, or preferred drop-off time."
-                  className="w-full px-3 py-2 bg-bone border border-cocoa/30 text-xs text-ink-black rounded-md focus:outline-none focus:border-ink-black"
+                  className="w-full px-3.5 py-2.5 bg-bone/50 border border-cocoa/18 text-xs text-ink-black rounded-xl focus:outline-none focus:border-ink-black transition-colors"
                 />
               </div>
             </div>
@@ -510,24 +510,24 @@ export default function CheckoutPage() {
 
         {/* Right Column: Permanently Visible Order Summary (Never Collapsed) */}
         <div className="lg:col-span-5 sticky top-24 space-y-6">
-          <div className="bg-warm-white border border-cocoa/20 rounded-xl p-6 space-y-6 shadow-xs">
-            <div className="flex items-baseline justify-between border-b border-cocoa/15 pb-4">
-              <h2 className="text-xs uppercase tracking-[0.2em] font-bold text-ink-black">
+          <div className="bg-warm-white border border-cocoa/12 rounded-2xl p-6 sm:p-7 space-y-6">
+            <div className="flex items-baseline justify-between border-b border-cocoa/12 pb-4">
+              <h2 className="font-editorial text-xl font-normal text-ink-black">
                 Order Summary ({cartItems.reduce((acc, i) => acc + i.quantity, 0)})
               </h2>
-              <span className="text-[11px] text-muted-taupe uppercase tracking-wider">
+              <span className="text-[11px] font-mono text-muted-taupe">
                 Drop 001
               </span>
             </div>
 
             {/* Line items list with explicit charm/engraving details */}
-            <div className="divide-y divide-cocoa/15 max-h-[360px] overflow-y-auto pr-1">
+            <div className="divide-y divide-cocoa/12 max-h-[360px] overflow-y-auto pr-1">
               {cartItems.map((item) => (
                 <div
                   key={`${item.product.slug}-${item.selectedSize}-${item.selectedColour || ''}`}
                   className="py-3 flex gap-3 items-start"
                 >
-                  <div className="relative w-14 h-14 bg-bone border border-cocoa/20 rounded-md shrink-0 overflow-hidden">
+                  <div className="relative w-14 h-14 bg-bone border border-cocoa/12 rounded-xl shrink-0 overflow-hidden">
                     <Image
                       src={item.product.images[0]?.src || '/images/products/the-ring-warm-cognac.jpg'}
                       alt={item.product.name}
@@ -598,15 +598,6 @@ export default function CheckoutPage() {
                   ₦{deliveryFee.toLocaleString()}
                 </span>
               </div>
-
-              {!isAuthoritativeLive && phase === 'upcoming' && (
-                <div className="p-2.5 rounded-lg bg-[#111111] border border-[#b89b72]/30 text-[11px] text-[#cecbbe] leading-relaxed">
-                  <span className="text-[#b89b72] font-semibold">
-                    Nov 27 · 24-Hour Edit{isPreview ? ' (Preview)' : ''}:
-                  </span>{' '}
-                  Orders placed on Nov 27 take 25% off pairs (-₦{upcomingDiscountPreview.toLocaleString()}), excluding delivery fees.
-                </div>
-              )}
 
               <div className="pt-3 border-t border-cocoa/15 flex justify-between items-baseline text-sm">
                 <span className="font-bold text-ink-black">Total to Pay Online</span>

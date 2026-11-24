@@ -38,8 +38,8 @@ export function AdminProductsTab({
   onRequestDeleteProduct,
 }: AdminProductsTabProps) {
   return (
-    <div className="bg-warm-white border border-cocoa/20 rounded-2xl shadow-apple-sm space-y-5 p-4 sm:p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cocoa/15">
+    <div className="bg-warm-white border border-cocoa/12 rounded-2xl space-y-5 p-5 sm:p-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-cocoa/12">
         <div>
           <h2 className="font-editorial text-2xl font-normal text-ink-black">
             Catalog, Sizing &amp; Availability
@@ -52,7 +52,7 @@ export function AdminProductsTab({
         <button
           type="button"
           onClick={onOpenAddModal}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-ink-black hover:bg-espresso text-warm-white text-xs uppercase tracking-[0.18em] font-semibold rounded-full transition-colors focus-dark shadow-xs min-h-[44px] cursor-pointer"
+          className="press-tactile inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-ink-black hover:bg-espresso text-warm-white text-xs font-medium rounded-full transition-[background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] focus-dark min-h-[40px] cursor-pointer"
         >
           <PlusCircle className="w-3.5 h-3.5" />
           <span>Add Style</span>
@@ -105,8 +105,8 @@ export function AdminProductsTab({
                 key={product.slug}
                 className={`border rounded-2xl p-4 sm:p-5 flex flex-col justify-between space-y-4 transition-colors ${
                   isHidden
-                    ? 'border-cocoa/20 bg-bone/40 opacity-85'
-                    : 'border-cocoa/25 bg-warm-white shadow-xs'
+                    ? 'border-cocoa/12 bg-bone/35 opacity-80'
+                    : 'border-cocoa/12 bg-warm-white'
                 }`}
               >
                 {/* Top: Image + Title + Live Badges */}
@@ -156,21 +156,21 @@ export function AdminProductsTab({
                     </div>
 
                     <div className="flex flex-wrap items-baseline gap-2.5 pt-0.5">
-                      <span className="text-base font-bold font-mono text-ink-black tabular-nums">
+                      <span className="text-base font-medium font-mono text-ink-black tabular-nums">
                         ₦{product.price.toLocaleString()}
                       </span>
-                      <span className="text-[11px] px-2 py-0.5 rounded-full bg-[#111111] text-[#b89b72] font-mono tabular-nums">
-                        Nov 27 (25% off): ₦{nov27Price.toLocaleString()}
+                      <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-bone/70 border border-cocoa/15 text-espresso font-mono tabular-nums">
+                        Nov 27: ₦{nov27Price.toLocaleString()}
                       </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Middle: Stock Summary & EU 34-44 Sizes */}
-                <div className="p-3.5 bg-bone/60 border border-cocoa/15 rounded-xl space-y-2 text-xs">
+                <div className="p-3.5 bg-bone/50 border border-cocoa/12 rounded-xl space-y-2 text-xs">
                   <div className="flex justify-between items-center text-[11px]">
-                    <span className="font-semibold text-cocoa uppercase tracking-wider">
-                      Stock Across Worldwide Sizes
+                    <span className="font-medium text-cocoa">
+                      EU 34–44 Stock
                     </span>
                     <span
                       className={`font-mono font-bold ${
@@ -198,16 +198,16 @@ export function AdminProductsTab({
                 </div>
 
                 {/* Bottom Action Controls */}
-                <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-cocoa/15">
+                <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-cocoa/12">
                   <button
                     type="button"
                     onClick={() =>
                       onToggleRestocking(product.slug, Boolean(product.restocking))
                     }
-                    className={`flex-1 min-w-[140px] py-2 px-3 text-xs font-semibold rounded-full border transition-colors flex items-center justify-center gap-1.5 min-h-[40px] cursor-pointer ${
+                    className={`press-tactile flex-1 min-w-[140px] py-2 px-3 text-xs font-medium rounded-full border transition-colors flex items-center justify-center gap-1.5 min-h-[38px] cursor-pointer ${
                       isRestocking
-                        ? 'bg-emerald-50 text-emerald-900 border-emerald-300 hover:bg-emerald-100'
-                        : 'bg-amber-50/70 text-amber-950 border-amber-300/70 hover:bg-amber-100'
+                        ? 'bg-emerald-50/70 text-emerald-900 border-emerald-200 hover:bg-emerald-100/70'
+                        : 'bg-amber-50/70 text-amber-950 border-amber-200/80 hover:bg-amber-100/70'
                     }`}
                   >
                     {isRestocking ? (
@@ -226,7 +226,7 @@ export function AdminProductsTab({
                   <button
                     type="button"
                     onClick={() => onOpenQuickStock(product)}
-                    className="py-2 px-3.5 text-xs font-semibold rounded-full border border-cocoa/30 bg-warm-white text-ink-black hover:bg-bone transition-colors flex items-center justify-center gap-1.5 min-h-[40px] cursor-pointer"
+                    className="press-tactile py-2 px-3.5 text-xs font-medium rounded-full border border-cocoa/15 bg-warm-white text-ink-black hover:bg-bone transition-colors flex items-center justify-center gap-1.5 min-h-[38px] cursor-pointer"
                   >
                     <Package className="w-3.5 h-3.5 text-cocoa" />
                     <span>Stock &amp; Sizes</span>
@@ -237,7 +237,7 @@ export function AdminProductsTab({
                     onClick={() =>
                       onToggleVisibility(product.slug, product.hidden)
                     }
-                    className="py-2 px-3 text-xs font-medium rounded-full border border-cocoa/25 bg-warm-white text-cocoa hover:text-ink-black hover:bg-bone transition-colors flex items-center justify-center gap-1.5 min-h-[40px] cursor-pointer"
+                    className="press-tactile py-2 px-3 text-xs font-medium rounded-full border border-cocoa/15 bg-warm-white text-cocoa hover:text-ink-black hover:bg-bone transition-colors flex items-center justify-center gap-1.5 min-h-[38px] cursor-pointer"
                     title={isHidden ? 'Show on storefront' : 'Hide from storefront'}
                   >
                     {isHidden ? (
@@ -256,7 +256,7 @@ export function AdminProductsTab({
                   <button
                     type="button"
                     onClick={() => onOpenEditModal(product)}
-                    className="py-2 px-3.5 text-xs font-medium rounded-full border border-cocoa/25 bg-warm-white text-ink-black hover:bg-bone transition-colors flex items-center justify-center gap-1.5 min-h-[40px] cursor-pointer"
+                    className="press-tactile py-2 px-3.5 text-xs font-medium rounded-full border border-cocoa/15 bg-warm-white text-ink-black hover:bg-bone transition-colors flex items-center justify-center gap-1.5 min-h-[38px] cursor-pointer"
                   >
                     <Edit3 className="w-3.5 h-3.5 text-cocoa" />
                     <span>Edit</span>
@@ -266,7 +266,7 @@ export function AdminProductsTab({
                     type="button"
                     onClick={() => onRequestDeleteProduct(product)}
                     aria-label={`Delete ${product.name}`}
-                    className="p-2 rounded-full border border-oxblood/25 text-oxblood hover:bg-oxblood/10 transition-colors min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
+                    className="press-tactile p-2 rounded-full border border-oxblood/20 text-oxblood hover:bg-oxblood/10 transition-colors min-h-[38px] min-w-[38px] flex items-center justify-center cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>

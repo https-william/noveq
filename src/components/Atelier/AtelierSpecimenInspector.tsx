@@ -108,7 +108,7 @@ export function AtelierSpecimenInspector() {
           {CHAPTERS.map((chapter) => {
             const isActive = chapter.id === activeId;
             return (
-              <button
+                <button
                 key={chapter.id}
                 role="tab"
                 id={`tab-${chapter.id}`}
@@ -116,15 +116,12 @@ export function AtelierSpecimenInspector() {
                 aria-controls={`panel-${chapter.id}`}
                 type="button"
                 onClick={() => setActiveId(chapter.id)}
-                className={`relative py-4 px-3 text-center transition-[color,opacity,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] focus-dark cursor-pointer ${
+                className={`press-tactile relative py-4 px-3 text-center transition-[color,opacity,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] focus-dark cursor-pointer ${
                   isActive
                     ? 'text-ink-black font-medium'
                     : 'text-muted-taupe hover:text-espresso'
                 }`}
               >
-                <span className="block text-xs tracking-[0.18em] uppercase opacity-75 mb-1">
-                  {chapter.number}
-                </span>
                 <span className="font-editorial text-lg sm:text-xl tracking-normal block">
                   {chapter.tabLabel}
                 </span>
@@ -150,7 +147,7 @@ export function AtelierSpecimenInspector() {
             {/* Left Column: Material Story */}
             <div className="md:col-span-7 space-y-4">
               <p className="text-xs uppercase tracking-[0.18em] text-cocoa font-medium">
-                {activeChapter.number} · {activeChapter.provenance}
+                {activeChapter.provenance}
               </p>
 
               <h3 className="font-editorial text-2xl sm:text-3xl font-normal tracking-[-0.01em] text-ink-black leading-snug">
@@ -166,24 +163,26 @@ export function AtelierSpecimenInspector() {
               </p>
             </div>
 
-            {/* Right Column: Restrained Workbench Ledger */}
-            <div className="md:col-span-5 bg-bone/50 border border-cocoa/15 rounded-xl p-6 space-y-4">
-              <div className="flex items-center justify-between border-b border-cocoa/15 pb-3">
-                <span className="text-xs uppercase tracking-[0.18em] text-espresso font-medium">
-                  At the Bench
-                </span>
-                <span className="text-xs uppercase tracking-[0.16em] text-muted-taupe">
-                  Drop 001
-                </span>
-              </div>
+            {/* Right Column: Double-Bezel Workbench Ledger */}
+            <div className="md:col-span-5 p-1.5 rounded-[24px] bg-bone/80 border border-cocoa/12">
+              <div className="bg-warm-white border border-cocoa/10 rounded-[18px] p-6 space-y-4">
+                <div className="flex items-center justify-between border-b border-cocoa/12 pb-3">
+                  <span className="text-xs font-medium text-espresso">
+                    At the Bench
+                  </span>
+                  <span className="text-xs font-mono text-muted-taupe">
+                    Drop 001
+                  </span>
+                </div>
 
-              <ul className="divide-y divide-cocoa/10 text-sm text-ink-black/85">
-                {activeChapter.notes.map((note, idx) => (
-                  <li key={idx} className="py-3 first:pt-1 last:pb-1 leading-relaxed">
-                    {note}
-                  </li>
-                ))}
-              </ul>
+                <ul className="divide-y divide-cocoa/10 text-sm text-ink-black/85">
+                  {activeChapter.notes.map((note, idx) => (
+                    <li key={idx} className="py-3 first:pt-1 last:pb-1 leading-relaxed">
+                      {note}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

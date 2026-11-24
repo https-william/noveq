@@ -15,6 +15,7 @@ import {
   Package,
   Layers,
   FileSpreadsheet,
+  Bot,
 } from 'lucide-react';
 import { Order, Product } from '@/types/commerce';
 import { Subscriber } from '@/lib/subscribers';
@@ -28,15 +29,18 @@ import {
   OfflineOrderForm,
   INITIAL_OFFLINE_FORM,
   CustomerSummary,
+  isNov27Subscriber,
+  isRestockSubscriber,
 } from '@/components/Admin/adminUtils';
+import { useBlackFriday } from '@/hooks/useBlackFriday';
 import { AdminAuthGate } from '@/components/Admin/AdminAuthGate';
-import { AdminCampaignCommandBar } from '@/components/Admin/AdminCampaignCommandBar';
 import { AdminOrdersTab } from '@/components/Admin/AdminOrdersTab';
 import { AdminProductsTab } from '@/components/Admin/AdminProductsTab';
 import { AdminMetricsTab } from '@/components/Admin/AdminMetricsTab';
 import { AdminClientsTab } from '@/components/Admin/AdminClientsTab';
 import { AdminSubscribersTab } from '@/components/Admin/AdminSubscribersTab';
 import { AdminSheetsTab } from '@/components/Admin/AdminSheetsTab';
+import { AdminBotStudioTab } from '@/components/Admin/AdminBotStudioTab';
 import { AdminQuickStockModal } from '@/components/Admin/AdminQuickStockModal';
 import { AdminProductFormModal } from '@/components/Admin/AdminProductFormModal';
 import { AdminOfflineOrderModal } from '@/components/Admin/AdminOfflineOrderModal';
@@ -849,6 +853,28 @@ export default function AdminDashboardPage() {
     [orders]
   );
 
+  const { phase, isLive, mounted, countdown } = useBlackFriday();
+
+  const nov27Count = useMemo(
+    () => subscribers.filter(isNov27Subscriber).length,
+    [subscribers]
+  );
+  const restockCount = useMemo(
+    () => subscribers.filter(isRestockSubscriber).length,
+    [subscribers]
+  );
+  const restockingStylesCount = useMemo(
+    () =>
+      products.filter(
+        (p) =>
+          Boolean(p.restocking) ||
+          p.stock <= 0 ||
+          p.sizes.every((s) => !s.available)
+      ).length,
+    [products]
+  );
+  const openStylesCount = Math.max(0, products.length - restockingStylesCount);
+
   if (isAuthChecking) {
     return (
       <div className="min-h-screen bg-bone flex items-center justify-center">
@@ -869,196 +895,262 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bone text-ink-black py-6 sm:py-10 px-4 sm:px-6 lg:px-8 space-y-6 max-w-7xl mx-auto">
-      {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-cocoa/15 pb-5">
-        <div>
+    <div className="min-h-screen bg-bone text-ink-black">
+      {/* Studio Top Rail */}
+      <header className="sticky top-0 z-30 backdrop-blur-md bg-bone/85 border-b border-cocoa/12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="font-editorial text-xl tracking-tight text-ink-black">
+              NOVEQ
+            </span>
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium text-cocoa bg-warm-white border border-cocoa/15">
+              Studio
+            </span>
+            <span className="hidden md:inline text-xs text-muted-taupe truncate">
+              Lagos Operations
+            </span>
+          </div>
+
           <div className="flex items-center gap-2">
-            <span className="text-[11px] uppercase tracking-[0.2em] text-cocoa font-semibold">
-              Lagos Studio Operations
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[10px] uppercase font-mono tracking-wider text-emerald-800">
-              Live Sync
-            </span>
-          </div>
-          <h1 className="font-editorial text-3xl sm:text-4xl font-normal tracking-tight text-ink-black mt-1">
-            Store &amp; Order Command
-          </h1>
-          <p className="text-xs text-muted-taupe mt-0.5">
-            Track orders, toggle restocking styles, manage EU 34–44 stock, and prepare for November 27.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 flex-wrap">
-          <button
-            type="button"
-            onClick={openOfflineModal}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-ink-black hover:bg-espresso text-warm-white text-xs uppercase tracking-[0.16em] font-semibold rounded-full transition-colors focus-dark shadow-xs min-h-[42px] cursor-pointer"
-          >
-            <PlusCircle className="w-3.5 h-3.5" />
-            <span>Log Offline Sale</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={fetchAdminData}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-bone transition-colors min-h-[42px] cursor-pointer"
-          >
-            <RefreshCw
-              className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`}
-            />
-            <span>Refresh</span>
-          </button>
-
-          <a
-            href={GOOGLE_SHEET_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-bone transition-colors min-h-[42px]"
-          >
-            <span>Sheet</span>
-            <ExternalLink className="w-3 h-3 text-cocoa" />
-          </a>
-
-          <Link
-            href="/shop"
-            target="_blank"
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-warm-white border border-cocoa/30 text-ink-black text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-bone transition-colors min-h-[42px]"
-          >
-            <span>Storefront</span>
-            <ExternalLink className="w-3 h-3 text-cocoa" />
-          </Link>
-
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-warm-white border border-oxblood/30 text-oxblood text-xs uppercase tracking-wider font-semibold rounded-full hover:bg-oxblood/10 transition-colors min-h-[42px] cursor-pointer"
-          >
-            <LogOut className="w-3.5 h-3.5" />
-            <span>Lock</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Nov 27 & Waitlist Command Bar */}
-      <AdminCampaignCommandBar
-        products={products}
-        subscribers={subscribers}
-        onJumpToTab={(tab, seg) => {
-          setActiveTab(tab);
-          if (seg) setSubscriberSegment(seg);
-        }}
-      />
-
-      {/* Top KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div className="p-4 sm:p-5 bg-warm-white border border-cocoa/20 rounded-2xl space-y-1 shadow-xs">
-          <div className="flex items-center justify-between text-[11px] text-cocoa font-semibold uppercase tracking-wider">
-            <span>Gross Sales</span>
-            <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
-          </div>
-          <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight tabular-nums text-ink-black">
-            ₦{metrics.totalRevenue.toLocaleString()}
-          </div>
-          <p className="text-[11px] text-muted-taupe">
-            Online Paystack + offline sales
-          </p>
-        </div>
-
-        <div className="p-4 sm:p-5 bg-warm-white border border-cocoa/20 rounded-2xl space-y-1 shadow-xs">
-          <div className="flex items-center justify-between text-[11px] text-cocoa font-semibold uppercase tracking-wider">
-            <span>Orders</span>
-            <ShoppingBag className="w-3.5 h-3.5 text-espresso" />
-          </div>
-          <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight tabular-nums text-ink-black">
-            {orders.length}
-          </div>
-          <p className="text-[11px] text-muted-taupe">Total recorded orders</p>
-        </div>
-
-        <div className="p-4 sm:p-5 bg-warm-white border border-cocoa/20 rounded-2xl space-y-1 shadow-xs">
-          <div className="flex items-center justify-between text-[11px] text-cocoa font-semibold uppercase tracking-wider">
-            <span>In Progress</span>
-            <Clock className="w-3.5 h-3.5 text-amber-700" />
-          </div>
-          <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight tabular-nums text-amber-900">
-            {statusCounts.paid +
-              statusCounts.sourcing +
-              statusCounts.outForDelivery}
-          </div>
-          <p className="text-[11px] text-muted-taupe">
-            Paid, crafting, or with courier
-          </p>
-        </div>
-
-        <div className="p-4 sm:p-5 bg-warm-white border border-cocoa/20 rounded-2xl space-y-1 shadow-xs">
-          <div className="flex items-center justify-between text-[11px] text-cocoa font-semibold uppercase tracking-wider">
-            <span>Pairs Sold</span>
-            <Package className="w-3.5 h-3.5 text-cocoa" />
-          </div>
-          <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight tabular-nums text-ink-black">
-            {totalPairsSold}
-          </div>
-          <p className="text-[11px] text-muted-taupe">
-            Active footwear units ordered
-          </p>
-        </div>
-      </div>
-
-      {/* Main Navigation Tabs */}
-      <div className="flex items-center gap-1.5 border-b border-cocoa/20 overflow-x-auto pb-px">
-        {[
-          {
-            id: 'orders' as const,
-            label: `Orders (${orders.length})`,
-            icon: ShoppingBag,
-          },
-          {
-            id: 'products' as const,
-            label: `Catalog (${products.length})`,
-            icon: Layers,
-          },
-          {
-            id: 'dashboard' as const,
-            label: 'Insights & Sizes',
-            icon: TrendingUp,
-          },
-          {
-            id: 'subscribers' as const,
-            label: `Waitlists (${subscribers.length})`,
-            icon: Mail,
-          },
-          {
-            id: 'customers' as const,
-            label: `Clients (${uniqueCustomers.length})`,
-            icon: Users,
-          },
-          {
-            id: 'sheets' as const,
-            label: 'Sheets & Books',
-            icon: FileSpreadsheet,
-          },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          return (
             <button
-              key={tab.id}
               type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={`inline-flex items-center gap-2 px-4 py-3 text-xs uppercase tracking-wider font-semibold border-b-2 transition-colors whitespace-nowrap min-h-[44px] cursor-pointer ${
-                isActive
-                  ? 'border-ink-black text-ink-black bg-warm-white rounded-t-xl'
-                  : 'border-transparent text-muted-taupe hover:text-ink-black'
-              }`}
+              onClick={openOfflineModal}
+              className="press-tactile inline-flex items-center gap-1.5 px-3.5 py-2 bg-ink-black hover:bg-espresso text-warm-white text-xs font-medium rounded-full transition-[background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[38px] cursor-pointer"
             >
-              <Icon className="w-3.5 h-3.5" />
-              <span>{tab.label}</span>
+              <PlusCircle className="w-3.5 h-3.5" />
+              <span>Log Sale</span>
             </button>
-          );
-        })}
-      </div>
+
+            <button
+              type="button"
+              onClick={fetchAdminData}
+              title="Refresh studio data"
+              className="press-tactile inline-flex items-center gap-1.5 px-3 py-2 bg-warm-white border border-cocoa/15 text-ink-black text-xs font-medium rounded-full hover:border-cocoa/30 transition-[border-color,background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[38px] cursor-pointer"
+            >
+              <RefreshCw
+                className={`w-3.5 h-3.5 text-cocoa ${loading ? 'animate-spin' : ''}`}
+              />
+              <span className="hidden sm:inline">Refresh</span>
+            </button>
+
+            <a
+              href={GOOGLE_SHEET_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press-tactile hidden sm:inline-flex items-center gap-1.5 px-3 py-2 bg-warm-white border border-cocoa/15 text-ink-black text-xs font-medium rounded-full hover:border-cocoa/30 transition-[border-color,background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[38px]"
+            >
+              <span>Sheet</span>
+              <ExternalLink className="w-3 h-3 text-cocoa" />
+            </a>
+
+            <Link
+              href="/shop"
+              target="_blank"
+              className="press-tactile hidden sm:inline-flex items-center gap-1.5 px-3 py-2 bg-warm-white border border-cocoa/15 text-ink-black text-xs font-medium rounded-full hover:border-cocoa/30 transition-[border-color,background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[38px]"
+            >
+              <span>Storefront</span>
+              <ExternalLink className="w-3 h-3 text-cocoa" />
+            </Link>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              title="Lock studio"
+              className="press-tactile inline-flex items-center gap-1.5 px-3 py-2 bg-warm-white border border-cocoa/15 hover:border-oxblood/30 text-oxblood text-xs font-medium rounded-full hover:bg-oxblood/5 transition-[border-color,background-color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] min-h-[38px] cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Lock</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 space-y-6">
+        {/* Studio Page Title */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+          <div>
+            <h1 className="font-editorial text-3xl sm:text-4xl font-normal tracking-tight text-ink-black">
+              Store &amp; Order Command
+            </h1>
+            <p className="text-xs text-muted-taupe mt-1">
+              Manage orders, EU 34–44 stock, waitlists, accounting sheets, and your Telegram studio bot.
+            </p>
+          </div>
+          <div className="text-[11px] font-mono text-muted-taupe tabular-nums">
+            {orders.length} orders · {products.length} styles · {subscribers.length} contacts
+          </div>
+        </div>
+
+        {/* Unified 4-Tile Bento Metric Strip */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          <div className="p-5 bg-warm-white border border-cocoa/12 rounded-2xl space-y-1.5">
+            <div className="flex items-center justify-between text-xs text-muted-taupe font-medium">
+              <span>Gross Sales</span>
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-700" />
+            </div>
+            <div className="text-2xl font-medium font-mono tracking-tight tabular-nums text-ink-black">
+              ₦{metrics.totalRevenue.toLocaleString()}
+            </div>
+            <p className="text-[11px] text-muted-taupe tabular-nums">
+              {totalPairsSold} pairs sold · Paystack &amp; offline
+            </p>
+          </div>
+
+          <div className="p-5 bg-warm-white border border-cocoa/12 rounded-2xl space-y-1.5">
+            <div className="flex items-center justify-between text-xs text-muted-taupe font-medium">
+              <span>Orders</span>
+              <ShoppingBag className="w-3.5 h-3.5 text-espresso" />
+            </div>
+            <div className="text-2xl font-medium font-mono tracking-tight tabular-nums text-ink-black">
+              {orders.length}
+            </div>
+            <p className="text-[11px] text-muted-taupe tabular-nums">
+              {statusCounts.paid + statusCounts.sourcing + statusCounts.outForDelivery} active in progress
+            </p>
+          </div>
+
+          <div className="p-5 bg-warm-white border border-cocoa/12 rounded-2xl space-y-1.5">
+            <div className="flex items-center justify-between text-xs text-muted-taupe font-medium">
+              <span>Catalog Availability</span>
+              <Package className="w-3.5 h-3.5 text-cocoa" />
+            </div>
+            <div className="text-2xl font-medium font-mono tracking-tight tabular-nums text-ink-black">
+              {openStylesCount}{' '}
+              <span className="text-sm font-normal text-muted-taupe">
+                / {products.length} open
+              </span>
+            </div>
+            <div className="flex items-center justify-between text-[11px] text-muted-taupe">
+              <span>{restockingStylesCount} restocking</span>
+              <button
+                type="button"
+                onClick={() => setActiveTab('products')}
+                className="text-espresso hover:text-ink-black font-medium underline underline-offset-2 cursor-pointer"
+              >
+                Manage stock
+              </button>
+            </div>
+          </div>
+
+          {/* Unified 4th Bento Tile: Nov 27 & Waitlist Shortcuts */}
+          <div className="p-5 bg-warm-white border border-cocoa/12 rounded-2xl flex flex-col justify-between space-y-2.5">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-xs font-medium text-muted-taupe">
+                Nov 27 Edit · 25% Off
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-bone border border-cocoa/15 text-[10px] font-mono text-espresso">
+                {phase === 'live' ? 'Live' : phase === 'ended' ? 'Ended' : 'Scheduled'}
+              </span>
+            </div>
+
+            <div className="flex items-baseline justify-between gap-2">
+              <div className="font-mono text-lg font-medium tabular-nums text-ink-black">
+                {mounted && phase !== 'ended'
+                  ? `${countdown.days}d ${countdown.hours}h ${countdown.minutes}m`
+                  : '24-Hour Edit'}
+              </div>
+              <Link
+                href="/#the-24hr-edit"
+                target="_blank"
+                className="inline-flex items-center gap-1 text-[11px] text-cocoa hover:text-ink-black transition-colors"
+              >
+                <span>Preview</span>
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-2 pt-0.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setSubscriberSegment('nov27');
+                  setActiveTab('subscribers');
+                }}
+                className="press-tactile flex-1 px-2.5 py-1.5 rounded-lg bg-bone/60 hover:bg-bone border border-cocoa/12 text-[11px] text-ink-black text-left transition-colors cursor-pointer tabular-nums"
+              >
+                <span className="font-mono font-semibold text-espresso">
+                  {nov27Count}
+                </span>{' '}
+                Reminders
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSubscriberSegment('restock');
+                  setActiveTab('subscribers');
+                }}
+                className="press-tactile flex-1 px-2.5 py-1.5 rounded-lg bg-bone/60 hover:bg-bone border border-cocoa/12 text-[11px] text-ink-black text-left transition-colors cursor-pointer tabular-nums"
+              >
+                <span className="font-mono font-semibold text-espresso">
+                  {restockCount}
+                </span>{' '}
+                Restock
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Segmented Tab Dock */}
+        <nav
+          aria-label="Studio sections"
+          className="flex items-center gap-1 p-1.5 bg-warm-white border border-cocoa/12 rounded-2xl overflow-x-auto"
+        >
+          {[
+            {
+              id: 'orders' as const,
+              label: `Orders (${orders.length})`,
+              icon: ShoppingBag,
+            },
+            {
+              id: 'products' as const,
+              label: `Catalog (${products.length})`,
+              icon: Layers,
+            },
+            {
+              id: 'dashboard' as const,
+              label: 'Insights & Sizes',
+              icon: TrendingUp,
+            },
+            {
+              id: 'subscribers' as const,
+              label: `Waitlists (${subscribers.length})`,
+              icon: Mail,
+            },
+            {
+              id: 'customers' as const,
+              label: `Clients (${uniqueCustomers.length})`,
+              icon: Users,
+            },
+            {
+              id: 'sheets' as const,
+              label: 'Sheets & Books',
+              icon: FileSpreadsheet,
+            },
+            {
+              id: 'bot' as const,
+              label: 'Bot Studio',
+              icon: Bot,
+            },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`press-tactile inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-xl transition-[background-color,color,transform] duration-[180ms] ease-[cubic-bezier(0.23,1,0.32,1)] whitespace-nowrap min-h-[38px] cursor-pointer ${
+                  isActive
+                    ? 'bg-[#111111] text-[#f4f3ef]'
+                    : 'text-muted-taupe hover:text-ink-black hover:bg-bone/60'
+                }`}
+              >
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#b89b72]' : ''}`} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </nav>
 
       {/* Active Tab Views */}
       {activeTab === 'orders' && (
@@ -1147,6 +1239,14 @@ export default function AdminDashboardPage() {
           onReloadIframe={() => setIframeKey((p) => p + 1)}
           onDismissWebhook={() => setWebhookStatus('idle')}
           onDismissSyncSummary={() => setSyncSummary(null)}
+        />
+      )}
+
+      {activeTab === 'bot' && (
+        <AdminBotStudioTab
+          subscribers={subscribers}
+          products={products}
+          onRefreshStoreData={fetchAdminData}
         />
       )}
 
@@ -1260,6 +1360,7 @@ export default function AdminDashboardPage() {
           onConfirm={handleDeleteProduct}
         />
       )}
+      </main>
     </div>
   );
 }

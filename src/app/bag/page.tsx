@@ -33,10 +33,9 @@ export default function BagPage() {
     subtotal,
   } = useCart();
 
-  const { phase, isLive, isPreview } = useBlackFriday();
+  const { isLive, isPreview } = useBlackFriday();
   const discountAmount = isLive ? Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE) : 0;
   const finalSubtotal = Math.max(0, subtotal - discountAmount);
-  const upcomingDiscount = Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE);
 
   useEffect(() => {
     trackEvent('view_cart', {
@@ -307,15 +306,6 @@ export default function BagPage() {
                 <span>Delivery{isLive ? ' (Standard Rate · Excluded)' : ''}</span>
                 <span className="text-cocoa font-medium">Calculated at checkout</span>
               </div>
-
-              {phase === 'upcoming' && !isLive && (
-                <div className="p-3 rounded-xl bg-[#111111] border border-[#b89b72]/30 text-[11px] text-[#cecbbe] leading-relaxed">
-                  <span className="text-[#b89b72] font-semibold block mb-0.5">
-                    Nov 27 · 24-Hour Edit
-                  </span>
-                  Orders placed on Nov 27 take 25% off all pairs (-₦{upcomingDiscount.toLocaleString()} on this bag). Delivery stays standard rate.
-                </div>
-              )}
 
               <div className="pt-3.5 border-t border-cocoa/15 flex justify-between items-baseline text-sm">
                 <span className="font-semibold text-ink-black uppercase tracking-[0.14em] text-xs">

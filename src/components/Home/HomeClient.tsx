@@ -98,7 +98,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         </div>
 
         {/* Poised Centered Maison Lockup */}
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-5 sm:px-8 pb-12 sm:pb-16 lg:pb-20 pt-28 text-center">
+        <div className="relative z-10 w-full max-w-5xl mx-auto px-5 sm:px-8 pb-12 sm:pb-16 lg:pb-20 pt-28 text-center">
           <div className="space-y-4 sm:space-y-5">
             {/* Subtle Architectural Eyebrow */}
             <p className="text-xs uppercase tracking-[0.22em] text-warm-white/85 font-medium">
@@ -109,7 +109,7 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
             </p>
 
             {/* Editorial Display Headline */}
-            <h1 className="font-rayleigh text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-warm-white leading-[1.06]">
+            <h1 className="font-rayleigh text-4xl sm:text-6xl lg:text-7xl font-normal tracking-tight text-warm-white leading-[1.06] text-balance">
               {campaignState === 'pre-launch' && 'The first release is almost here.'}
               {campaignState === 'sold-out' && 'Ten pairs claimed.'}
               {campaignState === 'reveal' && 'A quiet debut.'}
@@ -134,10 +134,12 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
                 <>
                   <Link
                     href="/shop"
-                    className="group inline-flex items-center gap-3 px-8 py-3.5 bg-warm-white text-ink-black text-[11px] uppercase tracking-[0.22em] font-semibold hover:bg-bone transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.97]"
+                    className="group press-tactile inline-flex items-center gap-3.5 pl-6 pr-2 py-2 bg-warm-white text-ink-black text-xs font-medium hover:bg-bone transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg"
                   >
                     <span>Discover Drop 001</span>
-                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5" />
+                    <span className="w-8 h-8 rounded-full bg-ink-black text-warm-white flex items-center justify-center transition-transform duration-[220ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5">
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
                   </Link>
                   <Link
                     href="/story"
@@ -211,9 +213,6 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
           </div>
         </div>
       </section>
-
-      {/* ── BLACK FRIDAY · THE 24-HOUR EDIT (NOV 27) ── */}
-      <BlackFridayEditorialSection />
 
       {/* ── 2. FEATURED NOVEQ COLLECTION (SERENE MAISON GALLERY) ── */}
       <section id="drop-001-grid" className="py-16 sm:py-24 bg-bone border-b border-cocoa/15">
@@ -407,6 +406,9 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
         }}
       />
 
+      {/* ── SEASONAL NOTE · NOVEMBER 27 ── */}
+      <BlackFridayEditorialSection />
+
       {/* ── 8. CLOSING EDITORIAL INVITATION ── */}
       <section className="py-20 sm:py-28 bg-warm-white text-ink-black border-b border-cocoa/15 text-center">
         <div className="max-w-xl mx-auto px-5 sm:px-6 space-y-5">
@@ -422,10 +424,12 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
           <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
             <Link
               href="/shop"
-              className="group inline-flex items-center gap-3 px-8 py-3.5 bg-ink-black text-warm-white text-xs uppercase tracking-[0.18em] font-semibold hover:bg-espresso transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg active:scale-[0.97]"
+              className="group press-tactile inline-flex items-center gap-3.5 pl-6 pr-2 py-2 bg-ink-black text-warm-white text-xs font-medium hover:bg-espresso transition-[background-color,transform,box-shadow] duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] rounded-full focus-dark min-h-[46px] shadow-apple-md hover:shadow-apple-lg"
             >
               <span>Explore Drop 001</span>
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-[200ms] ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5" />
+              <span className="w-8 h-8 rounded-full bg-warm-white text-ink-black flex items-center justify-center transition-transform duration-[220ms] ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5">
+                <ArrowRight className="w-3.5 h-3.5" />
+              </span>
             </Link>
             <Link
               href="/story"

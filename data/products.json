@@ -31,7 +31,7 @@
       }
     ],
     "stock": 0,
-    "restocking": true,
+    "restocking": false,
     "material": "Soft, hand-selected Nigerian leather paired with a smooth solid brass statement ring. Cushioned sole with gently rounded edges and a steady, low heel.",
     "care": "Wipe with a soft dry cloth after wear. Rub in a little clear leather cream monthly to keep the straps soft. Polish the brass ring lightly with a dry cloth.",
     "dimensions_weight": "Weight: ~375g per pair. Low heel elevation: 12mm heel, 8mm forefoot.",
@@ -40,7 +40,7 @@
     "charm_option": {
       "supported": false
     },
-    "publish_status": "published",
+    "publish_status": "draft",
     "fit_notes": "True to standard European size. The natural leather softens gently to match your foot width after 2–3 wears.",
     "shipping_notes": "Currently restocking in our Lagos workshop. Sign up on this page to be notified first when pairs return.",
     "sizes": [
@@ -97,7 +97,7 @@
         "viewType": "detail"
       }
     ],
-    "hidden": false
+    "hidden": true
   },
   {
     "name": "The Weave Slide Pam",
@@ -236,7 +236,7 @@
       }
     ],
     "stock": 0,
-    "restocking": true,
+    "restocking": false,
     "material": "Soft Nigerian leather with a gathered twist top strap, cushioned footbed with smooth finished edges, and a steady non-slip sole.",
     "care": "Wipe clean with a soft dry cloth after wear. Condition lightly once a month and store flat inside your cotton dust bag.",
     "dimensions_weight": "Weight: ~370g per pair. Low heel elevation: 12mm heel, 8mm forefoot.",
@@ -245,7 +245,7 @@
     "charm_option": {
       "supported": false
     },
-    "publish_status": "published",
+    "publish_status": "draft",
     "fit_notes": "True to standard European size. The natural leather softens gently to match your foot width after 2–3 wears.",
     "shipping_notes": "Currently restocking in our Lagos workshop. Sign up on this page to be notified first when pairs return.",
     "sizes": [
@@ -297,6 +297,6 @@
         "viewType": "detail"
       }
     ],
-    "hidden": false
+    "hidden": true
   }
 ]

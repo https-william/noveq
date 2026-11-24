@@ -33,10 +33,9 @@ export default function CartDrawer() {
     subtotal,
   } = useCart();
 
-  const { phase, isLive, isPreview } = useBlackFriday();
+  const { isLive, isPreview } = useBlackFriday();
   const drawerDiscountAmount = isLive ? Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE) : 0;
   const drawerFinalSubtotal = Math.max(0, subtotal - drawerDiscountAmount);
-  const upcomingDrawerDiscount = Math.round(subtotal * BLACK_FRIDAY_DISCOUNT_RATE);
 
   const closeBtnRef = useRef<HTMLButtonElement>(null);
 
@@ -357,12 +356,6 @@ export default function CartDrawer() {
                     {formattedSubtotal}
                   </span>
                 </div>
-                {phase === 'upcoming' && (
-                  <p className="text-[11px] bg-[#111111] text-[#cecbbe] px-3 py-2 rounded-lg border border-[#b89b72]/30">
-                    <span className="text-[#b89b72] font-semibold">Nov 27 · 24-Hour Edit:</span>{' '}
-                    Save 25% (-₦{upcomingDrawerDiscount.toLocaleString()}) on these pairs on Nov 27. Delivery stays standard.
-                  </p>
-                )}
               </div>
             )}
 
