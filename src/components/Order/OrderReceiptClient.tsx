@@ -41,12 +41,12 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
       {/* Receipt Sheet */}
       <div className="receipt-sheet max-w-2xl mx-auto bg-white border border-cocoa/20 p-8 print:border-none print:shadow-none print:p-6 print:max-w-none">
 
-        {/* Drop 001 Edition Record Header */}
+        {/* Drop 001 Order Receipt Header */}
         <div className="flex justify-between items-start border-b-2 border-[#141414] pb-5 mb-5 gap-4">
           <div>
             <p className="font-bold tracking-[0.3em] uppercase text-xl">n o v e q</p>
             <p className="text-[10px] text-cocoa uppercase tracking-[0.2em] font-semibold mt-1">
-              Drop 001 · Edition Record &amp; Receipt
+              Drop 001 · Order Receipt
             </p>
             <div className="mt-2.5 inline-block border border-ink-black/30 px-2.5 py-1 text-[9px] uppercase tracking-[0.18em] text-ink-black">
               Lagos Atelier · Checked by Hand
@@ -60,11 +60,11 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
           </div>
         </div>
 
-        {/* Pair Craftsmanship Record Note */}
+        {/* Pair Craftsmanship Note */}
         <div className="mb-5 p-3 bg-stone-50 border border-cocoa/15 text-[11px] text-espresso/90 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span>
-            <strong className="uppercase tracking-[0.14em] text-[10px] text-cocoa mr-2">Studio Record:</strong>
-            Soft Nigerian leather shaped by hand, cushioned sole, boxed with cotton dust bag.
+            <strong className="uppercase tracking-[0.14em] text-[10px] text-cocoa mr-2">Studio Note:</strong>
+            Soft Nigerian leather shaped by hand with a cushioned sole and tracked nationwide delivery.
           </span>
         </div>
 
@@ -139,7 +139,7 @@ export default function OrderReceiptClient({ order }: OrderReceiptClientProps) {
         {/* Quick Care Note */}
         <div className="border-t border-cocoa/20 pt-3 mb-4 text-[10px] text-muted-taupe leading-relaxed">
           <span className="uppercase tracking-[0.16em] font-bold text-ink-black mr-2">Quick Care:</span>
-          Wipe gently with a dry cloth after wear · Nourish monthly with clear leather cream · Air-dry wet leather in shade and store flat inside the dust bag.
+          Wipe gently with a dry cloth after wear · Nourish monthly with clear leather cream · Air-dry wet leather in shade and store flat in a cool, dry place.
         </div>
 
         {/* Footer */}

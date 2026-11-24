@@ -6,14 +6,14 @@ import { SITE_SETTINGS } from '@/config/siteSettings';
 export const metadata: Metadata = {
   title: 'Leather Care Guide · Keeping Your Pair for Years',
   description:
-    'Simple, gentle care routines for NOVEQ natural leather pams: monthly conditioning, breathable dust-bag storage, and recovering after Lagos rain.',
+    'Simple, gentle care routines for NOVEQ natural leather pams: monthly conditioning, breathable cool storage, and recovering after Lagos rain.',
   alternates: {
     canonical: '/care',
   },
   openGraph: {
     title: 'Leather Care Guide | NOVEQ',
     description:
-      'Simple, gentle care routines for NOVEQ natural leather pams: monthly conditioning, breathable dust-bag storage, and recovering after Lagos rain.',
+      'Simple, gentle care routines for NOVEQ natural leather pams: monthly conditioning, breathable cool storage, and recovering after Lagos rain.',
     url: '/care',
     siteName: 'NOVEQ',
     type: 'website',
@@ -47,12 +47,12 @@ const CARE_CHAPTERS = [
   },
   {
     number: '03',
-    title: 'Storing Inside Your Cotton Dust Bag',
+    title: 'Breathable Cool Storage',
     cadence: 'Between Wears',
     summary:
-      'Every NOVEQ pair arrives with a breathable cotton dust bag built for humid closets. Never trap real leather inside sealed plastic bags, and keep your pairs resting flat away from strong window sun.',
+      'Real leather lasts longest when stored in a cool, airy shelf away from humidity and heat. Never trap natural leather inside sealed plastic bags, and keep your pairs resting flat away from strong window sun.',
     steps: [
-      'Slip both pams inside their cotton dust bag once completely cool and dry.',
+      'Let both pams cool and dry completely after wear before putting them away.',
       'Lay pairs side by side on their soles rather than stacking boxes or bags on top of the straps.',
       'Keep away from sunlit windowsills, which can lighten rich cognac and burgundy dyes over time.',
     ],

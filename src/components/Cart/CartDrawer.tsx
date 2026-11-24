@@ -319,7 +319,7 @@ export default function CartDrawer() {
           <div className="p-5 sm:p-6 border-t border-cocoa/20 bg-bone/50 space-y-3.5 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
             <div className="flex items-center gap-2 text-[11px] text-cocoa">
               <Sparkles className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-              <span>Includes cotton dust bag &amp; Drop 001 Edition Record</span>
+              <span>Handcrafted in Lagos · Tracked nationwide delivery</span>
             </div>
 
             {isLive ? (

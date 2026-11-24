@@ -100,9 +100,9 @@ export const POLICIES: Record<string, Policy> = {
           'Every 4 to 6 weeks, rub a tiny amount of plain, clear leather cream or beeswax balm across the straps. Let the leather absorb it for 15 minutes, then buff lightly with a dry cloth to keep the finish supple and rich.',
       },
       {
-        heading: 'Dust Bag & Storage',
+        heading: 'Cool, Breathable Storage',
         content:
-          'Store inside your breathable cotton dust bag in a cool closet away from direct window sun, which can lighten rich natural dyes. Always lay your pairs flat on their soles instead of stacking heavy items across the straps.',
+          'Store flat in a cool, airy shelf away from direct window sun, which can lighten rich natural dyes. Never seal real leather inside airtight plastic bags, and lay pairs on their soles instead of stacking heavy items across the straps.',
       },
     ],
   },

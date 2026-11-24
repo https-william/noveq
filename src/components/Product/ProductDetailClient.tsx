@@ -41,6 +41,23 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
   const initialColour = product.colours?.[0]?.name || product.colour;
   const [selectedColour, setSelectedColour] = useState<string>(initialColour);
 
+  // Sync pre-selected colour from URL (?colour=Burgundy) when arriving from a swatch preview on the landing page
+  useEffect(() => {
+    if (typeof window === 'undefined' || !product.colours?.length) return;
+    const requested = new URLSearchParams(window.location.search).get('colour');
+    if (!requested) return;
+    const match = product.colours.find(
+      (c) => c.name.toLowerCase() === requested.trim().toLowerCase()
+    );
+    if (match) {
+      setSelectedColour(match.name);
+      if (match.imageSrc) {
+        const imgIdx = product.images.findIndex((img) => img.src === match.imageSrc);
+        if (imgIdx > -1) setActiveImageIndex(imgIdx);
+      }
+    }
+  }, [product.colours, product.images]);
+
   // Size selection & validation state (starts unselected so customers pick their exact worldwide size)
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [sizeError, setSizeError] = useState<string | null>(null);
@@ -828,7 +845,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   <p><strong>After Wear:</strong> Wipe with a soft, dry cloth to brush away fine dust and city grit. For small marks, blot gently with a slightly damp cloth.</p>
                   <p><strong>Rainy Days:</strong> Avoid standing puddles. If wet, pat dry right away with a clean towel and let air-dry indoors in shade away from sun or direct heat.</p>
                   <p><strong>Conditioning:</strong> Every 4–6 weeks, rub in a drop of plain leather cream to keep straps soft and comfortable.</p>
-                  <p><strong>Storage:</strong> Rest pairs flat inside their cotton dust bag out of direct sunlight.</p>
+                  <p><strong>Storage:</strong> Rest pairs flat in a cool, dry place out of direct sunlight.</p>
                   <p className="pt-1">
                     <Link href="/care" className="font-semibold text-cocoa hover:text-ink-black underline underline-offset-4">
                       Read our full Leather Care Guide

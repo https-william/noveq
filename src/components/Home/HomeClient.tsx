@@ -24,9 +24,23 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
     initialProducts && initialProducts.length > 0 ? initialProducts : DROP_001_PRODUCTS
   );
   const [isConstrainedNetwork, setIsConstrainedNetwork] = useState(false);
+  const [shouldPlayMobileVideo, setShouldPlayMobileVideo] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   useEffect(() => {
-    setIsConstrainedNetwork(document.documentElement.dataset.nvqSlowNet === '1');
+    const slowNet = document.documentElement.dataset.nvqSlowNet === '1';
+    setIsConstrainedNetwork(slowNet);
+
+    const reducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const portraitViewport =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(max-width: 767px)').matches;
+
+    // Only stream the 720x1280 portrait campaign film on mobile portrait viewports
+    // where its native resolution stays crisp (~2x display width) without widescreen upscaling blur.
+    setShouldPlayMobileVideo(!slowNet && !reducedMotion && portraitViewport);
   }, []);
 
   useEffect(() => {
@@ -62,38 +76,52 @@ function HomeClientInner({ initialProducts }: HomeClientProps) {
       <section className="relative bg-ink-black text-warm-white border-b border-warm-white/10 overflow-hidden min-h-[82svh] sm:min-h-[80svh] lg:min-h-[86svh] flex items-end">
         {/* Full-Bleed Campaign Film / Photoshoot Backdrop */}
         <div className="absolute inset-0 z-0 select-none pointer-events-none">
-          {isConstrainedNetwork ? (
-            <Image
-              src="/images/hero/landing-hero-photoshoot.jpg"
-              alt="NOVEQ contemporary handcrafted leather footwear in movement"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover object-center"
-            />
-          ) : (
+          {/* Crisp viewport-matched high-resolution still backdrop (renders immediately on every network speed) */}
+          <Image
+            src="/images/hero/landing-hero-desktop.jpg"
+            alt="NOVEQ contemporary handcrafted leather footwear in warm Lagos studio daylight"
+            fill
+            priority
+            quality={90}
+            sizes="100vw"
+            className="hidden md:block object-cover object-[center_42%]"
+          />
+          <Image
+            src="/images/hero/landing-hero-mobile.jpg"
+            alt="NOVEQ contemporary handcrafted leather footwear in movement"
+            fill
+            priority
+            quality={90}
+            sizes="100vw"
+            className="block md:hidden object-cover object-[50%_58%]"
+          />
+
+          {/* Native 9:16 campaign film on fast mobile portrait viewports (fades in only once decoded cleanly) */}
+          {shouldPlayMobileVideo && !isConstrainedNetwork && (
             <video
               autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
-              poster="/images/hero/landing-hero-photoshoot.jpg"
+              preload="auto"
+              onCanPlay={() => setIsVideoReady(true)}
               aria-label="NOVEQ contemporary handcrafted leather footwear in movement"
-              className="w-full h-full object-cover object-center block [transform:translateZ(0)]"
+              className={`md:hidden absolute inset-0 w-full h-full object-cover object-[50%_62%] block [transform:translateZ(0)] transition-opacity duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+                isVideoReady ? 'opacity-100' : 'opacity-0'
+              }`}
             >
               <source src="/videos/landing-hero-video.mp4" type="video/mp4" />
             </video>
           )}
 
-          {/* Warm Espresso Atmospheric Scrims for Serene Contrast */}
+          {/* Calibrated Espresso Scrims: clear photography above, high-contrast legibility behind lockup */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-ink-black via-ink-black/50 to-ink-black/25"
+            className="absolute inset-0 bg-gradient-to-t from-ink-black/88 via-ink-black/32 to-ink-black/15"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-radial from-transparent via-transparent to-ink-black/55"
+            className="absolute inset-0 bg-radial from-transparent via-transparent to-ink-black/35"
           />
         </div>
 

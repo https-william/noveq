@@ -19,15 +19,15 @@ export const JOURNAL_ARTICLES: JournalArticle[] = [
     body: [
       'When we prepared to introduce NOVEQ, standard retail wisdom pushed for releasing twenty silhouettes across hundreds of pairs. We chose the opposite path.',
       'Drop 001 started with focused small runs crafted by hand alongside our shoemaker partner in Lagos. We wanted to inspect every piece of leather ourselves, test how the cushioned footbed flexes over a full afternoon walk, and refine each curve before scaling.',
-      'Central to that approach is restraint: letting clean leather edges, balanced footbeds, and quiet hardware speak without excess. Every pair is checked individually in our studio before it is boxed in a cotton dust bag.',
+      'Central to that approach is restraint: letting clean leather edges, balanced footbeds, and quiet hardware speak without excess. Every pair is checked individually in our studio before dispatch.',
       'While The Ring and The Twist are currently resting between workshop batches, The Weave remains open to order to your exact size across EU 34 to EU 44.',
     ],
     pullQuote:
       'Small-batch production is not artificial scarcity — it is taking the time to get every strap curve, cushioned sole, and stitch right.',
     inlineImage: {
       src: '/images/brand/unboxing-suite-full.jpg',
-      alt: 'NOVEQ presentation box, cotton dust bag, and edition card prepared in Lagos',
-      caption: 'Studio preparation: breathable cotton dust bag and Drop 001 Edition Record.',
+      alt: 'NOVEQ Drop 001 studio presentation prepared in Lagos',
+      caption: 'Studio preparation in Lagos: checked pair by pair before nationwide delivery.',
     },
     date: 'October 14, 2026',
     readingTime: '3 min read',

@@ -56,7 +56,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     material:
       'Hand-braided straps in soft Nigerian leather, cushioned square-toe footbed, and flexible non-slip low sole.',
     care:
-      'Wipe clean with a soft dry cloth after wear. Store flat inside your cotton dust bag away from direct sunlight.',
+      'Wipe clean with a soft dry cloth after wear. Store flat in a cool, dry place away from direct sunlight.',
     dimensions_weight: 'Weight: ~380g per pair. Sole thickness: 12mm heel, 8mm forefoot.',
     description:
       'Braided leather straps for a textured finish. Stylish, refined, and timeless. Simple details, bigger impact. Effortlessly transforms everyday basics into an intentional, polished look.',
@@ -100,6 +100,84 @@ export const DROP_001_PRODUCTS: Product[] = [
       {
         src: '/images/campaign/the-weave-campaign-poster.png',
         alt: 'NOVEQ The Weave Campaign Poster - Now in more colours',
+        viewType: 'detail',
+      },
+    ],
+  },
+  {
+    name: 'The Bow Slide Pam',
+    slug: 'the-bow-slide-pam',
+    collection: 'Drop 001',
+    price: 22000,
+    compare_at_price: 27000,
+    currency: 'NGN',
+    colour: 'Espresso',
+    colourHex: '#3B2219',
+    colours: [
+      {
+        name: 'Espresso',
+        hex: '#3B2219',
+        imageSrc: '/images/products/the-bow-espresso.jpg',
+      },
+      {
+        name: 'Black',
+        hex: '#141414',
+        imageSrc: '/images/products/the-bow-black.jpg',
+      },
+      {
+        name: 'Burgundy',
+        hex: '#5B1E28',
+        imageSrc: '/images/products/the-bow-burgundy.jpg',
+      },
+    ],
+    stock: 10,
+    material:
+      'Supple Nigerian leather finished with ivory contrast saddle-stitching, twin curved straps cinched at the bridge, and a cushioned square-toe footbed.',
+    care:
+      'Wipe gently with a soft dry cloth after wear and nourish lightly with clear leather cream. Store flat in a cool, dry place away from direct sunlight.',
+    dimensions_weight: 'Weight: ~375g per pair. Sole thickness: 12mm heel, 8mm forefoot.',
+    description:
+      'Twin curved leather straps cinched neatly at the center, traced edge to edge with ivory saddle-stitching. Soft, feminine, and structured for effortless everyday movement.',
+    design_note:
+      'Contrast ivory perimeter stitching highlights every hand-cut curve of the square footbed and bow bridge without feeling loud.',
+    charm_option: {
+      supported: false,
+    },
+    publish_status: 'published',
+    fit_notes:
+      'Made to order across worldwide women’s sizes (EU 34 – EU 44). Natural leather softens gently to contour to your foot after 2–3 wears.',
+    shipping_notes:
+      'Crafted to order in 5 business days, followed by 2 business days for delivery. You will receive your order within 7 business days nationwide.',
+    sizes: buildWorldwideSizeList(true),
+    images: [
+      {
+        src: '/images/products/the-bow-espresso.jpg',
+        alt: 'NOVEQ The Bow Slide Pam in Espresso leather with ivory contrast stitching',
+        viewType: 'hero',
+      },
+      {
+        src: '/images/products/the-bow-black.jpg',
+        alt: 'NOVEQ The Bow Slide Pam in Noir Black leather with ivory contrast stitching',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/products/the-bow-burgundy.jpg',
+        alt: 'NOVEQ The Bow Slide Pam in Burgundy leather with ivory contrast stitching',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/campaign/the-bow/the-bow-paperfold.jpg',
+        alt: 'NOVEQ The Bow Campaign Editorial — Paper Fold Reveal',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/campaign/the-bow/the-bow-silhouette.jpg',
+        alt: 'NOVEQ The Bow Campaign Editorial — Crafted to Move Silhouette',
+        viewType: 'detail',
+      },
+      {
+        src: '/images/campaign/the-bow/the-bow-thread.jpg',
+        alt: 'NOVEQ The Bow Campaign Editorial — Tailor Thread and Ivory Seam',
         viewType: 'detail',
       },
     ],
@@ -214,7 +292,7 @@ export const DROP_001_PRODUCTS: Product[] = [
     material:
       'Soft Nigerian leather with a gathered twist top strap, cushioned footbed with smooth finished edges, and a steady non-slip sole.',
     care:
-      'Wipe clean with a soft dry cloth after wear. Condition lightly once a month and store flat inside your cotton dust bag.',
+      'Wipe clean with a soft dry cloth after wear. Condition lightly once a month and store flat in a cool, dry place away from direct sunlight.',
     dimensions_weight: 'Weight: ~370g per pair. Low heel elevation: 12mm heel, 8mm forefoot.',
     description:
       'A modern take on the classic pam, the Twist blends effortless comfort with a sculptural detail that sets it apart. Minimal, refined, and made to move with you.',

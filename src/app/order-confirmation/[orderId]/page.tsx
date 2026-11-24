@@ -60,9 +60,9 @@ export default async function OrderConfirmationPage({ params }: Props) {
       {/* Authoritative backend purchase tracking (deduplicated) */}
       <OrderConfirmationTracker order={order} />
 
-      {/* Keepsake Drop 001 Edition Record Card */}
+      {/* Order Confirmation Card */}
       <div className="bg-warm-white border border-cocoa/25 rounded-2xl p-6 sm:p-10 shadow-apple-sm space-y-6">
-        {/* Drop 001 Edition Record Header */}
+        {/* Drop 001 Order Confirmation Header */}
         <div className="border-b border-cocoa/15 pb-6 space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div className="flex items-start gap-3.5">
@@ -71,7 +71,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
               </div>
               <div className="space-y-1">
                 <span className="text-[11px] uppercase tracking-[0.22em] text-cocoa font-semibold block">
-                  Drop 001 · Edition Record
+                  Drop 001 · Order Confirmation
                 </span>
                 <h1 className="font-rayleigh text-2xl sm:text-3xl font-normal tracking-tight text-ink-black">
                   Thank you, {order.customer.fullName.split(' ')[0]}.
@@ -100,7 +100,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Craftsmanship Record & Keepsake Summary Strip */}
+          {/* Craftsmanship Summary Strip */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-bone/65 border border-cocoa/15 rounded-xl text-xs">
             <div className="space-y-0.5">
               <span className="text-[10px] uppercase tracking-[0.16em] text-muted-taupe block">
@@ -120,10 +120,10 @@ export default async function OrderConfirmationPage({ params }: Props) {
             </div>
             <div className="space-y-0.5">
               <span className="text-[10px] uppercase tracking-[0.16em] text-muted-taupe block">
-                Presentation
+                Fulfilment
               </span>
               <span className="font-medium text-ink-black">
-                Boxed in a breathable cotton dust bag
+                Inspected by hand &amp; dispatched tracked nationwide
               </span>
             </div>
           </div>
@@ -268,7 +268,7 @@ export default async function OrderConfirmationPage({ params }: Props) {
             <ul className="space-y-1.5 text-xs text-muted-taupe leading-relaxed">
               <li><strong className="text-ink-black font-medium">1. After wear:</strong> Wipe away street dust gently with a dry cloth.</li>
               <li><strong className="text-ink-black font-medium">2. Monthly:</strong> Rub in a drop of plain leather cream to keep straps soft.</li>
-              <li><strong className="text-ink-black font-medium">3. Rain &amp; storage:</strong> Air-dry wet pairs in shade and store flat inside the cotton dust bag.</li>
+              <li><strong className="text-ink-black font-medium">3. Rain &amp; storage:</strong> Air-dry wet pairs in shade and store flat in a cool, dry place out of direct sun.</li>
             </ul>
             <div className="flex items-center gap-1.5 text-[11px] text-cocoa pt-1 font-medium">
               <ShieldCheck className="w-3.5 h-3.5" />

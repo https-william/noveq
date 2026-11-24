@@ -331,7 +331,7 @@ function ShopCatalogInner({
             Ten Pairs Initial Inventory · Handcrafted in Lagos
           </h2>
           <p className="text-sm text-muted-taupe-on-dark max-w-xl mt-2 leading-relaxed">
-            Every pair of NOVEQ female leather pams is cut from soft Nigerian leather, finished gently with natural wax, and packed inside a breathable cotton dust bag with a clear care card.
+            Every pair of NOVEQ female leather pams is cut from soft Nigerian leather, finished gently with natural wax, and checked pair by pair before tracked nationwide dispatch.
           </p>
         </div>
 

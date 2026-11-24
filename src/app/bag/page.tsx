@@ -264,11 +264,11 @@ export default function BagPage() {
               })}
             </div>
 
-            {/* Complimentary Maison Inclusions */}
+            {/* Craft & Delivery Assurance */}
             <div className="p-4 sm:p-5 bg-bone/70 border border-cocoa/15 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-espresso">
               <div className="flex items-center gap-2.5">
                 <Sparkles className="w-4 h-4 text-cocoa shrink-0" aria-hidden="true" />
-                <span>Every order includes a breathable cotton dust bag and Drop 001 Edition Record.</span>
+                <span>Handcrafted in Lagos and dispatched with tracked 7-day nationwide delivery.</span>
               </div>
               <Link href="/care" className="text-cocoa hover:text-ink-black underline underline-offset-4 shrink-0 font-medium">
                 Care Guide
